@@ -13,6 +13,7 @@ install:
   - wget https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
   - sudo tar -zxpf lite_linux_amd64.tar.gz --directory /usr/local/bin/
 script:
+  - ./build
   # drupal 8
   - cp -ap dist/harness-drupal8/.ci/sample ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
   - ws install
