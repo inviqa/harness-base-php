@@ -1,0 +1,70 @@
+
+command('enable'):
+  env:
+    USE_DOCKER_SYNC: = @('host.os') == 'darwin' and @('docker-sync') == 'yes' ? 'yes':'no'
+    APP_BUILD:       = @('app.build')
+    APP_MODE:        = @('app.mode')
+    NAMESPACE:       = @('namespace')
+    HAS_ASSETS:      = @('aws.bucket') !== null ? 'yes':'no'
+  exec: |
+    #!bash(harness:/)
+    source harness/scripts/enable.sh
+
+command('disable'):
+  env:
+    USE_DOCKER_SYNC: = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(harness:/)
+    source harness/scripts/disable.sh
+
+command('destroy'):
+  env:
+    USE_DOCKER_SYNC: = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(harness:/)|@
+    source harness/scripts/destroy.sh
+
+command('exec %'): |
+  #!bash(harness:/)|=
+  passthru docker-compose -p ={ @('namespace') } exec -T -u build console ={ input.argument('%') }
+
+command('console'): |
+  #!bash(harness:/)|@
+  passthru docker-compose -p @('namespace') exec -u build console bash
+
+command('db-console'): |
+  #!bash(harness:/)|@
+  docker-compose -p @('namespace') exec console bash -c 'mysql -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME"'
+
+command('assets download'):
+  env:
+    AWS_ID:  =@('aws.id')
+    AWS_KEY: =@('aws.key')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru ws.aws s3 sync @('assets.remote') @('assets.local')
+
+command('assets upload'):
+  env:
+    AWS_ID:  =@('aws.id')
+    AWS_KEY: =@('aws.key')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru ws.aws s3 sync @('assets.local') @('assets.remote')
+
+command('frontend build'):
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose -p @('namespace') exec -u build console bash -i -c 'app build:frontend'
+
+command('frontend watch'):
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'
+
+command('frontend console'):
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); bash'

@@ -1,0 +1,35 @@
+os:
+  - linux
+sudo: required
+language: php
+php:
+  - 7.2
+services:
+  - docker
+install:
+  # worksace
+  - wget https://my127.io/workspace/ws && chmod +x ws && sudo mv ws /usr/local/bin/ws
+  # splitsh-lite
+  - wget https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz
+  - sudo tar -zxpf lite_linux_amd64.tar.gz --directory /usr/local/bin/
+script:
+  # drupal 8
+  - cp -ap dist/harness-drupal8/.ci/sample ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
+  - ws install
+  - ws destroy
+  - cd .. && rm -rf test
+  # magento 1
+  - cp -ap dist/harness-magento1/.ci/sample ./test && cd test && cp -ap ../dist/harness-magento1 ./.my127ws
+  - ws install
+  - ws destroy
+  - cd .. && rm -rf test
+  # magento 2
+  - cp -ap dist/harness-magento2/.ci/sample ./test && cd test && cp -ap ../dist/harness-magento2 ./.my127ws
+  - ws install
+  - ws destroy
+  - cd .. && rm -rf test
+  # wordpress
+  - cp -ap dist/harness-wordpress/.ci/sample ./test && cd test && cp -ap ../dist/harness-wordpress ./.my127ws
+  - ws install
+  - ws destroy
+  - cd .. && rm -rf test

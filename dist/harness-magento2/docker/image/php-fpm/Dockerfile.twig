@@ -1,0 +1,17 @@
+FROM {{ @('docker.image.php-fpm') }}
+
+WORKDIR /app
+
+{% if @('app.build') == 'static' %}
+FROM {{ @('namespace') }}_console:latest as console
+{% endif %}
+
+COPY root  /
+
+{% if @('app.build') == 'static' %}
+RUN chown www-data:www-data /app
+COPY --from=console --chown=www-data:www-data /app /app
+{% else %}
+VOLUME /app
+{% endif %}
+ENV APP_MODE {{ @('app.mode') }}

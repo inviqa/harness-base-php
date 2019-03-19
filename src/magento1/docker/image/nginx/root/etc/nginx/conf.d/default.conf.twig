@@ -1,0 +1,153 @@
+
+server {
+
+  listen 80 default_server;
+  listen 443 ssl http2 default_server;
+
+  server_name _;
+
+  include snippets/certificate.conf;
+  include snippets/ssl-params.conf;
+  include snippets/top-*.conf;
+
+  set $custom_https $https;
+  set $custom_scheme $scheme;
+  if ($http_x_forwarded_proto) {
+    set $custom_scheme $http_x_forwarded_proto;
+  }
+  if ($http_x_forwarded_proto = https) {
+    set $custom_https on;
+  }
+
+  root /app/public/;
+  index index.html;
+
+  location ~ ^/errors/.*\.(xml|phtml)$ {
+    deny all;
+  }
+  location ~ ^/var(/|$) {
+    deny all;
+  }
+  location ~ ^/skin(/|$) {    }
+  location ~ ^/shell(/|$) {
+    deny all;
+  }
+  location ~ ^/report/config\.xml(/|$) {
+    deny all;
+  }
+  location ~ ^(/index\.php)?/?(.+/)?rss/(catalog/(notifystock|review)|order/new)(/|$) {
+    deny all;
+  }
+  location ~ ^/pkginfo(/|$) {
+    deny all;
+  }
+  location ~ ^/php\.ini\.sample(/|$) {
+    deny all;
+  }
+  location ~ ^/media/downloadable(/|$) {
+    deny all;
+  }
+  location ~ ^/media/customer(/|$) {
+    deny all;
+  }
+  location ~ ^/media/custom_options(/|$) {
+    deny all;
+  }
+  location ~ ^/media(/|$) {    }
+  location ~ ^/mage(/|$) {
+    deny all;
+  }
+  location ~ ^/lib(/|$) {
+    deny all;
+  }
+  location ~ ^/install\.php(/|$) {
+    deny all;
+  }
+  location ~ ^/index\.php\.sample(/|$) {
+    deny all;
+  }
+  location ~ ^/includes(/|$) {
+    deny all;
+  }
+  location ~ ^/downloader(/|$) {
+    deny all;
+  }
+  location ~ ^/dev(/|$) {
+    deny all;
+  }
+  location ~ ^/cron\.sh(/|$) {
+    deny all;
+  }
+  location ~ ^/cron\.php(/|$) {
+    deny all;
+  }
+  location ~ ^/composer\.json(/|$) {
+    deny all;
+  }
+  location ~ ^/app(/|$) {
+    deny all;
+  }
+  location ~ /\.ht[^/]*$ {
+    deny all;
+  }
+  location ~ ^/RELEASE_NOTES\.txt(/|$) {
+    deny all;
+  }
+  location ~ ^/\.gitignore(/|$) {
+    deny all;
+  }
+
+  rewrite ^/api/rest /api.php?type=rest last;
+
+  location / {
+    try_files $uri @rewriteapp;
+  }
+
+  location @rewriteapp {
+    rewrite ^(.*)$ /index.php/$1 last;
+  }
+
+  location ~ \.php(/|$) {
+    fastcgi_pass php-fpm:9000;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include fastcgi_params;
+    fastcgi_param HTTPS $custom_https;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+    fastcgi_param HTTP_PROXY "";
+
+{% if @('app.mode') == 'development' %}
+    fastcgi_param MAGE_IS_DEVELOPER_MODE 1;
+{% endif %}
+  }
+
+  gzip on;
+  gzip_disable "msie6";
+
+  gzip_comp_level 6;
+  gzip_min_length 1100;
+  gzip_buffers 16 8k;
+  gzip_proxied any;
+  gzip_types
+    text/plain
+    text/css
+    text/js
+    text/xml
+    text/javascript
+    application/javascript
+    application/x-javascript
+    application/json
+    application/xml
+    application/xml+rss
+    image/svg+xml;
+  gzip_vary on;
+
+  include snippets/bottom-*.conf;
+
+  # Banned locations (only reached if the earlier PHP entry point regexes don't match)
+  location ~* (\.php$|\.htaccess$|\.git) {
+    deny all;
+  }
+}

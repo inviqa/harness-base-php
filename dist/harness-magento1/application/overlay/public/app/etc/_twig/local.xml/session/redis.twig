@@ -1,0 +1,22 @@
+<session_save><![CDATA[db]]></session_save>
+<redis_session>
+    <host><![CDATA[redis-session]]></host>
+    <port><![CDATA[6379]]></port>
+    <password><![CDATA[]]></password><!-- Specify if your Redis server requires authentication -->
+    <timeout><![CDATA[2.5]]></timeout>
+    <persistent><![CDATA[c]]></persistent> <!-- Specify unique string to enable persistent connections. E.g.: sess-db0; bugs with phpredis and php-fpm are known: https://github.com/nicolasff/phpredis/issues/70 -->
+    <db><![CDATA[0]]></db>
+    <compression_threshold><![CDATA[2048]]></compression_threshold><!-- Set to 0 to disable compression -->
+    <compression_lib><![CDATA[gzip]]></compression_lib><!-- gzip, lzf or snappy -->
+    <log_level><![CDATA[4]]></log_level><!-- 0 (emergency: system is unusable), 4 (warning; additional information, recommended), 5 (notice: normal but significant condition), 6 (info: informational messages), 7 (debug: the most information for development/testing) -->
+    <max_concurrency><![CDATA[6]]></max_concurrency><!-- maximum number of processes that can wait for a lock on one session; for large production clusters, set this to at least 10% of the number of PHP processes -->
+    <break_after_frontend><![CDATA[5]]></break_after_frontend><!-- seconds to wait for a session lock in the frontend; not as critical as admin -->
+    <fail_after><![CDATA[10]]></fail_after><!-- seconds after which we bail from attempting to obtain lock (in addition to break after time) -->
+    <break_after_adminhtml><![CDATA[30]]></break_after_adminhtml>
+    <first_lifetime><![CDATA[600]]></first_lifetime><!-- Lifetime of session for non-bots on the first write. 0 to disable -->
+    <bot_first_lifetime><![CDATA[60]]></bot_first_lifetime><!-- Lifetime of session for bots on the first write. 0 to disable -->
+    <bot_lifetime><![CDATA[7200]]></bot_lifetime><!-- Lifetime of session for bots on subsequent writes. 0 to disable -->
+    <disable_locking><![CDATA[0]]></disable_locking><!-- Disable session locking entirely. -->
+    <min_lifetime><![CDATA[60]]></min_lifetime><!-- Set the minimum session lifetime -->
+    <max_lifetime><![CDATA[2592000]]></max_lifetime><!-- Set the maximum session lifetime -->
+</redis_session>

@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+main()
+{
+    task "$@"
+}
+
+bootstrap()
+{
+    export NVM_DIR="$HOME/.nvm"
+    # shellcheck source=/home/build/nvm.sh
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    . /lib/sidekick.sh
+}
+
+bootstrap
+main "$@"

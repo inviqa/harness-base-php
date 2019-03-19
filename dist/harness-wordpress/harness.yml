@@ -1,0 +1,71 @@
+---
+harness('inviqa/wordpress'):
+  description: A docker based development environment for wordpress
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  php:
+    version: 7.2
+  wordpress:
+    install_directory: /app/public/
+    url: https://${APP_HOST}/
+    url_prefix: /
+    security:
+      auth:
+        key:  "f+S  *gZCFV$#[fHQR2ReTpG/[qCvQE=kg[DzSgo)59p+EA]p-wzT1OD~EcUgkDe"
+        salt: "N6%QZA>6SV+!MEE^x_zt,(&G7D4)sP@&{zT?=+/DyW-d4msRd_w4ZsJ0_Btq4,:+"
+      secure_auth:
+        key:  "w~yiq>=@]_:rtU^&-D^rfJk/.KfiGk+*>BSV%MOGa)48v!/9B6uh&Vv+1Z%:D|2["
+        salt: "zO|~#aQ#90z=NA<4NJ4j^PB$c`27~ Rd3~+7Y7:WrQ+yL;c*T55()Wk}0WI`2v?I"
+      logged_in:
+        key:  "5D]-TZ<1|||s_-@@M?|z5S>[?FxF<}bJPatoYYk|.4fN+o{IR?`6tMFx].a9Burl"
+        salt: ">7{Jc.XB;C9^n2H0~{2eb..o[9UH&|MgXVU>9&m-l3+wEMGenhdoS_|a`eIR)|V7"
+      nonce:
+        key:  "OxQ!`dDcBNPGX(El->cvj`r3C|UCwB8bBOFz~jZkS=Y~eI+f~15})ClL0Ne-Q.w0"
+        salt: "8CGF+nc*b}mv;=WIMgN{cEVbmEBPQ([X7?g yYc<ER| Xc+5+P,7/ji| Vw$VXg9"
+  nginx:
+    public_directory: /app/public/
+  database:
+    user: wordpress
+    pass: wordpress
+    name: wordpress
+  backend:
+    build:
+      steps:
+        - task "wp-cli:install"
+        - task "composer:install"
+    install:
+      steps:
+        - |
+          if [ ! -f "${WORDPRESS_INSTALL_DIRECTORY}/index.php" ]; then
+              passthru "bin/wp-cli.phar core download \
+                  --path='${WORDPRESS_INSTALL_DIRECTORY}'"
+          fi
+          passthru "bin/wp-cli.phar core install \
+            --path='${WORDPRESS_INSTALL_DIRECTORY}' \
+            --skip-email \
+            --url='$(eval echo $WORDPRESS_URL)' \
+            --title='${APP_NAME}' \
+            --admin_user=admin \
+            --admin_password=admin123 \
+            --admin_email=admin@localhost.local"
+        - task "assets:dump"
+    init:
+      steps:
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' option update siteurl $(eval echo $WORDPRESS_URL)"
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' option update home $(eval echo $WORDPRESS_URL)"
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator --user_pass=admin123 || exit 0"
+        - run "bin/wp-cli.phar --path='${WORDPRESS_INSTALL_DIRECTORY}' user update admin --role=administrator --user_pass=admin123 --skip-email"
+  docker:
+    image:
+      console: = 'my127/wordpress:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/wordpress:' ~ @('php.version') ~ '-fpm-stretch'
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

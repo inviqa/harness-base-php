@@ -1,0 +1,6 @@
+
+services:
+
+  web.context:
+    class: Acceptance\Context\Web
+    tags: [ fob.context_service ]

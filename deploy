@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+set -x
+
+HARNESSES=(drupal8 magento1 magento2 wordpress)
+
+function main()
+{
+    for harness in "${HARNESSES[@]}"
+    do
+        set_remote "$harness" "git@github.com:inviqa/harness-${harness}.git"
+        splitsh-lite --prefix="dist/harness-${harness}" --target="dist/harness-${harness}"
+        git push -q -f "$harness" "dist/harness-${harness}:0.2.x"
+    done
+}
+
+function set_remote()
+{
+    local name="$1"
+    local path="$2"
+
+    if ! $(git ls-remote --exit-code "$name" &>/dev/null); then
+        git remote add "$name" "$path"
+    fi
+}
+
+main

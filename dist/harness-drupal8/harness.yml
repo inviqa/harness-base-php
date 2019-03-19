@@ -1,0 +1,61 @@
+---
+harness('inviqa/drupal8'):
+  description: A docker based development environment for drupal8
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  drupal:
+    salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
+    docroot: docroot
+  php:
+    version: 7.2
+  database:
+    user: drupal
+    pass: drupal
+    name: drupal
+  backend:
+    build:
+      steps:
+        - task "composer:install"
+    install:
+      steps:
+        - |
+          passthru "drupal site:install standard \
+              --langcode=en \
+              \
+              --db-type=mysql \
+              --db-host=${DB_HOST} \
+              --db-name=${DB_NAME} \
+              --db-user=${DB_USER} \
+              --db-pass=${DB_PASS} \
+              --db-port=3306 \
+              \
+              --site-name=Drupal \
+              --site-mail=admin@example.com \
+              \
+              --account-name=admin \
+              --account-mail=admin@example.com \
+              --account-pass=admin123"
+        - run "chmod 755 /app/docroot/sites/default"
+        - run "rm -f /app/docroot/sites/default/settings.php"
+        - task "overlay:apply"
+        - task "assets:dump"
+    init:
+      steps:
+        - run "drupal cache:rebuild"
+        - run "drupal update:entities"
+        - run "drupal update:execute"
+        - run "drupal cache:rebuild"
+  docker:
+    image:
+      console: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch'
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

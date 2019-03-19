@@ -1,0 +1,33 @@
+FROM {{ @('docker.image.console') }}
+
+COPY .my127ws/docker/image/console/root /
+RUN chown -R build:build /home/build
+
+ENV APP_MODE={{ @('app.mode') }} \
+  ASSETS_DIR={{ @('assets.local') }}
+
+{% if @('node.version') is not null %}
+USER build
+RUN . /home/build/.nvm/nvm.sh \
+ && nvm install {{ @('node.version') }} \
+ && nvm use {{ @('node.version') }} \
+ && nvm alias default {{ @('node.version') }} \
+ && npm install -g yarn
+USER root
+{% endif %}
+
+{% if @('app.build') == 'static' %}
+RUN chown build:build /app
+COPY --chown=build:build .my127ws/skeleton       /home/build/skeleton
+COPY --chown=build:build ./                      /app
+COPY                     ./.my127ws/docker/stack /stack
+USER build
+RUN rm -rf /app/.my127ws
+RUN app build
+USER root
+{% else %}
+VOLUME /app
+VOLUME /home/build/skeleton
+{% endif %}
+
+ENTRYPOINT /entrypoint.sh

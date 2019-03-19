@@ -1,0 +1,83 @@
+---
+harness('inviqa/magento1'):
+  description: A docker based development environment for magento1
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+    attributes:
+      secret:
+        - composer.auth.github
+        - magento.crypt.key
+---
+attributes:
+  database:
+    host: mysql
+    user: magento
+    pass: magento
+    name: magento
+  php:
+    version: 7.2
+  magento:
+    edition: enterprise
+    version: 1.14.4.0
+    config:
+      session:
+        save: redis
+  backend:
+    build:
+      steps:
+        - task "composer:install"
+        - task "n98:install"
+    install:
+      steps:
+        - run "rm -f /app/public/app/etc/local.xml"
+        - |
+          passthru "php public/install.php -- \
+            --license_agreement_accepted 'yes' \
+            --locale 'en_GB' \
+            --timezone 'Europe/London' \
+            --default_currency 'GBP' \
+            --db_model 'mysql4' \
+            --db_host '${DB_HOST}' \
+            --db_name '${DB_NAME}' \
+            --db_user '${DB_USER}' \
+            --db_pass '${DB_PASS}' \
+            --url 'https://${APP_HOST}/' \
+            --skip_url_validation 'yes' \
+            --use_rewrites 'yes' \
+            --use_secure 'yes' \
+            --secure_base_url 'https://${APP_HOST}/' \
+            --use_secure_admin 'yes' \
+            --admin_firstname 'First' \
+            --admin_lastname 'Last' \
+            --admin_email 'admin@example.com' \
+            --admin_username 'admin' \
+            --admin_password 'admin123' \
+            --encryption_key '${MAGENTO_CRYPT_KEY}' \
+            --session_save 'db' \
+            --admin_frontname 'admin'"
+        - run "rm -f /app/public/app/etc/local.xml"
+        - task "overlay:apply"
+        - task "assets:dump"
+    init:
+      steps:
+        - run "n98-magerun.phar config:set 'web/unsecure/base_url' 'https://${APP_HOST}/'"
+        - run "n98-magerun.phar config:set 'web/secure/base_url'   'https://${APP_HOST}/'"
+        - run "n98-magerun.phar sys:setup:incremental -n"
+        - run "n98-magerun.phar index:reindex:all"
+        - run "n98-magerun.phar cache:clean"
+  docker:
+    image:
+      console: = 'my127/magento1:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/magento1:' ~ @('php.version') ~ '-fpm-stretch'
+---
+command('redis-flush'): |
+  #!bash(harness:/)|@
+  docker-compose -p @('namespace') exec redis redis-cli flushall
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

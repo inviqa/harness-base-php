@@ -1,0 +1,109 @@
+---
+harness('inviqa/magento2'):
+  description: A docker based development environment for magento2
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+    attributes:
+      secret:
+        - magento.username
+        - magento.password
+---
+attributes:
+  php:
+    version: 7.1
+  composer:
+    auth:
+      basic:
+        magento:
+          path: repo.magento.com
+          username: = @('magento.username')
+          password: = @('magento.password')
+  database:
+    user: magento
+    pass: magento
+    name: magento
+  magento:
+    edition: enterprise
+    config:
+      session:
+        save: redis
+    crypt:
+      key: yEdDzMX4pcFU4geB
+  backend:
+    build:
+      steps:
+        - task "composer:install"
+        - task "magento:tidy"
+    install:
+      steps:
+        # the magento installer will not work if the dpeloyment config is present so we remove and
+        # restore it after installation.
+        - run "rm -f /app/app/etc/env.php"
+        - run "rm -f /app/app/etc/config.php"
+        - |
+          passthru "magento setup:install \
+            --key=${MAGENTO_CRYPT_KEY} \
+            \
+            --backend-frontname=admin \
+            --base-url=https://${APP_HOST}/ \
+            \
+            --admin-user=admin \
+            --admin-password=admin123 \
+            --admin-email=admin@localhost.local \
+            --admin-firstname=First \
+            --admin-lastname=Last \
+            \
+            --db-host=${DB_HOST} \
+            --db-name=${DB_NAME} \
+            --db-user=${DB_USER} \
+            --db-password=${DB_PASS} \
+            \
+            --session-save=redis \
+            --session-save-redis-host=redis \
+            --session-save-redis-port=6379 \
+            --session-save-redis-db=1 \
+            \
+            --cache-backend=redis \
+            --cache-backend-redis-server=redis \
+            --cache-backend-redis-port=6379 \
+            --cache-backend-redis-db=2 \
+            \
+            --page-cache=redis \
+            --page-cache-redis-server=redis \
+            --page-cache-redis-port=6379 \
+            --page-cache-redis-db=3"
+          # magento doesn't respond with an exit code when it fails so we check
+          # if the install succeeded or not here.
+          if [ ! -f /app/app/etc/env.php ]; then
+            (>&2 cat /tmp/my127ws-stdout.txt)
+            (>&2 cat /tmp/my127ws-stderr.txt)
+            exit 1
+          fi
+        - run "rm -f /app/app/etc/env.php"
+        - task "overlay:apply"
+        - task "assets:dump"
+    init:
+      steps:
+        - run "magento config:set 'web/unsecure/base_url'       'https://${APP_HOST}/'"
+        - run "magento config:set 'web/secure/base_url'         'https://${APP_HOST}/'"
+        - run "magento config:set 'web/secure/use_in_frontend'  '1'"
+        - run "magento config:set 'web/secure/use_in_adminhtml' '1'"
+        - run "magento config:set 'web/seo/use_rewrites'        '1'"
+        - run "magento setup:upgrade"
+        - run "magento cache:clean"
+  docker:
+    image:
+      console: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch'
+---
+command('redis-flush'): |
+  #!bash(harness:/)|@
+  docker-compose -p @('namespace') exec redis redis-cli flushall
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

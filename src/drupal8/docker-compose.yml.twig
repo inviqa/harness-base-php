@@ -1,0 +1,121 @@
+{% set dockersync = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set dockersync = true %}
+{% endif %}
+version: '3'
+services:
+  chrome:
+    build: docker/image/chrome
+    environment:
+      HOST_OS_FAMILY: ${HOST_OS_FAMILY}
+      APP_HOST: ${APP_HOST}
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+      - shared
+  console:
+    {% if @('app.build') == 'dynamic' %} 
+    entrypoint: /entrypoint.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+      - ./application:/home/build/application
+      - ./docker/image/console/root/lib/task:/lib/task
+    {% endif %} 
+    labels:
+      - traefik.enable=false
+    build:
+      context: ../
+      dockerfile: .my127ws/docker/image/console/Dockerfile
+      {% if @('app.build') == 'static' %} 
+      args:
+        APP_MODE: {{ @('app.mode') }}
+      {% endif %} 
+    environment: &APP_ENV_VARS
+      DRUPAL_SALT: ${DRUPAL_SALT}
+      HOST_OS_FAMILY: ${HOST_OS_FAMILY}
+      APP_NAME: ${APP_NAME}
+      APP_HOST: ${APP_HOST}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_ROOT_PASS: ${DB_ROOT_PASS}
+    links:
+      - mysql:mysql
+      - redis:redis
+    networks:
+      - private
+  nginx:
+    build: docker/image/nginx
+    {% if @('app.build') == 'dynamic' %} 
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+    {% endif %} 
+    labels:
+      - traefik.backend=${APP_NAME}
+      - traefik.frontend.rule=Host:${APP_HOST}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+      - co.elastic.logs/module=nginx
+      - co.elastic.metrics/module=nginx
+    links:
+      - php-fpm:php-fpm
+    networks:
+      - private
+      - shared
+  php-fpm:
+    build: docker/image/php-fpm
+    {% if @('app.build') == 'dynamic' %} 
+    entrypoint: /entrypoint.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+    {% endif %} 
+    labels:
+      - traefik.enable=false
+    depends_on:
+      - console
+    links:
+      - mysql:mysql
+      - redis:redis
+    networks:
+      - private
+      - shared
+    environment:
+      <<: *APP_ENV_VARS
+  mysql:
+    image: mysql:5.7
+    labels:
+      - traefik.enable=false
+      - co.elastic.logs/module=mysql
+      - co.elastic.metrics/module=mysql
+      - co.elastic.metrics/metricsets=["status"]
+      - co.elastic.metrics/hosts=["tcp({{ @('namespace') }}_mysql:3306)/"]
+      - co.elastic.metrics/username=root
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    networks:
+      - private
+      - shared
+  redis:
+    image: redis:4-alpine
+    labels:
+      - traefik.enable=false
+      - co.elastic.logs/module=redis
+    networks:
+      - private
+      - shared
+networks:
+  private:
+    external: false
+  shared:
+    external:
+      name: my127ws
+{% if dockersync %}
+volumes:
+  {{ @('workspace.name') }}-sync:
+    external: true
+{% endif %}

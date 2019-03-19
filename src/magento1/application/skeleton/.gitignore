@@ -1,0 +1,24 @@
+
+# Directories
+
+/.my127ws
+/.github/
+/bin/
+/public/media/
+/public/privatesales/
+/public/var/
+/tools/assets/
+/vendor/
+
+# Files
+
+/.dockerignore
+/docker-sync.yml
+/phpcs.xml
+/phpmd.xml
+/public/app/etc/local.xml
+/public/errors/local.xml
+/auth.json
+/workspace.override.yml
+
+# Keep

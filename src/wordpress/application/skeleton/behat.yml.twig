@@ -1,0 +1,33 @@
+default:
+  suites:
+    sample:
+      contexts_services:
+        - web.context
+  extensions:
+    Behat\MinkExtension:
+      base_url: 'https://{{ @('hostname') }}'
+      default_session: goutte
+      javascript_session: chrome
+      sessions:
+        goutte:
+          goutte: ~
+        chrome:
+          chrome:
+            api_url: "http://chrome:9222"
+        local_chrome:
+          chrome:
+            api_url: "http://host.docker.internal:9222"
+    SensioLabs\Behat\PageObjectExtension:
+      namespaces:
+        page: [Acceptance\Page]
+    FriendsOfBehat\ContextServiceExtension:
+      imports:
+        - 'features/bootstrap/_config/contexts.yml'
+    FriendsOfBehat\CrossContainerExtension: ~
+    Cjm\Behat\StepThroughExtension: ~
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+local: # (google-chrome-stable --remote-debugging-port=9221 &) && socat tcp-l:9222,fork TCP4:127.0.0.1:9221
+  extensions:
+    Behat\MinkExtension\ServiceContainer\MinkExtension:
+      default_session: local_chrome
+      javascript_session: local_chrome

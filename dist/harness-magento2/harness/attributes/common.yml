@@ -1,0 +1,127 @@
+
+
+attributes.default:
+
+  app:
+    # build - static|dynamic
+    #   dynamic - volumes are mounted and the build step is run once the containers have started
+    #   static  - app is copied into console, built, then the resulting build is copied into the web image
+    build: dynamic
+
+    # mode - development|production
+    #   development - additional tooling is made available and application is run in development mode
+    #   production  - leaner images with less tooling and application is run in production mode
+    mode: development
+
+  docker-sync: yes
+
+  docker:
+    image:
+      console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
+
+  composer:
+    auth:
+      basic: ~
+      github: ~
+
+  backend:
+    path: /app
+    build:
+      when: -f "composer.json"
+      steps:
+        - task "composer:install"
+    install:
+      steps: []
+    init:
+      steps: []
+
+  frontend:
+    path: /app
+    watch: npm watch
+    build:
+      when: -f "package.json"
+      steps:
+        - run "npm install"
+
+  node:
+    # only set this attribute if you wish to override the supplied node version, by default
+    # the supplied version will be the current LTS.
+    version: null
+
+  php:
+    version: 7.3
+    ini:
+      memory_limit: 1024M
+    ext-xdebug:
+      enable: no
+      config:
+        remote_enable: 1
+        remote_autostart: 1
+        remote_port: 9000
+        remote_host: host.docker.internal
+
+  assets:
+    remote: ="s3://"~@("aws.bucket")~"/development"
+    local: tools/assets/development
+
+  database:
+    host: mysql
+    user: app
+    pass: app
+    name: app
+    root_pass: DV6RdNY3QcFsBk7V
+
+  domain: my127.site
+  hostname: = @('namespace') ~ '.' ~ @('domain')
+
+  tls:
+    key: |
+      -----BEGIN PRIVATE KEY-----
+      MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC9q3EMGDtDNKAt
+      CHyM1MfWUaIGsv5Zka7pfjIOKL/KvrSIVpZyyJ3lSALeRyyDDRZeYwkbkNdDJgir
+      FmD0vJkYifYWfGdIJmbjdm62LGyzDf79Ve8aQF0lLcedMhoCfu7+qciIYnjHdvkx
+      Y6Fo9CTZP7m+oSNmUjHdJD3scX4l3vodBK67Hpk+W2eEhwAxG5aFsspDnPi4L9ha
+      KlMps+eSn1hLLGYrmthtP2assckvdyL10hS7+OOZFmj5vxGNbQn2F4whiu06JmXL
+      oO8T9yd8XNN383FjREYKjrQcyJo3izvawEgrRi9mNKM9DhWuBdbYNe/cSgGfwBK6
+      Kc9e8zCLAgMBAAECggEAVL6fOgoxoGuJDdX24G3KBCZhQKEFKDwBbO4nq0/lsc7X
+      lvspKYwdkG5Gac5fQwa78dxKG3jx1VzPDrJnC7KgrOgnfhCDjScrXYJzIQ5kWvRr
+      9AFLXe1YMN5ti/zwxiC05DA0G0v0LxsnaDvdyKkdNbxVX6lbycH76ZTh3h0vgfeD
+      Wc8MMlRTa+ORWKoIZsm+qnNLhWQhhbmoA8LNkZqtJIOBZuyAu8vyXzrEFIhKqVzU
+      Jdz0S+xtgYUkoXCTgdYiqoFjlKhaIIV2Fc0vbc68ziIiu3ZtaVch7wNyftoXyjBr
+      hjI1GT1dr7NsQpPZ6xtqjGhIvUuVSeCSBZeeXkymAQKBgQDsxFb916gIxl3QQYPV
+      NiKPi3rZD5iuMTjy0937dhHWGGYlWW2GEE0XjWrmLUnGyLuxwA5kFgS0eMubbhTg
+      aeewHamHeN/pcJIF6HndJbqXLB148E8ux6grpQrHKpTb2RLOPkd6bAgn1SjPllCL
+      a/vVanevaJs8U27sKEfGND0aCwKBgQDNE7IzvD1JAUrzqzG9Lxg+NhaHQTQfW45W
+      cuHvESiyhc93kdufvcCTrrRRXSZOqDN26+64Ni62O/ulduq4qZmhG/lxqSz5mnpr
+      2oV2Kg1C1EUC4V2B9WQoMOhvOa0esTVSm9hC4oX0kYIzl6HbVAUGe8JMXOoKTJkV
+      3sAz0FbTgQKBgQC1CX+2wvIiG4NaHO4v1h/hAHajiDBnaQ2xZtzCTMpgmPFpt5Ju
+      QwKfcqt9ar2RuKUDyeV3E/ru/7o3k5l06qWUXWnmQz96oG+XAuZDeXjN5JZ4hc8V
+      5uYo0R6HoYCHBdlCSA6hhf9Kbcuxxq65nIzH54uyXNrt6qHTAw22ePULdwKBgQCK
+      vp+a1ukToldGQfV1zA330Pou6dNMv9Gt9S2cY5yII3W4rKrNCUDn6ZO/VGkdYDjp
+      ZTft02KJEk3vpWOqKbxxvo5l8pImEPhwTbhruImeRCSojTaJPS9U7bnjvj68/CFa
+      UWvf3IfKbkOLijQMQmzf9Q0AQwBolWgg3sJki7iigQKBgQCf82eve3W/s/pZzKGi
+      WWACcZLmDTHeH2AU3ZDfFaEAKObe/cdHMgk8MGewf1IF6QDQXtaxHlM5/FKQ1ohu
+      uoe7Xo1R+KlrVRxKAlNQ5lfzhAAgDNaOhpgkH4cehfPrIIh9rwNMSkHDRS0DELvY
+      DPyRumPy7zTg5YPzzl7tM1/OPA==
+      -----END PRIVATE KEY-----
+
+    crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIC6zCCAdOgAwIBAgIJAI4syJyPEWAMMA0GCSqGSIb3DQEBBQUAMAwxCjAIBgNV
+      BAMMASowHhcNMTgwNzI0MTE1MjQ0WhcNMTkwNzI0MTE1MjQ0WjAMMQowCAYDVQQD
+      DAEqMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvatxDBg7QzSgLQh8
+      jNTH1lGiBrL+WZGu6X4yDii/yr60iFaWcsid5UgC3kcsgw0WXmMJG5DXQyYIqxZg
+      9LyZGIn2FnxnSCZm43Zutixssw3+/VXvGkBdJS3HnTIaAn7u/qnIiGJ4x3b5MWOh
+      aPQk2T+5vqEjZlIx3SQ97HF+Jd76HQSuux6ZPltnhIcAMRuWhbLKQ5z4uC/YWipT
+      KbPnkp9YSyxmK5rYbT9mrLHJL3ci9dIUu/jjmRZo+b8RjW0J9heMIYrtOiZly6Dv
+      E/cnfFzTd/NxY0RGCo60HMiaN4s72sBIK0YvZjSjPQ4VrgXW2DXv3EoBn8ASuinP
+      XvMwiwIDAQABo1AwTjAdBgNVHQ4EFgQUK4SXDSeyVYbCWr31rz2K6GLRFoYwHwYD
+      VR0jBBgwFoAUK4SXDSeyVYbCWr31rz2K6GLRFoYwDAYDVR0TBAUwAwEB/zANBgkq
+      hkiG9w0BAQUFAAOCAQEAjz2PUbdi2S+h4UB3P2UBLdgDClkiSPF+gAqfw4D82faf
+      M8hpMuCcd3148dejU4tFPUdLx1MASK8ucCk7rcwVtafWPYU4nMDlmZ9Zj9F2Y8KY
+      dVfHfTIOblTSYc90g+nTFsTchkEFOH0nRZAKhCT3HphXNTZFNIQWoqe63SJZ8LTs
+      8RBO/zcoh5E31+Rm0WxKlYH4QElLp9dXAtKueWGTafh2E8Re96IS+Uig+yC3RIYJ
+      MWLcATwR3lSnqN2ifByic5VGWbRKkGNsh3wAWlejL2FGv8mLU1q8nLK36UcU/HzZ
+      ziLtpidJOJHDpyDSAxDSxcP9fJ6gssMQln92DJ/SUQ==
+      -----END CERTIFICATE-----

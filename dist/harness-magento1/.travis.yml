@@ -1,0 +1,17 @@
+os:
+  - linux
+sudo: required
+language: php
+php:
+  - 7.2
+services:
+  - docker
+install:
+  - wget https://my127.io/workspace/ws && chmod +x ws && sudo mv ws /usr/local/bin/ws
+script:
+  - cp -ap .ci/sample ../sample && cd ../sample && cp -ap "$TRAVIS_BUILD_DIR" ./.my127ws
+  - ws install
+  - ws exec composer test-quality
+  - ws exec composer test-unit
+  - ws exec composer test-acceptance
+  - ws destroy

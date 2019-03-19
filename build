@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+set -x
+
+HARNESSES=(drupal8 magento1 magento2 wordpress)
+
+function main()
+{
+    for harness in "${HARNESSES[@]}"
+    do
+        build $harness
+    done
+}
+
+function build()
+{
+    local harness="$1"
+
+    if [[ ! -d "$harness" ]]; then
+        echo "harness '${harness}' not found."
+    fi
+
+    local harness_dist_path="./dist/harness-${harness}/"
+    local harness_src_path="./src/${harness}/"
+
+    if [[ -d "$harness_dist_path" ]]; then
+        rm -rf "$harness_dist_path"
+    fi
+
+    mkdir "$harness_dist_path"
+
+    rsync -va "./src/_base/" "$harness_dist_path"
+    rsync -va "$harness_src_path" "$harness_dist_path"
+}
+
+main

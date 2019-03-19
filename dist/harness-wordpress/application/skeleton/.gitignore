@@ -1,0 +1,21 @@
+
+# Directories
+
+/.my127ws
+/.github/
+/bin/
+/public/wp-content/uploads/
+/vendor/
+
+# Files
+
+/.dockerignore
+/docker-sync.yml
+/phpcs.xml
+/phpmd.xml
+/behat.yml
+/public/wp-config.php
+/auth.json
+/workspace.override.yml
+
+# Keep

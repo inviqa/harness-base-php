@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Inviqa Ruleset">
+    <description>Inviqa - PHP CodeSniffer configuration</description>
+
+    <rule ref="vendor/inviqa/magento1-coding-standard"/>
+
+    <exclude-pattern>*/code/community/*</exclude-pattern>
+    <exclude-pattern>*/code/core/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/data/*</exclude-pattern>
+    <exclude-pattern>*/sql/*</exclude-pattern>
+</ruleset>

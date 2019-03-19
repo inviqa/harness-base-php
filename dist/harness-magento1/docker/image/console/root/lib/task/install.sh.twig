@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function task_install()
+{
+    task "mysql:available"
+
+    {% for step in @('backend.install.steps') -%}
+    {{ step|raw }}
+    {% endfor %}
+
+}

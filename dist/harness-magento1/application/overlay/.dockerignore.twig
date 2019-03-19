@@ -1,0 +1,8 @@
+{% set build =  @('app.build') %}
+{% set blocks  = 'application/overlay/_twig/.dockerignore/' %}
+
+{% if build == 'dynamic' %}
+{% include blocks ~ 'dynamic.twig' %}
+{% else %}
+{% include blocks ~ 'static.twig' %}
+{% endif %}

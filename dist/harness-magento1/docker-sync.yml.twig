@@ -1,0 +1,16 @@
+version: '2'
+options:
+  compose-file-path:
+    - .my127ws/docker-compose.yml
+syncs:
+  {{ @('workspace.name') }}-sync:
+    src: ../
+    sync_userid: '1000'
+    sync_excludes_type: BelowPath
+    sync_excludes: &IGNORE
+      - .docker-sync
+      - .idea
+      - .my127ws
+      - .git
+      - var
+    watch_excludes: *IGNORE
