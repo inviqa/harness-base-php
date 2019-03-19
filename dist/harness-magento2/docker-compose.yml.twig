@@ -108,6 +108,8 @@ services:
     networks:
       - private
       - shared
+    ports:
+      - 3306
   redis:
     image: redis:4-alpine
     # 1GB; evict any least recently used key even if they don't have a TTL

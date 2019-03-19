@@ -68,3 +68,8 @@ command('frontend console'):
   exec: |
     #!bash(harness:/)|@
     docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); bash'
+
+command('port <service>'):
+  exec: |
+    #!bash(harness:/)|=
+    docker port $(docker-compose -p ={@('namespace')} ps -q ={input.argument('service')})
