@@ -1,6 +1,0 @@
-
-attributes:
-  app:
-    build: dynamic
-    mode: development
-    version: develop

@@ -1,3 +1,0 @@
-function('to_yaml', [text]): |
-  #!php
-  = preg_replace('/^/m', '  ', \Symfony\Component\Yaml\Yaml::dump($text, 100, 2));
