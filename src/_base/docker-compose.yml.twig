@@ -7,7 +7,7 @@ version: '3'
 services:
 {% include blocks ~ 'application.yml.twig' %}
 {% for service in @('app.services') %}
-    {% include blocks ~ 'service/' ~ service %}
+{% include blocks ~ 'service/' ~ service ~ '.yml.twig' %}
 {% endfor %}
 networks:
   private:
