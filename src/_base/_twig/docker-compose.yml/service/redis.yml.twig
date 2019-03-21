@@ -1,0 +1,8 @@
+  redis:
+    image: redis:4-alpine
+    # 1GB; evict any least recently used key even if they don't have a TTL
+    command: redis-server --maxmemory 1073742000 --maxmemory-policy allkeys-lru
+    labels:
+      - traefik.enable=false
+    networks:
+      - private

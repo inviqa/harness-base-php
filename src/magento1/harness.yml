@@ -12,6 +12,11 @@ harness('inviqa/magento1'):
         - magento.crypt.key
 ---
 attributes:
+  app:
+    services:
+      - mysql
+      - redis
+      - chrome
   database:
     host: mysql
     user: magento
