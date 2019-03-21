@@ -1,11 +1,9 @@
-FROM {{ @('docker.image.php-fpm') }}
-
-WORKDIR /app
-
 {% if @('app.build') == 'static' %}
-FROM {{ @('namespace') }}_console:latest as console
+FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
 {% endif %}
 
+FROM {{ @('docker.image.php-fpm') }}
+WORKDIR /app
 COPY root  /
 
 {% if @('app.build') == 'static' %}
