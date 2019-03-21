@@ -14,9 +14,10 @@ harness('inviqa/magento1'):
 attributes:
   app:
     services:
+      - chrome
       - mysql
       - redis
-      - chrome
+      - redis-session
   database:
     host: mysql
     user: magento

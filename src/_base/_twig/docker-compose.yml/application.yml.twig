@@ -1,4 +1,8 @@
 {% set blocks  = '_twig/docker-compose.yml/' %}
+{% set dockersync = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set dockersync = true %}
+{% endif %}
   console:
 {% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.dynamic.sh
