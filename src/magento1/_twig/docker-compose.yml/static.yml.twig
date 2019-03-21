@@ -1,0 +1,118 @@
+version: '3'
+services:
+{% if @('extra_services') %}
+{{ to_yaml(@('extra_services')) | raw }}
+{% endif %}
+  chrome:
+    build: docker/image/chrome
+    environment:
+      HOST_OS_FAMILY: ${HOST_OS_FAMILY}
+      APP_HOST: ${APP_HOST}
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+      - shared
+  console:
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+    labels:
+      - traefik.enable=false
+    environment: &APP_ENV_VARS
+      MAGENTO_CRYPT_KEY: ${MAGENTO_CRYPT_KEY}
+      HOST_OS_FAMILY: ${HOST_OS_FAMILY}
+      APP_NAME: ${APP_NAME}
+      APP_HOST: ${APP_HOST}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_ROOT_PASS: ${DB_ROOT_PASS}
+    links:
+      - chrome:chrome
+      - memcached:memcached
+      - mysql:mysql
+      - redis:redis
+      - redis-session:redis-session
+    networks:
+      - private
+  nginx:
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+    labels:
+      - traefik.backend=${APP_NAME}
+      - traefik.frontend.rule=Host:${APP_HOST}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+      - co.elastic.logs/module=nginx
+      - co.elastic.metrics/module=nginx
+    links:
+      - php-fpm:php-fpm
+    networks:
+      - private
+      - shared
+  php-fpm:
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+    labels:
+      - traefik.enable=false
+    depends_on:
+      - console
+    links:
+      - memcached:memcached
+      - mysql:mysql
+      - redis:redis
+      - redis-session:redis-session
+    networks:
+      - private
+      - shared
+    environment:
+      <<: *APP_ENV_VARS
+  memcached:
+    image: memcached:1-alpine
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+  mysql:
+    image: mysql:5.7
+    labels:
+      - traefik.enable=false
+      - co.elastic.logs/module=mysql
+      - co.elastic.metrics/module=mysql
+      - co.elastic.metrics/metricsets=["status"]
+      - co.elastic.metrics/hosts=["tcp({{ @('namespace') }}_mysql:3306)/"]
+      - co.elastic.metrics/username=root
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    networks:
+      - private
+      - shared
+    ports:
+      - 3306
+  redis:
+    image: redis:4-alpine
+    # 1GB; evict any least recently used key even if they don't have a TTL
+    command: redis-server --maxmemory 1073742000 --maxmemory-policy allkeys-lru
+    labels:
+      - traefik.enable=false
+      - co.elastic.logs/module=redis
+    networks:
+      - private
+      - shared
+  redis-session:
+    image: redis:4-alpine
+    # 1GB; evict key that would expire soonest
+    command: redis-server --maxmemory 1073742000 --maxmemory-policy volatile-ttl
+    labels:
+      - traefik.enable=false
+      - co.elastic.logs/module=redis
+    networks:
+      - private
+      - shared
+networks:
+  private:
+    external: false
+  shared:
+    external:
+      name: my127ws
