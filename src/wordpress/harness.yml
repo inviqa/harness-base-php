@@ -8,6 +8,10 @@ harness('inviqa/wordpress'):
       - harness:/
 ---
 attributes:
+  app:
+    services:
+      - chrome
+      - mysql
   php:
     version: 7.2
   wordpress:

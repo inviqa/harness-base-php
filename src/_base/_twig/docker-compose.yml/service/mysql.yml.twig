@@ -1,0 +1,13 @@
+  mysql:
+    image: mysql:5.7
+    labels:
+      - traefik.enable=false
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    networks:
+      - private
+    ports:
+      - 3306
