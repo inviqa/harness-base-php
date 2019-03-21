@@ -15,12 +15,6 @@ setup_app_networking()
             echo -e "$DOCKER_INTERNAL_IP    $DOCKER_INTERNAL_HOST" | tee -a /etc/hosts > /dev/null
         fi
     fi
-
-    # we always want to resolve the app host to traefik
-    if ! grep "$APP_HOST" /etc/hosts > /dev/null ; then
-        DOCKER_INTERNAL_IP=$(getent hosts host.docker.internal | cut -d" " -f1 | head -n1)
-        echo -e "$DOCKER_INTERNAL_IP    $APP_HOST" | tee -a /etc/hosts > /dev/null
-    fi
 }
 
 setup_app_volume_permissions()
