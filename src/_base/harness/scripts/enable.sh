@@ -17,7 +17,7 @@ dynamic()
 
         [[ "$HAS_ASSETS" = "yes" ]] && ws assets download
 
-        # we synchronise then stop docker-sync as leaving it tunning during the build
+        # we synchronise then stop docker-sync as leaving it running during the build
         # will often cause it to crash.
 
         if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
@@ -35,8 +35,10 @@ dynamic()
         touch .flag-built
 
     else
-        run docker-compose -p "$NAMESPACE" up -d
+
+        passthru docker-compose -p "$NAMESPACE" up -d
         passthru docker-compose -p "$NAMESPACE" exec -T -u build console app welcome
+        
     fi
 
     [[ "$USE_DOCKER_SYNC" = "yes" ]] && passthru docker-sync start
@@ -44,12 +46,23 @@ dynamic()
 
 static()
 {
-    [[ "$HAS_ASSETS" = "yes" ]] && ws assets download
+    if [ ! -f .flag-built ]; then
 
-    ws app build
-    
-    passthru docker-compose -p "$NAMESPACE" up -d
-    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app init
+        [[ "$HAS_ASSETS" = "yes" ]] && ws assets download
+
+        ws app build
+        
+        passthru docker-compose -p "$NAMESPACE" up -d
+        passthru docker-compose -p "$NAMESPACE" exec -T -u build console app init
+
+        touch .flag-built
+
+    else
+
+        passthru docker-compose -p "$NAMESPACE" up -d
+        passthru docker-compose -p "$NAMESPACE" exec -T -u build console app welcome
+
+    fi
 }
 
 main
