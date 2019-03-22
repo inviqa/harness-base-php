@@ -14,29 +14,57 @@ install:
   - sudo tar -zxpf lite_linux_amd64.tar.gz --directory /usr/local/bin/
 script:
   - ./build
-  # drupal 8
-  - cp -ap dist/harness-drupal8/.ci/sample ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
+  # drupal 8 - dynamic
+  - cp -ap dist/harness-drupal8/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
   - ws install
   - ws disable
   - ws enable
   - ws destroy
   - cd .. && rm -rf test
-  # magento 1
-  - cp -ap dist/harness-magento1/.ci/sample ./test && cd test && cp -ap ../dist/harness-magento1 ./.my127ws
+  # drupal 8 - static
+  - cp -ap dist/harness-drupal8/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
   - ws install
   - ws disable
   - ws enable
   - ws destroy
   - cd .. && rm -rf test
-  # magento 2
-  - cp -ap dist/harness-magento2/.ci/sample ./test && cd test && cp -ap ../dist/harness-magento2 ./.my127ws
+  # magento 1 - dynamic
+  - cp -ap dist/harness-magento1/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-magento1 ./.my127ws
   - ws install
   - ws disable
   - ws enable
   - ws destroy
   - cd .. && rm -rf test
-  # wordpress
-  - cp -ap dist/harness-wordpress/.ci/sample ./test && cd test && cp -ap ../dist/harness-wordpress ./.my127ws
+  # magento 1 - static
+  - cp -ap dist/harness-magento1/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-magento1 ./.my127ws
+  - ws install
+  - ws disable
+  - ws enable
+  - ws destroy
+  - cd .. && rm -rf test
+  # magento 2 - dynamic
+  - cp -ap dist/harness-magento2/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-magento2 ./.my127ws
+  - ws install
+  - ws disable
+  - ws enable
+  - ws destroy
+  - cd .. && rm -rf test
+  # magento 2 - static
+  - cp -ap dist/harness-magento2/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-magento2 ./.my127ws
+  - ws install
+  - ws disable
+  - ws enable
+  - ws destroy
+  - cd .. && rm -rf test
+  # wordpress - dynamic
+  - cp -ap dist/harness-wordpress/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-wordpress ./.my127ws
+  - ws install
+  - ws disable
+  - ws enable
+  - ws destroy
+  - cd .. && rm -rf test
+  # wordpress - static
+  - cp -ap dist/harness-wordpress/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-wordpress ./.my127ws
   - ws install
   - ws disable
   - ws enable
