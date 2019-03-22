@@ -18,16 +18,14 @@ USER root
 
 {% if @('app.build') == 'static' %}
 RUN chown build:build /app
-COPY --chown=build:build .my127ws/skeleton       /home/build/skeleton
-COPY --chown=build:build ./                      /app
-COPY                     ./.my127ws/docker/stack /stack
+COPY --chown=build:build .my127ws/application  /home/build/application
+COPY --chown=build:build ./                    /app
 USER build
-RUN rm -rf /app/.my127ws
 RUN app build
 USER root
 {% else %}
 VOLUME /app
-VOLUME /home/build/skeleton
+VOLUME /home/build/application
 {% endif %}
 
 ENTRYPOINT /entrypoint.sh

@@ -1,0 +1,12 @@
+workspace('ci-drupal8-sample'):
+  description: generated local workspace for ci-drupal8-sample.
+  harness: inviqa/drupal8
+
+attribute('app.build'): static
+
+attribute('aws.bucket'): null
+attribute('app.repository'): null
+attribute('aws.id'): null
+attribute('aws.key'): null
+
+attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiER6HiRunY0e6lsEbR71WsKrXoIMk4NYeIjtpOjI7czo1NjoiqxAwOu1qgHBCXutFiwWuq6Bw3CJTvlTh2NGt2d2N5fFvWMADv1Yduui+3wK4HHAvkeIeWXh8rXYiO30=")

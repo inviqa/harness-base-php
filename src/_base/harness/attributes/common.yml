@@ -18,6 +18,7 @@ attributes.default:
   docker-sync: yes
 
   docker:
+    repository: = @("workspace.name")
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'

@@ -1,11 +1,34 @@
 #!/usr/bin/env bash
 
-if [ ! -f .flag-built ]; then
-    passthru docker-compose -p "$NAMESPACE" down
+main()
+{
+    if [ ! -f .flag-built ]; then
+    
+        passthru docker-compose -p "$NAMESPACE" down
 
-    [[ "$HAS_ASSETS" = "yes" ]] && ws assets download
+        if [[ "$HAS_ASSETS" = "yes" ]]; then
+            ws assets download
+        fi
+
+        $APP_BUILD
+        touch .flag-built
+
+    else
+        passthru docker-compose -p "$NAMESPACE" up -d
+        passthru docker-compose -p "$NAMESPACE" exec -T -u build console app welcome
+    fi
 
     if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
+        passthru docker-sync start
+    fi
+}
+
+dynamic()
+{
+    # we synchronise then stop docker-sync as leaving it running during the build
+    # will often cause it to crash.
+
+    if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
         passthru docker-sync start
         passthru docker-sync stop
     fi
@@ -14,17 +37,16 @@ if [ ! -f .flag-built ]; then
     passthru docker-compose -p "$NAMESPACE" build --pull
     passthru docker-compose -p "$NAMESPACE" up -d
 
-    if [[ "$APP_BUILD" = "dynamic" ]]; then
-        passthru docker-compose -p "$NAMESPACE" exec -T -u build console app build
-    fi
-    
+    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app build
     passthru docker-compose -p "$NAMESPACE" exec -T -u build console app init
-    touch .flag-built
-else
-    run docker-compose -p "$NAMESPACE" up -d
-    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app welcome
-fi
+}
 
-if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
-    passthru docker-sync start
-fi
+static()
+{
+    ws app build
+    
+    passthru docker-compose -p "$NAMESPACE" up -d
+    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app init
+}
+
+main
