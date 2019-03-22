@@ -1,8 +1,22 @@
-{% set build =  @('app.build') %}
 {% set blocks  = '_twig/docker-compose.yml/' %}
-
-{% if build == 'dynamic' %}
-{% include blocks ~ 'dynamic.yml.twig' %}
-{% else %}
-{% include blocks ~ 'static.yml.twig' %}
+{% set dockersync = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set dockersync = true %}
+{% endif %}
+version: '3'
+services:
+{% include blocks ~ 'application.yml.twig' %}
+{% for service in @('app.services') %}
+{% include blocks ~ 'service/' ~ service ~ '.yml.twig' %}
+{% endfor %}
+networks:
+  private:
+    external: false
+  shared:
+    external:
+      name: my127ws
+{% if dockersync %}
+volumes:
+  {{ @('workspace.name') }}-sync:
+    external: true
 {% endif %}

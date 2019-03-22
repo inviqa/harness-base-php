@@ -1,8 +1,0 @@
-{% set build =  @('app.build') %}
-{% set blocks  = '_twig/docker-compose.yml/' %}
-
-{% if build == 'dynamic' %}
-{% include blocks ~ 'dynamic.yml.twig' %}
-{% else %}
-{% include blocks ~ 'static.yml.twig' %}
-{% endif %}

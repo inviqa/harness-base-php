@@ -12,6 +12,12 @@ harness('inviqa/magento2'):
         - magento.password
 ---
 attributes:
+  app:
+    services:
+      - chrome
+      - mysql
+      - redis
+      - redis-session
   php:
     version: 7.1
   composer:

@@ -10,10 +10,13 @@ default:
       javascript_session: chrome
       sessions:
         goutte:
-          goutte: ~
+          goutte:
+            guzzle_parameters:
+              verify: false
         chrome:
           chrome:
             api_url: "http://chrome:9222"
+            validate_certificate: false
         local_chrome:
           chrome:
             api_url: "http://host.docker.internal:9222"

@@ -13,6 +13,8 @@ attributes.default:
     #   production  - leaner images with less tooling and application is run in production mode
     mode: development
 
+    services: [mysql]
+
   docker-sync: yes
 
   docker:
