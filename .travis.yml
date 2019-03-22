@@ -6,6 +6,19 @@ php:
   - 7.2
 services:
   - docker
+env:
+  # drupal8
+  - HARNESS=drupal8 MODE=static
+  - HARNESS=drupal8 MODE=dynamic
+  # magento1
+  - HARNESS=magento1 MODE=static
+  - HARNESS=magento1 MODE=dynamic
+  # magento2
+  - HARNESS=magento2 MODE=static
+  - HARNESS=magento2 MODE=dynamic
+  # wordpress
+  - HARNESS=wordpress MODE=static
+  - HARNESS=wordpress MODE=dynamic
 install:
   # worksace
   - wget https://my127.io/workspace/ws && chmod +x ws && sudo mv ws /usr/local/bin/ws
@@ -14,57 +27,8 @@ install:
   - sudo tar -zxpf lite_linux_amd64.tar.gz --directory /usr/local/bin/
 script:
   - ./build
-  # drupal 8 - dynamic
-  - cp -ap dist/harness-drupal8/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # drupal 8 - static
-  - cp -ap dist/harness-drupal8/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-drupal8 ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # magento 1 - dynamic
-  - cp -ap dist/harness-magento1/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-magento1 ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # magento 1 - static
-  - cp -ap dist/harness-magento1/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-magento1 ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # magento 2 - dynamic
-  - cp -ap dist/harness-magento2/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-magento2 ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # magento 2 - static
-  - cp -ap dist/harness-magento2/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-magento2 ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # wordpress - dynamic
-  - cp -ap dist/harness-wordpress/.ci/sample-dynamic ./test && cd test && cp -ap ../dist/harness-wordpress ./.my127ws
-  - ws install
-  - ws disable
-  - ws enable
-  - ws destroy
-  - cd .. && rm -rf test
-  # wordpress - static
-  - cp -ap dist/harness-wordpress/.ci/sample-static ./test && cd test && cp -ap ../dist/harness-wordpress ./.my127ws
+  # dynamic
+  - cp -ap dist/harness-${HARNESS}/.ci/sample-${MODE} ./test && cd test && cp -ap ../dist/harness-${HARNESS} ./.my127ws
   - ws install
   - ws disable
   - ws enable
