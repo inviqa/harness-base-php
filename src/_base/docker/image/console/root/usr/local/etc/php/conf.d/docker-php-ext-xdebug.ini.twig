@@ -1,6 +1,6 @@
 {% set xdebug = @('php.ext-xdebug') %}
 
-{% if xdebug.enable == 'yes' %}
+{% if xdebug.cli.enable == 'yes' %}
   zend_extension=xdebug.so
   {% for key, value in xdebug.config -%}
     xdebug.{{ key }}={{ value }}

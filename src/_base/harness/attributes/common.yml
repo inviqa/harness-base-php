@@ -54,10 +54,16 @@ attributes.default:
 
   php:
     version: 7.3
-    ini:
-      memory_limit: 1024M
+    cli:
+      ini: ~
+    fpm:
+      ini:
+        memory_limit: 1024M
+    ini: ~
     ext-xdebug:
       enable: no
+      cli:
+        enable: no
       config:
         remote_enable: 1
         remote_autostart: 1
