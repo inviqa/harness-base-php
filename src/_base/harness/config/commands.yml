@@ -28,7 +28,7 @@ command('destroy'):
 
 command('exec %'): |
   #!bash(harness:/)|=
-  passthru docker-compose -p ={ @('namespace') } exec -T -u build console ={ input.argument('%') }
+  docker-compose -p ={ @('namespace') } exec -T -u build console ={ input.argument('%') }
 
 command('console'): |
   #!bash(harness:/)|@
