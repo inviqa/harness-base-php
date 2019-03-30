@@ -13,13 +13,18 @@
     "drupal": {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
+    },
+    "chromeExtension": {
+      "type": "vcs",
+      "url": "https://github.com/my127/behat-chrome-extension"
     }
   },
   "require-dev": {
     "webflo/drupal-core-require-dev": "^8",
     "drupal/devel": "^2.0",
     "drupal/drupal-extension": "^3.4",
-    "mikey179/vfsStream": "^1.0"
+    "mikey179/vfsstream": "^1.0",
+    "my127/behat-chrome-extension": "^1.2"
   },
   "require": {
     "composer/installers": "^1.0",
@@ -52,7 +57,21 @@
     "post-install-cmd": [
       "@composer drupal-scaffold"
     ],
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "test": [
+      "@test-quality",
+      "@test-unit",
+      "@test-acceptance"
+    ],
+    "test-quality": [
+      "phpcs -v ./docroot/modules/custom"
+    ],
+    "test-unit": [
+      "phpunit"
+    ],
+    "test-acceptance": [
+      "behat"
+    ]
   },
   "extra": {
     "enable-patching": true,

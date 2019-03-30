@@ -1,0 +1,42 @@
+default:
+    suites:
+        default:
+            contexts:
+                - Drupal\DrupalExtension\Context\DrupalContext
+                - Drupal\DrupalExtension\Context\MinkContext
+    extensions:
+        Behat\MinkExtension:
+            base_url: 'https://{{ @('hostname') }}'
+            default_session: goutte
+            javascript_session: chrome
+            sessions:
+                goutte:
+                    goutte:
+                        guzzle_parameters:
+                            verify: false
+                chrome:
+                    chrome:
+                        api_url: "http://chrome:9222"
+                        validate_certificate: false
+                local_chrome:
+                    chrome:
+                        api_url: "http://host.docker.internal:9222"
+        Drupal\DrupalExtension:
+            blackbox: ~
+            api_driver: 'drupal'
+            drupal:
+                drupal_root: 'docroot'
+        DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+local:
+    extensions:
+        Behat\MinkExtension\ServiceContainer\MinkExtension:
+            default_session: local_chrome
+            javascript_session: local_chrome
+codeship:
+    suites:
+        default:
+            filters:
+                tags: ~@ignore-on-codeship
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://127.0.0.1:8000
