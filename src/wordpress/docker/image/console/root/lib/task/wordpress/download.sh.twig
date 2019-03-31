@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function task_wordpress_download()
+{
+    if [ ! -f "{{ @('wordpress.install_directory') }}/index.php" ]; then
+        passthru "bin/wp-cli.phar core download \
+            --path='{{ @('wordpress.install_directory') }}'"
+    fi
+}

@@ -41,14 +41,11 @@ attributes:
     build:
       steps:
         - task "wp-cli:install"
+        - task "wordpress:download"
         - task "composer:install"
     install:
       steps:
         - |
-          if [ ! -f "${WORDPRESS_INSTALL_DIRECTORY}/index.php" ]; then
-              passthru "bin/wp-cli.phar core download \
-                  --path='${WORDPRESS_INSTALL_DIRECTORY}'"
-          fi
           passthru "bin/wp-cli.phar core install \
             --path='${WORDPRESS_INSTALL_DIRECTORY}' \
             --skip-email \

@@ -37,7 +37,7 @@ attributes:
       session:
         save: redis
     crypt:
-      key: yEdDzMX4pcFU4geB
+      key: WmpzgYLfW8jwxTRKbACKqudJXcjJ4jqu
   backend:
     build:
       steps:
