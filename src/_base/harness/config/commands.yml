@@ -20,8 +20,11 @@ command('disable'):
 
 command('destroy'):
   env:
-    USE_DOCKER_SYNC: = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
-    NAMESPACE: = @('namespace')
+    NAMESPACE:         = @('namespace')
+    APP_BUILD:         = @('app.build')
+    APP_VERSION:       = @('app.version')
+    DOCKER_REPOSITORY: = @('docker.repository')
+    USE_DOCKER_SYNC:   = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
   exec: |
     #!bash(harness:/)|@
     source harness/scripts/destroy.sh

@@ -8,4 +8,8 @@ if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
   run docker volume rm "${NAMESPACE}-sync"
 fi
 
+if [[ "$APP_BUILD" = "static" ]]; then
+    run docker image rm $(docker images --filter=reference="${DOCKER_REPOSITORY}:${APP_VERSION}-*" -q)
+fi
+
 run rm -f .flag-built
