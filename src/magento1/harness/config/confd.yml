@@ -16,6 +16,7 @@ confd('harness:/'):
   - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: application/overlay/auth.json }
+  - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
   - { src: .env }
   - { src: docker-compose.yml }
