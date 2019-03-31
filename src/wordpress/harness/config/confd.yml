@@ -25,3 +25,4 @@ confd('harness:/'):
   - { src: application/overlay/public/wp-config.php }
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }
+  - { src: docker/image/console/root/lib/task/wordpress/download.sh }
