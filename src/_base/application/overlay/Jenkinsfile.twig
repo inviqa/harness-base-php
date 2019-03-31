@@ -1,0 +1,25 @@
+pipeline {
+    agent { label "my127ws" }
+    environment {
+        MY127WS_KEY = credentials('{{ @('workspace.name') }}-my127ws-key')
+        MY127WS_ENV = "pipeline"
+    }
+    stages {
+        stage('Build') {
+            steps { sh 'ws install' }
+        }
+        stage('Test')  {
+            parallel {
+                stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
+                stage('unit')       { steps { sh 'ws exec composer test-unit'       } }
+                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+            }
+        }
+    }
+    post {
+        always { 
+            sh 'ws destroy'
+            cleanWs()
+        }
+    }
+}
