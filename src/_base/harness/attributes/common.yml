@@ -55,7 +55,8 @@ attributes.default:
   php:
     version: 7.3
     cli:
-      ini: ~
+      ini:
+        memory_limit: -1
     fpm:
       ini:
         memory_limit: 1024M
