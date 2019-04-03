@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.18.0 (06a2e56)
+    traefik.enable: "false"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mysql
+  name: mysql
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: mysql
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: {{ .Values.DB_NAME }}
+        - name: MYSQL_PASSWORD
+          value: {{ .Values.DB_PASS }}
+        - name: MYSQL_ROOT_PASSWORD
+          value: {{ .Values.DB_ROOT_PASS }}
+        - name: MYSQL_USER
+          value: {{ .Values.DB_USER }}
+        image: mysql:5.7
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+      restartPolicy: Always
+status: {}
