@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.18.0 (06a2e56)
+    traefik.enable: "false"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: console
+  name: console
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: console
+    spec:
+      containers:
+      - env:
+        - name: APP_HOST
+          value: {{ .Values.APP_HOST }}
+        - name: APP_NAME
+          value: {{ .Values.APP_NAME }}
+        - name: DB_HOST
+          value: {{ .Values.DB_HOST }}
+        - name: DB_NAME
+          value: {{ .Values.DB_NAME }}
+        - name: DB_PASS
+          value: {{ .Values.DB_PASS }}
+        - name: DB_ROOT_PASS
+          value: {{ .Values.DB_ROOT_PASS }}
+        - name: DB_USER
+          value: {{ .Values.DB_USER }}
+        - name: HOST_OS_FAMILY
+          value: {{ .Values.HOST_OS_FAMILY }}
+        - name: MAGENTO_CRYPT_KEY
+          value: {{ .Values.MAGENTO_CRYPT_KEY }}
+        image: {{ .Values.DOCKER_IMAGE_CONSOLE }}
+        name: console
+        resources: {}
+      restartPolicy: Always
+status: {}

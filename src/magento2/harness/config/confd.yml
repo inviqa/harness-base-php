@@ -22,6 +22,7 @@ confd('harness:/'):
   - { src: docker-compose.yml }
   - { src: docker-sync.yml }
   # harness-magento2 templates
+  - { src: helm/preview/values.yaml }
   - { src: application/overlay/app/etc/env.php }
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }

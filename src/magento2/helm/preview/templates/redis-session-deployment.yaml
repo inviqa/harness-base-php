@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.18.0 (06a2e56)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: redis-session
+  name: redis-session
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: redis-session
+    spec:
+      containers:
+      - args:
+        - redis-server
+        - --maxmemory
+        - "1073742000"
+        - --maxmemory-policy
+        - volatile-ttl
+        image: redis:4-alpine
+        name: redis-session
+        ports:
+        - containerPort: 6379
+        resources: {}
+      restartPolicy: Always
+status: {}
