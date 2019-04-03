@@ -1,0 +1,11 @@
+command('app publish'): |
+  #!bash(workspace:/)|@
+  run docker login -u="@('docker.username')" -p="@('docker.password')" @('docker.repository')
+  run docker push @('docker.repository'):@('app.version')-console
+  run docker push @('docker.repository'):@('app.version')-php-fpm
+  run docker push @('docker.repository'):@('app.version')-nginx
+  run docker logout @('docker.repository')
+
+command('app deploy preview'): |
+  #!bash(harness:/helm/preview)|@
+  passthru helm upgrade --wait --install --namespace "@('pipeline.preview.namespace')" "@('pipeline.preview.namespace')" ./
