@@ -15,6 +15,16 @@ pipeline {
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
             }
         }
+{% if @('pipeline.publish.enabled') == 'yes' %}
+        stage('Publish') {
+            steps { sh 'ws app publish' }
+        }
+{% endif %}
+{% if @('pipeline.preview.enabled') == 'yes' %}
+        stage('Deploy') {
+            steps { sh 'ws app deploy preview' }
+        }
+{% endif %}
     }
     post {
         always { 

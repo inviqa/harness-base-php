@@ -19,9 +19,9 @@ attributes.default:
 
   pipeline:
     publish:
-      enabled: yes
+      enabled: no
     preview:
-      enabled: yes
+      enabled: no
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
 
