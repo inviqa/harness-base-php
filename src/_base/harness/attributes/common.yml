@@ -17,6 +17,14 @@ attributes.default:
 
   docker-sync: yes
 
+  pipeline:
+    publish:
+      enabled: no
+    preview:
+      enabled: no
+      namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
+      hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+
   docker:
     repository: = @("workspace.name")
     image:
