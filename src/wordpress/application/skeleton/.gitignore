@@ -10,7 +10,7 @@
 # Files
 
 /.dockerignore
-/docker-sync.yml
+/docker-compose.yml
 /phpcs.xml
 /phpmd.xml
 /behat.yml
