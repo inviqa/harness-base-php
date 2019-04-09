@@ -4,7 +4,7 @@ main()
 {
     if [ ! -f .flag-built ]; then
     
-        passthru docker-compose -p "$NAMESPACE" down
+        passthru docker-compose down
 
         if [[ "$HAS_ASSETS" = "yes" ]]; then
             ws assets download
@@ -14,12 +14,12 @@ main()
         touch .flag-built
 
     else
-        passthru docker-compose -p "$NAMESPACE" up -d
-        passthru docker-compose -p "$NAMESPACE" exec -T -u build console app welcome
+        passthru docker-compose up -d
+        passthru docker-compose exec -T -u build console app welcome
     fi
 
     if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru docker-sync start
+        passthru docker-sync --config .my127ws/docker-sync.yml start
     fi
 }
 
@@ -29,24 +29,24 @@ dynamic()
     # will often cause it to crash.
 
     if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru docker-sync start
-        passthru docker-sync stop
+        passthru docker-sync --config .my127ws/docker-sync.yml start
+        passthru docker-sync --config .my127ws/docker-sync.yml stop
     fi
 
-    passthru docker-compose -p "$NAMESPACE" pull
-    passthru docker-compose -p "$NAMESPACE" build --pull
-    passthru docker-compose -p "$NAMESPACE" up -d
+    passthru docker-compose pull
+    passthru docker-compose build --pull
+    passthru docker-compose up -d
 
-    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app build
-    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app init
+    passthru docker-compose exec -T -u build console app build
+    passthru docker-compose exec -T -u build console app init
 }
 
 static()
 {
     ws app build
     
-    passthru docker-compose -p "$NAMESPACE" up -d
-    passthru docker-compose -p "$NAMESPACE" exec -T -u build console app init
+    passthru docker-compose up -d
+    passthru docker-compose exec -T -u build console app init
 }
 
 main

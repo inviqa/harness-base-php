@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
-    run docker-sync stop
+    run docker-sync --config .my127ws/docker-sync.yml stop
 fi
 
-run docker-compose -p "$NAMESPACE" stop
+run docker-compose stop

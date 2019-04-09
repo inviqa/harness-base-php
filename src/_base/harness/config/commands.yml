@@ -1,45 +1,57 @@
 
 command('enable'):
   env:
-    USE_DOCKER_SYNC: = @('host.os') == 'darwin' and @('docker-sync') == 'yes' ? 'yes':'no'
-    APP_BUILD:       = @('app.build')
-    APP_MODE:        = @('app.mode')
-    NAMESPACE:       = @('namespace')
-    HAS_ASSETS:      = @('aws.bucket') !== null ? 'yes':'no'
+    USE_DOCKER_SYNC:      = @('host.os') == 'darwin' and @('docker-sync') == 'yes' ? 'yes':'no'
+    APP_BUILD:            = @('app.build')
+    APP_MODE:             = @('app.mode')
+    NAMESPACE:            = @('namespace')
+    HAS_ASSETS:           = @('aws.bucket') !== null ? 'yes':'no'
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)
-    source harness/scripts/enable.sh
+    #!bash(workspace:/)
+    source .my127ws/harness/scripts/enable.sh
 
 command('disable'):
   env:
-    USE_DOCKER_SYNC: = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
-    NAMESPACE: = @('namespace')
+    USE_DOCKER_SYNC:      = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
+    NAMESPACE:            = @('namespace')
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)
-    source harness/scripts/disable.sh
+    #!bash(workspace:/)
+    source .my127ws/harness/scripts/disable.sh
 
 command('destroy'):
   env:
-    NAMESPACE:         = @('namespace')
-    APP_BUILD:         = @('app.build')
-    APP_VERSION:       = @('app.version')
-    DOCKER_REPOSITORY: = @('docker.repository')
-    USE_DOCKER_SYNC:   = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
+    NAMESPACE:            = @('namespace')
+    APP_BUILD:            = @('app.build')
+    APP_VERSION:          = @('app.version')
+    DOCKER_REPOSITORY:    = @('docker.repository')
+    USE_DOCKER_SYNC:      = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)|@
-    source harness/scripts/destroy.sh
+    #!bash(workspace:/)|@
+    source .my127ws/harness/scripts/destroy.sh
 
-command('exec %'): |
-  #!bash(harness:/)|=
-  docker-compose -p ={ @('namespace') } exec -T -u build console ={ input.argument('%') }
+command('exec %'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|=
+    docker-compose exec -T -u build console ={ input.argument('%') }
 
-command('console'): |
-  #!bash(harness:/)|@
-  passthru docker-compose -p @('namespace') exec -u build console bash
+command('console'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker-compose exec -u build console bash
 
-command('db-console'): |
-  #!bash(harness:/)|@
-  docker-compose -p @('namespace') exec console bash -c 'mysql -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME"'
+command('db-console'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker-compose exec console bash -c 'mysql -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME"'
 
 command('assets download'):
   env:
@@ -58,21 +70,29 @@ command('assets upload'):
     passthru ws.aws s3 sync @('assets.local') @('assets.remote')
 
 command('frontend build'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)|@
-    docker-compose -p @('namespace') exec -u build console bash -i -c 'app build:frontend'
+    #!bash(workspace:/)|@
+    passthru docker-compose exec -u build console bash -i -c 'app build:frontend'
 
 command('frontend watch'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)|@
-    docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'
+    #!bash(workspace:/)|@
+    passthru docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'
 
 command('frontend console'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)|@
-    docker-compose -p @('namespace') exec -u build console bash -i -c 'cd @('frontend.path'); bash'
+    #!bash(workspace:/)|@
+    passthru docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); bash'
 
 command('port <service>'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(harness:/)|=
-    docker port $(docker-compose -p ={@('namespace')} ps -q ={input.argument('service')})
+    #!bash(workspace:/)|=
+    passthru docker port $(docker-compose ps -q ={input.argument('service')})
