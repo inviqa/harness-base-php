@@ -33,6 +33,7 @@ script:
   - ws exec composer test-quality
   - ws exec composer test-unit
   - ws exec composer test-acceptance
+  - find . -type f ! -path "./.git/*" ! -path "./bin/workspace" ! -path "./bin/build" ! -path "./vendor/*" ! -name "*.phar" ! -name "*.php" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +
   - ws disable
   - ws enable
   - ws destroy
