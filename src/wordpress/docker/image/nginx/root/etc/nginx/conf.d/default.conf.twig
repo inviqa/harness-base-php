@@ -9,6 +9,10 @@ server {
   include snippets/certificate.conf;
   include snippets/ssl-params.conf;
 
+  {% for name, value in @('nginx.conf') %}
+    {{ name }} {{ value }};
+  {% endfor %}
+
   set $custom_https $https;
   set $custom_scheme $scheme;
   if ($http_x_forwarded_proto) {
