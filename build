@@ -9,7 +9,7 @@ function main()
 {
     for harness in "${HARNESSES[@]}"
     do
-        build $harness
+        build "$harness"
     done
 }
 

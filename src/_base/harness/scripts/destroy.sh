@@ -9,6 +9,7 @@ if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
 fi
 
 if [[ "$APP_BUILD" = "static" ]]; then
+    # shellcheck disable=SC2046
     run docker image rm $(docker images --filter=reference="${DOCKER_REPOSITORY}:${APP_VERSION}-*" -q)
 fi
 

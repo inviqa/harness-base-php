@@ -27,7 +27,7 @@ function set_remote()
     local name="$1"
     local path="$2"
 
-    if ! $(git ls-remote --exit-code "$name" &>/dev/null); then
+    if ! git ls-remote --exit-code "$name" &>/dev/null; then
         git remote add "$name" "$path"
     fi
 }

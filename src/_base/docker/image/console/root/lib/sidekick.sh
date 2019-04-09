@@ -16,6 +16,7 @@ task()
     local task_file="${TASKS}/${1//:/\/}.sh"
     local task_name="task_${1//:/_}"
 
+    # shellcheck source=/dev/null
     declare -F "$task_name" &>/dev/null || source "$task_file"
 
     shift
@@ -64,9 +65,8 @@ passthru()
     prompt
 
     echo -e "\\033[${INDICATOR_PASSTHRU}■\\033[0m > $*"
-    bash -c "$@"
 
-    if [ "$?" != "0" ]; then
+    if ! bash -c "$@"; then
         exit 1
     fi
 }
