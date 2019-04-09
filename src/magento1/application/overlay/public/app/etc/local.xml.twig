@@ -77,7 +77,7 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName><![CDATA[admin]]></frontName>
+                    <frontName><![CDATA[{{ @('admin.path') ?: 'admin' }}]]></frontName>
                 </args>
             </adminhtml>
         </routers>
