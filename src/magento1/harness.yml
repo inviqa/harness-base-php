@@ -28,6 +28,9 @@ attributes:
   magento:
     edition: enterprise
     version: 1.14.4.1
+    environment: ''
+    admin:
+      path: admin
     config:
       session:
         save: redis
