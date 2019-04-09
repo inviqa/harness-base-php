@@ -32,9 +32,9 @@ resolve_volume_mount_strategy()
     if [ "${HOST_OS_FAMILY}" = "linux" ]; then
         STRATEGY="host-linux-normal"
     elif [ "${HOST_OS_FAMILY}" = "darwin" ]; then
-        if (mount | grep "/app type fuse.osxfs") &2>1 > /dev/null; then
+        if (mount | grep "/app type fuse.osxfs") > /dev/null 2>&1; then
             STRATEGY="host-osx-normal"
-        elif (mount | grep "/app type ext4") &2>1 > /dev/null; then
+        elif (mount | grep "/app type ext4") > /dev/null 2>&1; then
             STRATEGY="host-osx-dockersync"
         else
             exit 1
