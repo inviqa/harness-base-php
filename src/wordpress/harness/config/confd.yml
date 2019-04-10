@@ -22,6 +22,7 @@ confd('harness:/'):
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   # harness-wordpress templates
   - { src: application/overlay/public/wp-config.php }
+  - { src: application/overlay/phpcs.xml }
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }
   - { src: docker/image/console/root/lib/task/wordpress/download.sh }
