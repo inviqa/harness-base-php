@@ -2,7 +2,7 @@
 
 main()
 {
-    if [ ! -f .flag-built ]; then
+    if [ ! -f .my127ws/.flag-built ]; then
     
         passthru docker-compose down
 
@@ -11,7 +11,7 @@ main()
         fi
 
         $APP_BUILD
-        touch .flag-built
+        touch .my127ws/.flag-built
 
     else
         passthru docker-compose up -d
@@ -19,7 +19,7 @@ main()
     fi
 
     if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru docker-sync --config .my127ws/docker-sync.yml start
+        passthru docker-sync start
     fi
 }
 
@@ -29,8 +29,8 @@ dynamic()
     # will often cause it to crash.
 
     if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru docker-sync --config .my127ws/docker-sync.yml start
-        passthru docker-sync --config .my127ws/docker-sync.yml stop
+        passthru docker-sync start
+        passthru docker-sync stop
     fi
 
     passthru docker-compose pull

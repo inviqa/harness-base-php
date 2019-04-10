@@ -18,4 +18,4 @@ confd('harness:/'):
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
-  - { src: docker-sync.yml }
+  - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
