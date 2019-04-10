@@ -13,7 +13,6 @@
 # Files
 
 /.dockerignore
-/docker-sync.yml
 /phpcs.xml
 /phpmd.xml
 /public/app/etc/local.xml

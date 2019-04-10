@@ -18,9 +18,8 @@ confd('harness:/'):
   - { src: application/overlay/auth.json }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
-  - { src: .env }
-  - { src: docker-compose.yml }
-  - { src: docker-sync.yml }
+  - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
+  - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   # harness-drupal templates
   - { src: application/overlay/docroot/sites/default/settings.php }
   - { src: application/overlay/phpcs.xml }

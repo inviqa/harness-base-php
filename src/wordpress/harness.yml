@@ -16,21 +16,21 @@ attributes:
     version: 7.2
   wordpress:
     install_directory: /app/public/
-    url: https://${APP_HOST}/
+    url: = 'https://' ~ @('hostname') ~ '/'
     url_prefix: /
     security:
       auth:
-        key:  "f+S  *gZCFV$#[fHQR2ReTpG/[qCvQE=kg[DzSgo)59p+EA]p-wzT1OD~EcUgkDe"
-        salt: "N6%QZA>6SV+!MEE^x_zt,(&G7D4)sP@&{zT?=+/DyW-d4msRd_w4ZsJ0_Btq4,:+"
+        key:  89SsDHkunF9G2L9hp89ZsJtnRCAZfsUwBfwr7qd9JeGPG6NCVwvCsnAgYnHGaTuG
+        salt: quhs57funVecFk38Q8AksSV2DpHJHSecYqdzmn8K3uxwPxd7QvwyM2wAD32bpgkF
       secure_auth:
-        key:  "w~yiq>=@]_:rtU^&-D^rfJk/.KfiGk+*>BSV%MOGa)48v!/9B6uh&Vv+1Z%:D|2["
-        salt: "zO|~#aQ#90z=NA<4NJ4j^PB$c`27~ Rd3~+7Y7:WrQ+yL;c*T55()Wk}0WI`2v?I"
+        key:  WW6STfxv6qd6AGbkXhWGL2NGRqgrhKkM56LyMYcmHXuEE7ZfYh3zuefpNRLbHY3P
+        salt: 5DCMJSmJUhKmaqt7xwJnnmzF8k6QvfYG7psXPAU9nnhS5pch68LGzvCCqjfcKaBd
       logged_in:
-        key:  "5D]-TZ<1|||s_-@@M?|z5S>[?FxF<}bJPatoYYk|.4fN+o{IR?`6tMFx].a9Burl"
-        salt: ">7{Jc.XB;C9^n2H0~{2eb..o[9UH&|MgXVU>9&m-l3+wEMGenhdoS_|a`eIR)|V7"
+        key:  6RTuK9hUeLEQecaX746mMLHLRJUasQZztVP24RJFUjYBKk5AdhSYJTDBTaJVMwkH
+        salt: UyKPJdQud7vkZ8BseJhhCattAcHm4mdK7SLvYkYK73vcX86SwkKk8JgFK6NStBNG
       nonce:
-        key:  "OxQ!`dDcBNPGX(El->cvj`r3C|UCwB8bBOFz~jZkS=Y~eI+f~15})ClL0Ne-Q.w0"
-        salt: "8CGF+nc*b}mv;=WIMgN{cEVbmEBPQ([X7?g yYc<ER| Xc+5+P,7/ji| Vw$VXg9"
+        key:  Nnrhwn4aTXsGHfJPDTtrNuHT5cmZgbEANLQXxQyQ63v5jdjaQUUqBGcKgJNhCwkV
+        salt: QjdTgTd7HcSx2jCmzVHyeYCfBBBjjdkuvRYJ8C9cAMYPpCRa3U8uYRHRWbSADTuh
   nginx:
     public_directory: /app/public/
   database:
