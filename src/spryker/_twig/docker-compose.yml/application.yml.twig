@@ -7,14 +7,14 @@
   console:
 {% if @('app.build') == 'dynamic' %}
     build:
-      context: ../
+      context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
     image: {{ @('workspace.name') ~ '-console:dev' }}
     entrypoint: /entrypoint.dynamic.sh
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
-      - ./application:/home/build/application
-      - ./docker/image/console/root/lib/task:/lib/task
+      - ./.my127ws/application:/home/build/application
+      - ./.my127ws/docker/image/console/root/lib/task:/lib/task
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
 {% endif %}
@@ -27,15 +27,15 @@
 
   nginx:
 {% if @('app.build') == 'dynamic' %}
-    build: docker/image/nginx
+    build: .my127ws/docker/image/nginx
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
 {% endif %}
     labels:
-      - traefik.backend=${APP_NAME}
-      - traefik.frontend.rule=Host:${YVES_HOST},${ZED_HOST}
+      - traefik.backend={{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:{{ @('yves-host') }},{{ @('zed-host') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
     links:
@@ -48,10 +48,10 @@
 
   php-fpm:
 {% if @('app.build') == 'dynamic' %}
-    build: docker/image/php-fpm
+    build: .my127ws/docker/image/php-fpm
     entrypoint: /entrypoint.dynamic.sh
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
 {% endif %}

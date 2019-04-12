@@ -1,13 +1,12 @@
   jenkins-slave:
 {% if @('app.build') == 'dynamic' %}
     build:
-      context: ../
+      context: ./
       dockerfile: .my127ws/docker/image/jenkins-slave/Dockerfile
     entrypoint: /entrypoint.jenkins_slave.dynamic.sh
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
-      - ./application:/home/build/application
-      - ./docker/image/console/root/lib/task:/lib/task
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - ./.my127ws/application:/home/build/application
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-slave' }}
 {% endif %}
@@ -17,7 +16,7 @@
     environment:
       <<: *APP_ENV_VARS
       JENKINS_SLAVE_NAME: backend
-      JENKINS_URL: http://${JENKINS_HOST}:${JENKINS_PORT}/
+      JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
     networks:
       - private
     labels:

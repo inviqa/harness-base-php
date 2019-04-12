@@ -3,9 +3,9 @@
     labels:
       - traefik.enable=false
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB={{ @('database.name') }}
+      - POSTGRES_USER={{ @('database.user') }}
+      - POSTGRES_PASSWORD={{ @('database.pass') }}
     networks:
       - private
     ports:
