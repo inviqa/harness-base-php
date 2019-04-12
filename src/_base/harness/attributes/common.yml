@@ -84,6 +84,8 @@ attributes.default:
     local: tools/assets/development
 
   database:
+    # possible types are mysql|postgres
+    type: mysql
     host: mysql
     user: app
     pass: app

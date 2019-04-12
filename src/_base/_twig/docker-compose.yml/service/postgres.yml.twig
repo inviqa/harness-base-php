@@ -1,0 +1,12 @@
+  postgres:
+    image: postgres:9.4
+    labels:
+      - traefik.enable=false
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    networks:
+      - private
+    ports:
+        - 5432
