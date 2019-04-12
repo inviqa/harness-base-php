@@ -25,7 +25,7 @@ function task_assets_apply()
         fi
 
         if [ -f "$DATABASE_FILE" ]; then
-            run "zcat $DATABASE_FILE | $IMPORT_COMMAND"
+            passthru "pv --force $DATABASE_FILE | zcat - | $IMPORT_COMMAND"
         else
             task "install"
         fi
