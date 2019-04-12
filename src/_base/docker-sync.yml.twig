@@ -1,10 +1,11 @@
 version: '2'
 options:
   compose-file-path:
-    - .my127ws/docker-compose.yml
+    - docker-compose.yml
+  project_root: config_path
 syncs:
   {{ @('workspace.name') }}-sync:
-    src: ../
+    src: ./
     sync_userid: '1000'
     sync_excludes_type: BelowPath
     sync_excludes: &IGNORE

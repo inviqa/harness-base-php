@@ -1,10 +1,9 @@
-      MAGENTO_CRYPT_KEY: ${MAGENTO_CRYPT_KEY}
-      HOST_OS_FAMILY: ${HOST_OS_FAMILY}
-      APP_NAME: ${APP_NAME}
-      APP_HOST: ${APP_HOST}
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-      DB_ROOT_PASS: ${DB_ROOT_PASS}
-
+      MAGENTO_CRYPT_KEY: {{ @('magento.crypt.key') }}
+      HOST_OS_FAMILY: {{ @('host.os') }}
+      APP_NAME: {{ @('workspace.name') }}
+      APP_HOST: {{ @('hostname') }}
+      DB_HOST: {{ @('database.host') }}
+      DB_USER: {{ @('database.user') }}
+      DB_PASS: {{ @('database.pass') }}
+      DB_NAME: {{ @('database.name') }}
+      DB_ROOT_PASS: {{ @('database.root_pass') }}

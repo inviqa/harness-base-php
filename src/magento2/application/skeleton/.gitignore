@@ -25,7 +25,7 @@
 /.php_cs*
 /.travis.yml
 /.user.ini
-/docker-sync.yml
+/docker-compose.yml
 /phpcs.xml
 /phpmd.xml
 /behat.yml
