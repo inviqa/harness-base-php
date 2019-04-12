@@ -1,10 +1,14 @@
 #!/bin/bash
 
-source /jenkins_slave.sh
-
 main()
 {
+    app jenkins start
     source /entrypoint.sh
+}
+
+bootstrap()
+{
+    app jenkins setup
 }
 
 bootstrap
