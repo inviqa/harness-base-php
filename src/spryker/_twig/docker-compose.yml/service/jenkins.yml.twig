@@ -1,0 +1,14 @@
+  jenkins:
+    image: "jenkins:alpine"
+    environment:
+      JAVA_OPTS: '-Djenkins.install.runSetupWizard=false'
+    networks:
+      - private
+      - shared
+    labels:
+      - traefik.backend=${JENKINS_HOST}
+      - traefik.frontend.rule=Host:${JENKINS_HOST_NAME}
+      - traefik.docker.network=my127ws
+      - traefik.port=${JENKINS_PORT}
+      - co.elastic.logs/module=jenkins
+      - co.elastic.metrics/module=jenkins

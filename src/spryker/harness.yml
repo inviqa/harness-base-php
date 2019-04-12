@@ -1,0 +1,78 @@
+---
+harness('inviqa/spryker'):
+  description: A docker based development environment for Spryker
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  app:
+    services:
+      - chrome
+      - postgres
+      - redis
+      - elasticsearch
+      - rabbitmq
+      - jenkins
+      - jenkins-slave
+  spryker:
+    salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
+    demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
+  php:
+    version: 7.2
+  database:
+    type: postgres
+    host: postgres
+    user: spryker
+    pass: spryker
+    name: spryker
+  backend:
+    build:
+      steps:
+        - task "composer:install"
+    install:
+      steps:
+        - |
+          passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
+        - task "overlay:apply"
+        - task "assets:dump"
+    init:
+      steps:
+        - run "vendor/bin/console propel:install -o"
+  frontend:
+    build:
+      when: -f "package.json"
+      steps:
+        - run "vendor/bin/install -r docker -s frontend"
+  docker:
+    image:
+      console: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch'
+  elasticsearch:
+    host: elasticsearch
+    port: 9200
+  redis:
+    host: redis
+    port: 6379
+    protocol: redis
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    api_port: 15672
+    user: spryker
+    password: spryker
+    vhost: /spryker
+  jenkins:
+    host: jenkins
+    port: 8080
+  yves-host: = 'yves.' ~ @('namespace') ~ '.' ~ @('domain')
+  zed-host: = 'zed.' ~ @('namespace') ~ '.' ~ @('domain')
+  jenkins-host: = 'jenkins.' ~ @('namespace') ~ '.' ~ @('domain')
+  rabbitmq-host: = 'rabbitmq.' ~ @('namespace') ~ '.' ~ @('domain')
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

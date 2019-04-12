@@ -1,0 +1,63 @@
+{% set blocks  = '_twig/docker-compose.yml/' %}
+{% set dockersync = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set dockersync = true %}
+{% endif %}
+
+  console:
+{% if @('app.build') == 'dynamic' %}
+    build:
+      context: ../
+      dockerfile: .my127ws/docker/image/console/Dockerfile
+    image: {{ @('workspace.name') ~ '-console:dev' }}
+    entrypoint: /entrypoint.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+      - ./application:/home/build/application
+      - ./docker/image/console/root/lib/task:/lib/task
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+{% endif %}
+    labels:
+      - traefik.enable=false
+    environment: &APP_ENV_VARS
+{% include blocks ~ 'environment.yml.twig' %}
+    networks:
+      - private
+
+  nginx:
+{% if @('app.build') == 'dynamic' %}
+    build: docker/image/nginx
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+{% endif %}
+    labels:
+      - traefik.backend=${APP_NAME}
+      - traefik.frontend.rule=Host:${YVES_HOST},${ZED_HOST}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+    links:
+      - php-fpm:php-fpm
+    networks:
+      private:
+        aliases:
+          - {{ @('hostname') }}
+      shared: {}
+
+  php-fpm:
+{% if @('app.build') == 'dynamic' %}
+    build: docker/image/php-fpm
+    entrypoint: /entrypoint.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+{% endif %}
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+    environment:
+      <<: *APP_ENV_VARS

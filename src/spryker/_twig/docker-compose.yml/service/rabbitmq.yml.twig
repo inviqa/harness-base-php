@@ -1,0 +1,16 @@
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
+    networks:
+      - private
+      - shared
+    labels:
+      - traefik.backend=${RABBITMQ_HOST}
+      - traefik.frontend.rule=Host:${RABBITMQ_HOST_NAME}
+      - traefik.docker.network=my127ws
+      - traefik.port=${RABBITMQ_API_PORT}
+      - co.elastic.logs/module=rabbitmq
+      - co.elastic.metrics/module=rabbitmq

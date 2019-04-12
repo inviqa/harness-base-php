@@ -1,0 +1,8 @@
+  elasticsearch:
+    build: docker/image/elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+    labels:
+      - traefik.enable=false
+    networks:
+      - private

@@ -1,0 +1,13 @@
+# Directories
+/.my127ws
+/bin/
+/tools/assets/
+/app
+/src/Generated
+/vendor/
+/node_modules/
+
+# Files
+/.dockerignore
+/auth.json
+/workspace.override.yml

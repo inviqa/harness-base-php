@@ -1,0 +1,5 @@
+FROM {{ @('workspace.name') ~ '-console:dev' }}
+
+COPY .my127ws/docker/image/jenkins-slave/root /
+
+ENTRYPOINT /entrypoint.jenkins_slave.sh
