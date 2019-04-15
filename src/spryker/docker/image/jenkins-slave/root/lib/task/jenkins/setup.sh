@@ -6,14 +6,15 @@ function task_jenkins_setup()
     echo -e "Bootstrapping jenkins slave"
     wait_for_jenkins_master
 
-    curl -s $JENKINS_URL/jnlpJars/jenkins-cli.jar -o /usr/local/bin/jenkins-cli.jar
-    curl -s $JENKINS_URL/jnlpJars/slave.jar -o /usr/local/bin/jenkins-slave.jar
+    curl -s "$JENKINS_URL/jnlpJars/jenkins-cli.jar" -o /usr/local/bin/jenkins-cli.jar
+    curl -s "$JENKINS_URL/jnlpJars/slave.jar" -o /usr/local/bin/jenkins-slave.jar
 
-    (java -jar /usr/local/bin/jenkins-cli.jar -s $JENKINS_URL get-node $JENKINS_SLAVE_NAME 2>&1 || true ) > /tmp/jenkins.node
+    (java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" get-node "$JENKINS_SLAVE_NAME" 2>&1 || true ) > /tmp/jenkins.node
 
     if grep ERROR: /tmp/jenkins.node >/dev/null; then
         echo -e "Registering jenkins slave $JENKINS_SLAVE_NAME at master"
-        cat <<EOF | java -jar /usr/local/bin/jenkins-cli.jar -s $JENKINS_URL create-node $JENKINS_SLAVE_NAME
+        # shellcheck disable=SC2154
+        cat <<EOF | java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" create-node "$JENKINS_SLAVE_NAME"
             <slave>
               <name>$JENKINS_SLAVE_NAME</name>
               <description></description>
@@ -41,7 +42,7 @@ function wait_for_jenkins_master() {
 
     local counter=0
 
-    while ! curl -s -k $JENKINS_URL -o /dev/null -L --fail; do
+    while ! curl -s -k "$JENKINS_URL" -o /dev/null -L --fail; do
 
         if (( counter > 30 )); then
             (>&2 echo "timeout while waiting on $JENKINS_URL to become available")

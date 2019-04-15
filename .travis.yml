@@ -37,4 +37,4 @@ script:
   - ws enable
   - ws destroy
   - cd .. && rm -rf test
-  - find . -type f ! -path "./.git/*" ! -path "./dist/*" ! -path "./test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +
+  - find . -type f ! -path "./.git/*" ! -path "./dist/*" ! -path "./test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" ! -name "*.twig" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +
