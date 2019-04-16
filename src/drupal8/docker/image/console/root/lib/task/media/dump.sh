@@ -13,5 +13,5 @@ function task_media_dump()
     fi
 
     cd /app || exit
-    tar -czf /app/${ASSETS_DIR}/media.tgz docroot/sites/default/files --exclude ".DS_Store"
+    tar -czf "/app/${ASSETS_DIR}/media.tgz" "docroot/sites/default/files" --exclude ".DS_Store"
 }
