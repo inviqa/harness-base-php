@@ -12,6 +12,6 @@ function task_media_dump()
         run "mkdir -p /app/docroot/sites/default/files"
     fi
 
-    cd /app
-    tar -czf /app/${ASSETS_DIR}/media.tgz docroot/sites/default/files --exclude '.DS_Store'
+    cd /app || exit
+    tar -czf /app/${ASSETS_DIR}/media.tgz docroot/sites/default/files --exclude ".DS_Store"
 }
