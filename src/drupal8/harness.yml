@@ -46,7 +46,6 @@ attributes:
               --account-mail=admin@example.com \
               --account-pass=admin123"
         - run "chmod 755 /app/docroot/sites/default"
-        - run "rm -f /app/docroot/sites/default/settings.php"
         - task "overlay:apply"
         - task "assets:dump"
     init:
