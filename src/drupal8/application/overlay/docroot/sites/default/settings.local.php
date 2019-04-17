@@ -4,17 +4,6 @@ $config_directories = [];
 
 $settings['hash_salt'] = getenv('DRUPAL_SALT');
 
-$settings['update_free_access'] = FALSE;
-
-$settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
-
-$settings['file_scan_ignore_directories'] = [
-  'node_modules',
-  'bower_components',
-];
-
-$settings['entity_update_batch_size'] = 50;
-
 $config_directories['sync'] = '../config/sync';
 
 $databases['default']['default'] = array (
