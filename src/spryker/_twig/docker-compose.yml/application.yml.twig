@@ -44,6 +44,8 @@
       private:
         aliases:
           - {{ @('hostname') }}
+          - {{ @('yves.external_host') }}
+          - {{ @('zed.external_host') }}
       shared: {}
 
   php-fpm:
