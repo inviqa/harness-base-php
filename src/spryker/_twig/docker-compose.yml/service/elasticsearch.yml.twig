@@ -1,5 +1,9 @@
   elasticsearch:
+{% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/elasticsearch
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-elasticsearch' }}
+{% endif %}
     environment:
       ES_JAVA_OPTS: "-Xmx512m -Xms512m"
     labels:
