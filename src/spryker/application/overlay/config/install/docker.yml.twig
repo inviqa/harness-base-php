@@ -3,7 +3,7 @@
 # which is not the case in this setup
 
 env:
-    APPLICATION_ENV: development
+    APPLICATION_ENV: {{ @('spryker.mode') }}
 
 stores:
     - DE
