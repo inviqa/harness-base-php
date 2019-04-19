@@ -3,7 +3,7 @@
 function task_skeleton_apply()
 {
     if [ ! -f /app/composer.json ]; then
-      fetch_demoshop
+        fetch_demoshop
     fi
     run "rsync --exclude='*.twig' --exclude='_twig' -a /home/build/application/skeleton/ /app/"
 }
