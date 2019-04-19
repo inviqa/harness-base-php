@@ -35,7 +35,7 @@
 {% endif %}
     labels:
       - traefik.backend={{ @('workspace.name') }}
-      - traefik.frontend.rule=Host:{{ @('yves-host') }},{{ @('zed-host') }}
+      - traefik.frontend.rule=Host:{{ @('yves.external_host') }},{{ @('zed.external_host') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
     links:

@@ -64,13 +64,15 @@ attributes:
     user: spryker
     password: spryker
     vhost: /spryker
+    external_host: = 'rabbitmq.' ~ @('namespace') ~ '.' ~ @('domain')
   jenkins:
     host: jenkins
     port: 8080
-  yves-host: = 'yves.' ~ @('namespace') ~ '.' ~ @('domain')
-  zed-host: = 'zed.' ~ @('namespace') ~ '.' ~ @('domain')
-  jenkins-host: = 'jenkins.' ~ @('namespace') ~ '.' ~ @('domain')
-  rabbitmq-host: = 'rabbitmq.' ~ @('namespace') ~ '.' ~ @('domain')
+    external_host: = 'jenkins.' ~ @('namespace') ~ '.' ~ @('domain')
+  yves:
+    external_host: = 'yves.' ~ @('namespace') ~ '.' ~ @('domain')
+  zed:
+    external_host: = 'zed.' ~ @('namespace') ~ '.' ~ @('domain')
 ---
 import:
   - harness/config/*.yml

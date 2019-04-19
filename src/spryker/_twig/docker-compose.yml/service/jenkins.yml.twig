@@ -7,7 +7,7 @@
       - shared
     labels:
       - traefik.backend={{ @('jenkins.host') }}
-      - traefik.frontend.rule=Host:{{ @('jenkins-host') }}
+      - traefik.frontend.rule=Host:{{ @('jenkins.external_host') }}
       - traefik.docker.network=my127ws
       - traefik.port={{ @('jenkins.port') }}
       - co.elastic.logs/module=jenkins
