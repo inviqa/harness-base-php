@@ -16,12 +16,12 @@ env:
   # magento2
   - HARNESS=magento2 MODE=static
   - HARNESS=magento2 MODE=dynamic
-  # wordpress
-  - HARNESS=wordpress MODE=static
-  - HARNESS=wordpress MODE=dynamic
   # spryker
   - HARNESS=spryker MODE=static
   - HARNESS=spryker MODE=dynamic
+  # wordpress
+  - HARNESS=wordpress MODE=static
+  - HARNESS=wordpress MODE=dynamic
 install:
   # worksace
   - wget https://my127.io/workspace/ws && chmod +x ws && sudo mv ws /usr/local/bin/ws
