@@ -37,7 +37,6 @@ EOF
 }
 
 function wait_for_jenkins_master() {
-    local counter=0
     echo -e "Waiting for jenkins master to be available"
 
     local counter=0
