@@ -33,9 +33,9 @@ dynamic()
         passthru docker-sync stop
     fi
 
-    passthru docker-compose config --services | grep -v console | xargs docker-compose pull
-    passthru docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build --pull
-    passthru docker-compose build jenkins-runner
+    passthru "docker-compose config --services | grep -v console | xargs docker-compose pull"
+    passthru "docker-compose config --services | grep -v jenkins-slave | xargs docker-compose build --pull"
+    passthru docker-compose build jenkins-slave
 
     passthru docker-compose up -d
 
