@@ -33,10 +33,10 @@ dynamic()
         passthru docker-sync stop
     fi
 
-    # this is causing issue with setting a local image
-    # passthru docker-compose pull
-    # passthru docker-compose build --pull
-    passthru docker-compose build
+    passthru docker-compose config --services | grep -v console | xargs docker-compose pull
+    passthru docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build --pull
+    passthru docker-compose build jenkins-runner
+
     passthru docker-compose up -d
 
     passthru docker-compose exec -T -u build console app build
