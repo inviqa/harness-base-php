@@ -4,7 +4,6 @@ command('app build'):
     ws app build console
     ws app build php-fpm
     ws app build nginx
-    ws app build elasticsearch
     ws app build jenkins-slave
 command('app build console'):
   exec: |
