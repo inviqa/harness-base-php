@@ -1,0 +1,89 @@
+# {{ @('workspace.name') }}
+
+Please follow the below steps to get started, if you encounter any issues installing the dependencies or provisioning the development environment, please check the [Common Issues](#common-issues) section first.
+
+## Development Environment
+
+### Getting Started
+
+#### Prerequisites
+
+##### General
+
+- Access to LastPass folders
+  - `Shared-{{ @('workspace.name') }}-Servers` and `Shared-{{ @('workspace.name') }}-Accounts`
+
+##### Docker
+
+- A working Docker setup
+  - On MacOS, use [Docker for Mac](https://docs.docker.com/docker-for-mac/install/).
+  - On Linux, add the official Docker repository and install the "docker-ce" package.
+    You will also need to have a recent [docker-compose](https://docs.docker.com/compose/install/) version - at least `1.24.0`.
+
+#### Setup
+
+1. Install [workspace](https://github.com/my127/workspace)
+2. Copy the LastPass entry "{{ @('workspace.name') }}: Development Environment Key" to a file named `workspace.override.yml` in the project root.
+3. Run `ws install`
+
+Once installed, the site should be available at [https://{{ @('hostname') }}](https://{{ @('hostname') }}).
+
+### Development environment cleanup
+
+To stop the development environment, run `ws disable`.
+
+To start the development environment again, run `ws enable`.
+
+To remove the development environment, run `ws destroy`.
+
+### Frontend
+
+The frontend build should be automatically done as part of bringing up the environment.
+
+To trigger a rebuild, run `ws frontend build`.
+
+To watch for changes, run `ws frontend watch`.
+
+To gain access to the `console` container where the builds happen: `ws frontend console`.
+
+### Xdebug
+
+Xdebug is turned off by default as it drastically slows down requests for all developers.
+
+To enable, set `attribute('php.ext-xdebug.enable'): yes` in your `workspace.override.yml` and then run:
+```bash
+ws install --step=prepare
+docker-compose build php-fpm
+docker-compose up -d php-fpm
+```
+
+To enable on CLI in `ws console`, set `attribute('php.ext-xdebug.cli.enable'): yes` in your `workspace.override.yml` and then run:
+```bash
+ws install --step=prepare
+docker-compose build console
+docker-compose up -d console
+```
+
+Xdebug is set up to listen to your computer's 9000 port once enabled, so all you would need to do in your IDE is listen for connections. [Here's a good guide for PhpStorm](https://www.jetbrains.com/help/PhpStorm/zero-configuration-debugging.html).
+
+If you have trouble with Xdebug not calling back, check that `sudo lsof -i :9000 | grep LISTEN` on your host shows a PhpStorm process. If it doesn't, stop that process and toggle the Xdebug listen button in PhpStorm again.
+
+### Common Issues
+
+As setup issues are encountered please detail with step by step fix instructions, and where possible update the project or the upstream workspace harness itself to provide a more permanent fix.
+
+# License
+
+Copyright 2019, Inviqa
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
