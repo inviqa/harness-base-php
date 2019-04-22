@@ -10,7 +10,7 @@ function task_skeleton_apply()
 
 function fetch_demoshop()
 {
-    run "git clone ${DEMOSHOP_URL} /tmp/spryker"
+    run "git clone {{ @('spryker.demoshop-url') }} /tmp/spryker"
     run "shopt -s dotglob && mv /tmp/spryker/* /app"
     run "rm -rf /tmp/spryker"
     run "rm -rf /app/.git"

@@ -26,5 +26,6 @@ confd('harness:/'):
   # harness-spryker templates
   - { src: application/overlay/config/install/docker.yml }
   - { src: application/skeleton/.gitignore }
+  - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/lib/task/welcome.sh }
   - { src: docker/image/jenkins-slave/Dockerfile }
