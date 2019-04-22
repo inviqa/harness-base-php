@@ -4,7 +4,7 @@
 function task_jenkins_setup()
 {
     echo -e "Bootstrapping jenkins runner"
-    wait_for_jenkins_master
+    task "http:wait" $JENKINS_URL
 
     curl -s "$JENKINS_URL/jnlpJars/jenkins-cli.jar" -o /usr/local/bin/jenkins-cli.jar
     curl -s "$JENKINS_URL/jnlpJars/slave.jar" -o /usr/local/bin/jenkins-slave.jar
@@ -34,21 +34,4 @@ EOF
 
     # link php where it is expected by cron.conf
     ln -s /usr/local/bin/php /usr/bin/php
-}
-
-function wait_for_jenkins_master() {
-    echo -e "Waiting for jenkins master to be available"
-
-    local counter=0
-
-    while ! curl -s -k "$JENKINS_URL" -o /dev/null -L --fail; do
-
-        if (( counter > 30 )); then
-            (>&2 echo "timeout while waiting on $JENKINS_URL to become available")
-            exit 1
-        fi
-
-        sleep 1
-        ((++counter))
-    done
 }

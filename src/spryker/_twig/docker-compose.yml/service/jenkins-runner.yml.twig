@@ -16,7 +16,6 @@
     environment:
       <<: *APP_ENV_VARS
       JENKINS_RUNNER_NAME: backend
-      JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
     networks:
       - private
     labels:

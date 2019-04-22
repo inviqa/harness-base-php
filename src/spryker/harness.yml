@@ -36,7 +36,8 @@ attributes:
     install:
       steps:
         - |
-          passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
+          task "http:wait" $JENKINS_URL
+        - passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
         - task "overlay:apply"
         - task "assets:dump"
     init:
