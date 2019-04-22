@@ -33,6 +33,8 @@ attributes:
     build:
       steps:
         - task "composer:install"
+        - run "vendor/bin/install -r docker -s generate"
+        - run "vendor/bin/install -r docker -s propel-generate"
     install:
       steps:
         - |

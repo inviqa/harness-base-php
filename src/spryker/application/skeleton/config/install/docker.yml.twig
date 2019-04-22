@@ -124,24 +124,9 @@ sections:
             groups:
                 - propel
 
-
-    database-migrate:
+    propel-generate:
         propel-config:
             command: "vendor/bin/console propel:config:convert"
-            stores:
-                - DE
-            groups:
-                - propel
-
-        propel-create:
-            command: "vendor/bin/console propel:database:create"
-            stores:
-                - DE
-            groups:
-                - propel
-
-        propel-postgres-compatibility:
-            command: "vendor/bin/console propel:pg-sql-compat"
             stores:
                 - DE
             groups:
@@ -156,6 +141,22 @@ sections:
 
         propel-build:
             command: "vendor/bin/console propel:model:build"
+            groups:
+                - propel
+
+
+    database-migrate:
+        propel-create:
+            command: "vendor/bin/console propel:database:create"
+            stores:
+                - DE
+            groups:
+                - propel
+
+        propel-postgres-compatibility:
+            command: "vendor/bin/console propel:pg-sql-compat"
+            stores:
+                - DE
             groups:
                 - propel
 

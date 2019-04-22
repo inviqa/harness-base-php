@@ -24,8 +24,8 @@ confd('harness:/'):
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   # harness-spryker templates
-  - { src: application/overlay/config/install/docker.yml }
   - { src: application/skeleton/.gitignore }
+  - { src: application/skeleton/config/install/docker.yml }
   - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/lib/task/welcome.sh }
   - { src: docker/image/jenkins-runner/Dockerfile }
