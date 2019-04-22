@@ -9,7 +9,7 @@ if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
 fi
 
 if [[ "$APP_BUILD" = "static" ]]; then
-    run docker images --filter=reference="${DOCKER_REPOSITORY}:${APP_VERSION}-*" -q | xargs --no-run-if-empty docker image rm --force
+    run docker images --filter=reference="${DOCKER_REPOSITORY}:${APP_VERSION}-*" -q | xargs --no-run-if-empty docker image rm -f
 fi
 
 run rm -f .my127ws/.flag-built
