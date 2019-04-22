@@ -1,4 +1,8 @@
+{% if @('app.build') == 'static' %}
+FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console
+{% else %}
 FROM {{ @('workspace.name') ~ '-console:dev' }}
+{% endif %}
 
 # Install Java Runtime
 # ----------------------------

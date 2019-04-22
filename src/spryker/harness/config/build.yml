@@ -17,3 +17,7 @@ command('app build nginx'):
   exec: |
     #!bash(harness:/docker/image/nginx)|@
     passthru docker build -t @('docker.repository'):@('app.version')-nginx .
+command('app build jenkins-slave'):
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker build -t @('docker.repository'):@('app.version')-jenkins-slave -f .my127ws/docker/image/jenkins-slave/Dockerfile .
