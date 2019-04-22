@@ -4,7 +4,7 @@ command('app build'):
     ws app build console
     ws app build php-fpm
     ws app build nginx
-    ws app build jenkins-slave
+    ws app build jenkins-runner
 command('app build console'):
   exec: |
     #!bash(workspace:/)|@
@@ -17,7 +17,7 @@ command('app build nginx'):
   exec: |
     #!bash(harness:/docker/image/nginx)|@
     passthru docker build -t @('docker.repository'):@('app.version')-nginx .
-command('app build jenkins-slave'):
+command('app build jenkins-runner'):
   exec: |
     #!bash(workspace:/)|@
-    passthru docker build -t @('docker.repository'):@('app.version')-jenkins-slave -f .my127ws/docker/image/jenkins-slave/Dockerfile .
+    passthru docker build -t @('docker.repository'):@('app.version')-jenkins-runner -f .my127ws/docker/image/jenkins-runner/Dockerfile .

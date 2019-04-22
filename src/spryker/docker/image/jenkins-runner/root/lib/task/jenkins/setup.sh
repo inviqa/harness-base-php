@@ -1,22 +1,22 @@
 #!/bin/bash
 
-# setup jenkins slave to master
+# setup jenkins runner to master
 function task_jenkins_setup()
 {
-    echo -e "Bootstrapping jenkins slave"
+    echo -e "Bootstrapping jenkins runner"
     wait_for_jenkins_master
 
     curl -s "$JENKINS_URL/jnlpJars/jenkins-cli.jar" -o /usr/local/bin/jenkins-cli.jar
     curl -s "$JENKINS_URL/jnlpJars/slave.jar" -o /usr/local/bin/jenkins-slave.jar
 
-    (java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" get-node "$JENKINS_SLAVE_NAME" 2>&1 || true ) > /tmp/jenkins.node
+    (java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" get-node "$JENKINS_RUNNER_NAME" 2>&1 || true ) > /tmp/jenkins.node
 
     if grep ERROR: /tmp/jenkins.node >/dev/null; then
-        echo -e "Registering jenkins slave $JENKINS_SLAVE_NAME at master"
+        echo -e "Registering jenkins runner $JENKINS_RUNNER_NAME at master"
         # shellcheck disable=SC2154
-        cat <<EOF | java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" create-node "$JENKINS_SLAVE_NAME"
+        cat <<EOF | java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" create-node "$JENKINS_RUNNER_NAME"
             <slave>
-              <name>$JENKINS_SLAVE_NAME</name>
+              <name>$JENKINS_RUNNER_NAME</name>
               <description></description>
               <remoteFS>/data/shop</remoteFS>
               <numExecutors>1</numExecutors>
@@ -28,7 +28,7 @@ function task_jenkins_setup()
             </slave>
 EOF
     else
-        echo -e "Already registered as jenkins slave $JENKINS_SLAVE_NAME:"
+        echo -e "Already registered as jenkins runner $JENKINS_RUNNER_NAME:"
         cat /tmp/jenkins.node
     fi
 
