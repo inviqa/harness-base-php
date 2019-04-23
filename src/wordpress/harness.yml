@@ -33,6 +33,7 @@ attributes:
         salt: "8CGF+nc*b}mv;=WIMgN{cEVbmEBPQ([X7?g yYc<ER| Xc+5+P,7/ji| Vw$VXg9"
   nginx:
     public_directory: /app/public/
+    conf: []
   database:
     user: wordpress
     pass: wordpress
