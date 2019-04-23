@@ -29,6 +29,9 @@ attributes:
     edition: enterprise
     version: 1.14.4.1
     environment: ''
+    run:
+      code: []
+      type: []
     admin:
       path: admin
     config:
