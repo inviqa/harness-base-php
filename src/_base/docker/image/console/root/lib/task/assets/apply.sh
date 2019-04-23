@@ -14,7 +14,7 @@ function task_assets_apply()
         fi
 
         if [ -f "$DATABASE_FILE" ]; then
-            run "zcat $DATABASE_FILE | mysql -h $DB_HOST -u root -p$DB_ROOT_PASS $DB_NAME"
+            passthru "pv --force $DATABASE_FILE | zcat - | mysql -h $DB_HOST -u root -p$DB_ROOT_PASS $DB_NAME"
         else
             task "install"
         fi
