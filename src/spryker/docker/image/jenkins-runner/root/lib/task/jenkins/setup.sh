@@ -19,7 +19,7 @@ function task_jenkins_setup()
               <name>$JENKINS_RUNNER_NAME</name>
               <description></description>
               <remoteFS>/data/shop</remoteFS>
-              <numExecutors>1</numExecutors>
+              <numExecutors>3</numExecutors>
               <mode>NORMAL</mode>
               <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
               <launcher class="hudson.slaves.JNLPLauncher"/>

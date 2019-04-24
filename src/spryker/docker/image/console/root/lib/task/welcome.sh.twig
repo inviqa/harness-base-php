@@ -5,7 +5,9 @@ function task_welcome()
     echo ""
     echo "Welcome!"
     echo "--------"
-    echo "Yves: https://${YVES_HOST}"
+    {% for store, yves_external_host in @('yves.external_hosts') %}
+    echo "Yves {{ store }}: https://{{ yves_external_host }}"
+    {% endfor %}
     echo "Zed: https://${ZED_HOST}"
     echo "  Username: admin@spryker.com"
     echo "  Password: change123"

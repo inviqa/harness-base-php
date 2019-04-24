@@ -57,8 +57,17 @@ sections:
 
 
     generate:
+        prepare-propel:
+            command: "vendor/bin/console setup:deploy:prepare-propel"
+
         generate-transfers:
             command: "vendor/bin/console transfer:generate"
+
+        generate-search-index-map:
+            command: "vendor/bin/console setup:search:index-map"
+
+        build-navigation-cache:
+            command: "vendor/bin/console application:build-navigation-cache"
 
         generate-transfer-databuilders:
             command: "vendor/bin/console transfer:databuilder:generate"
@@ -124,9 +133,23 @@ sections:
             groups:
                 - propel
 
-    propel-generate:
+    database-migrate:
         propel-config:
             command: "vendor/bin/console propel:config:convert"
+            stores:
+                - DE
+            groups:
+                - propel
+
+        propel-create:
+            command: "vendor/bin/console propel:database:create"
+            stores:
+                - DE
+            groups:
+                - propel
+
+        propel-postgres-compatibility:
+            command: "vendor/bin/console propel:pg-sql-compat"
             stores:
                 - DE
             groups:
@@ -141,22 +164,6 @@ sections:
 
         propel-build:
             command: "vendor/bin/console propel:model:build"
-            groups:
-                - propel
-
-
-    database-migrate:
-        propel-create:
-            command: "vendor/bin/console propel:database:create"
-            stores:
-                - DE
-            groups:
-                - propel
-
-        propel-postgres-compatibility:
-            command: "vendor/bin/console propel:pg-sql-compat"
-            stores:
-                - DE
             groups:
                 - propel
 
@@ -211,13 +218,11 @@ sections:
         import:
             command: "vendor/bin/console data:import"
             stores:
-                - US
                 - DE
 
         update-product-labels:
             command: "vendor/bin/console product-label:relations:update"
             stores:
-                - US
                 - DE
 
 

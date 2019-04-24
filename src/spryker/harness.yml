@@ -34,11 +34,9 @@ attributes:
       steps:
         - task "composer:install"
         - run "vendor/bin/install -r docker -s generate"
-        - run "vendor/bin/install -r docker -s propel-generate"
     install:
       steps:
-        - |
-          task "http:wait" $JENKINS_URL
+        - task "http:wait" $JENKINS_URL
         - passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
         - task "overlay:apply"
         - task "assets:dump"
@@ -74,7 +72,10 @@ attributes:
     port: 8080
     external_host: = 'jenkins-' ~ @('namespace') ~ '.' ~ @('domain')
   yves:
-    external_host: = 'yves-' ~ @('namespace') ~ '.' ~ @('domain')
+    external_hosts:
+      DE: = 'yves-de-' ~ @('namespace') ~ '.' ~ @('domain')
+      AT: = 'yves-at-' ~ @('namespace') ~ '.' ~ @('domain')
+      US: = 'yves-us-' ~ @('namespace') ~ '.' ~ @('domain')
   zed:
     external_host: = 'zed-' ~ @('namespace') ~ '.' ~ @('domain')
 ---

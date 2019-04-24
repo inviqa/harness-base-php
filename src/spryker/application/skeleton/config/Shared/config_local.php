@@ -70,10 +70,6 @@ $config[PropelConstants::USE_SUDO_TO_MANAGE_DATABASE] = false;
 /** Elasticsearch  */
 $config[ApplicationConstants::ELASTICA_PARAMETER__HOST] = getenv('ELASTICSEARCH_HOST');
 $config[ApplicationConstants::ELASTICA_PARAMETER__PORT] = getenv('ELASTICSEARCH_PORT');
-$config[ApplicationConstants::ELASTICA_PARAMETER__INDEX_NAME]
-    = $config[CollectorConstants::ELASTICA_PARAMETER__INDEX_NAME]
-    = $config[SearchConstants::ELASTICA_PARAMETER__INDEX_NAME]
-    = 'de_search';
 unset($config[SearchConstants::ELASTICA_PARAMETER__AUTH_HEADER]);
 $ELASTICA_PARAMETER__EXTRA = [
     // TODO: add here aws region and other extra config you need, for example

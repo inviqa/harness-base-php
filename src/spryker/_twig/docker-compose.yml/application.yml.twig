@@ -35,7 +35,7 @@
 {% endif %}
     labels:
       - traefik.backend={{ @('workspace.name') }}
-      - traefik.frontend.rule=Host:{{ @('yves.external_host') }},{{ @('zed.external_host') }}
+      - traefik.frontend.rule=Host:{{ @('yves.external_hosts')|join(',') }},{{ @('zed.external_host') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
     links:
@@ -44,7 +44,9 @@
       private:
         aliases:
           - {{ @('hostname') }}
-          - {{ @('yves.external_host') }}
+{% for yves_external_host in @('yves.external_hosts') %}
+          - {{ yves_external_host }}
+{% endfor %}
           - {{ @('zed.external_host') }}
       shared: {}
 
