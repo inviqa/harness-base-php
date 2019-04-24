@@ -15,19 +15,7 @@ use Spryker\Shared\Log\LogConstants;
 use Monolog\Logger;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
-// ---------- Yves host
-$config[ApplicationConstants::HOST_YVES] = getenv('YVES_HOST');
-$config[ApplicationConstants::PORT_SSL_YVES] = '';
-$config[ApplicationConstants::BASE_URL_YVES] = sprintf(
-    'http://%s%s',
-    $config[ApplicationConstants::HOST_YVES],
-    $config[ApplicationConstants::PORT_YVES]
-);
-$config[ApplicationConstants::BASE_URL_SSL_YVES] = sprintf(
-    'https://%s%s',
-    $config[ApplicationConstants::HOST_YVES],
-    $config[ApplicationConstants::PORT_SSL_YVES]
-);
+
 $config[ProductManagementConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
 $config[NewsletterConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
 $config[CustomerConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
@@ -54,8 +42,6 @@ $config[ApplicationConstants::BASE_URL_STATIC_MEDIA] = $config[ApplicationConsta
 $config[ApplicationConstants::BASE_URL_SSL_STATIC_ASSETS] = $config[ApplicationConstants::BASE_URL_SSL_YVES];
 $config[ApplicationConstants::BASE_URL_SSL_STATIC_MEDIA] = $config[ApplicationConstants::BASE_URL_SSL_YVES];
 // ---------- Session
-$config[SessionConstants::YVES_SESSION_COOKIE_NAME] = $config[ApplicationConstants::HOST_YVES];
-$config[SessionConstants::YVES_SESSION_COOKIE_DOMAIN] = $config[ApplicationConstants::HOST_YVES];
 $config[SessionConstants::ZED_SESSION_COOKIE_NAME] = $config[ApplicationConstants::HOST_ZED];
 /** Database credentials */
 $config[PropelConstants::ZED_DB_USERNAME] = getenv('DB_USER');

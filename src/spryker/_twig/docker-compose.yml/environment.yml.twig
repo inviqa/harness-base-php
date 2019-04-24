@@ -22,3 +22,6 @@
       JENKINS_HOST: {{ @('jenkins.host') }}
       JENKINS_PORT: {{ @('jenkins.port') }}
       JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
+{% for store, yves_external_host in @('yves.external_hosts') %}
+      YVES_HOST_{{ store }}: {{ yves_external_host }}
+{% endfor %}
