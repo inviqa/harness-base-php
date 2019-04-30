@@ -10,6 +10,10 @@ server {
   include snippets/ssl-params.conf;
   include snippets/top-*.conf;
 
+  {% for name, value in @('nginx.conf') %}
+    {{ name }} {{ value }};
+  {% endfor %}
+
   set $custom_https $https;
   set $custom_scheme $scheme;
 

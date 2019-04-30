@@ -9,6 +9,10 @@ server {
     include snippets/certificate.conf;
     include snippets/ssl-params.conf;
 
+    {% for name, value in @('nginx.conf') %}
+        {{ name }} {{ value }};
+    {% endfor %}
+
     set $MAGE_ROOT /app;
 
     # ===========================

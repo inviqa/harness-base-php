@@ -33,6 +33,7 @@ attributes:
         salt: QjdTgTd7HcSx2jCmzVHyeYCfBBBjjdkuvRYJ8C9cAMYPpCRa3U8uYRHRWbSADTuh
   nginx:
     public_directory: /app/public/
+    conf: []
   database:
     user: wordpress
     pass: wordpress

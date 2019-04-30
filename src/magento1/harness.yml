@@ -77,6 +77,8 @@ attributes:
         - run "n98-magerun.phar sys:setup:incremental -n"
         - run "n98-magerun.phar index:reindex:all"
         - run "n98-magerun.phar cache:clean"
+  nginx:
+    conf: []
   docker:
     image:
       console: = 'my127/magento1:' ~ @('php.version') ~ '-fpm-stretch-console'
