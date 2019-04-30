@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function task_welcome()
+{
+    echo ""
+    echo "Welcome!"
+    echo "--------"
+    {% for store, yves_external_host in @('yves.external_hosts') %}
+    echo "Yves {{ store }}: https://{{ yves_external_host }}"
+    {% endfor %}
+    echo "Zed: https://${ZED_HOST}"
+    echo "  Username: admin@spryker.com"
+    echo "  Password: change123"
+    echo "Jenkins: https://{{ @('jenkins.external_host') }}"
+    echo "Rabbitmq: https://{{ @('rabbitmq.external_host') }}"
+    echo ""
+}

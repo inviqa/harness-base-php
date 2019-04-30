@@ -1,0 +1,16 @@
+  rabbitmq:
+    image: rabbitmq:3.7-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: {{ @('rabbitmq.user') }}
+      RABBITMQ_DEFAULT_PASS: {{ @('rabbitmq.password') }}
+      RABBITMQ_DEFAULT_VHOST: {{ @('rabbitmq.vhost') }}
+    networks:
+      - private
+      - shared
+    labels:
+      - traefik.backend={{ @('rabbitmq.host') }}
+      - traefik.frontend.rule=Host:{{ @('rabbitmq.external_host') }}
+      - traefik.docker.network=my127ws
+      - traefik.port={{ @('rabbitmq.api_port') }}
+      - co.elastic.logs/module=rabbitmq
+      - co.elastic.metrics/module=rabbitmq

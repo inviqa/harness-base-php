@@ -2,7 +2,7 @@
 
 function task_init()
 {
-    task "mysql:available"
+    task "database:available"
     task "assets:apply"
 
     {% for step in @('backend.init.steps') -%}

@@ -1,0 +1,67 @@
+{% set blocks  = '_twig/docker-compose.yml/' %}
+{% set dockersync = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set dockersync = true %}
+{% endif %}
+
+  console:
+{% if @('app.build') == 'dynamic' %}
+    build:
+      context: ./
+      dockerfile: .my127ws/docker/image/console/Dockerfile
+    image: {{ @('workspace.name') ~ '-console:dev' }}
+    entrypoint: /entrypoint.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - ./.my127ws/application:/home/build/application
+      - ./.my127ws/docker/image/console/root/lib/task:/lib/task
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+{% endif %}
+    labels:
+      - traefik.enable=false
+    environment: &APP_ENV_VARS
+{% include blocks ~ 'environment.yml.twig' %}
+    networks:
+      - private
+
+  nginx:
+{% if @('app.build') == 'dynamic' %}
+    build: .my127ws/docker/image/nginx
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+{% endif %}
+    labels:
+      - traefik.backend={{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:{{ @('yves.external_hosts')|join(',') }},{{ @('zed.external_host') }}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+    links:
+      - php-fpm:php-fpm
+    networks:
+      private:
+        aliases:
+          - {{ @('hostname') }}
+{% for yves_external_host in @('yves.external_hosts') %}
+          - {{ yves_external_host }}
+{% endfor %}
+          - {{ @('zed.external_host') }}
+      shared: {}
+
+  php-fpm:
+{% if @('app.build') == 'dynamic' %}
+    build: .my127ws/docker/image/php-fpm
+    entrypoint: /entrypoint.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+{% endif %}
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+    environment:
+      <<: *APP_ENV_VARS

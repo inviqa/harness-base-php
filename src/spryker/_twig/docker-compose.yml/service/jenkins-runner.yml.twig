@@ -1,0 +1,22 @@
+  jenkins-runner:
+{% if @('app.build') == 'dynamic' %}
+    build:
+      context: ./
+      dockerfile: .my127ws/docker/image/jenkins-runner/Dockerfile
+    entrypoint: /entrypoint.jenkins_runner.dynamic.sh
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - ./.my127ws/application:/home/build/application
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
+{% endif %}
+    depends_on:
+      - console
+      - jenkins
+    environment:
+      <<: *APP_ENV_VARS
+      JENKINS_RUNNER_NAME: backend
+    networks:
+      - private
+    labels:
+      - traefik.enable=false

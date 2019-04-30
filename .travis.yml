@@ -16,6 +16,9 @@ env:
   # magento2
   - HARNESS=magento2 MODE=static
   - HARNESS=magento2 MODE=dynamic
+  # spryker
+  - HARNESS=spryker MODE=static
+  - HARNESS=spryker MODE=dynamic
   # wordpress
   - HARNESS=wordpress MODE=static
   - HARNESS=wordpress MODE=dynamic
@@ -30,11 +33,9 @@ script:
   # dynamic
   - cp -ap dist/harness-${HARNESS}/.ci/sample-${MODE} ./test && cd test && cp -ap ../dist/harness-${HARNESS} ./.my127ws
   - ws install
-  - ws exec composer test-quality
-  - ws exec composer test-unit
-  - ws exec composer test-acceptance
+  - ../run_tests
   - ws disable
   - ws enable
   - ws destroy
   - cd .. && rm -rf test
-  - find . -type f ! -path "./.git/*" ! -path "./dist/*" ! -path "./test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +
+  - find . -type f ! -path "./.git/*" ! -path "./dist/*" ! -path "./test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" ! -name "*.twig" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +

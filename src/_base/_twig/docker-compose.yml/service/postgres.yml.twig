@@ -1,0 +1,12 @@
+  postgres:
+    image: postgres:9.6
+    labels:
+      - traefik.enable=false
+    environment:
+      - POSTGRES_DB={{ @('database.name') }}
+      - POSTGRES_USER={{ @('database.user') }}
+      - POSTGRES_PASSWORD={{ @('database.pass') }}
+    networks:
+      - private
+    ports:
+        - 5432

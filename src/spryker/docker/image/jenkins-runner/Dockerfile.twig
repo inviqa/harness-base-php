@@ -1,0 +1,23 @@
+{% if @('app.build') == 'static' %}
+FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console
+{% else %}
+FROM {{ @('workspace.name') ~ '-console:dev' }}
+{% endif %}
+
+# Install Java Runtime
+# ----------------------------
+RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
+ && echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends \
+ && mkdir -p /usr/share/man/man1 \
+ && mkdir -p /usr/share/man/man7 \
+ && apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+   openjdk-8-jre \
+ # clean \
+ && apt-get auto-remove -qq -y \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY .my127ws/docker/image/jenkins-runner/root /
+
+ENTRYPOINT /entrypoint.jenkins_runner.sh

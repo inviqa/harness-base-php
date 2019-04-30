@@ -1,0 +1,85 @@
+---
+harness('inviqa/spryker'):
+  description: A docker based development environment for Spryker
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  app:
+    services:
+      - chrome
+      - postgres
+      - redis
+      - elasticsearch
+      - rabbitmq
+      - jenkins
+      - jenkins-runner
+  spryker:
+    salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
+    demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
+    mode: development
+  php:
+    version: 7.2
+  database:
+    type: postgres
+    host: postgres
+    user: spryker
+    pass: spryker
+    name: spryker
+  backend:
+    build:
+      steps:
+        - task "composer:install"
+        - run "vendor/bin/install -r docker -s generate"
+    install:
+      steps:
+        - task "http:wait" $JENKINS_URL
+        - passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
+        - task "overlay:apply"
+        - task "assets:dump"
+    init:
+      steps:
+        - run "vendor/bin/console propel:install -o"
+  frontend:
+    build:
+      when: -f "package.json"
+      steps:
+        - run "vendor/bin/install -r docker -s frontend"
+  docker:
+    image:
+      console: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch'
+  elasticsearch:
+    host: elasticsearch
+    port: 9200
+  redis:
+    host: redis
+    port: 6379
+    protocol: redis
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    api_port: 15672
+    user: spryker
+    password: spryker
+    vhost: /spryker
+    external_host: = 'rabbitmq-' ~ @('namespace') ~ '.' ~ @('domain')
+  jenkins:
+    host: jenkins
+    port: 8080
+    external_host: = 'jenkins-' ~ @('namespace') ~ '.' ~ @('domain')
+  yves:
+    external_hosts:
+      DE: = 'yves-de-' ~ @('namespace') ~ '.' ~ @('domain')
+      AT: = 'yves-at-' ~ @('namespace') ~ '.' ~ @('domain')
+      US: = 'yves-us-' ~ @('namespace') ~ '.' ~ @('domain')
+  zed:
+    external_host: = 'zed-' ~ @('namespace') ~ '.' ~ @('domain')
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

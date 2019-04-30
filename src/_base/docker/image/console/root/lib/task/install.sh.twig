@@ -2,7 +2,7 @@
 
 function task_install()
 {
-    task "mysql:available"
+    task "database:available"
 
     {% for step in @('backend.install.steps') -%}
     {{ step|raw }}
