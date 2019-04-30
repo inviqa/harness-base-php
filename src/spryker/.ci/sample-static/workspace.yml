@@ -8,6 +8,3 @@ attribute('aws.bucket'): null
 attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
-
-# todo: remove after spryker harness is added to original harnesses.json
-harness.repository.source('name'): https://raw.githubusercontent.com/inviqa/harness-base-php/feature/spryker-harness/harnesses.json
