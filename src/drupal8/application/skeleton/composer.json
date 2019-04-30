@@ -93,5 +93,8 @@
         "type:drupal-library"
       ]
     }
+  },
+  "conflict": {
+    "twig/twig": "^1.40.0"
   }
 }
