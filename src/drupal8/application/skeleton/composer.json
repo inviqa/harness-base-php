@@ -95,7 +95,6 @@
     }
   },
   "conflict": {
-    "drupal/drupal": "*",
     "twig/twig": "^1.40.0"
   }
 }
