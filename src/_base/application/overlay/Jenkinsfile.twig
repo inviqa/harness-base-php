@@ -4,6 +4,7 @@ pipeline {
         MY127WS_KEY = credentials('{{ @('workspace.name') }}-my127ws-key')
         MY127WS_ENV = "pipeline"
     }
+    triggers { cron(env.BRANCH_NAME == '{{ @('git.main_branch') }}' ? 'H H(19-6) * * *' : '') }
     stages {
         stage('Build') {
             steps { sh 'ws install' }
@@ -17,17 +18,19 @@ pipeline {
         }
 {% if @('pipeline.publish.enabled') == 'yes' %}
         stage('Publish') {
+            when { not { triggeredBy 'TimerTrigger' } }
             steps { sh 'ws app publish' }
         }
 {% endif %}
 {% if @('pipeline.preview.enabled') == 'yes' %}
         stage('Deploy') {
+            when { not { triggeredBy 'TimerTrigger' } }
             steps { sh 'ws app deploy preview' }
         }
 {% endif %}
     }
     post {
-        always { 
+        always {
             sh 'ws destroy'
             cleanWs()
         }
