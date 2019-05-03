@@ -18,11 +18,13 @@
         "friends-of-behat/context-service-extension": "^1.2",
         "friends-of-behat/cross-container-extension": "^1.1",
         "friendsofphp/php-cs-fixer": "^2.13",
+        "inviqa/phpstan-magento2": "~0.1.1",
         "lusitanian/oauth": "~0.8.10",
         "nagno/phpspec-bootstrap-magento2": "^2.0",
         "pdepend/pdepend": "^2.5",
         "phpmd/phpmd": "@stable",
         "phpspec/phpspec": "^4.0",
+        "phpstan/phpstan": "~0.11.5",
         "phpunit/phpunit": "^6.5",
         "sebastian/diff": "^2.0.1",
         "sebastian/phpcpd": "^3.0",
@@ -80,6 +82,7 @@
         ],
         "test-quality": [
             "phpcs -v",
+            "phpstan analyse",
             "phpmd ./src text ./phpmd.xml"
         ],
         "test-unit": [
