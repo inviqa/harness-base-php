@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: nginx
-  name: nginx
+    io.kompose.service: php-fpm
+  name: php-fpm
 spec:
   replicas: 1
   strategy: {}
@@ -12,17 +12,22 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: nginx
+        io.kompose.service: php-fpm
     spec:
       containers:
-      - image: {{ .Values.DOCKER_IMAGE_NGINX }}
-        name: nginx
+      - env:
+        {{ range $key, $value := .Values.environment }}
+        - name: {{ $key }}
+          value: {{ $value }}
+        {{ end }}
+        image: {{ .Values.docker.image.fpm }}
+        name: php-fpm
         ports:
-        - containerPort: 80
+        - containerPort: 9000
         resources: {}
         readinessProbe:
           tcpSocket:
-            port: 80
+            port: 9000
           initialDelaySeconds: 5
           periodSeconds: 10
       restartPolicy: Always

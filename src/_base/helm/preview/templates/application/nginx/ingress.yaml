@@ -7,7 +7,7 @@ metadata:
   name: nginx
 spec:
   rules:
-  - host: {{ .Values.APP_HOST }}
+  - host: {{ .Values.environment.APP_HOST }}
     http:
       paths:
       - backend:

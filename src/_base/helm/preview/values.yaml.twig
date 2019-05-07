@@ -1,12 +1,13 @@
-HOST_OS_FAMILY: {{ @('host.os') }}
-MAGENTO_CRYPT_KEY: {{ @('magento.crypt.key') }}
-APP_NAME: {{ @('workspace.name') }}
-APP_HOST: {{ @('pipeline.preview.hostname') }}
-DB_HOST: {{ @('database.host') }}
-DB_USER: {{ @('database.user') }}
-DB_PASS: {{ @('database.pass') }}
-DB_NAME: {{ @('database.name') }}
-DB_ROOT_PASS: {{ @('database.root_pass') }}
-DOCKER_IMAGE_CONSOLE: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
-DOCKER_IMAGE_FPM: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
-DOCKER_IMAGE_NGINX: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+{% set blocks  = 'helm/preview/_twig/values.yaml/' %}
+environment:
+{% include blocks ~ 'environment.yml.twig' %}
+docker:
+  image:
+    console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+    fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+    nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+service:
+  mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
+  redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
+  redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
+  memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}

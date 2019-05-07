@@ -1,3 +1,4 @@
+{{ if .Values.service.mysql }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -17,13 +18,13 @@ spec:
       containers:
       - env:
         - name: MYSQL_DATABASE
-          value: {{ .Values.DB_NAME }}
+          value: {{ .Values.environment.DB_NAME }}
         - name: MYSQL_PASSWORD
-          value: {{ .Values.DB_PASS }}
+          value: {{ .Values.environment.DB_PASS }}
         - name: MYSQL_ROOT_PASSWORD
-          value: {{ .Values.DB_ROOT_PASS }}
+          value: {{ .Values.environment.DB_ROOT_PASS }}
         - name: MYSQL_USER
-          value: {{ .Values.DB_USER }}
+          value: {{ .Values.environment.DB_USER }}
         image: mysql:5.7
         name: mysql
         ports:
@@ -36,3 +37,4 @@ spec:
           periodSeconds: 10
       restartPolicy: Always
 status: {}
+{{ end }}

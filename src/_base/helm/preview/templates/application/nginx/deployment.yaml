@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: redis-session
-  name: redis-session
+    io.kompose.service: nginx
+  name: nginx
 spec:
   replicas: 1
   strategy: {}
@@ -12,23 +12,17 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: redis-session
+        io.kompose.service: nginx
     spec:
       containers:
-      - args:
-        - redis-server
-        - --maxmemory
-        - "1073742000"
-        - --maxmemory-policy
-        - volatile-ttl
-        image: redis:4-alpine
-        name: redis-session
+      - image: {{ .Values.docker.image.nginx }}
+        name: nginx
         ports:
-        - containerPort: 6379
+        - containerPort: 80
         resources: {}
         readinessProbe:
           tcpSocket:
-            port: 6379
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
       restartPolicy: Always

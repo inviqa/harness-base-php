@@ -1,16 +1,18 @@
+{{ if .Values.service.redis }}
 apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: redis-session
-  name: redis-session
+    io.kompose.service: redis
+  name: redis
 spec:
   ports:
   - name: "6379"
     port: 6379
     targetPort: 6379
   selector:
-    io.kompose.service: redis-session
+    io.kompose.service: redis
 status:
   loadBalancer: {}
+{{ end }}
