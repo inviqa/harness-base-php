@@ -1,14 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -c
-    kompose.version: 1.18.0 (06a2e56)
-    traefik.enable: "false"
   creationTimestamp: null
   labels:
-    io.kompose.service: console
-  name: console
+    io.kompose.service: php-fpm
+  name: php-fpm
 spec:
   replicas: 1
   strategy: {}
@@ -16,7 +12,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: console
+        io.kompose.service: php-fpm
     spec:
       containers:
       - env:
@@ -38,8 +34,15 @@ spec:
           value: {{ .Values.HOST_OS_FAMILY }}
         - name: MAGENTO_CRYPT_KEY
           value: {{ .Values.MAGENTO_CRYPT_KEY }}
-        image: {{ .Values.DOCKER_IMAGE_CONSOLE }}
-        name: console
+        image: {{ .Values.DOCKER_IMAGE_FPM }}
+        name: php-fpm
+        ports:
+        - containerPort: 9000
         resources: {}
+        readinessProbe:
+          tcpSocket:
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 10
       restartPolicy: Always
 status: {}
