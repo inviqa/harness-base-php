@@ -55,6 +55,9 @@ attributes.default:
       steps:
         - run "npm install"
 
+  git:
+    main_branch: develop
+
   nginx:
     conf: []
 
