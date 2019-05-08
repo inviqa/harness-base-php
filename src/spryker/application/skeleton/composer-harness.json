@@ -1,0 +1,17 @@
+{
+  "name": "inviqa/spryker-startup",
+  "description": "Startup template for Spryker projects.",
+  "type": "project",
+  "scripts": {
+    "test": [
+      "@test-quality",
+      "@test-unit",
+      "@test-acceptance"
+    ],
+    "test-quality": [
+      "@phpstan"
+    ],
+    "test-unit": [],
+    "test-acceptance": []
+  }
+}
