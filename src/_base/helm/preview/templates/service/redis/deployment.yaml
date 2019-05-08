@@ -1,19 +1,20 @@
 {{ if .Values.service.redis }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: redis
   name: redis
+  labels:
+    app.service: redis
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app.service: redis
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: redis
+        app.service: redis
     spec:
       containers:
       - args:
@@ -34,21 +35,4 @@ spec:
           periodSeconds: 10
       restartPolicy: Always
 status: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: redis
-  name: redis
-spec:
-  ports:
-  - name: "6379"
-    port: 6379
-    targetPort: 6379
-  selector:
-    io.kompose.service: redis
-status:
-  loadBalancer: {}
 {{ end }}

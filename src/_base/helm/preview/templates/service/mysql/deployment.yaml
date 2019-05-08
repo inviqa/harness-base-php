@@ -1,19 +1,19 @@
 {{ if .Values.service.mysql }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: mysql
   name: mysql
+  labels:
+    app.service: mysql
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app.service: mysql
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: mysql
+        app.service: mysql
     spec:
       containers:
       - env:

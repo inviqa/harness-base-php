@@ -1,19 +1,19 @@
 {{ if .Values.service.redis_session }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: redis-session
   name: redis-session
+  labels:
+    app.service: redis-session
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app.service: php-fpm
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: redis-session
+        app.service: redis-session
     spec:
       containers:
       - args:

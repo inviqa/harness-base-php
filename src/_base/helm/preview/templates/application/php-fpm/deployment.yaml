@@ -1,18 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: php-fpm
   name: php-fpm
+  labels:
+    app.service: php-fpm
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app.service: php-fpm
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: php-fpm
+        app.service: php-fpm
     spec:
       containers:
       - env:

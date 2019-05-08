@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: nginx
+    app.service: nginx
   name: nginx
 spec:
   rules:

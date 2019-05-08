@@ -1,18 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    io.kompose.service: console
   name: console
+  labels:
+    app.service: console
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app.service: console
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: console
+        app.service: console
     spec:
       containers:
       - env:
