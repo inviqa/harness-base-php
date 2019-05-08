@@ -33,7 +33,9 @@ script:
   # dynamic
   - cp -ap dist/harness-${HARNESS}/.ci/sample-${MODE} ./test && cd test && cp -ap ../dist/harness-${HARNESS} ./.my127ws
   - ws install
-  - ../run_tests
+  - ws exec composer test-quality
+  - ws exec composer test-unit
+  - ws exec composer test-acceptance
   - ws disable
   - ws enable
   - ws destroy
