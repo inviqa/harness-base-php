@@ -27,9 +27,13 @@
       "@test-acceptance"
     ],
     "test-quality": [
-      "@phpstan"
+      "@phpstan",
+      "vendor/bin/console code:sniff:style",
+      "vendor/bin/console code:sniff:architecture"
     ],
     "test-unit": [],
-    "test-acceptance": []
+    "test-acceptance": [
+      "vendor/bin/behat"
+    ]
   }
 }
