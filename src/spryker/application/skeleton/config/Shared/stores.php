@@ -43,11 +43,11 @@ $stores['DE'] = [
             'DE-connection',
         ],
     ],
-    'storesWithSharedPersistence' => ['AT','US'],
+    'storesWithSharedPersistence' => ['AT', 'US'],
 ];
 
 $stores['AT'] = [
-        'storesWithSharedPersistence' => ['DE','US'],
+        'storesWithSharedPersistence' => ['DE', 'US'],
     ] + $stores['DE'];
 
 $stores['US'] = [
@@ -56,7 +56,7 @@ $stores['US'] = [
                 'US-connection',
             ],
         ],
-        'storesWithSharedPersistence' => ['DE','AT'],
+        'storesWithSharedPersistence' => ['DE', 'AT'],
     ] + $stores['DE'];
 
 // @hook travis-ci
