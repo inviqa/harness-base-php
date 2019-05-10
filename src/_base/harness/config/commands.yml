@@ -96,3 +96,13 @@ command('port <service>'):
   exec: |
     #!bash(workspace:/)|=
     passthru docker port $(docker-compose ps -q ={input.argument('service')})
+
+command('service php-fpm restart'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru ws install --step=prepare
+    passthru "docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
+    passthru "docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
+    passthru docker-compose exec php-fpm supervisorctl restart php-fpm
