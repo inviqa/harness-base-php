@@ -29,5 +29,5 @@ function merge_composer_json()
     run "mv $merged_file $core_file"
 
     local new_composer_packages="$(jq -r '.["require-dev"] | keys[]' $override_file | tr '\n' ' ')"
-    [ ! -z "$new_composer_packages" ] && run "composer update $new_composer_packages --with-dependencies"
+    [ ! -z "$new_composer_packages" ] && passthru "composer update $new_composer_packages --with-dependencies --no-interaction"
 }
