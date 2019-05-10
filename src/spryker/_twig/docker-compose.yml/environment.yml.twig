@@ -25,3 +25,6 @@
 {% for store, yves_external_host in @('yves.external_hosts') %}
       YVES_HOST_{{ store }}: {{ yves_external_host }}
 {% endfor %}
+{% for store, glue_external_host in @('glue.external_hosts') %}
+      GLUE_HOST_{{ store }}: {{ glue_external_host }}
+{% endfor %}

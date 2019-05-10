@@ -3,7 +3,6 @@
 use Monolog\Logger;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Customer\CustomerConstants;
-use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Shared\Log\LogConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
@@ -121,5 +120,3 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
 $config[SetupConstants::JENKINS_BASE_URL] = 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/';
 $config[SetupConstants::JENKINS_DIRECTORY] = '/var/jenkins_home';
 $config[LogConstants::LOG_LEVEL] = Logger::ERROR;
-// ----------- Glue Application
-$config[GlueApplicationConstants::GLUE_APPLICATION_DOMAIN] = sprintf('%s', $GLUE_HOST);
