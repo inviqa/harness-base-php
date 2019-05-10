@@ -13,7 +13,6 @@ confd('harness:/'):
   - { src: docker/image/console/root/usr/local/etc/php/php.ini }
   - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: docker/image/nginx/Dockerfile }
-  - { src: docker/image/nginx/root/etc/nginx/conf.d/default.conf }
   - { src: docker/image/nginx/root/etc/ssl/certs/app.crt }
   - { src: docker/image/nginx/root/etc/ssl/private/app.key }
   - { src: docker/image/php-fpm/Dockerfile }
@@ -30,4 +29,7 @@ confd('harness:/'):
   - { src: application/skeleton/config/install/docker.yml }
   - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/lib/task/welcome.sh }
+  - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf }
+  - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf }
+  - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf }
   - { src: docker/image/jenkins-runner/Dockerfile }

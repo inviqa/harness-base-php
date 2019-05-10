@@ -2,6 +2,7 @@
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Collector\CollectorConstants;
 use Spryker\Shared\Customer\CustomerConstants;
+use Spryker\Shared\Log\LogConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\Propel\PropelConstants;
@@ -11,7 +12,6 @@ use Spryker\Shared\Setup\SetupConstants;
 use Spryker\Shared\Storage\StorageConstants;
 use Spryker\Shared\PropelQueryBuilder\PropelQueryBuilderConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
-use Spryker\Shared\Log\LogConstants;
 use Monolog\Logger;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
@@ -88,38 +88,36 @@ $config[RabbitMqEnv::RABBITMQ_API_USERNAME] = getenv('RABBITMQ_USER');
 $config[RabbitMqEnv::RABBITMQ_API_PASSWORD] = getenv('RABBITMQ_PASSWORD');
 $config[RabbitMqEnv::RABBITMQ_API_VIRTUAL_HOST] = getenv('RABBITMQ_VHOST');
 $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
-'DE' => [
-RabbitMqEnv::RABBITMQ_CONNECTION_NAME => 'DE-connection',
-RabbitMqEnv::RABBITMQ_HOST => getenv('RABBITMQ_HOST'),
-RabbitMqEnv::RABBITMQ_PORT => getenv('RABBITMQ_PORT'),
-RabbitMqEnv::RABBITMQ_PASSWORD => getenv('RABBITMQ_PASSWORD'),
-RabbitMqEnv::RABBITMQ_USERNAME => getenv('RABBITMQ_USER'),
-RabbitMqEnv::RABBITMQ_VIRTUAL_HOST => getenv('RABBITMQ_VHOST'),
-RabbitMqEnv::RABBITMQ_STORE_NAMES => ['DE'],
-RabbitMqEnv::RABBITMQ_DEFAULT_CONNECTION => true,
-],
-'AT' => [
-RabbitMqEnv::RABBITMQ_CONNECTION_NAME => 'AT-connection',
-RabbitMqEnv::RABBITMQ_HOST => getenv('RABBITMQ_HOST'),
-RabbitMqEnv::RABBITMQ_PORT => getenv('RABBITMQ_PORT'),
-RabbitMqEnv::RABBITMQ_PASSWORD => getenv('RABBITMQ_PASSWORD'),
-RabbitMqEnv::RABBITMQ_USERNAME =>  getenv('RABBITMQ_USER'),
-RabbitMqEnv::RABBITMQ_VIRTUAL_HOST => getenv('RABBITMQ_VHOST'),   #should be another one
-RabbitMqEnv::RABBITMQ_STORE_NAMES => ['AT'],
-],
-'US' => [
-RabbitMqEnv::RABBITMQ_CONNECTION_NAME => 'US-connection',
-RabbitMqEnv::RABBITMQ_HOST => getenv('RABBITMQ_HOST'),
-RabbitMqEnv::RABBITMQ_PORT => getenv('RABBITMQ_PORT'),
-RabbitMqEnv::RABBITMQ_PASSWORD => getenv('RABBITMQ_PASSWORD'),
-RabbitMqEnv::RABBITMQ_USERNAME => getenv('RABBITMQ_USER'),
-RabbitMqEnv::RABBITMQ_VIRTUAL_HOST => getenv('RABBITMQ_VHOST'),  #should be another one
-RabbitMqEnv::RABBITMQ_STORE_NAMES => ['US'],
-],
+    'DE' => [
+        RabbitMqEnv::RABBITMQ_CONNECTION_NAME => 'DE-connection',
+        RabbitMqEnv::RABBITMQ_HOST => getenv('RABBITMQ_HOST'),
+        RabbitMqEnv::RABBITMQ_PORT => getenv('RABBITMQ_PORT'),
+        RabbitMqEnv::RABBITMQ_PASSWORD => getenv('RABBITMQ_PASSWORD'),
+        RabbitMqEnv::RABBITMQ_USERNAME => getenv('RABBITMQ_USER'),
+        RabbitMqEnv::RABBITMQ_VIRTUAL_HOST => getenv('RABBITMQ_VHOST'),
+        RabbitMqEnv::RABBITMQ_STORE_NAMES => ['DE'],
+        RabbitMqEnv::RABBITMQ_DEFAULT_CONNECTION => true,
+    ],
+    'AT' => [
+        RabbitMqEnv::RABBITMQ_CONNECTION_NAME => 'AT-connection',
+        RabbitMqEnv::RABBITMQ_HOST => getenv('RABBITMQ_HOST'),
+        RabbitMqEnv::RABBITMQ_PORT => getenv('RABBITMQ_PORT'),
+        RabbitMqEnv::RABBITMQ_PASSWORD => getenv('RABBITMQ_PASSWORD'),
+        RabbitMqEnv::RABBITMQ_USERNAME =>  getenv('RABBITMQ_USER'),
+        RabbitMqEnv::RABBITMQ_VIRTUAL_HOST => getenv('RABBITMQ_VHOST'),   #should be another one
+        RabbitMqEnv::RABBITMQ_STORE_NAMES => ['AT'],
+    ],
+    'US' => [
+        RabbitMqEnv::RABBITMQ_CONNECTION_NAME => 'US-connection',
+        RabbitMqEnv::RABBITMQ_HOST => getenv('RABBITMQ_HOST'),
+        RabbitMqEnv::RABBITMQ_PORT => getenv('RABBITMQ_PORT'),
+        RabbitMqEnv::RABBITMQ_PASSWORD => getenv('RABBITMQ_PASSWORD'),
+        RabbitMqEnv::RABBITMQ_USERNAME => getenv('RABBITMQ_USER'),
+        RabbitMqEnv::RABBITMQ_VIRTUAL_HOST => getenv('RABBITMQ_VHOST'),  #should be another one
+        RabbitMqEnv::RABBITMQ_STORE_NAMES => ['US'],
+    ],
 ];
 /** Jenkins **/
 $config[SetupConstants::JENKINS_BASE_URL] = 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/';
 $config[SetupConstants::JENKINS_DIRECTORY] = '/var/jenkins_home';
 $config[LogConstants::LOG_LEVEL] = Logger::ERROR;
-// ----------- Glue Application
-$config[GlueApplicationConstants::GLUE_APPLICATION_DOMAIN] = sprintf('%s', $GLUE_HOST);
