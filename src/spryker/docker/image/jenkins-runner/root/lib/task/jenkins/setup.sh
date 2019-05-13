@@ -1,4 +1,7 @@
 #!/bin/bash
+set -o errexit
+set -o pipefail
+set -o nounset
 
 # setup jenkins runner to master
 function task_jenkins_setup()

@@ -1,4 +1,7 @@
 #!/bin/bash
+set -o errexit
+set -o pipefail
+set -o nounset
 
 function task_build()
 {
@@ -7,7 +10,7 @@ function task_build()
     fi
 
     task "overlay:apply"
-    
+
     task "build:backend"
     task "build:frontend"
 }

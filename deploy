@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -e
+set -o errexit
+set -o pipefail
+set -o nounset
 set -x
 
 HARNESSES=(drupal8 magento1 magento2 spryker wordpress)
