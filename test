@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -e
+set -x
+
+function main()
+{
+    test "$1" "$2"
+}
+
+function test()
+(
+    local harness="$1"
+    local mode="$2"
+
+    local path_harness="./dist/harness-${harness}"
+    local path_test="./tmp-test"
+
+    cp -ap ${path_harness}/.ci/sample-${mode} ${path_test}
+    cd ${path_test}
+    cp -ap ../${path_harness} ./.my127ws
+
+    ws install
+
+    if [ "$harness" = "spryker" ]; then
+        ws exec composer phpstan
+        # some default spryker tests are failing as well, not sure if we can run this in default build
+        # probably this can be enabled at project level after fixing those failing tests?
+        # ws exec vendor/bin/codecept run
+    else
+        ws exec composer test-quality
+        ws exec composer test-unit
+        ws exec composer test-acceptance
+    fi
+
+    ws disable
+    ws enable
+)
+
+function clean()
+{
+    local path_test="./tmp-test"
+
+    if [ -d "$path_test" ]; then
+        cd $path_test
+        ws destroy
+        cd ..
+        rm -rf $path_test
+    fi
+}
+
+trap 'clean' EXIT
+main "$@"
