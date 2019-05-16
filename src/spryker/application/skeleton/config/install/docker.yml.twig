@@ -225,6 +225,13 @@ sections:
             stores:
                 - DE
 
+    queue-worker:
+        run:
+            command: "vendor/bin/console queue:worker:start -vvv"
+            stores:
+                - DE
+                - AT
+                - US
 
     jenkins-up:
         jenkins-generate:
