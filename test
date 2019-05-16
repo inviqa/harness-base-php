@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+set -x
+
+function main()
+{
+    test "$1" "$2"
+}
+
+function test()
+(
+    local harness="$1"
+    local mode="$2"
+
+    local path_harness="./dist/harness-${harness}"
+    local path_test="./tmp-test"
+
+    cp -ap "${path_harness}/.ci/sample-${mode}" "${path_test}"
+    cd ${path_test}
+    cp -ap "../${path_harness}" "./.my127ws"
+
+    ws install
+
+    ws exec composer test-quality
+    ws exec composer test-unit
+    ws exec composer test-acceptance
+
+    ws disable
+    ws enable
+)
+
+function clean()
+{
+    local path_test="./tmp-test"
+
+    if [ -d "$path_test" ]; then
+        (cd $path_test && ws destroy)
+        rm -rf $path_test
+    fi
+}
+
+trap 'clean' EXIT
+main "$@"

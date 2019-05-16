@@ -6,7 +6,7 @@ function task_skeleton_apply()
         fetch_demoshop
         merge_composer_json
     fi
-    run "rsync --exclude='*.twig' --exclude='_twig' -a /home/build/application/skeleton/ /app/"
+    run "rsync --exclude='*.twig' --exclude='_twig' --exclude='composer-harness.json' -a /home/build/application/skeleton/ /app/"
 }
 
 function fetch_demoshop()
@@ -30,6 +30,4 @@ function merge_composer_json()
 
     local new_composer_packages="$(jq -r '.["require-dev"] | keys[]' $override_file | tr '\n' ' ')"
     [ ! -z "$new_composer_packages" ] && passthru "composer update $new_composer_packages --with-dependencies --no-interaction"
-
-    rm $override_file
 }
