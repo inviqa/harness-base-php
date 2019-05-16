@@ -78,6 +78,11 @@ attributes:
       US: = 'yves-us-' ~ @('namespace') ~ '.' ~ @('domain')
   zed:
     external_host: = 'zed-' ~ @('namespace') ~ '.' ~ @('domain')
+  glue:
+    external_hosts:
+      DE: = 'glue-de-' ~ @('namespace') ~ '.' ~ @('domain')
+      AT: = 'glue-at-' ~ @('namespace') ~ '.' ~ @('domain')
+      US: = 'glue-us-' ~ @('namespace') ~ '.' ~ @('domain')
 ---
 import:
   - harness/config/*.yml
