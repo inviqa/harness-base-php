@@ -16,9 +16,9 @@ function test()
     local path_harness="./dist/harness-${harness}"
     local path_test="./tmp-test"
 
-    cp -ap ${path_harness}/.ci/sample-${mode} ${path_test}
+    cp -ap "${path_harness}/.ci/sample-${mode}" "${path_test}"
     cd ${path_test}
-    cp -ap ../${path_harness} ./.my127ws
+    cp -ap "../${path_harness}" "./.my127ws"
 
     ws install
 
@@ -42,9 +42,7 @@ function clean()
     local path_test="./tmp-test"
 
     if [ -d "$path_test" ]; then
-        cd $path_test
-        ws destroy
-        cd ..
+        (cd $path_test && ws destroy)
         rm -rf $path_test
     fi
 }
