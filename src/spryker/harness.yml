@@ -65,7 +65,10 @@ attributes:
     api_port: 15672
     user: spryker
     password: spryker
-    vhost: /spryker
+    vhosts:
+      DE: = 'de-spryker'
+      AT: = 'at-spryker'
+      US: = 'us-spryker'
     external_host: = 'rabbitmq-' ~ @('namespace') ~ '.' ~ @('domain')
   jenkins:
     host: jenkins
