@@ -9,7 +9,7 @@ attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
-attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiER6HiRunY0e6lsEbR71WsKrXoIMk4NYeIjtpOjI7czo1NjoiqxAwOu1qgHBCXutFiwWuq6Bw3CJTvlTh2NGt2d2N5fFvWMADv1Yduui+3wK4HHAvkeIeWXh8rXYiO30=")
-attribute('magento.username'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiCquDyMRd8Sxw0ndjKV3MffCT1cXN2HHkIjtpOjI7czo0ODoixElJ8VluvYjnOpgTO4lNswl8JIWy+NlVQw8m9UU8woKW0TRZ9FaKfqhQkCnE0IKRIjt9")
-attribute('magento.password'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiuw7uySMVKzEx44/rkHlFR6ovMvVO+skfIjtpOjI7czo0ODoi8bUnQ4/sq0r6nvKuokRxh83xKFjWa5DM6OZ4WKro74uohON9HIvJRYw/QmCh9IKjIjt9")
-attribute('magento.crypt.key'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiHjabiZX6Cp8hDD3UB+e5zGvJO7akjmXnIjtpOjI7czo0ODoiTlrIT65WP4iOIlglpxC208qVZ10lqgZMxYkQvIOFGPazGxWoJ+f4REODM5YqqxNWIjt9")
+attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi+8LktggBIjeOI7f77/iOW9bJfpY0KQMDIjtpOjI7czo1NjoiF8WPXwuMY6z4tHoONjltiMXdZVN8/qrwTBs8Y4vut/k+V2L0vUgp/y7B71XelbVS7KB+c98KQ9wiO30=")
+attribute('magento.username'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoinQT7lEXJkPNbZLZFSAjqhaL6lcSTBQRRIjtpOjI7czo0ODoi/VQWOPhTIgtHO5kc4+XP3eg4aAQFC0p36lUUluRzGFoYE5JDKoTadxTdC9tUKvAfIjt9")
+attribute('magento.password'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoizKaLqiJLxfOL5qCCsgf1T7yLJ6l2awvnIjtpOjI7czo0ODoi8vO/qx21PfpJ258O1xNOBg3EVqEO0CSDDVB1IonCV3fhwM3xEVpsV+n3D7GPIY8UIjt9")
+attribute('magento.crypt.key'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi6ch7wofNk030JpawI0nKN6l5hiWOSbrkIjtpOjI7czo0ODoiceSGG4F7Sbvn32WIisSX5zpE7sTRCZu3By5MhyzYc8Kqf5gEnJ3DZw6kZLN19C9qIjt9")
