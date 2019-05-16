@@ -2,6 +2,7 @@
 confd('harness:/'):
   # base templates
   - { src: docker/image/console/Dockerfile }
+  - { src: docker/image/console/root/home/build/.my.cnf }
   - { src: docker/image/console/root/lib/task/assets/apply.sh }
   - { src: docker/image/console/root/lib/task/assets/dump.sh }
   - { src: docker/image/console/root/lib/task/build/frontend.sh }
