@@ -4,8 +4,9 @@ function task_skeleton_apply()
 {
     if [ ! -f /app/composer.json ]; then
         fetch_demoshop
+        merge_composer_json
     fi
-    run "rsync --exclude='*.twig' --exclude='_twig' -a /home/build/application/skeleton/ /app/"
+    run "rsync --exclude='*.twig' --exclude='_twig' --exclude='composer-harness.json' -a /home/build/application/skeleton/ /app/"
 }
 
 function fetch_demoshop()
@@ -14,4 +15,14 @@ function fetch_demoshop()
     run "shopt -s dotglob && mv /tmp/spryker/* /app"
     run "rm -rf /tmp/spryker"
     run "rm -rf /app/.git"
+}
+
+# Merge core composer.json with composer-harness.json and put it back as composer.json
+function merge_composer_json()
+{
+    local core_file="/app/composer.json"
+    local override_file="/home/build/application/skeleton/composer-harness.json"
+    local merged_file="/app/composer-merged.json"
+    run "jq -s '.[0] * .[1]' $core_file $override_file > $merged_file"
+    run "mv $merged_file $core_file"
 }
