@@ -15,6 +15,7 @@
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/lib/task:/lib/task
+      - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
 {% endif %}
@@ -56,6 +57,7 @@
     entrypoint: /entrypoint.dynamic.sh
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
 {% endif %}

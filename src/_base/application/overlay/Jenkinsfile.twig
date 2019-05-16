@@ -4,7 +4,7 @@ pipeline {
         MY127WS_KEY = credentials('{{ @('workspace.name') }}-my127ws-key')
         MY127WS_ENV = "pipeline"
     }
-    triggers { cron(env.BRANCH_NAME == '{{ @('git.main_branch') }}' ? 'H H(19-6) * * *' : '') }
+    triggers { cron(env.BRANCH_NAME == '{{ @('git.main_branch') }}' ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Build') {
             steps { sh 'ws install' }
