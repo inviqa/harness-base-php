@@ -2,6 +2,7 @@
 
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Collector\CollectorConstants;
+use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\Search\SearchConstants;
 use Spryker\Shared\Session\SessionConstants;
 
@@ -28,3 +29,7 @@ $config[ApplicationConstants::ELASTICA_PARAMETER__INDEX_NAME]
     = $config[CollectorConstants::ELASTICA_PARAMETER__INDEX_NAME]
     = $config[SearchConstants::ELASTICA_PARAMETER__INDEX_NAME]
     = 'at_search';
+
+// ----------- RabbitMQ
+$config[RabbitMqEnv::RABBITMQ_API_VIRTUAL_HOST] = getenv('RABBITMQ_VHOST_AT');
+$config[RabbitMqEnv::RABBITMQ_CONNECTIONS]['AT'][RabbitMqEnv::RABBITMQ_DEFAULT_CONNECTION] = true;
