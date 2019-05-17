@@ -2,6 +2,7 @@
 
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Collector\CollectorConstants;
+use Spryker\Shared\GlueApplication\GlueApplicationConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\Search\SearchConstants;
 use Spryker\Shared\Session\SessionConstants;
@@ -33,3 +34,7 @@ $config[ApplicationConstants::ELASTICA_PARAMETER__INDEX_NAME]
 // ----------- RabbitMQ
 $config[RabbitMqEnv::RABBITMQ_API_VIRTUAL_HOST] = getenv('RABBITMQ_VHOST_DE');
 $config[RabbitMqEnv::RABBITMQ_CONNECTIONS]['DE'][RabbitMqEnv::RABBITMQ_DEFAULT_CONNECTION] = true;
+
+// ----------- Glue Application
+$config[GlueApplicationConstants::GLUE_APPLICATION_DOMAIN] = sprintf('http://%s', getenv('GLUE_HOST_DE'));
+$config[GlueApplicationConstants::GLUE_APPLICATION_CORS_ALLOW_ORIGIN] = sprintf('http://%s', getenv('GLUE_HOST_DE'));

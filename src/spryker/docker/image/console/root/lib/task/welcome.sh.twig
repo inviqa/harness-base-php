@@ -11,6 +11,9 @@ function task_welcome()
     echo "Zed: https://${ZED_HOST}"
     echo "  Username: admin@spryker.com"
     echo "  Password: change123"
+    {% for store, glue_external_host in @('glue.external_hosts') %}
+    echo "Glue API {{ store }}: https://{{ glue_external_host }}"
+    {% endfor %}
     echo "Jenkins: https://{{ @('jenkins.external_host') }}"
     echo "Rabbitmq: https://{{ @('rabbitmq.external_host') }}"
     echo ""

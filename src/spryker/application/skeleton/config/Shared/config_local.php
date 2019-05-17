@@ -2,6 +2,7 @@
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Collector\CollectorConstants;
 use Spryker\Shared\Customer\CustomerConstants;
+use Spryker\Shared\Log\LogConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\Propel\PropelConstants;
@@ -11,7 +12,6 @@ use Spryker\Shared\Setup\SetupConstants;
 use Spryker\Shared\Storage\StorageConstants;
 use Spryker\Shared\PropelQueryBuilder\PropelQueryBuilderConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
-use Spryker\Shared\Log\LogConstants;
 use Monolog\Logger;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
@@ -119,5 +119,3 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
 $config[SetupConstants::JENKINS_BASE_URL] = 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/';
 $config[SetupConstants::JENKINS_DIRECTORY] = '/var/jenkins_home';
 $config[LogConstants::LOG_LEVEL] = Logger::ERROR;
-// ----------- Glue Application
-$config[GlueApplicationConstants::GLUE_APPLICATION_DOMAIN] = sprintf('%s', $GLUE_HOST);
