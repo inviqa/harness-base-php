@@ -26,6 +26,7 @@
 /.travis.yml
 /.user.ini
 /docker-compose.yml
+/docker-sync.yml
 /phpcs.xml
 /phpmd.xml
 /behat.yml
