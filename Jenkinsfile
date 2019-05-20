@@ -4,81 +4,62 @@ pipeline {
         MY127WS_KEY = credentials('base-my127ws-key')
     }
     stages {
-        stage('Mode - Dynamic') {
+        stage('Test Matrix') {
             parallel {
-                stage('drupal8') {
-                    agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test drupal8 dynamic'
-                    }
+
+                // Drupal 8
+
+                stage('drupal8 (mode=dynamic)') {
+                    agent { label "my127ws" } 
+                    steps { sh './build && ./test drupal8 dynamic' }
                 }
-                stage('magento1') {
+                stage('drupal8 (mode=static)')  {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test magento1 dynamic'
-                    }
+                    steps { sh './build && ./test drupal8 static' }
                 }
-                stage('magento2') {
+
+                // Magento 1
+
+                stage('magento1 (mode=dynamic)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test magento2 dynamic'
-                    }
+                    steps { sh './build && ./test magento1 dynamic' }
                 }
-                stage('spryker') {
+                stage('magento1 (mode=static)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test spryker dynamic'
-                    }
+                    steps { sh './build && ./test magento1 static' }
                 }
-                stage('wordpress') {
+
+                // Magento 2
+
+                stage('magento2 (mode=dynamic)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test wordpress dynamic'
-                    }
+                    steps { sh './build && ./test magento2 dynamic' }
                 }
-            }
-        }
-        stage('Mode - Static') {
-            parallel {
-                stage('drupal8') {
+                stage('magento2 (mode=static)') { 
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test drupal8 static'
-                    }
+                    steps { sh './build && ./test magento2 static' }
                 }
-                stage('magento1') {
+
+                // Spryker
+
+                stage('spryker (mode=dynamic)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test magento1 static'
-                    }
+                    steps { sh './build && ./test spryker dynamic' }
                 }
-                stage('magento2') {
+                stage('spryker (mode=static)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test magento2 static'
-                    }
+                    steps { sh './build && ./test spryker static' }
                 }
-                stage('spryker') {
+
+                // Wordpress
+
+                stage('wordpress (mode=dynamic)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test spryker static'
-                    }
+                    steps { sh './build && ./test wordpress dynamic' }
                 }
-                stage('wordpress') {
+                stage('wordpress (mode=static)') {
                     agent { label "my127ws" }
-                    steps {
-                        sh './build'
-                        sh './test wordpress static'
-                    }
+                    steps { sh './build && ./test wordpress static' }
                 }
             }
         }
