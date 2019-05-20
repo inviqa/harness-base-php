@@ -7,7 +7,9 @@ pipeline {
         stage('Test Matrix') {
             parallel {
 
-                stage('drupal8 (mode=dynamic)') { agent { label "my127ws" } steps { sh './build && ./test drupal8 dynamic' } }
+                stage('drupal8 (mode=dynamic)') { agent { label "my127ws" } 
+                    steps { sh './build && ./test drupal8 dynamic' }
+                }
                 stage('drupal8 (mode=static)')  { agent { label "my127ws" } steps { sh './build && ./test drupal8 static'  } }
 
                 stage('magento1 (mode=dynamic)') { agent { label "my127ws" } steps { sh './build && ./test magento1 dynamic' } }
