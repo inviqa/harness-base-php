@@ -19,7 +19,7 @@ attributes:
       - jenkins-runner
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
-    demoshop-url: https://github.com/spryker-shop/b2c-demo-shop/archive/master.zip
+    demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
     mode: development
   php:
     version: 7.2

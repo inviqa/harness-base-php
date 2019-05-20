@@ -11,11 +11,10 @@ function task_skeleton_apply()
 
 function fetch_demoshop()
 {
-    run "wget {{ @('spryker.demoshop-url') }} -O /tmp/spryker.zip"
-    run "unzip /tmp/spryker.zip -d /tmp/spryker"
-    run "shopt -s dotglob && mv /tmp/spryker/*/* /app"
-    run "rm -rf /tmp/spryker.zip"
+    run "git clone {{ @('spryker.demoshop-url') }} /tmp/spryker"
+    run "shopt -s dotglob && mv /tmp/spryker/* /app"
     run "rm -rf /tmp/spryker"
+    run "rm -rf /app/.git"
 }
 
 # Merge core composer.json with composer-harness.json
