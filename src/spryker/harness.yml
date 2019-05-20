@@ -36,6 +36,7 @@ attributes:
         - run "vendor/bin/install -r docker -s generate"
     install:
       steps:
+        - task "rabbitmq:vhosts"
         - task "http:wait" $JENKINS_URL
         - passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
         - task "overlay:apply"
@@ -65,7 +66,10 @@ attributes:
     api_port: 15672
     user: spryker
     password: spryker
-    vhost: /spryker
+    vhosts:
+      DE: = 'de-spryker'
+      AT: = 'at-spryker'
+      US: = 'us-spryker'
     external_host: = 'rabbitmq-' ~ @('namespace') ~ '.' ~ @('domain')
   jenkins:
     host: jenkins
