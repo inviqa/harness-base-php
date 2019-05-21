@@ -11,8 +11,7 @@ function task_assets_dump()
     if [ "{{ @('database.type')|raw }}" == "mysql" ]; then
         run "mysqldump -h ${DB_HOST} -u ${DB_USER} -p${DB_PASS} ${DB_NAME} | gzip > /app/${ASSETS_DIR}/${DB_NAME}.sql.gz"
     elif [ "{{ @('database.type')|raw }}" == "postgres" ]; then
-        # todo: postgres dump command
-        :
+        run "PGPASSWORD=$DB_PASS pg_dump -h ${DB_HOST} -U ${DB_USER} ${DB_NAME} | gzip > /app/${ASSETS_DIR}/${DB_NAME}.sql.gz"
     else
         (>&2 echo "invalid database type")
         exit 1
