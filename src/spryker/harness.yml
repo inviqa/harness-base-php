@@ -87,6 +87,9 @@ attributes:
       DE: = 'glue-de-' ~ @('namespace') ~ '.' ~ @('domain')
       AT: = 'glue-at-' ~ @('namespace') ~ '.' ~ @('domain')
       US: = 'glue-us-' ~ @('namespace') ~ '.' ~ @('domain')
+  smtp:
+    host: 'mailhog'
+    port: 1025
 ---
 import:
   - harness/config/*.yml
