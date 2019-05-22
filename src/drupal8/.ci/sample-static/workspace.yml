@@ -2,6 +2,7 @@ workspace('ci-drupal8-sample'):
   description: generated local workspace for ci-drupal8-sample.
   harness: inviqa/drupal8
 
+key('default'): ebbff2496560c9ada246d3783065998cd3799ccabd59c80b7257725218b01095
 attribute('app.build'): static
 
 attribute('aws.bucket'): null
