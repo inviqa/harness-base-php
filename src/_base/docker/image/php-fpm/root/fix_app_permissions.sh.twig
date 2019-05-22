@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+main()
+{
+    app_permissions_fix
+}
+
+
+function app_permissions_fix()
+{
+    local APP_OWNER="{{ @('app.owner') }}"
+    local APP_GROUP="{{ @('app.group') }}"
+    DIRS_AND_FILES=("{{ @('app.dirs_and_files') | join('" "') | raw }}")
+    for DIR_OR_FILE in "${DIRS_AND_FILES[@]}"
+    do
+      if [ -e "${DIR_OR_FILE}" ]; then
+        chown -R "${APP_OWNER}":"${APP_GROUP}" "${DIR_OR_FILE}"
+        chmod -R ug+rw,o-w "${DIR_OR_FILE}"
+        chmod -R a+r "${DIR_OR_FILE}"
+        echo "fixed permissions for ${DIR_OR_FILE}"
+      else
+        echo "${DIR_OR_FILE} does not exist"
+      fi
+    done
+}
+
+main
