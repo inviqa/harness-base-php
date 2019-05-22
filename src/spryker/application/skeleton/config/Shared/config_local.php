@@ -4,6 +4,7 @@ use Monolog\Logger;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Customer\CustomerConstants;
 use Spryker\Shared\Log\LogConstants;
+use Spryker\Shared\Mail\MailConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\Propel\PropelConstants;
@@ -118,3 +119,7 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS] = [
 $config[SetupConstants::JENKINS_BASE_URL] = 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/';
 $config[SetupConstants::JENKINS_DIRECTORY] = '/var/jenkins_home';
 $config[LogConstants::LOG_LEVEL] = Logger::ERROR;
+
+/** Mail configuration **/
+$config[MailConstants::SMTP_HOST] = getenv('SMTP_HOST');
+$config[MailConstants::SMTP_PORT] = getenv('SMTP_PORT');

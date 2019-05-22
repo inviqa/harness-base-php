@@ -21,6 +21,8 @@
 {% for store, vhost in @('rabbitmq.vhosts') %}
       RABBITMQ_VHOST_{{ store }}: {{ vhost }}
 {% endfor %}
+      SMTP_HOST: {{ @('smtp.host') }}
+      SMTP_PORT: {{ @('smtp.port') }}
       JENKINS_HOST: {{ @('jenkins.host') }}
       JENKINS_PORT: {{ @('jenkins.port') }}
       JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
