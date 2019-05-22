@@ -1,7 +1,7 @@
   redis-session:
     image: redis:4-alpine
     # 1GB; evict key that would expire soonest
-    command: redis-server --maxmemory 1073742000 --maxmemory-policy volatile-ttl
+    command: redis-server --maxmemory 1073742000 --maxmemory-policy volatile-ttl --save 3600 1 --save 300 100 --save 60 10000
     labels:
       - traefik.enable=false
     networks:
