@@ -70,23 +70,23 @@ attributes:
       DE: = 'de-spryker'
       AT: = 'at-spryker'
       US: = 'us-spryker'
-    external_host: = 'rabbitmq-' ~ @('namespace') ~ '.' ~ @('domain')
+    external_host: = 'rabbitmq-' ~ @('hostname')
   jenkins:
     host: jenkins
     port: 8080
-    external_host: = 'jenkins-' ~ @('namespace') ~ '.' ~ @('domain')
+    external_host: = 'jenkins-' ~ @('hostname')
   yves:
     external_hosts:
-      DE: = 'yves-de-' ~ @('namespace') ~ '.' ~ @('domain')
-      AT: = 'yves-at-' ~ @('namespace') ~ '.' ~ @('domain')
-      US: = 'yves-us-' ~ @('namespace') ~ '.' ~ @('domain')
+      DE: = 'yves-de-' ~ @('hostname')
+      AT: = 'yves-at-' ~ @('hostname')
+      US: = 'yves-us-' ~ @('hostname')
   zed:
-    external_host: = 'zed-' ~ @('namespace') ~ '.' ~ @('domain')
+    external_host: = 'zed-' ~ @('hostname')
   glue:
     external_hosts:
-      DE: = 'glue-de-' ~ @('namespace') ~ '.' ~ @('domain')
-      AT: = 'glue-at-' ~ @('namespace') ~ '.' ~ @('domain')
-      US: = 'glue-us-' ~ @('namespace') ~ '.' ~ @('domain')
+      DE: = 'glue-de-' ~ @('hostname')
+      AT: = 'glue-at-' ~ @('hostname')
+      US: = 'glue-us-' ~ @('hostname')
   smtp:
     host: 'mailhog'
     port: 1025
