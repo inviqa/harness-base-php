@@ -9,4 +9,4 @@ attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
-attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi+8LktggBIjeOI7f77/iOW9bJfpY0KQMDIjtpOjI7czo1NjoiF8WPXwuMY6z4tHoONjltiMXdZVN8/qrwTBs8Y4vut/k+V2L0vUgp/y7B71XelbVS7KB+c98KQ9wiO30=")
+attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
