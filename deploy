@@ -11,6 +11,10 @@ function main()
 
     build
 
+    set_remote "base" "git@github.com:inviqa/harness-php.git"
+    splitsh-lite --prefix="src/_base" --target="publish/harness-php"
+    git push -q -f "base" "publish/harness-php:0.2.x"
+
     for harness in "${HARNESSES[@]}"
     do
         set_remote "$harness" "git@github.com:inviqa/harness-${harness}.git"
