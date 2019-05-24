@@ -69,6 +69,24 @@ command('assets upload'):
     #!bash(workspace:/)|@
     passthru ws.aws s3 sync @('assets.local') @('assets.remote')
 
+command('docker-sync <on_or_off>'):
+  exec: |
+    #!bash(workspace:/)|=
+    export YES_OR_NO="={input.argument('on_or_off') == 'on' ? 'yes': 'no'}"
+    ws toggle docker-sync ={input.argument('on_or_off')}
+    echo 'Updating docker-compose.yml'
+    run ws install --step=prepare
+    echo 'Bringing up the environment with the new setting'
+    if [[ "$YES_OR_NO" = "yes" ]]; then
+      passthru docker-sync start
+    fi
+    passthru ws enable
+    if [[ "$YES_OR_NO" = "no" ]]; then
+      passthru docker-sync stop
+      passthru docker-sync clean
+    fi
+    echo 'Done'
+
 command('frontend build'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
@@ -113,7 +131,7 @@ command('toggle <attribute> <on_or_off>'):
     export ATTRIBUTE="={input.argument('attribute')}"
     export YES_OR_NO="={input.argument('on_or_off') == 'on' ? 'yes': 'no'}"
     if grep -q "attribute('${ATTRIBUTE}'):" workspace.override.yml; then
-      echo 'Removing old "${ATTRIBUTE}" setting from workspace.override.yml'
+      echo "Removing old '${ATTRIBUTE}' setting from workspace.override.yml"
       sed -i '' -E "/^attribute\(\'${ATTRIBUTE}\'\): .*$/d" workspace.override.yml
     fi
     if grep -q "attribute('${ATTRIBUTE}'):" workspace.override.yml; then
