@@ -13,6 +13,9 @@ attributes:
     group: www-data
     dirs_and_files:
       - '/app/config'
+      - '/docroot/modules'
+      - '/docroot/profiles'
+      - '/docroot/sites/default/files'
     services:
       - chrome
       - mysql
