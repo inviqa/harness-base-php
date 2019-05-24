@@ -58,9 +58,43 @@ Xdebug is set up to listen to your computer's 9000 port once enabled, so all you
 
 If you have trouble with Xdebug not calling back, check that `sudo lsof -i :9000 | grep LISTEN` on your host shows a PhpStorm process. If it doesn't, stop that process and toggle the Xdebug listen button in PhpStorm again.
 
+### Performance on MacOS
+
+Page load times with Docker for Mac can vary considerably. This is especially so when there is a large
+quantity of small files, such as with a large composer vendor folder.
+
+{% if @('docker-sync') == 'on' %}
+[docker-sync](https://github.com/EugenMayer/docker-sync/) is enabled on this workspace environment to
+try to overcome this.
+It enables production-like performance at the cost of having to synchronise files with an intermediate
+"data" container.
+{% else %}
+If it takes over 2 seconds to load a page, you can consider enabling
+[docker-sync](https://github.com/EugenMayer/docker-sync/) which should enable production-like performance
+at the cost of having to synchronise files with an intermediate "data" container.
+
+You can enable docker-sync with `ws docker-sync on` - it takes a while to initially sync.
+{% endif %}
+
+If you don't like the tradeoff of having to synchronise files, you can turn docker-sync off
+with `ws docker-sync off`.
+
+{% if @('docker-sync') == 'on' %}
+If your page loads too slowly, you can turn docker-sync back on again  with `ws docker-sync on`
+{% endif %}
+
 ### Common Issues
 
 As setup issues are encountered please detail with step by step fix instructions, and where possible update the project or the upstream workspace harness itself to provide a more permanent fix.
+
+* If you use docker-sync and notice that your changes aren't synchronising to the environment:
+  * Check if your file exists with your changes in `ws console`
+  * If your file in `ws console` has changed okay, check your project for any caching that
+    would prevent changes to source code appearing immediately.
+  * If the file changes do not appear in `ws console` reasonably quickly, it might be that
+    Docker for Mac is overwhelmed with file change events.
+  * Restarting Docker for Mac using the system tray icon's menu and then running `ws enable` again
+    will fix it.
 
 # License
 
