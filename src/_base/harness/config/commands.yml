@@ -106,3 +106,39 @@ command('service php-fpm restart'):
     passthru "docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
     passthru "docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
     passthru docker-compose exec php-fpm supervisorctl restart php-fpm
+
+command('toggle <attribute> <on_or_off>'):
+  exec: |
+    #!bash(workspace:/)|=
+    export ATTRIBUTE="={input.argument('attribute')}"
+    export YES_OR_NO="={input.argument('on_or_off') == 'on' ? 'yes': 'no'}"
+    if grep -q "attribute('${ATTRIBUTE}'):" workspace.override.yml; then
+      echo 'Removing old "${ATTRIBUTE}" setting from workspace.override.yml'
+      sed -i '' -E "/^attribute\(\'${ATTRIBUTE}\'\): .*$/d" workspace.override.yml
+    fi
+    if grep -q "attribute('${ATTRIBUTE}'):" workspace.override.yml; then
+      echo 'Could not remove line from workspace.override.yml, failing'
+      exit 1
+    fi
+    echo "Setting '${ATTRIBUTE}' setting to '$YES_OR_NO' in workspace.override.yml"
+    echo "attribute('${ATTRIBUTE}'): $YES_OR_NO" >> workspace.override.yml
+
+command('xdebug <on_or_off>'):
+  exec: |
+    #!bash(workspace:/)|=
+    ws toggle php.ext-xdebug.enable ={input.argument('on_or_off')}
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up php-fpm with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('xdebug cli <on_or_off>'):
+  exec: |
+    #!bash(workspace:/)|=
+    ws toggle php.ext-xdebug.cli.enable ={input.argument('on_or_off')}
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up console with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
