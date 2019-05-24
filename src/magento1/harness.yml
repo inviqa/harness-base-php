@@ -16,7 +16,6 @@ attributes:
     owner: www-data
     group: www-data
     dirs_and_files:
-      - '/app/public/app/etc/local.xml'
       - '/app/public/media'
       - '/app/public/sitemaps'
       - '/app/public/staging'
