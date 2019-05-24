@@ -63,7 +63,7 @@ If you have trouble with Xdebug not calling back, check that `sudo lsof -i :9000
 Page load times with Docker for Mac can vary considerably. This is especially so when there is a large
 quantity of small files, such as with a large composer vendor folder.
 
-{% if @('docker-sync') == 'on' %}
+{% if @('docker-sync') == 'yes' %}
 [docker-sync](https://github.com/EugenMayer/docker-sync/) is enabled on this workspace environment to
 try to overcome this.
 It enables production-like performance at the cost of having to synchronise files with an intermediate
@@ -79,7 +79,7 @@ You can enable docker-sync with `ws docker-sync on` - it takes a while to initia
 If you don't like the tradeoff of having to synchronise files, you can turn docker-sync off
 with `ws docker-sync off`.
 
-{% if @('docker-sync') == 'on' %}
+{% if @('docker-sync') == 'yes' %}
 If your page loads too slowly, you can turn docker-sync back on again  with `ws docker-sync on`
 {% endif %}
 
