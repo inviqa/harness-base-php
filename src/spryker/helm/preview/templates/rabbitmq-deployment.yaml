@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    co.elastic.logs/module: rabbitmq
+    co.elastic.metrics/module: rabbitmq
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rabbitmq
+  name: rabbitmq
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: rabbitmq
+    spec:
+      containers:
+      - env:
+        - name: RABBITMQ_DEFAULT_PASS
+          value: {{ .Values.RABBITMQ_PASSWORD }}
+        - name: RABBITMQ_DEFAULT_USER
+          value: {{ .Values.RABBITMQ_USER }}
+        image: rabbitmq:3.7-management-alpine
+        name: rabbitmq
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        resources: {}
+      restartPolicy: Always
+status: {}

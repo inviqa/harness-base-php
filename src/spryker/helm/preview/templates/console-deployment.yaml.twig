@@ -1,0 +1,88 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: console
+  name: console
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: console
+    spec:
+      containers:
+      - env:
+        - name: APPLICATION_ENV
+          value: {{ '{{' }} .Values.APPLICATION_ENV {{ '}}' }}
+        - name: APP_NAME
+          value: {{ '{{' }} .Values.APP_NAME {{ '}}' }}
+        - name: DB_HOST
+          value: {{ '{{' }} .Values.DB_HOST {{ '}}' }}
+        - name: DB_NAME
+          value: {{ '{{' }} .Values.DB_NAME {{ '}}' }}
+        - name: DB_PASS
+          value: {{ '{{' }} .Values.DB_PASS {{ '}}' }}
+        - name: DB_ROOT_PASS
+          value: {{ '{{' }} .Values.DB_ROOT_PASS {{ '}}' }}
+        - name: DB_USER
+          value: {{ '{{' }} .Values.DB_USER {{ '}}' }}
+        - name: ELASTICSEARCH_HOST
+          value: {{ '{{' }} .Values.ELASTICSEARCH_HOST {{ '}}' }}
+        - name: ELASTICSEARCH_PORT
+          value: "{{ '{{' }} .Values.ELASTICSEARCH_PORT {{ '}}' }}"
+{% for store, glue_external_host in @('pipeline.preview.glue.external_hosts') %}
+        - name: GLUE_HOST_{{ store }}
+          value: {{ '{{' }} .Values.GLUE_HOST_{{store}} {{ '}}' }}
+{% endfor %}
+        - name: HOST_OS_FAMILY
+          value: {{ '{{' }} .Values.HOST_OS_FAMILY {{ '}}' }}
+        - name: JENKINS_HOST
+          value: {{ '{{' }} .Values.JENKINS_HOST {{ '}}' }}
+        - name: JENKINS_PORT
+          value: "{{ '{{' }} .Values.JENKINS_PORT {{ '}}' }}"
+        - name: JENKINS_URL
+          value: {{ '{{' }} .Values.JENKINS_URL {{ '}}' }}
+        - name: RABBITMQ_API_PORT
+          value: "{{ '{{' }} .Values.RABBITMQ_API_PORT {{ '}}' }}"
+        - name: RABBITMQ_HOST
+          value: {{ '{{' }} .Values.RABBITMQ_HOST {{ '}}' }}
+        - name: RABBITMQ_PASSWORD
+          value: {{ '{{' }} .Values.RABBITMQ_PASSWORD {{ '}}' }}
+        - name: RABBITMQ_PORT
+          value: "{{ '{{' }} .Values.RABBITMQ_PORT {{ '}}' }}"
+        - name: RABBITMQ_USER
+          value: {{ '{{' }} .Values.RABBITMQ_USER {{ '}}' }}
+{% for store, vhost in @('rabbitmq.vhosts') %}
+        - name: RABBITMQ_VHOST_{{ store }}
+          value: {{ '{{' }} .Values.RABBITMQ_VHOST_{{ store }} {{ '}}' }}
+{% endfor %}
+        - name: REDIS_HOST
+          value: {{ '{{' }} .Values.REDIS_HOST {{ '}}' }}
+        - name: REDIS_PORT
+          value: "{{ '{{' }} .Values.REDIS_PORT {{ '}}' }}"
+        - name: REDIS_PROTOCOL
+          value: {{ '{{' }} .Values.REDIS_PROTOCOL {{ '}}' }}
+        - name: SMTP_HOST
+          value: {{ '{{' }} .Values.SMTP_HOST {{ '}}' }}
+        - name: SMTP_PORT
+          value: "{{ '{{' }} .Values.SMTP_PORT {{ '}}' }}"
+        - name: SPRYKER_SALT
+          value: {{ '{{' }} .Values.SPRYKER_SALT {{ '}}' }}
+{% for store, yves_external_host in @('pipeline.preview.yves.external_hosts') %}
+        - name: YVES_HOST_{{ store }}
+          value: {{ '{{' }} .Values.YVES_HOST_{{store}} {{ '}}' }}
+{% endfor %}
+        - name: ZED_HOST
+          value: {{ '{{' }} .Values.ZED_HOST {{ '}}' }}
+        image: {{ '{{' }} .Values.DOCKER_IMAGE_CONSOLE {{ '}}' }}
+        name: console
+        resources: {}
+      restartPolicy: Always
+status: {}

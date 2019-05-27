@@ -36,3 +36,9 @@ confd('harness:/'):
   - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf.template }
   - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
   - { src: docker/image/jenkins-runner/Dockerfile }
+  - { src: helm/preview/templates/console-deployment.yaml }
+  - { src: helm/preview/templates/jenkins-runner-deployment.yaml }
+  - { src: helm/preview/templates/nginx-deployment.yaml }
+  - { src: helm/preview/templates/nginx-ingress.yaml }
+  - { src: helm/preview/templates/php-fpm-deployment.yaml }
+  - { src: helm/preview/values.yaml }

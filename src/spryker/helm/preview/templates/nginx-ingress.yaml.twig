@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nginx
+  name: nginx
+spec:
+  rules:
+{% for store, glue_external_host in @('pipeline.preview.glue.external_hosts') %}
+  - host: {{ '{{' }} .Values.GLUE_HOST_{{ store }} {{ '}}' }}
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+{% endfor %}
+{% for store, yves_external_host in @('pipeline.preview.yves.external_hosts') %}
+  - host: {{ '{{' }} .Values.YVES_HOST_{{ store }} {{ '}}' }}
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+{% endfor %}
+  - host: {{ '{{' }} .Values.ZED_HOST {{ '}}' }}
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+status:
+  loadBalancer: {}

@@ -90,6 +90,20 @@ attributes:
   smtp:
     host: 'mailhog'
     port: 1025
+  pipeline:
+    preview:
+      yves:
+        external_hosts:
+          DE: = 'yves-de-' ~ @('pipeline.preview.hostname')
+          AT: = 'yves-at-' ~ @('pipeline.preview.hostname')
+          US: = 'yves-us-' ~ @('pipeline.preview.hostname')
+      zed:
+        external_host: = 'zed-' ~ @('pipeline.preview.hostname')
+      glue:
+        external_hosts:
+          DE: = 'glue-de-' ~ @('pipeline.preview.hostname')
+          AT: = 'glue-at-' ~ @('pipeline.preview.hostname')
+          US: = 'glue-us-' ~ @('pipeline.preview.hostname')
   nginx:
     core:
       conf:
