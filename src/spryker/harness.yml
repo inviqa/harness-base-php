@@ -105,7 +105,7 @@ attributes:
           AT: = 'glue-at-' ~ @('pipeline.preview.hostname')
           US: = 'glue-us-' ~ @('pipeline.preview.hostname')
   nginx:
-    core:
+    global:
       conf:
         server_names_hash_bucket_size: 64
 ---
