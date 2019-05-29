@@ -135,7 +135,7 @@ command('set <attribute> <value>'):
     #!bash(workspace:/)|=
     if grep -q "attribute('${ATTR_KEY}'):" workspace.override.yml; then
       echo "Removing old '${ATTR_KEY}' setting from workspace.override.yml"
-      sed -i '' -E "/^attribute\(\'${ATTR_KEY}\'\): .*$/d" workspace.override.yml
+      sed "/^attribute('${ATTR_KEY}'): .*$/d" workspace.override.yml > workspace.override.yml.tmp && mv workspace.override.yml.tmp workspace.override.yml
     fi
     if grep -q "attribute('${ATTR_KEY}'):" workspace.override.yml; then
       echo 'Could not remove line from workspace.override.yml, failing'
