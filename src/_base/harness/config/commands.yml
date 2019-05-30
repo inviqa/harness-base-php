@@ -69,19 +69,21 @@ command('assets upload'):
     #!bash(workspace:/)|@
     passthru ws.aws s3 sync @('assets.local') @('assets.remote')
 
-command('docker-sync <on_or_off>'):
+command('feature docker-sync (on|off)'):
+  env:
+    ATTR_KEY: 'docker-sync'
+    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
   exec: |
     #!bash(workspace:/)|=
-    export YES_OR_NO="={input.argument('on_or_off') == 'on' ? 'yes': 'no'}"
-    ws toggle docker-sync ={input.argument('on_or_off')}
+    ws set $ATTR_KEY $ATTR_VAL
     echo 'Updating docker-compose.yml'
     run ws install --step=prepare
     echo 'Bringing up the environment with the new setting'
-    if [[ "$YES_OR_NO" = "yes" ]]; then
+    if [[ "$ATTR_VAL" = "yes" ]]; then
       passthru docker-sync start
     fi
     passthru ws enable
-    if [[ "$YES_OR_NO" = "no" ]]; then
+    if [[ "$ATTR_VAL" = "no" ]]; then
       passthru docker-sync stop
       passthru docker-sync clean
     fi
@@ -125,36 +127,46 @@ command('service php-fpm restart'):
     passthru "docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
     passthru docker-compose exec php-fpm supervisorctl restart php-fpm
 
-command('toggle <attribute> <on_or_off>'):
+command('set <attribute> <value>'):
+  env:
+    ATTR_KEY: = input.argument('attribute')
+    ATTR_VAL: = input.argument('value')
   exec: |
     #!bash(workspace:/)|=
-    export ATTRIBUTE="={input.argument('attribute')}"
-    export YES_OR_NO="={input.argument('on_or_off') == 'on' ? 'yes': 'no'}"
-    if grep -q "attribute('${ATTRIBUTE}'):" workspace.override.yml; then
-      echo "Removing old '${ATTRIBUTE}' setting from workspace.override.yml"
-      sed -i '' -E "/^attribute\(\'${ATTRIBUTE}\'\): .*$/d" workspace.override.yml
+    if [ ! -f workspace.override.yml ]; then
+      touch workspace.override.yml
     fi
-    if grep -q "attribute('${ATTRIBUTE}'):" workspace.override.yml; then
+    if grep -q "attribute('${ATTR_KEY}'):" workspace.override.yml; then
+      echo "Removing old '${ATTR_KEY}' setting from workspace.override.yml"
+      sed "/^attribute('${ATTR_KEY}'): .*$/d" workspace.override.yml > workspace.override.yml.tmp && mv workspace.override.yml.tmp workspace.override.yml
+    fi
+    if grep -q "attribute('${ATTR_KEY}'):" workspace.override.yml; then
       echo 'Could not remove line from workspace.override.yml, failing'
       exit 1
     fi
-    echo "Setting '${ATTRIBUTE}' setting to '$YES_OR_NO' in workspace.override.yml"
-    echo "attribute('${ATTRIBUTE}'): $YES_OR_NO" >> workspace.override.yml
+    echo "Setting '${ATTR_KEY}' setting to '${ATTR_VAL}' in workspace.override.yml"
+    echo "attribute('${ATTR_KEY}'): ${ATTR_VAL}" >> workspace.override.yml
 
-command('xdebug <on_or_off>'):
+command('feature xdebug (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-xdebug.enable'
+    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
   exec: |
     #!bash(workspace:/)|=
-    ws toggle php.ext-xdebug.enable ={input.argument('on_or_off')}
+    ws set $ATTR_KEY $ATTR_VAL
     echo 'Updating templates in .my127ws/'
     run ws install --step=prepare
     echo 'Bringing up php-fpm with the new setting'
     run ws service php-fpm restart
     echo 'Done'
 
-command('xdebug cli <on_or_off>'):
+command('feature xdebug cli (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-xdebug.cli.enable'
+    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
   exec: |
     #!bash(workspace:/)|=
-    ws toggle php.ext-xdebug.cli.enable ={input.argument('on_or_off')}
+    ws set $ATTR_KEY $ATTR_VAL
     echo 'Updating templates in .my127ws/'
     run ws install --step=prepare
     echo 'Bringing up console with the new setting'
