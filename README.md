@@ -5,7 +5,7 @@
 ### Static mode
 
 1. run `./build`
-2. create and cd a tests directory
+2. create and change to a tests directory
 ```bash
 mkdir tests
 cd tests
