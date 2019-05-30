@@ -13,7 +13,7 @@ attributes:
     group: www-data
     dirs:
       - '/app/config'
-      - '/docroot/modules'
+      - '/app/docroot/modules'
       - '/docroot/profiles'
       - '/docroot/sites/default/files'
     files:
