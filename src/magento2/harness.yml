@@ -38,6 +38,9 @@ attributes:
         save: redis
     crypt:
       key: WmpzgYLfW8jwxTRKbACKqudJXcjJ4jqu
+    run:
+      code: []
+      type: []
   backend:
     build:
       steps:
