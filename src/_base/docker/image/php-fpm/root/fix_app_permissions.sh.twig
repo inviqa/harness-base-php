@@ -13,10 +13,10 @@ main()
 
 function app_permissions_fix()
 {
-    local APP_OWNER="{{ @('app.owner') }}"
-    local APP_GROUP="{{ @('app.group') }}"
-    DIRS=("{{ @('app.dirs') | join('" "') | raw }}")
-    FILES=("{{ @('app.files') | join('" "') | raw }}")
+    local APP_OWNER="{{ @('app.web_owner') }}"
+    local APP_GROUP="{{ @('app.web_group') }}"
+    DIRS=("{{ @('app.web_writable_dirs') | join('" "') | raw }}")
+    FILES=("{{ @('app.web_writable_files') | join('" "') | raw }}")
 
     for DIR in "${DIRS[@]}"
     do
@@ -29,6 +29,8 @@ function app_permissions_fix()
         chmod -R ug+rw,o-w "${DIR}"
         chmod -R a+r "${DIR}"
         echo "fixed permissions for ${DIR}"
+      else
+        echo "No directory were specified for permissions fixing."
       fi
     done
 
@@ -43,6 +45,8 @@ function app_permissions_fix()
         chmod ug+rw,o-w "${FILE}"
         chmod a+r "${FILE}"
         echo "fixed permissions for ${FILE}"
+      else
+        echo "No file were specified for permissions fixing."
       fi
     done
 
