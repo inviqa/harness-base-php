@@ -13,7 +13,7 @@ ws create <framework>-test inviqa/<framework> --no-install
 ```
 3. Copy the built version of harness-base-php's ``./dist/<framework>`` dir to `<framework>-test/.my127ws` directory
 ```bash
-cp -pR ../dist/harness-<framework>/ <framework>/.my127ws/
+cp -pR ../dist/harness-<framework>/ <framework>-test/.my127ws/
 ```
 4. change directory to `<framework>-test`
 ```bash
