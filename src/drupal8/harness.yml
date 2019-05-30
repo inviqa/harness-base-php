@@ -15,7 +15,7 @@ attributes:
       - '/app/config'
       - '/app/docroot/modules'
       - '/app/docroot/profiles'
-      - '/docroot/sites/default/files'
+      - '/app/docroot/sites/default/files'
     files:
     services:
       - chrome
