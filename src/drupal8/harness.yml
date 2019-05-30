@@ -14,7 +14,7 @@ attributes:
     dirs:
       - '/app/config'
       - '/app/docroot/modules'
-      - '/docroot/profiles'
+      - '/app/docroot/profiles'
       - '/docroot/sites/default/files'
     files:
     services:
