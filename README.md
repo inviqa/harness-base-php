@@ -1,5 +1,16 @@
 # Harness Base PHP
+## Available Frameworks
+```
+drupal8
 
+magento1
+
+magento2
+
+spryker
+
+wordpress
+```
 ## Testing
 
 ### Static mode
