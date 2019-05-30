@@ -15,12 +15,13 @@ attributes:
   app:
     owner: www-data
     group: www-data
-    dirs_and_files:
+    dirs:
       - '/app/pub/media'
       - '/app/pub/static'
       - '/app/var'
       - '/app/pub/static/frontend'
       - '/app/generated'
+    files:
     services:
       - chrome
       - mysql

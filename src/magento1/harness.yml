@@ -15,11 +15,12 @@ attributes:
   app:
     owner: www-data
     group: www-data
-    dirs_and_files:
+    dirs:
       - '/app/public/media'
       - '/app/public/sitemaps'
       - '/app/public/staging'
       - '/app/public/var'
+    files:
     services:
       - chrome
       - mysql

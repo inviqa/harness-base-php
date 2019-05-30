@@ -11,11 +11,12 @@ attributes:
   app:
     owner: www-data
     group: www-data
-    dirs_and_files:
+    dirs:
       - '/app/config'
       - '/docroot/modules'
       - '/docroot/profiles'
       - '/docroot/sites/default/files'
+    files:
     services:
       - chrome
       - mysql

@@ -15,18 +15,37 @@ function app_permissions_fix()
 {
     local APP_OWNER="{{ @('app.owner') }}"
     local APP_GROUP="{{ @('app.group') }}"
-    DIRS_AND_FILES=("{{ @('app.dirs_and_files') | join('" "') | raw }}")
-    for DIR_OR_FILE in "${DIRS_AND_FILES[@]}"
+    DIRS=("{{ @('app.dirs') | join('" "') | raw }}")
+    FILES=("{{ @('app.files') | join('" "') | raw }}")
+
+    for DIR in "${DIRS[@]}"
     do
-      if [ -e "${DIR_OR_FILE}" ]; then
-        chown -R "${APP_OWNER}":"${APP_GROUP}" "${DIR_OR_FILE}"
-        chmod -R ug+rw,o-w "${DIR_OR_FILE}"
-        chmod -R a+r "${DIR_OR_FILE}"
-        echo "fixed permissions for ${DIR_OR_FILE}"
-      else
-        echo "${DIR_OR_FILE} does not exist"
+      if [ -n "${DIR}" ]; then
+        if [ ! -d "${DIR}" ]; then
+          echo "${DIR} does not exist. Creating ${DIR}..."
+          mkdir -p "${DIR}"
+        fi
+        chown -R "${APP_OWNER}":"${APP_GROUP}" "${DIR}"
+        chmod -R ug+rw,o-w "${DIR}"
+        chmod -R a+r "${DIR}"
+        echo "fixed permissions for ${DIR}"
       fi
     done
+
+    for FILE in "${FILES[@]}"
+    do
+      if [ -n "${FILE}" ]; then
+       if [ ! -f "${FILE}" ]; then
+         echo "${FILE} does not exist. Creating ${FILE}..."
+         touch "${FILE}"
+       fi
+        chown "${APP_OWNER}":"${APP_GROUP}" "${FILE}"
+        chmod ug+rw,o-w "${FILE}"
+        chmod a+r "${FILE}"
+        echo "fixed permissions for ${FILE}"
+      fi
+    done
+
 }
 
 main

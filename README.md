@@ -9,7 +9,7 @@
 3. Copy the built version of harness-base-php's ``./dist/<framework>`` dir to `<framework>-sample/.my127ws` directory
 4. update the override file in `<framework>-sample`:
 ```bash
-echo 'attribute(\'docker-sync\'): off' > workspace.override.yml
+echo 'attribute(\'docker-sync\'): off' >> workspace.override.yml
 ```
 5. cd `<framework>-sample`
 6. run in `pipeline` mode to activate `static` mode:
