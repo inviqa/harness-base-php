@@ -5,14 +5,25 @@
 ### Static mode
 
 1. run `./build`
-2. Clone https://github.com/inviqa/<framework>-sample in a test directory
-3. Copy the built version of harness-base-php's ``./dist/<framework>`` dir to `<framework>-sample/.my127ws` directory
-4. update the override file in `<framework>-sample`:
+2. create and cd a tests directory
+```bash
+mkdir tests
+cd tests
+ws create <framework>-test inviqa/<framework> --no-install
+```
+3. Copy the built version of harness-base-php's ``./dist/<framework>`` dir to `<framework>-test/.my127ws` directory
+```bash
+cp -pR ../dist/harness-<framework>/ <framework>/.my127ws/
+```
+4. change directory to `<framework>-test`
+```bash
+cd `<framework>-test`
+```
+5. update the override file in `<framework>-test`:
 ```bash
 echo 'attribute(\'docker-sync\'): off' >> workspace.override.yml
 ```
-5. cd `<framework>-sample`
-6. run in `pipeline` mode to activate `static` mode:
+6. run in `pipeline` mode to activate `static` mode
 ```bash
 MY127WS_ENV=pipeline ws install
 ```
