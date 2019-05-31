@@ -13,6 +13,14 @@ harness('inviqa/magento2'):
 ---
 attributes:
   app:
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs:
+      - '/app/pub/media'
+      - '/app/pub/static'
+      - '/app/var'
+      - '/app/pub/static/frontend'
+      - '/app/generated'
     services:
       - chrome
       - mysql

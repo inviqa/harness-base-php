@@ -16,6 +16,7 @@ confd('harness:/'):
   - { src: docker/image/nginx/root/etc/ssl/certs/app.crt }
   - { src: docker/image/nginx/root/etc/ssl/private/app.key }
   - { src: docker/image/php-fpm/Dockerfile }
+  - { src: docker/image/php-fpm/root/fix_app_permissions.sh }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: application/overlay/Jenkinsfile }

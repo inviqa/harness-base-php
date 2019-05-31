@@ -7,8 +7,8 @@ WORKDIR /app
 COPY root  /
 
 {% if @('app.build') == 'static' %}
-RUN chown www-data:www-data /app
-COPY --from=console --chown=www-data:www-data /app /app
+COPY --from=console --chown=root:root /app /app
+RUN bash /fix_app_permissions.sh
 {% else %}
 VOLUME /app
 {% endif %}
