@@ -8,4 +8,7 @@ command('app publish'): |
 
 command('app deploy preview'): |
   #!bash(harness:/helm/preview)|@
+  passthru ws harness prepare
   passthru helm upgrade --wait --install --namespace "@('pipeline.preview.namespace')" "@('pipeline.preview.namespace')" ./
+  POD_NAME=`kubectl -n "@('pipeline.preview.namespace')" get pod -l "app.service=console" -o jsonpath='{.items[0].metadata.name}'`
+  passthru kubectl exec -n "@('pipeline.preview.namespace')" $POD_NAME app init
