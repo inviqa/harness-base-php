@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: console
+  labels:
+    app.service: console
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: console
+  template:
+    metadata:
+      labels:
+        app.service: console
+    spec:
+      containers:
+      - env:
+        {{ range $key, $value := .Values.environment }}
+        - name: {{ $key }}
+          value: {{ $value }}
+        {{ end }}
+        image: {{ .Values.docker.image.console }}
+        name: console
+        resources: {}
+        readinessProbe:
+          exec:
+            command:
+            - app
+            - state
+          initialDelaySeconds: 20
+          periodSeconds: 10
+      restartPolicy: Always
+status: {}

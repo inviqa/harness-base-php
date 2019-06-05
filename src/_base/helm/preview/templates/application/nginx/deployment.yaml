@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app.service: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: nginx
+  template:
+    metadata:
+      labels:
+        app.service: nginx
+    spec:
+      containers:
+      - image: {{ .Values.docker.image.nginx }}
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      restartPolicy: Always
+status: {}

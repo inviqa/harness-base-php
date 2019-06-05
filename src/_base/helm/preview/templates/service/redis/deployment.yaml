@@ -1,21 +1,20 @@
-apiVersion: extensions/v1beta1
+{{ if .Values.service.redis }}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -c
-    kompose.version: 1.18.0 (06a2e56)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: redis
   name: redis
+  labels:
+    app.service: redis
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app.service: redis
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: redis
+        app.service: redis
     spec:
       containers:
       - args:
@@ -29,5 +28,11 @@ spec:
         ports:
         - containerPort: 6379
         resources: {}
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 5
+          periodSeconds: 10
       restartPolicy: Always
 status: {}
+{{ end }}
