@@ -1,0 +1,11 @@
+map $http_host $MAGE_RUN_CODE {
+{% for name, value in @('magento.run.code') %}
+    {{ name }} {{ value }};
+{% endfor %}
+}
+
+map $http_host $MAGE_RUN_TYPE {
+{% for name, value in @('magento.run.type') %}
+    {{ name }} {{ value }};
+{% endfor %}
+}

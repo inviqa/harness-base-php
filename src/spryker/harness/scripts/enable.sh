@@ -3,7 +3,7 @@
 main()
 {
     if [ ! -f .my127ws/.flag-built ]; then
-    
+
         passthru docker-compose down
 
         if [[ "$HAS_ASSETS" = "yes" ]]; then
@@ -29,6 +29,7 @@ dynamic()
     # will often cause it to crash.
 
     if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
+        passthru gem install docker-sync --no-ri --no-rdoc
         passthru docker-sync start
         passthru docker-sync stop
     fi
@@ -46,7 +47,7 @@ dynamic()
 static()
 {
     ws app build
-    
+
     passthru docker-compose up -d
     passthru docker-compose exec -T -u build console app init
 }

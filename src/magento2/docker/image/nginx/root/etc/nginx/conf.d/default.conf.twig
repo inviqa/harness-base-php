@@ -166,6 +166,9 @@ server {
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
         include        fastcgi_params;
+
+        fastcgi_param MAGE_RUN_CODE $MAGE_RUN_CODE if_not_empty;
+        fastcgi_param MAGE_RUN_TYPE $MAGE_RUN_TYPE if_not_empty;
     }
 
     gzip on;
