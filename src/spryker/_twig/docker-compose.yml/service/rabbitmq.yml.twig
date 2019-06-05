@@ -3,7 +3,6 @@
     environment:
       RABBITMQ_DEFAULT_USER: {{ @('rabbitmq.user') }}
       RABBITMQ_DEFAULT_PASS: {{ @('rabbitmq.password') }}
-      RABBITMQ_DEFAULT_VHOST: {{ @('rabbitmq.vhost') }}
     networks:
       - private
       - shared

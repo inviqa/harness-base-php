@@ -1,0 +1,4 @@
+services:
+  yves.plp.context:
+    class: Acceptance\Context\Yves\ProductListPageContext
+    tags: [ fob.context_service ]

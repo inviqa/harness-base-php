@@ -50,27 +50,57 @@ To gain access to the `console` container where the builds happen: `ws frontend 
 
 Xdebug is turned off by default as it drastically slows down requests for all developers.
 
-To enable, set `attribute('php.ext-xdebug.enable'): yes` in your `workspace.override.yml` and then run:
-```bash
-ws install --step=prepare
-docker-compose build php-fpm
-docker-compose up -d php-fpm
-```
+To enable, run `ws feature xdebug on`. To turn off again, `ws feature xdebug off`.
 
-To enable on CLI in `ws console`, set `attribute('php.ext-xdebug.cli.enable'): yes` in your `workspace.override.yml` and then run:
-```bash
-ws install --step=prepare
-docker-compose build console
-docker-compose up -d console
-```
+To enable on CLI in `ws console`, run `ws feature xdebug cli on`. To turn off again, `ws feature xdebug cli off`.
 
-Xdebug is set up to listen to your computer's 9000 port once enabled, so all you would need to do in your IDE is listen for connections. [Here's a good guide for PhpStorm](https://www.jetbrains.com/help/PhpStorm/zero-configuration-debugging.html).
+Xdebug is set up to listen to your computer's 9000 port once enabled, so all you would need to do in your IDE is:
+1. Create a mapping from the project root to `/app` for name `workspace`, hostname `localhost` and port 80.
+2. Listen for connections.
 
-If you have trouble with Xdebug not calling back, check that `sudo lsof -i :9000 | grep LISTEN` on your host shows a PhpStorm process. If it doesn't, stop that process and toggle the Xdebug listen button in PhpStorm again.
+[Here's a good guide for PhpStorm](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html).
+
+If you have trouble with triggered requests not starting connections to your IDE, check that
+`sudo lsof -i :9000 | grep LISTEN` on your host shows process from your IDE.
+If it doesn't, stop the indicated process (e.g. `php-fpm`) and toggle the Xdebug listen button off and on again in PhpStorm.
+
+### Performance on MacOS
+
+Page load times with Docker for Mac can vary considerably. This is especially so when there is a large
+quantity of small files, such as with a large composer vendor folder.
+
+{% if @('docker-sync') == 'yes' %}
+[docker-sync](https://github.com/EugenMayer/docker-sync/) is enabled on this workspace environment to
+try to overcome this.
+It enables production-like performance at the cost of having to synchronise files with an intermediate
+"data" container.
+{% else %}
+If it takes over 2 seconds to load a page, you can consider enabling
+[docker-sync](https://github.com/EugenMayer/docker-sync/) which should enable production-like performance
+at the cost of having to synchronise files with an intermediate "data" container.
+
+You can enable docker-sync with `ws feature docker-sync on` - it takes a while to initially sync.
+{% endif %}
+
+If you don't like the tradeoff of having to synchronise files, you can turn docker-sync off
+with `ws feature docker-sync off`.
+
+{% if @('docker-sync') == 'yes' %}
+If your page loads too slowly, you can turn docker-sync back on again  with `ws feature docker-sync on`
+{% endif %}
 
 ### Common Issues
 
 As setup issues are encountered please detail with step by step fix instructions, and where possible update the project or the upstream workspace harness itself to provide a more permanent fix.
+
+* If you use docker-sync and notice that your changes aren't synchronising to the environment:
+  * Check if your file exists with your changes in `ws console`
+  * If your file in `ws console` has changed okay, check your project for any caching that
+    would prevent changes to source code appearing immediately.
+  * If the file changes do not appear in `ws console` reasonably quickly, it might be that
+    Docker for Mac is overwhelmed with file change events.
+  * Restarting Docker for Mac using the system tray icon's menu and then running `ws enable` again
+    will fix it.
 
 # License
 

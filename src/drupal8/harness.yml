@@ -9,6 +9,13 @@ harness('inviqa/drupal8'):
 ---
 attributes:
   app:
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs:
+      - '/app/config'
+      - '/app/docroot/modules'
+      - '/app/docroot/profiles'
+      - '/app/docroot/sites/default/files'
     services:
       - chrome
       - mysql

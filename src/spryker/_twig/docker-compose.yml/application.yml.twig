@@ -15,6 +15,7 @@
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/lib/task:/lib/task
+      - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
 {% endif %}
@@ -35,7 +36,7 @@
 {% endif %}
     labels:
       - traefik.backend={{ @('workspace.name') }}
-      - traefik.frontend.rule=Host:{{ @('yves.external_hosts')|join(',') }},{{ @('zed.external_host') }}
+      - traefik.frontend.rule=Host:{{ @('yves.external_hosts')|join(',') }},{{ @('glue.external_hosts')|join(',') }},{{ @('zed.external_host') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
     links:
@@ -47,6 +48,9 @@
 {% for yves_external_host in @('yves.external_hosts') %}
           - {{ yves_external_host }}
 {% endfor %}
+{% for glue_external_host in @('glue.external_hosts') %}
+          - {{ glue_external_host }}
+{% endfor %}
           - {{ @('zed.external_host') }}
       shared: {}
 
@@ -56,6 +60,7 @@
     entrypoint: /entrypoint.dynamic.sh
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
 {% endif %}
@@ -63,5 +68,6 @@
       - traefik.enable=false
     networks:
       - private
+      - shared
     environment:
       <<: *APP_ENV_VARS
