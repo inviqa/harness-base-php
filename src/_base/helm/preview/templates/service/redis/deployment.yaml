@@ -24,6 +24,7 @@ spec:
         - --maxmemory-policy
         - allkeys-lru
         image: redis:4-alpine
+        imagePullPolicy: Always
         name: redis
         ports:
         - containerPort: 6379

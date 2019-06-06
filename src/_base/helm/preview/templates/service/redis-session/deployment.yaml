@@ -23,6 +23,7 @@ spec:
         - --maxmemory-policy
         - volatile-ttl
         image: redis:4-alpine
+        imagePullPolicy: Always
         name: redis-session
         ports:
         - containerPort: 6379
