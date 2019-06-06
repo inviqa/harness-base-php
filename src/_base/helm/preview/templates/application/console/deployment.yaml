@@ -21,6 +21,7 @@ spec:
           value: {{ $value }}
         {{ end }}
         image: {{ .Values.docker.image.console }}
+        imagePullPolicy: Always
         name: console
         resources: {}
         readinessProbe:

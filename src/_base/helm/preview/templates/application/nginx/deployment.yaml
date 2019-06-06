@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - image: {{ .Values.docker.image.nginx }}
+        imagePullPolicy: Always
         name: nginx
         ports:
         - containerPort: 80
