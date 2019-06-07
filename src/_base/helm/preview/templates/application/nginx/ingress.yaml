@@ -3,11 +3,11 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: nginx
+    app.service: nginx
   name: nginx
 spec:
   rules:
-  - host: {{ .Values.APP_HOST }}
+  - host: {{ .Values.environment.APP_HOST }}
     http:
       paths:
       - backend:

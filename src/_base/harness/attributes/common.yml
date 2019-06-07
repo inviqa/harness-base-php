@@ -14,6 +14,10 @@ attributes.default:
     mode: development
 
     services: [mysql]
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs: []
+    web_writable_files: []
 
   docker-sync: yes
 

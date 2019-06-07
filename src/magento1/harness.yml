@@ -13,6 +13,13 @@ harness('inviqa/magento1'):
 ---
 attributes:
   app:
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs:
+      - '/app/public/media'
+      - '/app/public/sitemaps'
+      - '/app/public/staging'
+      - '/app/public/var'
     services:
       - chrome
       - mysql

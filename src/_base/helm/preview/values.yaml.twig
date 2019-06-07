@@ -1,0 +1,13 @@
+{% set blocks  = 'helm/preview/_twig/values.yaml/' %}
+environment:
+{% include blocks ~ 'environment.yml.twig' %}
+docker:
+  image:
+    console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+    fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+    nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+service:
+  mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
+  redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
+  redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
+  memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}

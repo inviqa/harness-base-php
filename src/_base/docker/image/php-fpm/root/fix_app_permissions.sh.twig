@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+main()
+{
+    app_permissions_fix
+}
+
+
+function app_permissions_fix()
+{
+    local APP_OWNER="{{ @('app.web_owner') }}"
+    local APP_GROUP="{{ @('app.web_group') }}"
+    DIRS=("{{ @('app.web_writable_dirs') | join('" "') | raw }}")
+    FILES=("{{ @('app.web_writable_files') | join('" "') | raw }}")
+
+    for DIR in "${DIRS[@]}"
+    do
+      if [ -n "${DIR}" ]; then
+        if [ ! -d "${DIR}" ]; then
+          echo "${DIR} does not exist. Creating ${DIR}..."
+          mkdir -p "${DIR}"
+        fi
+        chown -R "${APP_OWNER}":"${APP_GROUP}" "${DIR}"
+        chmod -R ug+rw,o-w "${DIR}"
+        chmod -R a+r "${DIR}"
+        echo "fixed permissions for ${DIR}"
+      else
+        echo "No directory was specified for permissions fixing."
+      fi
+    done
+
+    for FILE in "${FILES[@]}"
+    do
+      if [ -n "${FILE}" ]; then
+       if [ ! -f "${FILE}" ]; then
+         echo "${FILE} does not exist. Creating ${FILE}..."
+         touch "${FILE}"
+       fi
+        chown "${APP_OWNER}":"${APP_GROUP}" "${FILE}"
+        chmod ug+rw,o-w "${FILE}"
+        chmod a+r "${FILE}"
+        echo "fixed permissions for ${FILE}"
+      else
+        echo "No file was specified for permissions fixing."
+      fi
+    done
+
+}
+
+main
