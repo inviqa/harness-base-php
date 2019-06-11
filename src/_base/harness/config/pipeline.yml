@@ -6,6 +6,48 @@ command('app publish'): |
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker logout @('docker.repository')
 
+command('app build preview images'): |
+  #!bash(workspace:/)|@
+  ws app build
+  ws app tag preview images
+  ws app push preview images
+
+command('app tag preview images'): |
+  #!bash(workspace:/)|@
+  ws app tag preview image console
+  ws app tag preview image php-fpm
+  ws app tag preview image nginx
+
+command('app tag preview image console'): |
+  #!bash(workspace:/)|@
+  passthru docker tag @('docker.repository'):@('app.version')-console @('docker.repository')/@('app.version')-console
+
+command('app tag preview image php-fpm'): |
+  #!bash(harness:/docker/image/php-fpm)|@
+  passthru docker tag @('docker.repository'):@('app.version')-php-fpm @('docker.repository')/@('app.version')-php-fpm
+
+command('app tag preview image nginx'): |
+  #!bash(harness:/docker/image/nginx)|@
+  passthru docker tag @('docker.repository'):@('app.version')-nginx @('docker.repository')/@('app.version')-nginx
+
+command('app push preview images'): |
+  #!bash(workspace:/)|@
+  ws app push preview image console
+  ws app push preview image php-fpm
+  ws app push preview image nginx
+
+command('app push preview image console'): |
+  #!bash(workspace:/)|@
+  passthru docker push @('docker.repository')/@('app.version')-console
+
+command('app push preview image php-fpm'): |
+  #!bash(harness:/docker/image/php-fpm)|@
+  passthru docker push @('docker.repository')/@('app.version')-php-fpm
+
+command('app push preview image nginx'): |
+  #!bash(harness:/docker/image/nginx)|@
+  passthru docker push @('docker.repository')/@('app.version')-nginx
+
 command('app deploy preview'): |
   #!bash(harness:/helm/preview)|@
   passthru helm upgrade --wait --install --namespace "@('pipeline.preview.namespace')" "@('pipeline.preview.namespace')" ./
