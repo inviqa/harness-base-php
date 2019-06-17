@@ -31,5 +31,7 @@ spec:
             port: 9000
           initialDelaySeconds: 5
           periodSeconds: 10
+      imagePullSecrets:
+      - name: docker-config
       restartPolicy: Always
 status: {}

@@ -31,5 +31,8 @@ spec:
             - state
           initialDelaySeconds: 20
           periodSeconds: 10
+      imagePullSecrets:
+      - name: docker-config
       restartPolicy: Always
+
 status: {}
