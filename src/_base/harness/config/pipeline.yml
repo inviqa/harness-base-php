@@ -27,9 +27,10 @@ command('app publish'): |
 
 command('app deploy <environment>'):
   env:
-    ENVIRONMENT: = input.command(2)
-    NAMESPACE:   = @('pipeline.' ~ input.command(2) ~ '.namespace')
+    ENVIRONMENT: = input.argument('environment')
+    NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
   exec: |
     #!bash(harness:/helm)|=
-    passthru cd "${ENVIRONMENT}"
+    cd "${ENVIRONMENT}"
+    passthru helm update
     passthru helm upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./
