@@ -1,6 +1,6 @@
   HOST_OS_FAMILY: {{ @('host.os') }}
   APP_NAME: {{ @('workspace.name') }}
-  APP_HOST: {{ @('pipeline.preview.hostname') }}
+  APP_HOST: {{ @('workspace.name') }}
   DB_HOST: {{ @('database.host') }}
   DB_USER: {{ @('database.user') }}
   DB_PASS: {{ @('database.pass') }}

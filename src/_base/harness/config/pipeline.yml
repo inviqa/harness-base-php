@@ -1,3 +1,22 @@
+
+command('app build'): |
+  #!bash(workspace:/)|@
+  ws app build console
+  ws app build php-fpm
+  ws app build nginx
+
+command('app build console'): |
+  #!bash(workspace:/)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-console -f .my127ws/docker/image/console/Dockerfile .
+
+command('app build php-fpm'): |
+  #!bash(harness:/docker/image/php-fpm)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-php-fpm .
+
+command('app build nginx'): |
+  #!bash(harness:/docker/image/nginx)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-nginx .
+
 command('app publish'): |
   #!bash(workspace:/)|@
   run docker login -u="@('docker.username')" -p="@('docker.password')" @('docker.repository')
@@ -6,6 +25,12 @@ command('app publish'): |
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker logout @('docker.repository')
 
-command('app deploy preview'): |
-  #!bash(harness:/helm/preview)|@
-  passthru helm upgrade --wait --install --namespace "@('pipeline.preview.namespace')" "@('pipeline.preview.namespace')" ./
+command('app deploy <environment>'):
+  env:
+    ENVIRONMENT: = input.argument('environment')
+    NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+  exec: |
+    #!bash(harness:/helm)|=
+    cd "${ENVIRONMENT}"
+    passthru helm update
+    passthru helm upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./

@@ -1,0 +1,5 @@
+name: app-qa
+description: Base helm chart for the app-qa environment
+version: 0.0.1
+sources:
+home:
