@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: app-migrate
   annotations:
-    helm.sh/hook: "post-upgrade"
+    helm.sh/hook: "pre-upgrade"
     helm.sh/hook-delete-policy: "before-hook-creation"
 spec:
   template:
