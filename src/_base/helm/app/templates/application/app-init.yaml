@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: app-init
+  annotations:
+    helm.sh/hook: "post-install"
+spec:
+  template:
+    spec:
+      containers:
+      - env:
+        {{ range $key, $value := .Values.environment }}
+        - name: {{ $key }}
+          value: {{ $value }}
+        {{ end }}
+        image: {{ .Values.docker.image.console }}
+        imagePullPolicy: Always
+        name: app-init
+        command: ["app", "init"]
+      imagePullSecrets:
+      - name: docker-config
+      restartPolicy: Never
