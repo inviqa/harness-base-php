@@ -51,7 +51,7 @@ command('db-console'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec console bash -c 'mysql -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME"'
+    passthru "docker-compose exec console bash -c 'mysql -h\"\$DB_HOST\" -u\"\$DB_USER\" -p\"\$DB_PASS\" \"\$DB_NAME\"'"
 
 command('assets download'):
   env:
@@ -94,21 +94,21 @@ command('frontend build'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build console bash -i -c 'app build:frontend'
+    passthru "docker-compose exec -u build console bash -i -c 'app build:frontend'"
 
 command('frontend watch'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'
+    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'"
 
 command('frontend console'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); bash'
+    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); bash'"
 
 command('port <service>'):
   env:
@@ -172,3 +172,4 @@ command('feature xdebug cli (on|off)'):
     echo 'Bringing up console with the new setting'
     run ws service php-fpm restart
     echo 'Done'
+
