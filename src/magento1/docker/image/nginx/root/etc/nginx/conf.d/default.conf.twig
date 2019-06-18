@@ -10,7 +10,7 @@ server {
   include snippets/ssl-params.conf;
   include snippets/top-*.conf;
 
-  {% for name, value in @('nginx.conf') %}
+  {% for name, value in @('nginx.site.conf') %}
     {{ name }} {{ value }};
   {% endfor %}
 

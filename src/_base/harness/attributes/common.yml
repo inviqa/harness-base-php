@@ -68,7 +68,12 @@ attributes.default:
     main_branch: develop
 
   nginx:
-    conf: []
+    # used to set site specific configurations under server directive
+    site:
+      conf: []
+    # used to set nginx global configurations under http directive
+    global:
+      conf: []
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default

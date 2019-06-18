@@ -1,0 +1,3 @@
+{% for name, value in @('nginx.global.conf') %}
+    {{ name }} {{ value }};
+{% endfor %}
