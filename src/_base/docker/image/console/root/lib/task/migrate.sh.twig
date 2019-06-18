@@ -1,0 +1,10 @@
+#!/bin/bash
+
+function task_migrate()
+{
+    task "database:available"
+
+    {% for step in @('backend.migrate.steps') -%}
+    {{ step|raw }}
+    {% endfor %}
+}

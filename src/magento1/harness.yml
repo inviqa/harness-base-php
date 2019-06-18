@@ -84,6 +84,8 @@ attributes:
       steps:
         - run "n98-magerun.phar config:set 'web/unsecure/base_url' 'https://${APP_HOST}/'"
         - run "n98-magerun.phar config:set 'web/secure/base_url'   'https://${APP_HOST}/'"
+    migrate:
+      steps:
         - run "n98-magerun.phar sys:setup:incremental -n"
         - run "n98-magerun.phar index:reindex:all"
         - run "n98-magerun.phar cache:clean"
