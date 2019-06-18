@@ -90,6 +90,10 @@ attributes:
   smtp:
     host: 'mailhog'
     port: 1025
+  nginx:
+    global:
+      conf:
+        server_names_hash_bucket_size: 64
 ---
 import:
   - harness/config/*.yml

@@ -1,0 +1,11 @@
+
+command('app build'): |
+  #!bash(workspace:/)|@
+  ws app build console
+  ws app build php-fpm
+  ws app build nginx
+  ws app build jenkins-runner
+
+command('app build jenkins-runner'): |
+  #!bash(workspace:/)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-jenkins-runner -f .my127ws/docker/image/jenkins-runner/Dockerfile .

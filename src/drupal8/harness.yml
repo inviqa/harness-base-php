@@ -61,8 +61,6 @@ attributes:
         - run "drupal update:entities"
         - run "drupal update:execute"
         - run "drupal cache:rebuild"
-  nginx:
-    conf: []
   docker:
     image:
       console: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch-console'
