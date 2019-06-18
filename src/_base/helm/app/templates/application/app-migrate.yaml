@@ -1,9 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: app-init
+  name: app-migrate
   annotations:
-    "helm.sh/hook": "post-install"
+    helm.sh/hook: "pre-upgrade"
+    helm.sh/hook-delete-policy: "before-hook-creation"
 spec:
   template:
     spec:
@@ -15,8 +16,8 @@ spec:
         {{ end }}
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
-        name: app-init
-        command: ["app", "init"]
+        name: app-migrate
+        command: ["app", "migrate"]
       imagePullSecrets:
       - name: docker-config
       restartPolicy: Never
