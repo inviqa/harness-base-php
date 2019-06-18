@@ -45,6 +45,10 @@ attributes:
       steps:
         - run "vendor/bin/console propel:install -o"
   frontend:
+    yves:
+      watch: npm run yves:watch
+    zed:
+      watch: npm run zed:watch
     build:
       when: -f "package.json"
       steps:
@@ -94,6 +98,19 @@ attributes:
     global:
       conf:
         server_names_hash_bucket_size: 64
+---
+command('frontend yves watch'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.yves.watch')'"
+command('frontend zed watch'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.zed.watch')'"
 ---
 import:
   - harness/config/*.yml
