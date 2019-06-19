@@ -9,6 +9,7 @@ docker:
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
 service:
   mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
+  postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
   redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
   redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
   memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
