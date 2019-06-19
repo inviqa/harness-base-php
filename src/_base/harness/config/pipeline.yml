@@ -25,8 +25,6 @@ command('app publish'): |
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker logout @('docker.repository')
 
-command('kubectl get-config <environment>'):
-
 command('app deploy <environment>'):
   env:
     ENVIRONMENT: = input.argument('environment')
