@@ -38,3 +38,4 @@ confd('harness:/'):
   - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf }
   - { src: docker/image/jenkins-runner/Dockerfile }
+  - { src: helm/preview/values.yaml }
