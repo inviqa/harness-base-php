@@ -6,15 +6,15 @@ function task_welcome()
     echo "Welcome!"
     echo "--------"
     {% for store, yves_external_host in @('yves.external_hosts') %}
-    echo "Yves {{ store }}: https://{{ yves_external_host }}"
+    echo "Yves {{ store }}: https://${YVES_HOST_{{ store }}}"
     {% endfor %}
     echo "Zed: https://${ZED_HOST}"
     echo "  Username: admin@spryker.com"
     echo "  Password: change123"
     {% for store, glue_external_host in @('glue.external_hosts') %}
-    echo "Glue API {{ store }}: https://{{ glue_external_host }}"
+    echo "Glue API {{ store }}: https://${GLUE_HOST_{{ store }}}"
     {% endfor %}
-    echo "Jenkins: https://{{ @('jenkins.external_host') }}"
-    echo "Rabbitmq: https://{{ @('rabbitmq.external_host') }}"
+    echo "Jenkins: https://${JENKINS_EXTERNAL_HOST}"
+    echo "Rabbitmq: https://${RABBITMQ_EXTERNAL_HOST}"
     echo ""
 }
