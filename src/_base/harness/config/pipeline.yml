@@ -25,12 +25,16 @@ command('app publish'): |
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker logout @('docker.repository')
 
+command('kubectl get-config <environment>'):
+
 command('app deploy <environment>'):
   env:
     ENVIRONMENT: = input.argument('environment')
     NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+    CLUSTER:     = @('pipeline.' ~ input.argument('environment') ~ '.cluster.name')
   exec: |
     #!bash(harness:/helm)|=
     cd "${ENVIRONMENT}"
+    passthru doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
     passthru helm dependency build
-    passthru helm upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./
+    passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./

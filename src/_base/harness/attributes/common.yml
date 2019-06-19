@@ -26,10 +26,17 @@ attributes.default:
       enabled: no
     preview:
       enabled: no
+      environment: ~
+      cluster:
+        name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
     qa:
       enabled: no
+      environment: ~
+      branch: develop
+      cluster:
+        name: null
       namespace: = @('workspace.name') ~ '-' ~ 'qa'
       hostname: = @('pipeline.qa.namespace') ~ '.example.com'
 
