@@ -55,6 +55,8 @@ attributes.default:
       steps: []
     init:
       steps: []
+    migrate:
+      steps: []
 
   frontend:
     path: /app

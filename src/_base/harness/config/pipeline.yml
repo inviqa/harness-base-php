@@ -32,5 +32,5 @@ command('app deploy <environment>'):
   exec: |
     #!bash(harness:/helm)|=
     cd "${ENVIRONMENT}"
-    passthru helm update
+    passthru helm dependency build
     passthru helm upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./

@@ -55,7 +55,7 @@ attributes:
         - run "chmod 755 /app/docroot/sites/default"
         - task "overlay:apply"
         - task "assets:dump"
-    init:
+    migrate:
       steps:
         - run "drupal cache:rebuild"
         - run "drupal update:entities"
