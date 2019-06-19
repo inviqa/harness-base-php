@@ -33,6 +33,7 @@ command('app deploy <environment>'):
   exec: |
     #!bash(harness:/helm)|=
     cd "${ENVIRONMENT}"
-    passthru doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
+    doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
+    passthru helm init --client-only
     passthru helm dependency build
     passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./
