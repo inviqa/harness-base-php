@@ -23,6 +23,15 @@ spec:
         - "1073742000"
         - --maxmemory-policy
         - allkeys-lru
+        - --save
+        - "3600"
+        - "1"
+        - --save
+        - "300"
+        - "100"
+        - --save
+        - "60"
+        - "10000"
         image: redis:4-alpine
         imagePullPolicy: Always
         name: redis
