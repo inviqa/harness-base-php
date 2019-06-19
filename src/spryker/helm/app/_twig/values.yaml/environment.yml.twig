@@ -2,7 +2,6 @@
   SPRYKER_SALT: {{ @('spryker.salt') }}
   HOST_OS_FAMILY: {{ @('host.os') }}
   APP_NAME: {{ @('workspace.name') }}
-  ZED_HOST: {{ @('pipeline.preview.zed.external_host') }}
   DB_HOST: {{ @('database.host') }}
   DB_USER: {{ @('database.user') }}
   DB_PASS: {{ @('database.pass') }}
@@ -26,12 +25,6 @@
   JENKINS_HOST: {{ @('jenkins.host') }}
   JENKINS_PORT: {{ @('jenkins.port') }}
   JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
-{% for store, yves_external_host in @('pipeline.preview.yves.external_hosts') %}
-  YVES_HOST_{{ store }}: {{ yves_external_host }}
-{% endfor %}
-{% for store, glue_external_host in @('pipeline.preview.glue.external_hosts') %}
-  GLUE_HOST_{{ store }}: {{ glue_external_host }}
-{% endfor %}
   DOCKER_IMAGE_CONSOLE: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
   DOCKER_IMAGE_FPM: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
   DOCKER_IMAGE_NGINX: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
