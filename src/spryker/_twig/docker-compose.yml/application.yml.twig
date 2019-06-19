@@ -41,6 +41,8 @@
       - traefik.port=80
     links:
       - php-fpm:php-fpm
+    environment:
+{% include blocks ~ 'nginx_environment.yml.twig' %}
     networks:
       private:
         aliases:

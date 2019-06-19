@@ -1,0 +1,15 @@
+{% if @('app.build') == 'static' %}
+FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
+{% endif %}
+
+FROM nginx:1.15-alpine
+COPY root /
+
+{% if @('app.build') == 'static' %}
+COPY --from=console /app /app
+{% else %}
+VOLUME /app
+{% endif %}
+
+ENTRYPOINT ["sh", "/docker-entrypoint.d/config_render.sh"]
+CMD ["nginx", "-g", "daemon off;"]

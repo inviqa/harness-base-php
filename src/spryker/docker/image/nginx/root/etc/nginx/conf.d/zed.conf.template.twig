@@ -1,16 +1,19 @@
-{% for store_code, glue_external_host in @('glue.external_hosts') %}
 server {
     listen 80;
     listen 443 ssl http2;
 
-    server_name {{ glue_external_host }};
+    server_name ${ZED_HOST};
 
     include snippets/certificate.conf;
     include snippets/ssl-params.conf;
 
-    root /app/public/Glue;
+    {% for name, value in @('nginx.site.conf') %}
+    {{ name }} {{ value }};
+    {% endfor %}
 
-    # Timeout for Api requests - 10 minutes
+    root /app/public/Zed;
+
+    # Timeout for ZED requests - 10 minutes
     # (longer requests should be converted to jobs and executed via jenkins)
     proxy_read_timeout 600s;
     proxy_send_timeout 600s;
@@ -18,11 +21,6 @@ server {
     client_body_timeout 600s;
     client_header_timeout 600s;
     send_timeout 600s;
-
-    keepalive_timeout 0;
-
-    set $application_env staging;
-    set $application_store DE;
 
     # Static files can be delivered directly
     location ~ (/assets/|/favicon.ico|/robots.txt) {
@@ -41,9 +39,5 @@ server {
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;
         fastcgi_param SCRIPT_FILENAME  $document_root/index.php;
-
-        # Spryker variables
-        fastcgi_param APPLICATION_STORE {{ store_code }};
     }
 }
-{% endfor %}
