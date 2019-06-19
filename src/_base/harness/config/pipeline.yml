@@ -29,8 +29,11 @@ command('app deploy <environment>'):
   env:
     ENVIRONMENT: = input.argument('environment')
     NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+    CLUSTER:     = @('pipeline.' ~ input.argument('environment') ~ '.cluster.name')
   exec: |
     #!bash(harness:/helm)|=
     cd "${ENVIRONMENT}"
+    doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
+    passthru helm init --client-only
     passthru helm dependency build
-    passthru helm upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./
+    passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --install --namespace "${NAMESPACE}" "${NAMESPACE}" ./
