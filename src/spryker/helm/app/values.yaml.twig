@@ -1,9 +1,6 @@
 {% set blocks  = 'helm/app/_twig/values.yaml/' %}
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
-nginx:
-  environment:
-{% include blocks ~ 'nginx_environment.yml.twig' %}
 docker:
   config: {{ @('docker.config') }}
   image:
