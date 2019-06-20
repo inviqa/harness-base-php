@@ -1,0 +1,17 @@
+{{ if .Values.service.postgres }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.service: postgres
+  name: postgres
+spec:
+  ports:
+  - name: "5432"
+    port: 5432
+    targetPort: 5432
+  selector:
+    app.service: postgres
+status:
+  loadBalancer: {}
+{{ end }}

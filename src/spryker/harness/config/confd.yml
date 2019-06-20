@@ -35,7 +35,9 @@ confd('harness:/'):
   - { src: docker/image/console/root/lib/task/rabbitmq/vhosts.sh }
   - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/lib/task/welcome.sh }
-  - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf }
-  - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf }
-  - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf }
+  - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
+  - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf.template }
+  - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf.template }
+  - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf.template }
   - { src: docker/image/jenkins-runner/Dockerfile }
+  - { src: helm/preview/values.yaml }

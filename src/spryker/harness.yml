@@ -9,6 +9,10 @@ harness('inviqa/spryker'):
 ---
 attributes:
   app:
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs:
+      - '/app/data'
     services:
       - chrome
       - postgres
@@ -97,7 +101,45 @@ attributes:
   nginx:
     global:
       conf:
-        server_names_hash_bucket_size: 64
+        server_names_hash_bucket_size: 128
+  pipeline:
+    preview:
+      yves:
+        external_hosts:
+          DE: = 'yves-de-' ~ @('pipeline.preview.hostname')
+          AT: = 'yves-at-' ~ @('pipeline.preview.hostname')
+          US: = 'yves-us-' ~ @('pipeline.preview.hostname')
+      zed:
+        external_host: = 'zed-' ~ @('pipeline.preview.hostname')
+      glue:
+        external_hosts:
+          DE: = 'glue-de-' ~ @('pipeline.preview.hostname')
+          AT: = 'glue-at-' ~ @('pipeline.preview.hostname')
+          US: = 'glue-us-' ~ @('pipeline.preview.hostname')
+      rabbitmq:
+        external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
+      jenkins:
+        external_host: = 'jenkins-' ~ @('pipeline.preview.hostname')
+    qa:
+      yves:
+        external_hosts:
+          DE: = 'yves-de-' ~ @('pipeline.qa.hostname')
+          AT: = 'yves-at-' ~ @('pipeline.qa.hostname')
+          US: = 'yves-us-' ~ @('pipeline.qa.hostname')
+      zed:
+        external_host: = 'zed-' ~ @('pipeline.qa.hostname')
+      glue:
+        external_hosts:
+          DE: = 'glue-de-' ~ @('pipeline.qa.hostname')
+          AT: = 'glue-at-' ~ @('pipeline.qa.hostname')
+          US: = 'glue-us-' ~ @('pipeline.qa.hostname')
+      rabbitmq:
+        external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
+      jenkins:
+        external_host: = 'jenkins-' ~ @('pipeline.qa.hostname')
+
+  helm:
+    timeout: 900
 ---
 command('frontend yves watch'):
   env:

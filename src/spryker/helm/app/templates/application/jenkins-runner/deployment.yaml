@@ -1,18 +1,19 @@
+{{ if .Values.service.jenkins_runner }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: console
+  name: jenkins-runner
   labels:
-    app.service: console
+    app.service: jenkins-runner
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: console
+      app.service: jenkins-runner
   template:
     metadata:
       labels:
-        app.service: console
+        app.service: jenkins-runner
     spec:
       containers:
       - env:
@@ -20,9 +21,11 @@ spec:
         - name: {{ $key }}
           value: "{{ $value }}"
         {{ end }}
-        image: {{ .Values.docker.image.console }}
+        - name: JENKINS_RUNNER_NAME
+          value: backend
+        image: {{ .Values.docker.image.jenkins_runner }}
         imagePullPolicy: Always
-        name: console
+        name: jenkins-runner
         resources: {}
         readinessProbe:
           exec:
@@ -34,5 +37,5 @@ spec:
       imagePullSecrets:
       - name: docker-config
       restartPolicy: Always
-
 status: {}
+{{ end }}

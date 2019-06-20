@@ -6,6 +6,15 @@ command('app build'): |
   ws app build nginx
   ws app build jenkins-runner
 
+command('app publish'): |
+  #!bash(workspace:/)|@
+  run docker login -u="@('docker.username')" -p="@('docker.password')" @('docker.repository')
+  run docker push @('docker.repository'):@('app.version')-console
+  run docker push @('docker.repository'):@('app.version')-php-fpm
+  run docker push @('docker.repository'):@('app.version')-nginx
+  run docker push @('docker.repository'):@('app.version')-jenkins-runner
+  run docker logout @('docker.repository')
+
 command('app build jenkins-runner'): |
   #!bash(workspace:/)|@
   passthru docker build -t @('docker.repository'):@('app.version')-jenkins-runner -f .my127ws/docker/image/jenkins-runner/Dockerfile .

@@ -1,38 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: console
+  name: nginx
   labels:
-    app.service: console
+    app.service: nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: console
+      app.service: nginx
   template:
     metadata:
       labels:
-        app.service: console
+        app.service: nginx
     spec:
       containers:
       - env:
-        {{ range $key, $value := .Values.environment }}
+        {{ range $key, $value := .Values.nginx.environment }}
         - name: {{ $key }}
           value: "{{ $value }}"
         {{ end }}
-        image: {{ .Values.docker.image.console }}
+        image: {{ .Values.docker.image.nginx }}
         imagePullPolicy: Always
-        name: console
+        name: nginx
+        ports:
+        - containerPort: 80
         resources: {}
         readinessProbe:
-          exec:
-            command:
-            - app
-            - state
-          initialDelaySeconds: 20
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
           periodSeconds: 10
       imagePullSecrets:
       - name: docker-config
       restartPolicy: Always
-
 status: {}

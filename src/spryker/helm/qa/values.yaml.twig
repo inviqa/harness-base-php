@@ -1,0 +1,20 @@
+app:
+  environment:
+{% for store, yves_external_host in @('pipeline.qa.yves.external_hosts') %}
+    YVES_HOST_{{ store }}: {{ yves_external_host }}
+{% endfor %}
+    ZED_HOST: {{ @('pipeline.qa.zed.external_host') }}
+{% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
+    GLUE_HOST_{{ store }}: {{ glue_external_host }}
+{% endfor %}
+    RABBITMQ_EXTERNAL_HOST: {{ @('pipeline.qa.rabbitmq.external_host') }}
+    JENKINS_EXTERNAL_HOST: {{ @('pipeline.qa.jenkins.external_host') }}
+  nginx:
+    environment:
+      ZED_HOST: {{ @('pipeline.qa.zed.external_host') }}
+{% for store, yves_external_host in @('pipeline.qa.yves.external_hosts') %}
+      YVES_HOST_{{ store }}: {{ yves_external_host }}
+{% endfor %}
+{% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
+      GLUE_HOST_{{ store }}: {{ glue_external_host }}
+{% endfor %}

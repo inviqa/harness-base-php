@@ -1,0 +1,38 @@
+{{ if .Values.service.rabbitmq }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app.service: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: rabbitmq
+  template:
+    metadata:
+      labels:
+        app.service: rabbitmq
+    spec:
+      containers:
+      - env:
+        - name: RABBITMQ_DEFAULT_PASS
+          value: {{ .Values.environment.RABBITMQ_PASSWORD }}
+        - name: RABBITMQ_DEFAULT_USER
+          value: {{ .Values.environment.RABBITMQ_USER }}
+        image: rabbitmq:3.7-management-alpine
+        imagePullPolicy: Always
+        name: rabbitmq
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        resources: {}
+        readinessProbe:
+          tcpSocket:
+            port: 5672
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      restartPolicy: Always
+status: {}
+{{ end }}

@@ -124,6 +124,9 @@ attributes.default:
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
 
+  helm:
+    timeout: 300
+
   tls:
     key: |
       -----BEGIN PRIVATE KEY-----

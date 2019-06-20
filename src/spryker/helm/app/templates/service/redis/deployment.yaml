@@ -1,19 +1,20 @@
-{{ if .Values.service.redis_session }}
+{{ if .Values.service.redis }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-session
+  name: redis
   labels:
-    app.service: redis-session
+    app.service: redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: php-fpm
+      app.service: redis
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app.service: redis-session
+        app.service: redis
     spec:
       containers:
       - args:
@@ -21,7 +22,7 @@ spec:
         - --maxmemory
         - "1073742000"
         - --maxmemory-policy
-        - volatile-ttl
+        - allkeys-lru
         - --save
         - "3600"
         - "1"
@@ -33,7 +34,7 @@ spec:
         - "10000"
         image: redis:4-alpine
         imagePullPolicy: Always
-        name: redis-session
+        name: redis
         ports:
         - containerPort: 6379
         resources: {}
@@ -42,6 +43,13 @@ spec:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: redis-persistent-storage
+          mountPath: /data
       restartPolicy: Always
+      volumes:
+      - name: redis-persistent-storage
+        persistentVolumeClaim:
+          claimName: redis-pv-claim
 status: {}
 {{ end }}

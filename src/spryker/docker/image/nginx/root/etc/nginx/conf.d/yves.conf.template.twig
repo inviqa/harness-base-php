@@ -3,10 +3,14 @@ server {
     listen 80;
     listen 443 ssl http2;
 
-    server_name {{ yves_external_host }};
+    server_name ${YVES_HOST_{{ store_code }}};
 
     include snippets/certificate.conf;
     include snippets/ssl-params.conf;
+
+    {% for name, value in @('nginx.site.conf') %}
+    {{ name }} {{ value }};
+    {% endfor %}
 
     root /app/public/Yves;
 

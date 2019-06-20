@@ -22,11 +22,13 @@
 {% for store, vhost in @('rabbitmq.vhosts') %}
       RABBITMQ_VHOST_{{ store }}: {{ vhost }}
 {% endfor %}
+      RABBITMQ_EXTERNAL_HOST: {{ @('rabbitmq.external_host') }}
       SMTP_HOST: {{ @('smtp.host') }}
       SMTP_PORT: {{ @('smtp.port') }}
       JENKINS_HOST: {{ @('jenkins.host') }}
       JENKINS_PORT: {{ @('jenkins.port') }}
       JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
+      JENKINS_EXTERNAL_HOST: {{ @('jenkins.external_host') }}
 {% for store, yves_external_host in @('yves.external_hosts') %}
       YVES_HOST_{{ store }}: {{ yves_external_host }}
 {% endfor %}
