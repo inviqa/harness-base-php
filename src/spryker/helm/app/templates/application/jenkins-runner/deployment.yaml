@@ -1,4 +1,4 @@
-{{ if .Values.service.jenkins-runner }}
+{{ if .Values.service.jenkins_runner }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,7 +23,7 @@ spec:
         {{ end }}
         - name: JENKINS_RUNNER_NAME
           value: backend
-        image: {{ .Values.docker.image.jenkins-runner }}
+        image: {{ .Values.docker.image.jenkins_runner }}
         imagePullPolicy: Always
         name: jenkins-runner
         resources: {}

@@ -7,7 +7,7 @@ docker:
     console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
     fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
-    jenkins-runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
+    jenkins_runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
 service:
   mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
   postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
@@ -16,5 +16,5 @@ service:
   memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
   elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
   jenkins: {{ ("jenkins" in @('app.services')) ? 'true' : 'false' }}
-  jenkins-runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
+  jenkins_runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
   rabbitmq: {{ ("rabbitmq" in @('app.services')) ? 'true' : 'false' }}
