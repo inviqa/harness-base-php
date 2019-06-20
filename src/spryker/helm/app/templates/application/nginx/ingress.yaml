@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  labels:
+    app.service: nginx
+  name: nginx
+spec:
+  rules:
+  {{ range $key, $value := .Values.nginx.environment }}
+  - host: "{{ $value }}"
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+  {{ end }}
+status:
+  loadBalancer: {}
