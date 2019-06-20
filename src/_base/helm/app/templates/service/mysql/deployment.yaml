@@ -36,6 +36,13 @@ spec:
             port: 3306
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
       restartPolicy: Always
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
 status: {}
 {{ end }}
