@@ -22,10 +22,20 @@ pipeline {
             steps { sh 'ws app publish' }
         }
 {% endif %}
-{% if @('pipeline.preview.enabled') == 'yes' %}
-        stage('Deploy') {
-            when { not { triggeredBy 'TimerTrigger' } }
-            steps { sh 'ws app deploy preview' }
+{% if @('pipeline.qa.enabled') == 'yes' %}
+        stage('Deploy (QA)') {
+            environment {
+{% for key, value in @('pipeline.qa.environment') %}
+                {{ key }} = {{ value|raw }}
+{% endfor %}
+            }
+            when {
+                not { triggeredBy 'TimerTrigger' }
+                branch '{{ @('pipeline.qa.branch') }}'
+            }
+            steps {
+                sh 'ws app deploy qa'
+            }
         }
 {% endif %}
     }
