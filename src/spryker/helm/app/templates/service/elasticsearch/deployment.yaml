@@ -32,6 +32,13 @@ spec:
             port: 9200
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: elasticsearch-persistent-storage
+          mountPath: /usr/share/elasticsearch/data
       restartPolicy: Always
+      volumes:
+      - name: elasticsearch-persistent-storage
+        persistentVolumeClaim:
+          claimName: elasticsearch-pv-claim
 status: {}
 {{ end }}
