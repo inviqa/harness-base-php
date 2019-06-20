@@ -23,6 +23,8 @@ spec:
           value: {{ .Values.environment.DB_PASS }}
         - name: POSTGRES_USER
           value: {{ .Values.environment.DB_USER }}
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         image: postgres:9.6
         imagePullPolicy: Always
         name: postgres
@@ -34,6 +36,13 @@ spec:
             port: 5432
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: postgres-persistent-storage
+          mountPath: /var/lib/postgresql/data
       restartPolicy: Always
+      volumes:
+      - name: postgres-persistent-storage
+        persistentVolumeClaim:
+          claimName: postgres-pv-claim
 status: {}
 {{ end }}
