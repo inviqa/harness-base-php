@@ -18,7 +18,7 @@ spec:
       - env:
         {{ range $key, $value := .Values.environment }}
         - name: {{ $key }}
-          value: {{ $value }}
+          value: "{{ $value }}"
         {{ end }}
         image: {{ .Values.docker.image.fpm }}
         imagePullPolicy: Always
