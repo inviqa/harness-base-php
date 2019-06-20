@@ -134,6 +134,8 @@ attributes:
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.qa.hostname')
 
+  helm:
+    timeout: 900
 ---
 command('frontend yves watch'):
   env:
