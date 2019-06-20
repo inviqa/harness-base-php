@@ -28,6 +28,9 @@ spec:
         image: mysql:5.7
         imagePullPolicy: Always
         name: mysql
+        args:
+        - --ignore-db-dir
+        - lost+found
         ports:
         - containerPort: 3306
         resources: {}
