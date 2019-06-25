@@ -1,0 +1,12 @@
+  elasticsearch:
+    image: {{ @('elasticsearch.image') }}:{{ @('elasticsearch.tag') }}
+    labels:
+      - traefik.enable=false
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
+    networks:
+      - private
+    ports:
+      - 9200
+      - 9300
