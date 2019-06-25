@@ -127,6 +127,10 @@ attributes.default:
   helm:
     timeout: 300
 
+  php-fpm:
+    entrypoint:
+      steps: []
+
   tls:
     key: |
       -----BEGIN PRIVATE KEY-----
