@@ -21,7 +21,7 @@ spec:
           value: -Xmx512m -Xms512m
         - name: discovery.type
           value: single-node
-        image: elasticsearch:5.6
+        image: {{ .Values.docker.image.elasticsearch }}
         imagePullPolicy: Always
         name: elasticsearch
         ports:

@@ -121,6 +121,10 @@ attributes.default:
     name: app
     root_pass: DV6RdNY3QcFsBk7V
 
+  elasticsearch:
+    image: elasticsearch
+    tag: 7.1.1
+
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
 
