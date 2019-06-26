@@ -49,7 +49,6 @@
   php-fpm:
 {% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/php-fpm
-    entrypoint: /entrypoint.dynamic.sh
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws:/.my127ws

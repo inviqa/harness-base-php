@@ -31,7 +31,6 @@ spec:
             port: 9000
           initialDelaySeconds: 5
           periodSeconds: 10
-        command: ["/entrypoint.sh"]
       imagePullSecrets:
       - name: docker-config
       restartPolicy: Always
