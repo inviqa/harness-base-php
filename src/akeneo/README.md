@@ -1,9 +1,9 @@
-# Drupal 8.x Harness for [Workspace]
+# Akeneo Harness for [Workspace]
 
 To use this harness:
 
 1. Install [Workspace]
-2. Run `ws create <projectName> inviqa/drupal8:v0.2.7`
+2. Run `ws create <projectName> inviqa/akeneo:v0.2.7`
 3. Fill in project-specific AWS and Github credentials, set as blank if you don't need them
 4. Change to the <projectName> directory: `cd <projectName>`
 5. Create an initial commit, ensuring that `workspace.override.yml` is not added to git:
