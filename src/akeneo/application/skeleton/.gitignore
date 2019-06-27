@@ -33,6 +33,7 @@ package-lock.json
 
 # Directories
 /.my127ws
+/.docker-sync/
 /tools/assets/
 /vendor/
 
