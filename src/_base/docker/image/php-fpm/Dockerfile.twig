@@ -15,6 +15,7 @@ VOLUME /app
 ENV APP_MODE {{ @('app.mode') }}
 
 {% if @('app.build') == 'static' %}
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 {% else %}
 ENTRYPOINT ["/entrypoint.dynamic.sh"]
