@@ -26,7 +26,11 @@ spec:
         name: elasticsearch
         ports:
         - containerPort: 9200
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.elasticsearch }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.elasticsearch }}
         readinessProbe:
           tcpSocket:
             port: 9200

@@ -18,6 +18,11 @@ spec:
         imagePullPolicy: Always
         name: app-migrate
         command: ["app", "migrate"]
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.app_migrate }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.app_migrate }}
       imagePullSecrets:
       - name: docker-config
       restartPolicy: Never

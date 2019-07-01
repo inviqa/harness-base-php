@@ -1,0 +1,30 @@
+  requests:
+    memory:
+      console: {{ @('resources.requests.memory.console') }}
+      nginx: {{ @('resources.requests.memory.nginx') }}
+      php_fpm: {{ @('resources.requests.memory.php_fpm') }}
+      app_init: {{ @('resources.requests.memory.app_init') }}
+      app_migrate: {{ @('resources.requests.memory.app_migrate') }}
+      elasticsearch: {{ @('resources.requests.memory.elasticsearch') }}
+      mysql: {{ @('resources.requests.memory.mysql') }}
+      postgres: {{ @('resources.requests.memory.postgres') }}
+      redis: {{ @('resources.requests.memory.redis') }}
+      redis_session: {{ @('resources.requests.memory.redis_session') }}
+      jenkins_runner: {{ @('resources.requests.memory.jenkins_runner') }}
+      jenkins: {{ @('resources.requests.memory.jenkins') }}
+      rabbitmq: {{ @('resources.requests.memory.rabbitmq') }}
+  limits:
+    memory:
+      console: {{ @('resources.limits.memory.console') }}
+      nginx: {{ @('resources.limits.memory.nginx') }}
+      php_fpm: {{ @('resources.limits.memory.php_fpm') }}
+      app_init: {{ @('resources.limits.memory.app_init') }}
+      app_migrate: {{ @('resources.limits.memory.app_migrate') }}
+      elasticsearch: {{ @('resources.limits.memory.elasticsearch') }}
+      mysql: {{ @('resources.limits.memory.mysql') }}
+      postgres: {{ @('resources.limits.memory.postgres') }}
+      redis: {{ @('resources.limits.memory.redis') }}
+      redis_session: {{ @('resources.limits.memory.redis_session') }}
+      jenkins_runner: {{ @('resources.requests.memory.jenkins_runner') }}
+      jenkins: {{ @('resources.requests.memory.jenkins') }}
+      rabbitmq: {{ @('resources.requests.memory.rabbitmq') }}

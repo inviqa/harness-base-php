@@ -19,3 +19,5 @@ service:
   jenkins: {{ ("jenkins" in @('app.services')) ? 'true' : 'false' }}
   jenkins_runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
   rabbitmq: {{ ("rabbitmq" in @('app.services')) ? 'true' : 'false' }}
+resources:
+{% include blocks ~ 'resources.yml.twig' %}
