@@ -122,6 +122,8 @@ attributes:
         external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.preview.hostname')
+      smtp:
+        host: mailhog.kube-system.svc.cluster.local
     qa:
       yves:
         external_hosts:
@@ -139,6 +141,8 @@ attributes:
         external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.qa.hostname')
+      smtp:
+        host: mailhog.kube-system.svc.cluster.local
 
   helm:
     timeout: 900

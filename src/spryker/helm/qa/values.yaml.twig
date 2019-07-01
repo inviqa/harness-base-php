@@ -9,6 +9,7 @@ app:
 {% endfor %}
     RABBITMQ_EXTERNAL_HOST: {{ @('pipeline.qa.rabbitmq.external_host') }}
     JENKINS_EXTERNAL_HOST: {{ @('pipeline.qa.jenkins.external_host') }}
+    SMTP_HOST: {{ @('pipeline.qa.smtp.host') }}
   nginx:
     environment:
       ZED_HOST: {{ @('pipeline.qa.zed.external_host') }}
