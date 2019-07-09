@@ -15,3 +15,5 @@ service:
   postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
   redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
   redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
+resources:
+{% include blocks ~ 'resources.yml.twig' %}

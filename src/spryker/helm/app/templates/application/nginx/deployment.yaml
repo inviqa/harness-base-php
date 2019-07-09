@@ -25,7 +25,11 @@ spec:
         name: nginx
         ports:
         - containerPort: 80
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.nginx }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.nginx }}
         readinessProbe:
           tcpSocket:
             port: 80

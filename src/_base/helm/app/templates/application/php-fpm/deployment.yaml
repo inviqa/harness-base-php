@@ -25,7 +25,11 @@ spec:
         name: php-fpm
         ports:
         - containerPort: 9000
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.php_fpm }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.php_fpm }}
         readinessProbe:
           tcpSocket:
             port: 9000

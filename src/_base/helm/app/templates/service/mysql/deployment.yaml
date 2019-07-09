@@ -33,7 +33,11 @@ spec:
         - lost+found
         ports:
         - containerPort: 3306
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.mysql }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.mysql }}
         readinessProbe:
           tcpSocket:
             port: 3306

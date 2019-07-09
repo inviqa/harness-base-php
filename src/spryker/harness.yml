@@ -146,6 +146,18 @@ attributes:
 
   helm:
     timeout: 900
+
+  resources:
+    requests:
+      memory:
+        jenkins_runner: "256Mi"
+        jenkins: "1536Mi"
+        rabbitmq: "128Mi"
+    limits:
+      memory:
+        jenkins_runner: "256Mi"
+        jenkins: "1536Mi"
+        rabbitmq: "128Mi"
 ---
 command('frontend yves watch'):
   env:

@@ -37,7 +37,11 @@ spec:
         name: redis
         ports:
         - containerPort: 6379
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.redis }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.redis }}
         readinessProbe:
           tcpSocket:
             port: 6379
