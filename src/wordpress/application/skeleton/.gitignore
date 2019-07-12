@@ -2,6 +2,7 @@
 # Directories
 
 /.my127ws
+/.docker-sync/
 /.github/
 /bin/
 /public/wp-content/uploads/

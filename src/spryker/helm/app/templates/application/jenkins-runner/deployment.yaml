@@ -26,7 +26,11 @@ spec:
         image: {{ .Values.docker.image.jenkins_runner }}
         imagePullPolicy: Always
         name: jenkins-runner
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.jenkins_runner }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.jenkins_runner }}
         readinessProbe:
           exec:
             command:

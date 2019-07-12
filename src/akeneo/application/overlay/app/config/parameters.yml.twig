@@ -1,0 +1,13 @@
+parameters:
+    database_driver:                      pdo_mysql
+    database_port:                        ~
+    database_host:                        "{{ @('database.host') }}"
+    database_name:                        "{{ @('database.name') }}"
+    database_user:                        "{{ @('database.user') }}"
+    database_password:                    "{{ @('database.pass') }}"
+    locale:                               en
+    secret:                               "{{ @('akeneo.secret') }}"
+    product_index_name:                   akeneo_pim_product
+    product_model_index_name:             akeneo_pim_product_model
+    product_and_product_model_index_name: akeneo_pim_product_and_product_model
+    index_hosts:                          'elasticsearch: 9200'

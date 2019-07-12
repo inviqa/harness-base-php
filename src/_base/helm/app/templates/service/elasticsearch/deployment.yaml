@@ -21,12 +21,16 @@ spec:
           value: -Xmx512m -Xms512m
         - name: discovery.type
           value: single-node
-        image: elasticsearch:5.6
+        image: {{ .Values.docker.image.elasticsearch }}
         imagePullPolicy: Always
         name: elasticsearch
         ports:
         - containerPort: 9200
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.elasticsearch }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.elasticsearch }}
         readinessProbe:
           tcpSocket:
             port: 9200

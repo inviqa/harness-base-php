@@ -21,6 +21,10 @@ attributes.default:
 
   docker-sync: yes
 
+  jenkins:
+    credentials:
+      my127ws_key: = @('workspace.name') ~ '-my127ws-key'
+
   pipeline:
     publish:
       enabled: no
@@ -121,6 +125,10 @@ attributes.default:
     name: app
     root_pass: DV6RdNY3QcFsBk7V
 
+  elasticsearch:
+    image: elasticsearch
+    tag: 7.1.1
+
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
 
@@ -130,6 +138,32 @@ attributes.default:
   php-fpm:
     entrypoint:
       steps: []
+
+  resources:
+    requests:
+      memory:
+        console: "10Mi"
+        nginx: "100Mi"
+        php_fpm: "1024Mi"
+        app_init: "1024Mi"
+        app_migrate: "1024Mi"
+        elasticsearch: "1024Mi"
+        mysql: "512Mi"
+        postgres: "512Mi"
+        redis: "256Mi"
+        redis_session: "128Mi"
+    limits:
+      memory:
+        console: "2048Mi"
+        nginx: "100Mi"
+        php_fpm: "1024Mi"
+        app_init: "1024Mi"
+        app_migrate: "1024Mi"
+        elasticsearch: "1024Mi"
+        mysql: "512Mi"
+        postgres: "512Mi"
+        redis: "256Mi"
+        redis_session: "128Mi"
 
   tls:
     key: |

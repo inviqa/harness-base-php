@@ -29,7 +29,7 @@ dynamic()
     # will often cause it to crash.
 
     if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru gem install docker-sync --no-ri --no-rdoc
+        passthru gem install docker-sync
         passthru docker-sync start
         passthru docker-sync stop
     fi
