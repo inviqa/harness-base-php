@@ -147,6 +147,11 @@ attributes:
   helm:
     timeout: 900
 
+  php-fpm:
+    entrypoint:
+      steps:
+        - echo "$(getent hosts nginx | awk '{ print $1 }') $ZED_HOST" >> /etc/hosts
+
   resources:
     requests:
       memory:

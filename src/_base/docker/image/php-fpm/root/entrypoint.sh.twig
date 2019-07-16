@@ -1,0 +1,16 @@
+#!/bin/bash
+
+{% if @('php-fpm.entrypoint.steps') is not empty %}
+docker_entrypoint()
+{
+    # run any command required to be executed at docker startup
+    {% for step in @('php-fpm.entrypoint.steps') -%}
+    {{ step|raw }}
+    {% endfor %}
+}
+
+docker_entrypoint
+{% endif %}
+
+# run
+exec supervisord -c /etc/supervisor/supervisord.conf -n

@@ -135,6 +135,10 @@ attributes.default:
   helm:
     timeout: 300
 
+  php-fpm:
+    entrypoint:
+      steps: []
+
   resources:
     requests:
       memory:
