@@ -17,4 +17,4 @@ command('app publish'): |
 
 command('app build jenkins-runner'): |
   #!bash(workspace:/)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-jenkins-runner -f .my127ws/docker/image/jenkins-runner/Dockerfile .
+  passthru docker build --pull -t @('docker.repository'):@('app.version')-jenkins-runner -f .my127ws/docker/image/jenkins-runner/Dockerfile .
