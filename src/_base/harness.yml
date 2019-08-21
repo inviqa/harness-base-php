@@ -1,0 +1,19 @@
+---
+harness('inviqa/php'):
+  description: A docker based development environment for PHP
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  app:
+    services:
+      - chrome
+      - mysql
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml
