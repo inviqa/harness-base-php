@@ -29,5 +29,5 @@ function merge_composer_json()
     run "mv $merged_file $core_file"
 
     local new_composer_packages="$(jq -r '.["require-dev"] | keys[]' $override_file | tr '\n' ' ')"
-    [ ! -z "$new_composer_packages" ] && passthru "COMPOSER_PROCESS_TIMEOUT=600 composer update --with-dependencies --no-interaction --profile $new_composer_packages"
+    [ ! -z "$new_composer_packages" ] && passthru "COMPOSER_PROCESS_TIMEOUT=600 composer update --no-interaction --profile $new_composer_packages"
 }
