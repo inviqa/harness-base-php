@@ -11,11 +11,11 @@ command('app build console'): |
 
 command('app build php-fpm'): |
   #!bash(harness:/docker/image/php-fpm)|@
-  passthru docker build --pull -t @('docker.repository'):@('app.version')-php-fpm .
+  passthru docker build -t @('docker.repository'):@('app.version')-php-fpm .
 
 command('app build nginx'): |
   #!bash(harness:/docker/image/nginx)|@
-  passthru docker build --pull -t @('docker.repository'):@('app.version')-nginx .
+  passthru docker build -t @('docker.repository'):@('app.version')-nginx .
 
 command('app publish'): |
   #!bash(workspace:/)|@
