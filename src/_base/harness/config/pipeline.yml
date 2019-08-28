@@ -7,7 +7,7 @@ command('app build'): |
 
 command('app build console'): |
   #!bash(workspace:/)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-console -f .my127ws/docker/image/console/Dockerfile .
+  passthru docker build --pull -t @('docker.repository'):@('app.version')-console -f .my127ws/docker/image/console/Dockerfile .
 
 command('app build php-fpm'): |
   #!bash(harness:/docker/image/php-fpm)|@
