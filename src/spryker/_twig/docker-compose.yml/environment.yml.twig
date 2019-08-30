@@ -1,34 +1,6 @@
-      APPLICATION_ENV: {{ @('spryker.mode') }}
-      SPRYKER_SALT: {{ @('spryker.salt') }}
-      HOST_OS_FAMILY: {{ @('host.os') }}
-      APP_NAME: {{ @('workspace.name') }}
-      ZED_HOST: {{ @('zed.external_host') }}
-      DB_HOST: {{ @('database.host') }}
-      DB_USER: {{ @('database.user') }}
-      DB_PASS: {{ @('database.pass') }}
-      DB_NAME: {{ @('database.name') }}
-      DB_ROOT_PASS: {{ @('database.root_pass') }}
-      ELASTICSEARCH_HOST: {{ @('elasticsearch.host') }}
-      ELASTICSEARCH_PORT: {{ @('elasticsearch.port') }}
-      PHP_IDE_CONFIG: "serverName=workspace"
-      REDIS_HOST: {{ @('redis.host') }}
-      REDIS_PORT: {{ @('redis.port') }}
-      REDIS_PROTOCOL: {{ @('redis.protocol') }}
-      RABBITMQ_HOST: {{ @('rabbitmq.host') }}
-      RABBITMQ_PORT: {{ @('rabbitmq.port') }}
-      RABBITMQ_API_PORT: {{ @('rabbitmq.api_port') }}
-      RABBITMQ_USER: {{ @('rabbitmq.user') }}
-      RABBITMQ_PASSWORD: {{ @('rabbitmq.password') }}
 {% for store, vhost in @('rabbitmq.vhosts') %}
       RABBITMQ_VHOST_{{ store }}: {{ vhost }}
 {% endfor %}
-      RABBITMQ_EXTERNAL_HOST: {{ @('rabbitmq.external_host') }}
-      SMTP_HOST: {{ @('smtp.host') }}
-      SMTP_PORT: {{ @('smtp.port') }}
-      JENKINS_HOST: {{ @('jenkins.host') }}
-      JENKINS_PORT: {{ @('jenkins.port') }}
-      JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
-      JENKINS_EXTERNAL_HOST: {{ @('jenkins.external_host') }}
 {% for store, yves_external_host in @('yves.external_hosts') %}
       YVES_HOST_{{ store }}: {{ yves_external_host }}
 {% endfor %}

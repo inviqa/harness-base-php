@@ -1,0 +1,16 @@
+attributes:
+  services:
+    console:
+      environment: &php-env
+        HOST_OS_FAMILY: = @('host.os')
+        APP_NAME: = @('workspace.name')
+        APP_HOST: = @('hostname')
+        DB_HOST: = @('database.host')
+        DB_USER: = @('database.user')
+        DB_PASS: = @('database.pass')
+        DB_NAME: = @('database.name')
+        DB_ROOT_PASS: = @('database.root_pass')
+        PHP_IDE_CONFIG: "serverName=workspace"
+    php-fpm:
+      environment:
+        <<: *php-env

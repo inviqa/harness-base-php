@@ -21,7 +21,8 @@
 {% endif %}
     labels:
       - traefik.enable=false
-    environment: &APP_ENV_VARS
+    environment:
+{{ to_nice_yaml(@('services.console.environment'), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
@@ -42,6 +43,7 @@
     links:
       - php-fpm:php-fpm
     environment:
+{{ to_nice_yaml(@('services.nginx.environment'), 2, 6) | raw }}
 {% include blocks ~ 'nginx_environment.yml.twig' %}
     networks:
       private:
@@ -72,4 +74,5 @@
       - private
       - shared
     environment:
-      <<: *APP_ENV_VARS
+{{ to_nice_yaml(@('services.php-fpm.environment'), 2, 6) | raw }}
+{% include blocks ~ 'environment.yml.twig' %}

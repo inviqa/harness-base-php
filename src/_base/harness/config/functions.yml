@@ -2,6 +2,10 @@ function('to_yaml', [text]): |
   #!php
   = preg_replace('/^/m', '  ', \Symfony\Component\Yaml\Yaml::dump($text, 100, 2));
 
+function('to_nice_yaml', [text, indentation, nesting]): |
+  #!php
+  = preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), \Symfony\Component\Yaml\Yaml::dump($text, 100, $indentation ?: 2));
+
 function('branch'): |
   #!bash(workspace:/)
   =$(git branch | grep \* | cut -d ' ' -f2)
