@@ -9,7 +9,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: php-fpm
+      app.service: redis-session
   template:
     metadata:
       labels:
