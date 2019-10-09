@@ -13,7 +13,7 @@ server {
         {{ name }} {{ value }};
     {% endfor %}
 
-    root /app/{{ @('drupal.docroot') }}; ## <-- Your only path reference.
+    root {{ @('app.web_directory') }}; ## <-- Your only path reference.
 
     location = /favicon.ico {
         log_not_found off;

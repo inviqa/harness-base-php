@@ -15,7 +15,7 @@ attributes:
   php:
     version: 7.2
   wordpress:
-    install_directory: /app/public/
+    install_directory: = @('app.web_directory')
     url: = 'https://' ~ @('hostname') ~ '/'
     url_prefix: /
     security:
@@ -31,8 +31,6 @@ attributes:
       nonce:
         key:  Nnrhwn4aTXsGHfJPDTtrNuHT5cmZgbEANLQXxQyQ63v5jdjaQUUqBGcKgJNhCwkV
         salt: QjdTgTd7HcSx2jCmzVHyeYCfBBBjjdkuvRYJ8C9cAMYPpCRa3U8uYRHRWbSADTuh
-  nginx:
-    public_directory: /app/public/
   database:
     user: wordpress
     pass: wordpress

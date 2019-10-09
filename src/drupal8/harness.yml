@@ -20,6 +20,7 @@ attributes:
       - chrome
       - mysql
       - redis
+    web_directory: = '/app/' ~ @('drupal.docroot')
   drupal:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     docroot: docroot

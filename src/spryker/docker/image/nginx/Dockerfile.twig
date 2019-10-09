@@ -6,7 +6,9 @@ FROM nginx:1.17-alpine
 COPY root /
 
 {% if @('app.build') == 'static' %}
-COPY --from=console /app /app
+{% for copy_directory in @('nginx.copy_directories') %}
+COPY --from=console {{ copy_directory }} {{ copy_directory }}
+{% endfor %}
 {% else %}
 VOLUME /app
 {% endif %}

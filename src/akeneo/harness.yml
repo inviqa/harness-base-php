@@ -13,6 +13,7 @@ attributes:
       - chrome
       - elasticsearch
       - mysql
+    web_directory: /app/web
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
   php:
