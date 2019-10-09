@@ -8,13 +8,13 @@ metadata:
    app.service: auth
 spec:
  hosts:
- - {{ .Values.docker.services.auth.environment.APP_HOST }}
+ - {{ .Values.environment.APP_HOST }}
  gateways:
  - istio-system/{{ .Release.Namespace }}-gateway
  http:
  - route:
    - destination:
-       host: auth
+       host: nginx
        port:
-         number: 3000
+         number: 80
 {{ end }}
