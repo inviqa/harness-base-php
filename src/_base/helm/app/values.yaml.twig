@@ -1,6 +1,8 @@
 {% set blocks  = 'helm/app/_twig/values.yaml/' %}
+
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
+
 docker:
   config: {{ @('docker.config') }}
   image:
@@ -8,6 +10,7 @@ docker:
     fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
+
 service:
   elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
   memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
@@ -15,5 +18,8 @@ service:
   postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
   redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
   redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
+
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
+
+ingress: "standard" # standard or istio

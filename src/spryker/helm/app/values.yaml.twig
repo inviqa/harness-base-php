@@ -1,6 +1,8 @@
 {% set blocks  = 'helm/app/_twig/values.yaml/' %}
+
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
+
 docker:
   config: {{ @('docker.config') }}
   image:
@@ -9,6 +11,7 @@ docker:
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     jenkins_runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
+
 service:
   mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
   postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
@@ -19,5 +22,8 @@ service:
   jenkins: {{ ("jenkins" in @('app.services')) ? 'true' : 'false' }}
   jenkins_runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
   rabbitmq: {{ ("rabbitmq" in @('app.services')) ? 'true' : 'false' }}
+
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
+
+ingress: "standard" # standard or istio

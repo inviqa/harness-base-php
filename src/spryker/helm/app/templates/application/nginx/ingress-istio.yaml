@@ -1,0 +1,22 @@
+{{ if eq .Values.ingress "istio" }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+ name: {{ .Release.Namespace }}-spryker-nginx-virtualservice
+ labels:
+   app: nginx
+   app.service: nginx
+spec:
+ hosts:
+{{ range $key, $value := .Values.nginx.environment }}
+ - "{{ $value }}"
+{{ end }}
+ gateways:
+ - istio-system/{{ .Release.Namespace }}-gateway
+ http:
+ - route:
+   - destination:
+       host: nginx
+       port:
+         number: 80
+{{ end }}
