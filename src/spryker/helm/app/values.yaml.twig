@@ -26,5 +26,8 @@ service:
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
 
+persistence:
+{{ to_nice_yaml(@('persistence'), 2, 2) | raw }}
+
 ingress: "standard" # standard or istio
 prefix: {{ @('workspace.name') ~ '-' }}

@@ -26,6 +26,8 @@ attributes:
       - mysql
       - redis
       - redis-session
+    web_directory: /app/pub
+    media_directory: = @('app.web_directory') ~ '/media'
   php:
     version: 7.2
   composer:
@@ -118,6 +120,16 @@ attributes:
     image:
       console: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch'
+
+  persistence:
+    enabled: false
+    magento:
+      media:
+        mountPath: = @('app.media_directory')
+        accessMode: ReadWriteMany # the requirement if persistence is enabled
+        #storageClass: "..." most clusters need a custom storageclass
+        #hostPath: "..." alternatively for single node testing
+        size: 1Gi
 ---
 command('redis-flush'): |
   #!bash(harness:/)|@

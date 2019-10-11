@@ -35,7 +35,17 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
+        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
       imagePullSecrets:
       - name: {{ .Values.prefix }}docker-config
       restartPolicy: Always
+      volumes:
+      {{- if not (eq "" (include "application.volumes.all" .)) }}
+      {{- include "application.volumes.all" . | indent 6 }}
+      {{- else }} []
+      {{- end }}
 status: {}

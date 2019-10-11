@@ -165,6 +165,9 @@ attributes.default:
         redis: "256Mi"
         redis_session: "128Mi"
 
+  persistence:
+    enabled: false
+
   tls:
     key: |
       -----BEGIN PRIVATE KEY-----

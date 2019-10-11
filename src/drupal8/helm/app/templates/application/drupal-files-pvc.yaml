@@ -1,0 +1,41 @@
+{{- if .Values.persistence.enabled -}}
+{{- with Values.persistence.drupal.files -}}
+{{- if .hostPath }}
+---
+kind: PersistentVolume
+metadata:
+  name: drupal-files
+spec:
+  capacity: {{ .size | quote }}
+  accessModes:
+    - {{ .accessMode | quote }}
+  hostPath:
+    path: {{ .hostPath | quote }}
+  storageClassName: host-drupal-files
+...
+{{- end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: drupal-files-pvc
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .hostPath }}
+      storageClassName: host-drupal-files
+{{- else }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+...
+{{- end -}}
+{{- end -}}

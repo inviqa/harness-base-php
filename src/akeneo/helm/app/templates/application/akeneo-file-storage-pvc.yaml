@@ -1,0 +1,40 @@
+{{- if .Values.persistence.enabled -}}
+{{- with .Values.persistence.akeneo.file_storage -}}
+{{- if .hostPath }}
+---
+kind: PersistentVolume
+metadata:
+  name: akeneo-file-storage
+spec:
+  capacity: {{ .size | quote }}
+  accessModes:
+    - {{ .accessMode | quote }}
+  hostPath:
+    path: {{ .hostPath | quote }}
+  storageClassName: host-akeneo-file-storage
+...
+{{- end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: akeneo-file-storage-pvc
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .hostPath }}
+      storageClassName: host-akeneo-file-storage
+{{- else }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+...
+{{- end -}}
+{{- end -}}
