@@ -1,0 +1,9 @@
+attributes:
+  services:
+    console:
+      environment: &php-env
+        DRUPAL_DOCROOT: = @('drupal.docroot')
+        DRUPAL_SALT: = @('drupal.salt')
+    php-fpm:
+      environment:
+        <<: *php-env
