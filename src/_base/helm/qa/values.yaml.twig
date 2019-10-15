@@ -1,3 +1,4 @@
-app:
+{{ @('workspace.name') }}:
   environment:
     APP_HOST: {{ @('pipeline.qa.hostname') }}
+  prefix: ~

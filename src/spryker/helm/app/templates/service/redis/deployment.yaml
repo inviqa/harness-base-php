@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis
+  name: {{ .Values.prefix }}redis
   labels:
-    app.service: redis
+    app.service: {{ .Values.prefix }}redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: redis
+      app.service: {{ .Values.prefix }}redis
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app.service: redis
+        app.service: {{ .Values.prefix }}redis
     spec:
       containers:
       - args:
@@ -48,12 +48,12 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: redis-persistent-storage
+        - name: {{ .Values.prefix }}redis-persistent-storage
           mountPath: /data
       restartPolicy: Always
       volumes:
-      - name: redis-persistent-storage
+      - name: {{ .Values.prefix }}redis-persistent-storage
         persistentVolumeClaim:
-          claimName: redis-pv-claim
+          claimName: {{ .Values.prefix }}redis-pv-claim
 status: {}
 {{ end }}

@@ -19,3 +19,5 @@ app:
 {% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
       GLUE_HOST_{{ store }}: {{ glue_external_host }}
 {% endfor %}
+
+prefix: ~

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: php-fpm
+  name: {{ .Values.prefix }}php-fpm
   labels:
-    app.service: php-fpm
+    app.service: {{ .Values.prefix }}php-fpm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: php-fpm
+      app.service: {{ .Values.prefix }}php-fpm
   template:
     metadata:
       labels:
-        app.service: php-fpm
+        app.service: {{ .Values.prefix }}php-fpm
     spec:
       containers:
       - env:
@@ -36,6 +36,6 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
       imagePullSecrets:
-      - name: docker-config
+      - name: {{ .Values.prefix }}docker-config
       restartPolicy: Always
 status: {}
