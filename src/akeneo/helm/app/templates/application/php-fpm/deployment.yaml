@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-fpm
+  labels:
+    app.service: php-fpm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: php-fpm
+  template:
+    metadata:
+      labels:
+        app.service: php-fpm
+    spec:
+      containers:
+      - env:
+        {{ range $key, $value := .Values.environment }}
+        - name: {{ $key }}
+          value: "{{ $value }}"
+        {{ end }}
+        image: {{ .Values.docker.image.fpm }}
+        imagePullPolicy: Always
+        name: php-fpm
+        ports:
+        - containerPort: 9000
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.php_fpm }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.php_fpm }}
+        readinessProbe:
+          tcpSocket:
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: php-fpm-file-storage
+          mountPath: /app/app/file_storage
+        - name: php-fpm-uploads
+          mountPath: /app/app/uploads
+      imagePullSecrets:
+      - name: docker-config
+      restartPolicy: Always
+      initContainers:
+      - name: php-fpm-data-permission-fix-1
+        image: busybox
+        command: ["/bin/chown", "-R", "www-data", "/app/app/file_storage"]
+        volumeMounts:
+        - name: php-fpm-file-storage
+          mountPath: /app/app/file_storage
+      - name: php-fpm-data-permission-fix-2
+        image: busybox
+        command: ["/bin/chown", "-R", "www-data", "/app/app/uploads"]
+        volumeMounts:
+        - name: php-fpm-uploads
+          mountPath: /app/app/uploads
+      volumes:
+      - name: php-fpm-file-storage
+        persistentVolumeClaim:
+          claimName: php-fpm-pv-claim-storage
+      - name: php-fpm-uploads
+        persistentVolumeClaim:
+          claimName: php-fpm-pv-claim-uploads
+status: {}
