@@ -38,6 +38,11 @@ command('exec %'):
   exec: |
     #!bash(workspace:/)|=
     docker-compose exec -T -u build console ={ input.argument('%') }
+    
+command('logs %'):
+  exec: |
+    #!bash(harness:/)|=
+    docker-compose -p ={@('namespace')} logs ={input.argument('%')}
 
 command('console'):
   env:
