@@ -2,10 +2,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
- name: {{ .Release.Namespace }}-auth-auth-virtualservice
+ name: {{ .Release.Namespace }}-{{ .Values.prefix }}nginx-virtualservice
  labels:
-   app: auth
-   app.service: auth
+   app: {{ .Values.prefix }}nginx
+   app.service: {{ .Values.prefix }}nginx
 spec:
  hosts:
  - {{ .Values.environment.APP_HOST }}
@@ -14,7 +14,7 @@ spec:
  http:
  - route:
    - destination:
-       host: nginx
+       host: {{ .Values.prefix }}nginx
        port:
          number: 80
 {{ end }}

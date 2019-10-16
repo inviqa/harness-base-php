@@ -1,12 +1,14 @@
+{{ if .Values.service.redis }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: redis-pv-claim
+  name: {{ .Values.prefix }}redis-pv-claim
   labels:
-    app.service: redis
+    app.service: {{ .Values.prefix }}redis
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
+{{ end }}

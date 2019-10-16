@@ -27,3 +27,4 @@ resources:
 {% include blocks ~ 'resources.yml.twig' %}
 
 ingress: "standard" # standard or istio
+prefix: {{ @('workspace.name') ~ '-' }}

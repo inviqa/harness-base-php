@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: {{ .Values.prefix }}postgres
   labels:
-    app.service: postgres
+    app.service: {{ .Values.prefix }}postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: postgres
+      app.service: {{ .Values.prefix }}postgres
   template:
     metadata:
       labels:
-        app.service: postgres
+        app.service: {{ .Values.prefix }}postgres
     spec:
       containers:
       - env:
@@ -41,12 +41,12 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: postgres-persistent-storage
+        - name: {{ .Values.prefix }}postgres-persistent-storage
           mountPath: /var/lib/postgresql/data
       restartPolicy: Always
       volumes:
-      - name: postgres-persistent-storage
+      - name: {{ .Values.prefix }}postgres-persistent-storage
         persistentVolumeClaim:
-          claimName: postgres-pv-claim
+          claimName: {{ .Values.prefix }}postgres-pv-claim
 status: {}
 {{ end }}

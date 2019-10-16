@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.service: rabbitmq
-  name: rabbitmq
+    app.service: {{ .Values.prefix }}rabbitmq
+  name: {{ .Values.prefix }}rabbitmq
 spec:
   ports:
   - name: "5672"
@@ -14,7 +14,7 @@ spec:
     port: 15672
     targetPort: 15672
   selector:
-    app.service: rabbitmq
+    app.service: {{ .Values.prefix }}rabbitmq
 status:
   loadBalancer: {}
 {{ end }}

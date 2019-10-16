@@ -29,7 +29,9 @@ confd('harness:/'):
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   - { src: helm/app/values.yaml }
+  - { src: helm/app/Chart.yaml }
   - { src: helm/qa/values.yaml }
+  - { src: helm/qa/Chart.yaml }
   # harness-spryker templates
   - { src: application/skeleton/.gitignore }
   - { src: application/skeleton/config/install/docker.yml }

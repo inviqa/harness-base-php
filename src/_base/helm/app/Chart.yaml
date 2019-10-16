@@ -1,5 +1,0 @@
-name: app
-description: Base helm chart for the app
-version: 0.0.1
-sources:
-home:
