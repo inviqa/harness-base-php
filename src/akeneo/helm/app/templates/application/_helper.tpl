@@ -21,3 +21,8 @@
   emptyDir: {}
 {{- end }}
 {{- end }}
+
+{{- define "application.volumes.wwwDataPaths" }}
+- {{ .Values.persistence.akeneo.file_storage.mountPath | quote }}
+- {{ .Values.persistence.akeneo.uploads.mountPath | quote }}
+{{- end }}

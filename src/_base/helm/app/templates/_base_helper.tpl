@@ -2,3 +2,4 @@
 {{- define "application.volumes.all" }}{{ end }}
 {{- define "application.volumeMounts.backend" }}{{ end }}
 {{- define "application.volumeMounts.all" }}{{ end }}
+{{- define "application.volumes.wwwDataPaths" }}{{ end }}

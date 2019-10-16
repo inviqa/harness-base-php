@@ -12,3 +12,7 @@
   emptyDir: {}
 {{- end }}
 {{- end }}
+
+{{- define "application.volumes.wwwDataPaths" }}
+- {{ .Values.persistence.magento.media.mountPath | quote }}
+{{- end }}
