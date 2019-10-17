@@ -40,9 +40,11 @@ command('exec %'):
     docker-compose exec -T -u build console ={ input.argument('%') }
     
 command('logs %'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(harness:/)|=
-    docker-compose -p ={@('namespace')} logs ={input.argument('%')}
+    docker-compose logs ={input.argument('%')}
 
 command('console'):
   env:
