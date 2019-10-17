@@ -46,6 +46,10 @@ command('console'):
     #!bash(workspace:/)|@
     passthru docker-compose exec -u build console bash
 
+command('db-console'): |
+  #!bash
+  ws db console
+
 command('db console'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
