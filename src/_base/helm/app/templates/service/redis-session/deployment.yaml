@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}redis-session
+  name: {{ .Values.resourcePrefix }}redis-session
   labels:
-    app.service: {{ .Values.prefix }}redis-session
+    app.service: {{ .Values.resourcePrefix }}redis-session
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}redis-session
+      app.service: {{ .Values.resourcePrefix }}redis-session
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}redis-session
+        app.service: {{ .Values.resourcePrefix }}redis-session
     spec:
       containers:
       - args:

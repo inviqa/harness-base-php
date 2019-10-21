@@ -1,4 +1,4 @@
 {{ @('workspace.name') }}:
   environment:
     APP_HOST: {{ @('pipeline.qa.hostname') }}
-  prefix: ""
+  resourcePrefix: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}

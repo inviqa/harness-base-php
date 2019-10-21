@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}elasticsearch
+  name: {{ .Values.resourcePrefix }}elasticsearch
   labels:
-    app.service: {{ .Values.prefix }}elasticsearch
+    app.service: {{ .Values.resourcePrefix }}elasticsearch
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}elasticsearch
+      app.service: {{ .Values.resourcePrefix }}elasticsearch
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}elasticsearch
+        app.service: {{ .Values.resourcePrefix }}elasticsearch
     spec:
       containers:
       - env:
@@ -37,12 +37,12 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.prefix }}elasticsearch-persistent-storage
+        - name: {{ .Values.resourcePrefix }}elasticsearch-persistent-storage
           mountPath: /usr/share/elasticsearch/data
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.prefix }}elasticsearch-persistent-storage
+      - name: {{ .Values.resourcePrefix }}elasticsearch-persistent-storage
         persistentVolumeClaim:
-          claimName: {{ .Values.prefix }}elasticsearch-pv-claim
+          claimName: {{ .Values.resourcePrefix }}elasticsearch-pv-claim
 status: {}
 {{ end }}

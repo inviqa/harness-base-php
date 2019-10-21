@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.prefix }}app-migrate
+  name: {{ .Values.resourcePrefix }}app-migrate
   annotations:
     helm.sh/hook: "pre-upgrade"
     helm.sh/hook-delete-policy: "before-hook-creation"
@@ -24,5 +24,5 @@ spec:
           requests:
             memory: {{ .Values.resources.requests.memory.app_migrate }}
       imagePullSecrets:
-      - name: {{ .Values.prefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Never

@@ -3,15 +3,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.service: {{ .Values.prefix }}redis-session
-  name: {{ .Values.prefix }}redis-session
+    app.service: {{ .Values.resourcePrefix }}redis-session
+  name: {{ .Values.resourcePrefix }}redis-session
 spec:
   ports:
   - name: "6379"
     port: 6379
     targetPort: 6379
   selector:
-    app.service: {{ .Values.prefix }}redis-session
+    app.service: {{ .Values.resourcePrefix }}redis-session
 status:
   loadBalancer: {}
 {{ end }}

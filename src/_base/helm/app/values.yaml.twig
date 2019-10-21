@@ -23,4 +23,4 @@ resources:
 {% include blocks ~ 'resources.yml.twig' %}
 
 ingress: "standard" # standard or istio
-prefix: {{ @('workspace.name') ~ '-' }}
+resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}

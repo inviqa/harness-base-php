@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.prefix }}postgres-pv-claim
+  name: {{ .Values.resourcePrefix }}postgres-pv-claim
   labels:
-    app.service: {{ .Values.prefix }}postgres
+    app.service: {{ .Values.resourcePrefix }}postgres
 spec:
   accessModes:
     - ReadWriteOnce

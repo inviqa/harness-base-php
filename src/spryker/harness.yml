@@ -124,6 +124,7 @@ attributes:
         external_host: = 'jenkins-' ~ @('pipeline.preview.hostname')
       smtp:
         host: mailhog.kube-system.svc.cluster.local
+      resourcePrefix: ~
     qa:
       yves:
         external_hosts:
