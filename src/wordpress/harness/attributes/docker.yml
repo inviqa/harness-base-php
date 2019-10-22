@@ -1,7 +1,7 @@
 attributes:
   services:
-    console:
-      environment: &php-env
+    php_base:
+      environment:
         WORDPRESS_INSTALL_DIRECTORY: = @('wordpress.install_directory')
         WORDPRESS_URL: = @('wordpress.url')
         WORDPRESS_AUTH_KEY: = @('wordpress.security.auth.key')
@@ -12,7 +12,3 @@ attributes:
         WORDPRESS_SECURE_AUTH_SALT: = @('wordpress.security.secure_auth.salt')
         WORDPRESS_LOGGED_IN_SALT: = @('wordpress.security.logged_in.salt')
         WORDPRESS_NONCE_SALT: = @('wordpress.security.nonce.salt')
-    php-fpm:
-      environment:
-        <<: *php-env
-

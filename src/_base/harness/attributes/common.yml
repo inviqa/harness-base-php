@@ -35,6 +35,8 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+    base:
+      hostname:  = @('pipeline.preview.hostname')
     qa:
       enabled: no
       environment: ~

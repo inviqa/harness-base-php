@@ -1,23 +1,21 @@
+{% set hosts_env = {} %}
+{% for store, yves_external_host in @('pipeline.qa.yves.external_hosts') %}
+{% set hosts_env = hosts_env|merge({('YVES_HOST_' ~ store): yves_external_host}) %}
+{% endfor %}
+{% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
+{% set hosts_env = hosts_env|merge({('GLUE_HOST_' ~ store): glue_external_host}) %}
+{% endfor %}
+{% set additional_services = {
+  'php_base': {
+    'environment': hosts_env
+  },
+  'nginx': {
+    'environment': hosts_env
+  }
+} %}
 {{ @('workspace.name') }}:
-  environment:
-{% for store, yves_external_host in @('pipeline.qa.yves.external_hosts') %}
-    YVES_HOST_{{ store }}: {{ yves_external_host }}
-{% endfor %}
-    ZED_HOST: {{ @('pipeline.qa.zed.external_host') }}
-{% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
-    GLUE_HOST_{{ store }}: {{ glue_external_host }}
-{% endfor %}
-    RABBITMQ_EXTERNAL_HOST: {{ @('pipeline.qa.rabbitmq.external_host') }}
-    JENKINS_EXTERNAL_HOST: {{ @('pipeline.qa.jenkins.external_host') }}
-    SMTP_HOST: {{ @('pipeline.qa.smtp.host') }}
-  nginx:
-    environment:
-      ZED_HOST: {{ @('pipeline.qa.zed.external_host') }}
-{% for store, yves_external_host in @('pipeline.qa.yves.external_hosts') %}
-      YVES_HOST_{{ store }}: {{ yves_external_host }}
-{% endfor %}
-{% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
-      GLUE_HOST_{{ store }}: {{ glue_external_host }}
-{% endfor %}
+  docker:
+    services:
+{{ deep_merge_to_yaml([@('pipeline.qa.services'), additional_services], 2, 6) | raw }}
 
   prefix: ""

@@ -8,9 +8,9 @@ metadata:
    app.service: {{ .Values.prefix }}nginx
 spec:
  hosts:
-{{ range $key, $value := .Values.nginx.environment }}
- - "{{ $value }}"
-{{ end }}
+{{- range $key, $value := .Values.docker.services.nginx.environment }}
+ - {{ $value | quote }}
+{{- end }}
  gateways:
  - istio-system/{{ .Release.Namespace }}-gateway
  http:

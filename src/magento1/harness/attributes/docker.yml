@@ -1,8 +1,5 @@
 attributes:
   services:
-    console:
-      environment: &php-env
-        MAGENTO_CRYPT_KEY: = @('magento.crypt.key')
-    php-fpm:
+    php_base:
       environment:
-        <<: *php-env
+        MAGENTO_CRYPT_KEY: = @('magento.crypt.key')

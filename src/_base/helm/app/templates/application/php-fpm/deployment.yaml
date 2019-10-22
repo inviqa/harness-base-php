@@ -16,10 +16,18 @@ spec:
     spec:
       containers:
       - env:
-        {{ range $key, $value := .Values.environment }}
-        - name: {{ $key }}
-          value: "{{ $value }}"
-        {{ end }}
+        {{- range $key, $value := .Values.docker.services.php_base.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- range $key, $value := .Values.docker.services.php_fpm.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- range $key, $value := .Values.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: {{ .Values.docker.image.fpm }}
         imagePullPolicy: Always
         name: php-fpm
