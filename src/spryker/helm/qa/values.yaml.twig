@@ -19,5 +19,8 @@
 {% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
       GLUE_HOST_{{ store }}: {{ glue_external_host }}
 {% endfor %}
-
+{% if @('pipeline.qa.persistence') %}
+  persistence:
+{{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) | raw }}
+{% endif %}
   prefix: ""

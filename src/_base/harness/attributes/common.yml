@@ -26,6 +26,8 @@ attributes.default:
       my127ws_key: = @('workspace.name') ~ '-my127ws-key'
 
   pipeline:
+    base:
+      persistence: = @('persistence')
     publish:
       enabled: no
     preview:
@@ -35,6 +37,7 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+      persistence: ~
     qa:
       enabled: no
       environment: ~
@@ -43,6 +46,7 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ 'qa'
       hostname: = @('pipeline.qa.namespace') ~ '.example.com'
+      persistence: ~
 
   docker:
     repository: = @("workspace.name")
