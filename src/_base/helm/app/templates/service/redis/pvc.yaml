@@ -1,13 +1,13 @@
-{{ if and .Values.service.elasticsearch .Values.persistence.elasticsearch.enabled -}}
+{{ if and .Values.service.redis .Values.persistence.redis.enabled -}}
 
-{{- with .Values.persistence.elasticsearch -}}
+{{- with .Values.persistence.redis -}}
 
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ $.Values.prefix }}elasticsearch-pv-claim
+  name: {{ $.Values.prefix }}redis-pv-claim
   labels:
-    app.service: {{ $.Values.prefix }}elasticsearch
+    app.service: {{ $.Values.prefix }}redis
 spec:
   accessModes:
     - {{ .accessMode | quote }}

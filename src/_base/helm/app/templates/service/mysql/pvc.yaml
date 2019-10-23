@@ -1,14 +1,27 @@
-{{ if .Values.service.mysql }}
-apiVersion: v1
+{{ if and .Values.service.mysql .Values.persistence.mysql.enabled -}}
+
+{{- with .Values.persistence.mysql -}}
+
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
-  name: {{ .Values.prefix }}mysql-pv-claim
+  name: {{ $.Values.prefix }}mysql-pv-claim
   labels:
-    app.service: {{ .Values.prefix }}mysql
+    app.service: {{ $.Values.prefix }}mysql
 spec:
   accessModes:
-    - ReadWriteOnce
+    - {{ .accessMode | quote }}
   resources:
     requests:
-      storage: 4Gi
-{{ end }}
+      storage: {{ .size | quote }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+
+{{- end }}
+
+{{- end }}

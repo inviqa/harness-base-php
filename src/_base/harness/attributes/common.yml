@@ -169,6 +169,23 @@ attributes.default:
     enabled: false
     mountVolumesOnConsole: true # possible to disable, but may lead to unexpected concequences with app init/migrate
 
+    elasticsearch:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
+    mysql:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    postgres:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    redis:
+      enabled: false
+      accessMode: ReadWriteOnce
+      size: 2Gi
+
   tls:
     key: |
       -----BEGIN PRIVATE KEY-----

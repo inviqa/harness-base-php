@@ -42,7 +42,11 @@ spec:
       restartPolicy: Always
       volumes:
       - name: {{ .Values.prefix }}elasticsearch-persistent-storage
+{{- if .Values.persistence.elasticsearch.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.prefix }}elasticsearch-pv-claim
+{{- else }}
+        emptyDir: {}
+{{- end }}
 status: {}
 {{ end }}
