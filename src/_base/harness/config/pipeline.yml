@@ -38,3 +38,14 @@ command('app deploy <environment>'):
     passthru helm init --client-only
     passthru helm dependency build
     passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
+
+command('helm template <chart-path>'):
+  env:
+    CHART_PATH:  = input.argument('chart-path')
+    NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+  exec: |
+    #!bash(harness:/helm)|=
+    cd "${CHART_PATH}"
+    passthru helm init --client-only
+    passthru helm dependency build
+    passthru helm template .

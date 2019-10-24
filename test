@@ -26,6 +26,8 @@ function test()
     ws exec composer test-unit
     ws exec composer test-acceptance
 
+    ws helm template qa >/dev/null
+
     ws disable
     ws enable
 )

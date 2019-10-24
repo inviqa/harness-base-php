@@ -1,4 +1,4 @@
-app:
+{{ @('workspace.name') }}:
   environment:
 {% for store, yves_external_host in @('pipeline.preview.yves.external_hosts') %}
     YVES_HOST_{{ store }}: {{ yves_external_host }}
