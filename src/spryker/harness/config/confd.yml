@@ -30,6 +30,7 @@ confd('harness:/'):
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   - { src: helm/app/values.yaml }
   - { src: helm/app/Chart.yaml }
+  - { src: helm/qa/requirements.yaml }
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
   # harness-spryker templates
@@ -43,4 +44,5 @@ confd('harness:/'):
   - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf.template }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf.template }
   - { src: docker/image/jenkins-runner/Dockerfile }
+  - { src: helm/preview/requirements.yaml }
   - { src: helm/preview/values.yaml }
