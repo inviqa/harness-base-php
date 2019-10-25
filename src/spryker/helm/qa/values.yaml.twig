@@ -6,7 +6,7 @@
 {% set hosts_env = hosts_env|merge({('GLUE_HOST_' ~ store): glue_external_host}) %}
 {% endfor %}
 {% set additional_services = {
-  'php_base': {
+  'php-base': {
     'environment': hosts_env
   },
   'nginx': {

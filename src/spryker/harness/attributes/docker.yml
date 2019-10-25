@@ -1,6 +1,6 @@
 attributes:
   services:
-    php_base:
+    php-base:
       environment:
         APPLICATION_ENV: = @('spryker.mode')
         SPRYKER_SALT: = @('spryker.salt')
@@ -22,7 +22,7 @@ attributes:
         JENKINS_URL: = 'http://' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
         ZED_HOST: = @('zed.external_host')
-    jenkins_runner:
+    jenkins-runner:
       environment:
         JENKINS_RUNNER_NAME: backend
     nginx:
@@ -36,7 +36,7 @@ attributes:
   pipeline:
     preview:
       services:
-        php_base:
+        php-base:
           environment:
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             JENKINS_EXTERNAL_HOST: = @('pipeline.preview.jenkins.external_host')
@@ -51,7 +51,7 @@ attributes:
             ZED_HOST: = @('pipeline.preview.zed.external_host')
     qa:
       services:
-        php_base:
+        php-base:
           environment:
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
             JENKINS_EXTERNAL_HOST: = @('pipeline.qa.jenkins.external_host')

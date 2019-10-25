@@ -1,5 +1,5 @@
 attributes:
   services:
-    php_base:
+    php-base:
       environment:
         MAGENTO_CRYPT_KEY: = @('magento.crypt.key')

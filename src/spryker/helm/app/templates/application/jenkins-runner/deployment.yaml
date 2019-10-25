@@ -17,11 +17,11 @@ spec:
     spec:
       containers:
       - env:
-        {{- range $key, $value := .Values.docker.services.php_base.environment }}
+        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        {{- range $key, $value := .Values.docker.services.jenkins_runner.environment }}
+        {{- range $key, $value := index .Values.docker.services "jenkins-runner" "environment" }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}

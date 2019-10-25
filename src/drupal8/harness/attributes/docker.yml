@@ -1,6 +1,6 @@
 attributes:
   services:
-    php_base:
+    php-base:
       environment:
         DRUPAL_DOCROOT: = @('drupal.docroot')
         DRUPAL_SALT: = @('drupal.salt')

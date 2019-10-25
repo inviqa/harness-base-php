@@ -14,7 +14,7 @@
       - console
       - jenkins
     environment:
-{{ deep_merge_to_yaml([@('services.php_base.environment'),@('services.jenkins_runner.environment')], 2, 6) | raw }}
+{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.jenkins-runner.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private

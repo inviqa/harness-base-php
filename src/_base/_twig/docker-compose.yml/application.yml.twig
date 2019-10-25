@@ -21,7 +21,7 @@
     labels:
       - traefik.enable=false
     environment:
-{{ deep_merge_to_yaml([@('services.php_base.environment'), @('services.console.environment')], 2, 6) | raw }}
+{{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.console.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
@@ -65,5 +65,5 @@
     networks:
       - private
     environment:
-{{ deep_merge_to_yaml([@('services.php_base.environment'), @('services.php_fpm.environment')], 2, 6) | raw }}
+{{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}

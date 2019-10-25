@@ -1,6 +1,6 @@
 attributes:
   services:
-    php_base:
+    php-base:
       environment:
         WORDPRESS_INSTALL_DIRECTORY: = @('wordpress.install_directory')
         WORDPRESS_URL: = @('wordpress.url')
