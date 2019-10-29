@@ -79,7 +79,11 @@
   "extra": {
     "enable-patching": true,
     "composer-exit-on-patch-failure": true,
-    "patches": [],
+    "patches": {
+      "drupal/core": {
+        "2259489 - Use strong validator for ETag and leverage symfony for HTTP revalidation": "https://www.drupal.org/files/issues/2019-06-05/2259489-try-symfonys-is-not-modified-method-26.patch"
+      },
+    },
     "installer-paths": {
       "docroot/core": [
         "type:drupal-core"
