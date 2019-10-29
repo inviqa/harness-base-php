@@ -20,9 +20,11 @@
     "drupal/devel": "^2.0",
     "drupal/drupal-extension": "^3.4",
     "jangregor/phpstan-prophecy": "^0.3.0",
+    "mglaman/drupal-check": "^1.0",
     "mikey179/vfsstream": "^1.0",
     "mglaman/phpstan-drupal": "^0.11.4",
     "phpstan/phpstan": "^0.11.5",
+    "phpstan/phpstan-deprecation-rules": "^0.11.2",
     "webflo/drupal-core-require-dev": "^8"
   },
   "require": {
@@ -63,7 +65,9 @@
       "@test-acceptance"
     ],
     "test-quality": [
-      "phpcs -v ./docroot/modules/custom"
+      "phpcs -v ./docroot/modules/custom",
+
+      "drupal-check -ad ./docroot/modules/custom"
     ],
     "test-unit": [
       "phpunit"
