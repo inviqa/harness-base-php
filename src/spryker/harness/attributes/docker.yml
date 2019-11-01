@@ -34,6 +34,13 @@ attributes:
         RABBITMQ_DEFAULT_USER: spryker
 
   pipeline:
+    base:
+      services:
+        php-base:
+          ELASTICSEARCH_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('elasticsearch.host')
+          REDIS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('redis.host')
+          RABBITMQ_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('rabbitmq.host')
+          JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
     preview:
       services:
         php-base:
