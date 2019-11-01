@@ -17,8 +17,13 @@ spec:
       containers:
       - env:
         {{- range $key, $value := .Values.docker.services.nginx.environment }}
+        {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else}}
           value: {{ $value | quote }}
+        {{- end }}
         {{- end }}
         image: {{ .Values.docker.image.nginx }}
         imagePullPolicy: Always

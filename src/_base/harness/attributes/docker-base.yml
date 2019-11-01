@@ -32,6 +32,7 @@ attributes:
       services:
         php-base:
           environment:
+            DB_HOST: = '{{ .Values.prefix }}' ~ @('database.host')
             APP_HOST: = @('pipeline.base.hostname')
             PHP_IDE_CONFIG: = ''
     qa:
