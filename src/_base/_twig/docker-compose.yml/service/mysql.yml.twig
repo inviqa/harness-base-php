@@ -3,10 +3,7 @@
     labels:
       - traefik.enable=false
     environment:
-      - MYSQL_ROOT_PASSWORD={{ @('database.root_pass') }}
-      - MYSQL_DATABASE={{ @('database.name') }}
-      - MYSQL_USER={{ @('database.user') }}
-      - MYSQL_PASSWORD={{ @('database.pass') }}
+{{ to_nice_yaml(@('services.mysql.environment'), 2, 6) | raw }}
     networks:
       - private
     ports:

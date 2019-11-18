@@ -10,10 +10,18 @@ spec:
     spec:
       containers:
       - env:
-        {{ range $key, $value := .Values.environment }}
-        - name: {{ $key }}
-          value: "{{ $value }}"
-        {{ end }}
+        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- range $key, $value := .Values.docker.services.console.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- range $key, $value := .Values.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
         name: app-migrate

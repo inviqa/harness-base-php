@@ -9,14 +9,14 @@ metadata:
   name: {{ .Values.prefix }}nginx
 spec:
   rules:
-  {{ range $key, $value := .Values.nginx.environment }}
-  - host: "{{ $value }}"
+  {{- range $key, $value := .Values.docker.services.nginx.environment }}
+  - host: {{ $value | quote }}
     http:
       paths:
       - backend:
           serviceName: {{ $root.Values.prefix }}nginx
           servicePort: 80
-  {{ end }}
+  {{- end }}
 status:
   loadBalancer: {}
 {{ end }}

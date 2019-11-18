@@ -17,14 +17,10 @@ spec:
     spec:
       containers:
       - env:
-        - name: POSTGRES_DB
-          value: {{ .Values.environment.DB_NAME }}
-        - name: POSTGRES_PASSWORD
-          value: {{ .Values.environment.DB_PASS }}
-        - name: POSTGRES_USER
-          value: {{ .Values.environment.DB_USER }}
-        - name: PGDATA
-          value: /var/lib/postgresql/data/pgdata
+        {{- range $key, $value := .Values.docker.services.postgres.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: postgres:9.6
         imagePullPolicy: Always
         name: postgres

@@ -1,31 +1,5 @@
-  APPLICATION_ENV: {{ @('spryker.mode') }}
-  SPRYKER_SALT: {{ @('spryker.salt') }}
-  HOST_OS_FAMILY: {{ @('host.os') }}
-  APP_NAME: {{ @('workspace.name') }}
-  DB_HOST: {{ @('database.host') }}
-  DB_USER: {{ @('database.user') }}
-  DB_PASS: {{ @('database.pass') }}
-  DB_NAME: {{ @('database.name') }}
-  DB_ROOT_PASS: {{ @('database.root_pass') }}
-  ELASTICSEARCH_HOST: {{ @('elasticsearch.host') }}
-  ELASTICSEARCH_PORT: {{ @('elasticsearch.port') }}
-  REDIS_HOST: {{ @('redis.host') }}
-  REDIS_PORT: {{ @('redis.port') }}
-  REDIS_PROTOCOL: {{ @('redis.protocol') }}
-  RABBITMQ_HOST: {{ @('rabbitmq.host') }}
-  RABBITMQ_PORT: {{ @('rabbitmq.port') }}
-  RABBITMQ_API_PORT: {{ @('rabbitmq.api_port') }}
-  RABBITMQ_USER: {{ @('rabbitmq.user') }}
-  RABBITMQ_PASSWORD: {{ @('rabbitmq.password') }}
+# environment: is deprecated, this has moved to harness/attributes/docker*.yml
+# however it is hard to do dynamic attributes there until a bugfix is forced in ws tool
 {% for store, vhost in @('rabbitmq.vhosts') %}
   RABBITMQ_VHOST_{{ store }}: {{ vhost }}
 {% endfor %}
-  SMTP_HOST: {{ @('smtp.host') }}
-  SMTP_PORT: {{ @('smtp.port') }}
-  JENKINS_HOST: {{ @('jenkins.host') }}
-  JENKINS_PORT: {{ @('jenkins.port') }}
-  JENKINS_URL: http://{{ @('jenkins.host') }}:{{ @('jenkins.port') }}/
-  DOCKER_IMAGE_CONSOLE: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
-  DOCKER_IMAGE_FPM: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
-  DOCKER_IMAGE_NGINX: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
-  DOCKER_IMAGE_JENKINS_RUNNER: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}

@@ -1,7 +1,7 @@
 attributes:
   services:
-    console:
-      environment: &php-env
+    php-base:
+      environment:
         HOST_OS_FAMILY: = @('host.os')
         APP_NAME: = @('workspace.name')
         APP_HOST: = @('hostname')
@@ -10,8 +10,33 @@ attributes:
         DB_USER: = @('database.user')
         DB_PASS: = @('database.pass')
         DB_NAME: = @('database.name')
-        DB_ROOT_PASS: = @('database.root_pass')
         PHP_IDE_CONFIG: "serverName=workspace"
-    php-fpm:
+    console:
       environment:
-        <<: *php-env
+        DB_ROOT_PASS: = @('database.root_pass')
+    php-fpm:
+      environment: {}
+    mysql:
+      environment:
+        MYSQL_DATABASE: = @('database.name')
+        MYSQL_PASSWORD: = @('database.pass')
+        MYSQL_ROOT_PASSWORD: = @('database.root_pass')
+        MYSQL_USER: = @('database.user')
+    postgres:
+      environment:
+        POSTGRES_DB: = @('database.name')
+        POSTGRES_PASSWORD: = @('database.pass')
+        POSTGRES_USER: = @('database.user')
+        PGDATA: /var/lib/postgresql/data/pgdata
+  pipeline:
+    base:
+      services:
+        php-base:
+          environment:
+            APP_HOST: = @('pipeline.base.hostname')
+            PHP_IDE_CONFIG: = ''
+    qa:
+      services:
+        php-base:
+          environment:
+            APP_HOST: = @('pipeline.qa.hostname')

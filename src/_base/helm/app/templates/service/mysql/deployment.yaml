@@ -17,14 +17,10 @@ spec:
     spec:
       containers:
       - env:
-        - name: MYSQL_DATABASE
-          value: {{ .Values.environment.DB_NAME }}
-        - name: MYSQL_PASSWORD
-          value: {{ .Values.environment.DB_PASS }}
-        - name: MYSQL_ROOT_PASSWORD
-          value: {{ .Values.environment.DB_ROOT_PASS }}
-        - name: MYSQL_USER
-          value: {{ .Values.environment.DB_USER }}
+        {{- range $key, $value := .Values.docker.services.mysql.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: mysql:5.7
         imagePullPolicy: Always
         name: mysql

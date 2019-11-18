@@ -11,6 +11,8 @@ docker:
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     jenkins_runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
+  services:
+{{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
 
 service:
   mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}

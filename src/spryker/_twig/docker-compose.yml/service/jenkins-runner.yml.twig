@@ -14,9 +14,8 @@
       - console
       - jenkins
     environment:
-{{ to_nice_yaml(@('services.php-fpm.environment'), 2, 6) | raw }}
+{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.jenkins-runner.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
-      JENKINS_RUNNER_NAME: backend
     networks:
       - private
     labels:
