@@ -8,11 +8,11 @@ function task_assets_dump()
         run "mkdir -p /app/${ASSETS_DIR}"
     fi
 
-    if [ "{{ @('database.type')|raw }}" == "mysql" ]; then
+    if [ "${DB_PLATFORM}" == "mysql" ]; then
         run "mysqldump -h ${DB_HOST} -u ${DB_USER} -p${DB_PASS} ${DB_NAME} | gzip > /app/${ASSETS_DIR}/${DB_NAME}.sql.gz"
-    elif [ "{{ @('database.type')|raw }}" == "postgres" ]; then
+    elif [ "${DB_PLATFORM}"  == "postgres" ]; then
         run "PGPASSWORD=$DB_PASS pg_dump -h ${DB_HOST} -U ${DB_USER} ${DB_NAME} | gzip > /app/${ASSETS_DIR}/${DB_NAME}.sql.gz"
-    else
+    elif [ -n "${DB_PLATFORM}" ]; then
         (>&2 echo "invalid database type")
         exit 1
     fi
