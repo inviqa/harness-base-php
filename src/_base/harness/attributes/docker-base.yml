@@ -11,8 +11,6 @@ attributes:
         DB_PASS: = @('database.pass')
         DB_NAME: = @('database.name')
         PHP_IDE_CONFIG: "serverName=workspace"
-        AKENEO_SECRET: = @('akeneo.secret')
-        AUTOSTART_AKENEO-JOB-QUEUE-CONSUMER: "true"
     console:
       environment:
         DB_ROOT_PASS: = @('database.root_pass')
@@ -38,7 +36,6 @@ attributes:
           environment:
             APP_HOST: = @('pipeline.base.hostname')
             PHP_IDE_CONFIG: = ''
-            ES_HOST: = @('pipeline.base.prefix') ~ 'elasticsearch: 9200' 
     qa:
       services:
         php-base:

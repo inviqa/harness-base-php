@@ -3,6 +3,21 @@ attributes:
     php-base:
       environment:
         AKENEO_SECRET: = @('akeneo.secret')
+        AUTOSTART_AKENEO-JOB-QUEUE-CONSUMER: "true"
     next:
       environment:
         FPM_HOST: php-fpm
+  pipeline:
+    base:
+      services:
+        php-base:
+          environment:
+            APP_HOST: = @('pipeline.base.hostname')
+            PHP_IDE_CONFIG: = ''
+            ES_HOST: = @('pipeline.base.prefix') ~ 'elasticsearch' ~ ':' ~ ' 9200'
+    qa:
+      services:
+        php-base:
+          environment:
+            APP_HOST: = @('pipeline.qa.hostname')
+            ES_HOST: = @('pipeline.qa.prefix') ~ 'elasticsearch' ~ ':' ~ ' 9200'
