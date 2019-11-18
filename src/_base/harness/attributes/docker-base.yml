@@ -11,6 +11,9 @@ attributes:
         DB_PASS: = @('database.pass')
         DB_NAME: = @('database.name')
         PHP_IDE_CONFIG: "serverName=workspace"
+    nginx:
+      environment:
+        FPM_HOST: php-fpm
     console:
       environment:
         DB_ROOT_PASS: = @('database.root_pass')
