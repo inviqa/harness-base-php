@@ -37,7 +37,7 @@ command('app deploy <environment>'):
     doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
     passthru helm init --client-only
     passthru helm dependency build
-    passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
+    passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --atomic --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
 
 command('helm template <chart-path>'):
   env:
