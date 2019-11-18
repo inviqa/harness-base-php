@@ -19,6 +19,8 @@ attributes.default:
     web_writable_dirs: []
     web_writable_files: []
 
+    web_directory: /app/public
+
   docker-sync: yes
 
   jenkins:
@@ -87,6 +89,9 @@ attributes.default:
     # used to set nginx global configurations under http directive
     global:
       conf: []
+    # used to limit what is copied into an Nginx static-built image
+    copy_directories:
+     - = @('app.web_directory')
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default

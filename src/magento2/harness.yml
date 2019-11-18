@@ -26,6 +26,7 @@ attributes:
       - mysql
       - redis
       - redis-session
+    web_directory: /app/pub
   php:
     version: 7.2
   composer:
@@ -118,6 +119,13 @@ attributes:
     image:
       console: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch'
+  nginx:
+    # Magento has a complex webroot structure
+    copy_directories:
+      - = @('app.web_directory')
+      # additional endpoints we don't need by default
+      #- /app/setup/pub
+      #- /app/update/pub
 ---
 command('redis-flush'): |
   #!bash(harness:/)|@
