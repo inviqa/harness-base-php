@@ -1,14 +1,31 @@
-{{ if .Values.service.postgres }}
-apiVersion: v1
+{{ if and .Values.service.postgres .Values.persistence.postgres.enabled -}}
+
+{{- with .Values.persistence.postgres -}}
+
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
   name: {{ .Values.resourcePrefix }}postgres-pv-claim
   labels:
     app.service: {{ .Values.resourcePrefix }}postgres
 spec:
   accessModes:
-    - ReadWriteOnce
+    - {{ .accessMode | quote }}
   resources:
     requests:
-      storage: 4Gi
-{{ end }}
+      storage: {{ .size | quote }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+
+{{- end }}
+
+{{- end }}

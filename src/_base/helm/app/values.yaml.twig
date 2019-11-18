@@ -22,5 +22,8 @@ service:
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
 
+persistence:
+{{ to_nice_yaml(@('pipeline.base.persistence'), 2, 2) | raw }}
+
 ingress: "standard" # standard or istio
 resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}

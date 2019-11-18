@@ -20,6 +20,8 @@ attributes:
       - chrome
       - mysql
       - redis
+    web_directory: = '/app' ~ @('drupal.docroot')
+    files_directory: = @('app.web_directory') ~ '/sites/default/files'
   drupal:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     docroot: docroot
@@ -65,6 +67,15 @@ attributes:
     image:
       console: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch'
+  persistence:
+    enabled: false
+    drupal:
+      files:
+        mountPath: = @('app.files_directory')
+        accessMode: ReadWriteMany # the requirement if persistence is enabled
+        #storageClass: "..." most clusters need a custom storageclass
+        #hostPath: "..." alternatively for single node testing
+        size: 1Gi
 ---
 import:
   - harness/config/*.yml

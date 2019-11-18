@@ -1,13 +1,13 @@
-{{ if and .Values.service.mysql .Values.persistence.mysql.enabled -}}
+{{ if and .Values.service.redis .Values.persistence.redis.enabled -}}
 
-{{- with .Values.persistence.mysql -}}
+{{- with .Values.persistence.redis -}}
 
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.resourcePrefix }}mysql-pv-claim
+  name: {{ $.Values.prefix }}redis-pv-claim
   labels:
-    app.service: {{ .Values.resourcePrefix }}mysql
+    app.service: {{ $.Values.prefix }}redis
 spec:
   accessModes:
     - {{ .accessMode | quote }}

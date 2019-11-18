@@ -25,7 +25,7 @@ server {
     set $custom_https on;
   }
 
-  root /app/public/;
+  root {{ @('app.web_directory') }};
 
   index index.php;
 

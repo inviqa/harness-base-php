@@ -21,6 +21,7 @@ attributes:
       - rabbitmq
       - jenkins
       - jenkins-runner
+    data_directory: /app/data
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
@@ -28,7 +29,7 @@ attributes:
   php:
     version: 7.2
   database:
-    type: postgres
+    platform: postgres
     host: postgres
     user: spryker
     pass: spryker
@@ -153,6 +154,18 @@ attributes:
       steps:
         - echo "$(getent hosts nginx | awk '{ print $1 }') $ZED_HOST" >> /etc/hosts
 
+  persistence:
+    enabled: false
+    spryker:
+      data:
+        mountPath: = @('app.data_directory')
+        accessMode: ReadWriteMany # the requirement if persistence is enabled
+        #storageClass: "..." most clusters need a custom storageclass
+        #hostPath: "..." alternatively for single node testing
+        size: 1Gi
+    redis:
+      enabled: true
+
   resources:
     requests:
       memory:
@@ -164,6 +177,7 @@ attributes:
         jenkins_runner: "256Mi"
         jenkins: "1536Mi"
         rabbitmq: "128Mi"
+  
 ---
 command('frontend yves watch'):
   env:

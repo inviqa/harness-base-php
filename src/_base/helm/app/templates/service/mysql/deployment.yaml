@@ -49,7 +49,11 @@ spec:
       restartPolicy: Always
       volumes:
       - {{ .Values.resourcePrefix }}name: mysql-persistent-storage
+{{- if .Values.persistence.mysql.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.resourcePrefix }}mysql-pv-claim
+{{- else }}
+        emptyDir: {}
+{{- end }}
 status: {}
 {{ end }}

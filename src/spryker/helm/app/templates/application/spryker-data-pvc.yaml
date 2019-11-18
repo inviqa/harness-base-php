@@ -1,0 +1,45 @@
+{{- if .Values.persistence.enabled -}}
+{{- with .Values.persistence.spryker.data -}}
+{{- if .hostPath }}
+---
+kind: PersistentVolume
+metadata:
+  name: spryker-data
+spec:
+  capacity: {{ .size | quote }}
+  accessModes:
+    - {{ .accessMode | quote }}
+  hostPath:
+    path: {{ .hostPath | quote }}
+  storageClassName: host-spryker-data
+...
+{{- end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: spryker-data-pvc
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .hostPath }}
+      storageClassName: host-spryker-data
+{{- else }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+...
+{{- end -}}
+{{- end -}}

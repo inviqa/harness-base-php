@@ -1,14 +1,31 @@
-{{ if .Values.service.elasticsearch }}
-apiVersion: v1
+{{ if and .Values.service.elasticsearch .Values.persistence.elasticsearch.enabled -}}
+
+{{- with .Values.persistence.elasticsearch -}}
+
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
   name: {{ .Values.resourcePrefix }}elasticsearch-pv-claim
   labels:
     app.service: {{ .Values.resourcePrefix }}elasticsearch
 spec:
   accessModes:
-    - ReadWriteOnce
+    - {{ .accessMode | quote }}
   resources:
     requests:
-      storage: 2Gi
-{{ end }}
+      storage: {{ .size | quote }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+
+{{- end }}
+
+{{- end }}

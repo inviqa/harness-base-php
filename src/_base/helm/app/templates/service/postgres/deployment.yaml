@@ -46,7 +46,11 @@ spec:
       restartPolicy: Always
       volumes:
       - name: {{ .Values.resourcePrefix }}postgres-persistent-storage
+{{- if .Values.persistence.postgres.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.resourcePrefix }}postgres-pv-claim
+{{- else }}
+        emptyDir: {}
+{{- end }}
 status: {}
 {{ end }}

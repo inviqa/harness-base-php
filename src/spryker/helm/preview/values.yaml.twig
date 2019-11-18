@@ -20,3 +20,8 @@
       GLUE_HOST_{{ store }}: {{ glue_external_host }}
 {% endfor %}
   resourcePrefix: {{ @('pipeline.preview.resourcePrefix') | json_encode | raw }}
+{% if @('pipeline.preview.persistence') %}
+  persistence:
+{{ to_nice_yaml(@('pipeline.preview.persistence'), 2, 4) | raw }}
+{% endif %}
+

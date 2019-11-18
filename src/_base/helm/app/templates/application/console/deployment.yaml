@@ -35,8 +35,17 @@ spec:
             - state
           initialDelaySeconds: 20
           periodSeconds: 10
+        volumeMounts:
+        {{- if not (eq "" (include "application.volumeMounts.console" .)) }}
+        {{- include "application.volumeMounts.console" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
-
+      volumes:
+      {{- if not (eq "" (include "application.volumeMounts.console" .)) }}
+      {{- include "application.volumes.console" . | indent 6 }}
+      {{- else }} []
+      {{- end }}
 status: {}

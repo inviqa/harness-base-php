@@ -19,6 +19,8 @@ attributes.default:
     web_writable_dirs: []
     web_writable_files: []
 
+    web_directory: /app/public
+
   docker-sync: yes
 
   jenkins:
@@ -26,6 +28,8 @@ attributes.default:
       my127ws_key: = @('workspace.name') ~ '-my127ws-key'
 
   pipeline:
+    base:
+      persistence: = @('persistence')
     publish:
       enabled: no
     preview:
@@ -37,6 +41,7 @@ attributes.default:
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
     base:
       resourcePrefix: ~
+      persistence: ~
     qa:
       enabled: no
       environment: ~
@@ -46,6 +51,7 @@ attributes.default:
       namespace: = @('workspace.name') ~ '-' ~ 'qa'
       hostname: = @('pipeline.qa.namespace') ~ '.example.com'
       resourcePrefix: ~
+      persistence: ~
 
   docker:
     repository: = @("workspace.name")
@@ -90,6 +96,9 @@ attributes.default:
     # used to set nginx global configurations under http directive
     global:
       conf: []
+    # used to limit what is copied into an Nginx static-built image
+    copy_directories:
+     - = @('app.web_directory')
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default
@@ -120,8 +129,8 @@ attributes.default:
     local: tools/assets/development
 
   database:
-    # possible types are mysql|postgres
-    type: mysql
+    # possible platforms are mysql, postgres or ~ for none
+    platform: mysql
     host: mysql
     user: app
     pass: app
@@ -167,6 +176,27 @@ attributes.default:
         postgres: "512Mi"
         redis: "256Mi"
         redis_session: "128Mi"
+
+  persistence:
+    enabled: false
+    mountVolumesOnConsole: true # possible to disable, but may lead to unexpected concequences with app init/migrate
+
+    elasticsearch:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
+    mysql:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    postgres:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    redis:
+      enabled: false
+      accessMode: ReadWriteOnce
+      size: 2Gi
 
   tls:
     key: |

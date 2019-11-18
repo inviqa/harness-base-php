@@ -5,6 +5,7 @@ attributes:
         HOST_OS_FAMILY: = @('host.os')
         APP_NAME: = @('workspace.name')
         APP_HOST: = @('hostname')
+        DB_PLATFORM: = @('database.platform')
         DB_HOST: = @('database.host')
         DB_USER: = @('database.user')
         DB_PASS: = @('database.pass')

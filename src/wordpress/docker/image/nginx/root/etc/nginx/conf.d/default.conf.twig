@@ -22,7 +22,7 @@ server {
     set $custom_https on;
   }
 
-  root {{ @('nginx.public_directory') }};
+  root {{ @('app.web_directory') }};
   index index.html;
 
   location ~ ^/composer\.json(/|$) {
