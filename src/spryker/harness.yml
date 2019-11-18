@@ -28,7 +28,7 @@ attributes:
   php:
     version: 7.2
   database:
-    type: postgres
+    platform: postgres
     host: postgres
     user: spryker
     pass: spryker
@@ -64,6 +64,8 @@ attributes:
   elasticsearch:
     host: elasticsearch
     port: 9200
+    image: elasticsearch
+    tag: 5.6
   redis:
     host: redis
     port: 6379
@@ -120,6 +122,8 @@ attributes:
         external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.preview.hostname')
+      smtp:
+        host: mailhog.kube-system.svc.cluster.local
     qa:
       yves:
         external_hosts:
@@ -137,9 +141,28 @@ attributes:
         external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.qa.hostname')
+      smtp:
+        host: mailhog.kube-system.svc.cluster.local
 
   helm:
     timeout: 900
+
+  php-fpm:
+    entrypoint:
+      steps:
+        - echo "$(getent hosts nginx | awk '{ print $1 }') $ZED_HOST" >> /etc/hosts
+
+  resources:
+    requests:
+      memory:
+        jenkins_runner: "256Mi"
+        jenkins: "1536Mi"
+        rabbitmq: "128Mi"
+    limits:
+      memory:
+        jenkins_runner: "256Mi"
+        jenkins: "1536Mi"
+        rabbitmq: "128Mi"
 ---
 command('frontend yves watch'):
   env:

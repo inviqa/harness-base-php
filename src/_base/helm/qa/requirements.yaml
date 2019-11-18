@@ -1,4 +1,0 @@
-dependencies:
-- name: app
-  version: 0.0.1
-  repository: "file://../app"

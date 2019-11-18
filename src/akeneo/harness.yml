@@ -1,0 +1,57 @@
+---
+harness('inviqa/akeneo'):
+  description: A docker based development environment for akeneo
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  app:
+    services:
+      - chrome
+      - elasticsearch
+      - mysql
+  akeneo:
+    secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
+  php:
+    version: 7.2
+  database:
+    user: akeneo
+    pass: akeneo
+    name: akeneo
+  backend:
+    build:
+      steps:
+        - task "composer:install"
+    install:
+      steps:
+        - run "bin/console pim:install --force --symlink"
+        - run "yarn run webpack-dev"
+        - task "overlay:apply"
+        - task "assets:dump"
+    init:
+      steps: []
+    migrate:
+      steps: []
+  frontend:
+    path: /app
+    build:
+      when: -f "package.json"
+      steps:
+        - run "yarn install"
+        - run "bin/console --env=prod pim:installer:assets --symlink"
+        - run "yarn run webpack-dev"
+  docker:
+    image:
+      console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch-console'
+      php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch'
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss
+    tag: 6.5.4
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

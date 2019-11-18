@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-session
+  name: {{ .Values.prefix }}redis-session
   labels:
-    app.service: redis-session
+    app.service: {{ .Values.prefix }}redis-session
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: php-fpm
+      app.service: {{ .Values.prefix }}redis-session
   template:
     metadata:
       labels:
-        app.service: redis-session
+        app.service: {{ .Values.prefix }}redis-session
     spec:
       containers:
       - args:
@@ -36,7 +36,11 @@ spec:
         name: redis-session
         ports:
         - containerPort: 6379
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.redis_session }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.redis_session }}
         readinessProbe:
           tcpSocket:
             port: 6379

@@ -1,4 +1,3 @@
-      ZED_HOST: {{ @('zed.external_host') }}
 {% for store, yves_external_host in @('yves.external_hosts') %}
       YVES_HOST_{{ store }}: {{ yves_external_host }}
 {% endfor %}

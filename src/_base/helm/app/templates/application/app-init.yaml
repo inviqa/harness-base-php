@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: app-init
+  name: {{ .Values.prefix }}app-init
   annotations:
     helm.sh/hook: "post-install"
 spec:
@@ -17,6 +17,11 @@ spec:
         imagePullPolicy: Always
         name: app-init
         command: ["app", "init"]
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.app_init }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.app_init }}
       imagePullSecrets:
-      - name: docker-config
+      - name: {{ .Values.prefix }}docker-config
       restartPolicy: Never

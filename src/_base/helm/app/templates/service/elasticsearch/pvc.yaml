@@ -1,0 +1,14 @@
+{{ if .Values.service.elasticsearch }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.prefix }}elasticsearch-pv-claim
+  labels:
+    app.service: {{ .Values.prefix }}elasticsearch
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+{{ end }}

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: console
+  name: {{ .Values.prefix }}console
   labels:
-    app.service: console
+    app.service: {{ .Values.prefix }}console
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: console
+      app.service: {{ .Values.prefix }}console
   template:
     metadata:
       labels:
-        app.service: console
+        app.service: {{ .Values.prefix }}console
     spec:
       containers:
       - env:
@@ -23,7 +23,11 @@ spec:
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
         name: console
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.console }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.console }}
         readinessProbe:
           exec:
             command:
@@ -32,7 +36,7 @@ spec:
           initialDelaySeconds: 20
           periodSeconds: 10
       imagePullSecrets:
-      - name: docker-config
+      - name: {{ .Values.prefix }}docker-config
       restartPolicy: Always
 
 status: {}

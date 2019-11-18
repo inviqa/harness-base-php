@@ -1,12 +1,14 @@
+{{ if .Values.service.mysql }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: {{ .Values.prefix }}mysql-pv-claim
   labels:
-    app.service: mysql
+    app.service: {{ .Values.prefix }}mysql
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 4Gi
+{{ end }}

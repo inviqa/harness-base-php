@@ -1,0 +1,17 @@
+{{ if .Values.service.elasticsearch }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.service: {{ .Values.prefix }}elasticsearch
+  name: {{ .Values.prefix }}elasticsearch
+spec:
+  ports:
+  - name: "9200"
+    port: 9200
+    targetPort: 9200
+  selector:
+    app.service: {{ .Values.prefix }}elasticsearch
+status:
+  loadBalancer: {}
+{{ end }}

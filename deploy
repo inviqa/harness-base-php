@@ -3,7 +3,7 @@
 set -e
 set -x
 
-HARNESSES=(drupal8 magento1 magento2 spryker wordpress)
+HARNESSES=(akeneo drupal8 magento1 magento2 spryker wordpress)
 
 function main()
 {

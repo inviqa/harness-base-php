@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: php-fpm
+  name: {{ .Values.prefix }}php-fpm
   labels:
-    app.service: php-fpm
+    app.service: {{ .Values.prefix }}php-fpm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: php-fpm
+      app.service: {{ .Values.prefix }}php-fpm
   template:
     metadata:
       labels:
-        app.service: php-fpm
+        app.service: {{ .Values.prefix }}php-fpm
     spec:
       containers:
       - env:
@@ -25,13 +25,17 @@ spec:
         name: php-fpm
         ports:
         - containerPort: 9000
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.php_fpm }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.php_fpm }}
         readinessProbe:
           tcpSocket:
             port: 9000
           initialDelaySeconds: 5
           periodSeconds: 10
       imagePullSecrets:
-      - name: docker-config
+      - name: {{ .Values.prefix }}docker-config
       restartPolicy: Always
 status: {}

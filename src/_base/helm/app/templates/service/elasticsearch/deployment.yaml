@@ -1,0 +1,48 @@
+{{ if .Values.service.elasticsearch }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.prefix }}elasticsearch
+  labels:
+    app.service: {{ .Values.prefix }}elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: {{ .Values.prefix }}elasticsearch
+  template:
+    metadata:
+      labels:
+        app.service: {{ .Values.prefix }}elasticsearch
+    spec:
+      containers:
+      - env:
+        - name: ES_JAVA_OPTS
+          value: -Xmx512m -Xms512m
+        - name: discovery.type
+          value: single-node
+        image: {{ .Values.docker.image.elasticsearch }}
+        imagePullPolicy: Always
+        name: elasticsearch
+        ports:
+        - containerPort: 9200
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.elasticsearch }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.elasticsearch }}
+        readinessProbe:
+          tcpSocket:
+            port: 9200
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: {{ .Values.prefix }}elasticsearch-persistent-storage
+          mountPath: /usr/share/elasticsearch/data
+      restartPolicy: Always
+      volumes:
+      - name: {{ .Values.prefix }}elasticsearch-persistent-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.prefix }}elasticsearch-pv-claim
+status: {}
+{{ end }}

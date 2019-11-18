@@ -20,7 +20,8 @@
 {% endif %}
     labels:
       - traefik.enable=false
-    environment: &APP_ENV_VARS
+    environment:
+{{ to_nice_yaml(@('services.console.environment'), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
@@ -49,7 +50,6 @@
   php-fpm:
 {% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/php-fpm
-    entrypoint: /entrypoint.dynamic.sh
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws:/.my127ws
@@ -61,4 +61,5 @@
     networks:
       - private
     environment:
-      <<: *APP_ENV_VARS
+{{ to_nice_yaml(@('services.php-fpm.environment'), 2, 6) | raw }}
+{% include blocks ~ 'environment.yml.twig' %}

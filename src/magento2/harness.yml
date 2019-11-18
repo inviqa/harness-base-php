@@ -27,7 +27,7 @@ attributes:
       - redis
       - redis-session
   php:
-    version: 7.1
+    version: 7.2
   composer:
     auth:
       basic:
@@ -104,6 +104,7 @@ attributes:
         - task "assets:dump"
     init:
       steps:
+        - run "magento setup:upgrade"
         - run "magento config:set 'web/unsecure/base_url'       'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/base_url'         'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/use_in_frontend'  '1'"

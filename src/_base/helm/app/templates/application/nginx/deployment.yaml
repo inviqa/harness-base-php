@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: {{ .Values.prefix }}nginx
   labels:
-    app.service: nginx
+    app.service: {{ .Values.prefix }}nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: nginx
+      app.service: {{ .Values.prefix }}nginx
   template:
     metadata:
       labels:
-        app.service: nginx
+        app.service: {{ .Values.prefix }}nginx
     spec:
       containers:
       - image: {{ .Values.docker.image.nginx }}
@@ -20,13 +20,17 @@ spec:
         name: nginx
         ports:
         - containerPort: 80
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.nginx }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.nginx }}
         readinessProbe:
           tcpSocket:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
       imagePullSecrets:
-      - name: docker-config
+      - name: {{ .Values.prefix }}docker-config
       restartPolicy: Always
 status: {}

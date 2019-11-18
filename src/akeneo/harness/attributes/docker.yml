@@ -1,0 +1,8 @@
+attributes:
+  services:
+    console:
+      environment: &php-env
+        AKENEO_SECRET: = @('akeneo.secret')
+    php-fpm:
+      environment:
+        <<: *php-env

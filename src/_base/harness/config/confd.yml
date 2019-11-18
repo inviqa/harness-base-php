@@ -2,11 +2,8 @@
 confd('harness:/'):
   - { src: docker/image/console/Dockerfile }
   - { src: docker/image/console/root/home/build/.my.cnf }
-  - { src: docker/image/console/root/lib/task/assets/apply.sh }
-  - { src: docker/image/console/root/lib/task/assets/dump.sh }
   - { src: docker/image/console/root/lib/task/build/frontend.sh }
   - { src: docker/image/console/root/lib/task/build/backend.sh }
-  - { src: docker/image/console/root/lib/task/database/available.sh }
   - { src: docker/image/console/root/lib/task/init.sh }
   - { src: docker/image/console/root/lib/task/install.sh }
   - { src: docker/image/console/root/lib/task/migrate.sh }
@@ -18,6 +15,7 @@ confd('harness:/'):
   - { src: docker/image/nginx/root/etc/ssl/certs/app.crt }
   - { src: docker/image/nginx/root/etc/ssl/private/app.key }
   - { src: docker/image/php-fpm/Dockerfile }
+  - { src: docker/image/php-fpm/root/entrypoint.sh }
   - { src: docker/image/php-fpm/root/fix_app_permissions.sh }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
@@ -28,4 +26,7 @@ confd('harness:/'):
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   - { src: helm/app/values.yaml }
+  - { src: helm/app/Chart.yaml }
+  - { src: helm/qa/requirements.yaml }
   - { src: helm/qa/values.yaml }
+  - { src: helm/qa/Chart.yaml }

@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: {{ .Values.prefix }}mysql
   labels:
-    app.service: mysql
+    app.service: {{ .Values.prefix }}mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: mysql
+      app.service: {{ .Values.prefix }}mysql
   template:
     metadata:
       labels:
-        app.service: mysql
+        app.service: {{ .Values.prefix }}mysql
     spec:
       containers:
       - env:
@@ -33,19 +33,23 @@ spec:
         - lost+found
         ports:
         - containerPort: 3306
-        resources: {}
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.mysql }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.mysql }}
         readinessProbe:
           tcpSocket:
             port: 3306
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: mysql-persistent-storage
+        - {{ .Values.prefix }}name: mysql-persistent-storage
           mountPath: /var/lib/mysql
       restartPolicy: Always
       volumes:
-      - name: mysql-persistent-storage
+      - {{ .Values.prefix }}name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: {{ .Values.prefix }}mysql-pv-claim
 status: {}
 {{ end }}
