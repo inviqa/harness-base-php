@@ -30,6 +30,8 @@ attributes.default:
   pipeline:
     base:
       persistence: = @('persistence')
+      resourcePrefix: ~
+      hostname:  = @('pipeline.preview.hostname')
     publish:
       enabled: no
     preview:
@@ -39,11 +41,6 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
-    base:
-      resourcePrefix: ~
-      persistence: ~
-    base:
-      hostname:  = @('pipeline.preview.hostname')
     qa:
       enabled: no
       environment: ~
