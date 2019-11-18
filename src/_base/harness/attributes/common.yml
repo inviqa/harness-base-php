@@ -28,8 +28,6 @@ attributes.default:
       my127ws_key: = @('workspace.name') ~ '-my127ws-key'
 
   pipeline:
-    base:
-      persistence: = @('persistence')
     publish:
       enabled: no
     preview:
@@ -41,8 +39,7 @@ attributes.default:
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
     base:
       resourcePrefix: ~
-      persistence: ~
-    base:
+      persistence: = @('persistence')
       hostname:  = @('pipeline.preview.hostname')
     qa:
       enabled: no
