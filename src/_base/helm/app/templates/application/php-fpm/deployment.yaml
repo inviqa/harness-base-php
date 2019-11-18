@@ -46,7 +46,7 @@ spec:
         {{- end }}
         image: {{ .Values.docker.image.fpm }}
         imagePullPolicy: Always
-        name: php-fpm
+        name: {{ .Values.resourcePrefix }php-fpm
         ports:
         - containerPort: 9000
         resources:

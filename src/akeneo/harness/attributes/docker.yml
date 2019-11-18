@@ -3,3 +3,6 @@ attributes:
     php-base:
       environment:
         AKENEO_SECRET: = @('akeneo.secret')
+    next:
+      environment:
+        FPM_HOST: php-fpm

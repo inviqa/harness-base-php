@@ -6,7 +6,7 @@ metadata:
   name: {{ .Values.resourcePrefix }}php-fpm
 spec:
   ports:
-  - name: "9000"
+  - name: tcp-9000
     port: 9000
     targetPort: 9000
   selector:
