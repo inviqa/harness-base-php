@@ -2,6 +2,7 @@
 
 main()
 {
+    passthru ws networks external
     if [ ! -f .my127ws/.flag-built ]; then
 
         passthru docker-compose down
