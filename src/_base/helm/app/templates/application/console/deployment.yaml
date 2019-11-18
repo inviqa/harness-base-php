@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}console
+  name: {{ .Values.resourcePrefix }}console
   labels:
-    app.service: {{ .Values.prefix }}console
+    app.service: {{ .Values.resourcePrefix }}console
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}console
+      app.service: {{ .Values.resourcePrefix }}console
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}console
+        app.service: {{ .Values.resourcePrefix }}console
     spec:
       containers:
       - env:
@@ -49,7 +49,7 @@ spec:
         {{- else }} []
         {{- end }}
       imagePullSecrets:
-      - name: {{ .Values.prefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
       volumes:
       {{- if not (eq "" (include "application.volumeMounts.console" .)) }}

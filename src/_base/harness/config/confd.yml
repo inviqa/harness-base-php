@@ -30,3 +30,4 @@ confd('harness:/'):
   - { src: helm/qa/requirements.yaml }
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
+  - { src: helm/qa/requirements.yaml }

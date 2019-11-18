@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}php-fpm
+  name: {{ .Values.resourcePrefix }}php-fpm
   labels:
-    app.service: {{ .Values.prefix }}php-fpm
+    app.service: {{ .Values.resourcePrefix }}php-fpm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}php-fpm
+      app.service: {{ .Values.resourcePrefix }}php-fpm
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}php-fpm
+        app.service: {{ .Values.resourcePrefix }}php-fpm
     spec:
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
       initContainers:
@@ -66,7 +66,7 @@ spec:
         {{- else }} []
         {{- end }}
       imagePullSecrets:
-      - name: {{ .Values.prefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
       volumes:
       {{- if not (or (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}

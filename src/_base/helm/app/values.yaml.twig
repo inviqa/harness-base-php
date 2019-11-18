@@ -28,4 +28,4 @@ persistence:
 {{ to_nice_yaml(@('pipeline.base.persistence'), 2, 2) | raw }}
 
 ingress: "standard" # standard or istio
-prefix: {{ @('workspace.name') ~ '-' }}
+resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}

@@ -1,8 +1,8 @@
 {{ @('workspace.name') }}:
   environment:
     APP_HOST: {{ @('pipeline.qa.hostname') }}
+  resourcePrefix: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}
 {% if @('pipeline.qa.persistence') %}
   persistence:
 {{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) | raw }}
 {% endif %}
-  prefix: ""

@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}postgres
+  name: {{ .Values.resourcePrefix }}postgres
   labels:
-    app.service: {{ .Values.prefix }}postgres
+    app.service: {{ .Values.resourcePrefix }}postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}postgres
+      app.service: {{ .Values.resourcePrefix }}postgres
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}postgres
+        app.service: {{ .Values.resourcePrefix }}postgres
     spec:
       containers:
       - env:
@@ -37,14 +37,14 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.prefix }}postgres-persistent-storage
+        - name: {{ .Values.resourcePrefix }}postgres-persistent-storage
           mountPath: /var/lib/postgresql/data
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.prefix }}postgres-persistent-storage
+      - name: {{ .Values.resourcePrefix }}postgres-persistent-storage
 {{- if .Values.persistence.postgres.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.prefix }}postgres-pv-claim
+          claimName: {{ .Values.resourcePrefix }}postgres-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}

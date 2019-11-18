@@ -4,15 +4,15 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   labels:
-    app.service: {{ .Values.prefix }}nginx
-  name: {{ .Values.prefix }}nginx
+    app.service: {{ .Values.resourcePrefix }}nginx
+  name: {{ .Values.resourcePrefix }}nginx
 spec:
   rules:
   - host: {{ .Values.environment.APP_HOST }}
     http:
       paths:
       - backend:
-          serviceName: {{ .Values.prefix }}nginx
+          serviceName: {{ .Values.resourcePrefix }}nginx
           servicePort: 80
 status:
   loadBalancer: {}
