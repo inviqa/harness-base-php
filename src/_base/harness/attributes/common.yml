@@ -28,6 +28,8 @@ attributes.default:
       my127ws_key: = @('workspace.name') ~ '-my127ws-key'
 
   pipeline:
+    base:
+      persistence: = @('persistence')
     publish:
       enabled: no
     preview:
@@ -37,6 +39,7 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+      persistence: ~
     qa:
       enabled: no
       environment: ~
@@ -45,6 +48,7 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ 'qa'
       hostname: = @('pipeline.qa.namespace') ~ '.example.com'
+      persistence: ~
 
   docker:
     repository: = @("workspace.name")
@@ -169,6 +173,27 @@ attributes.default:
         postgres: "512Mi"
         redis: "256Mi"
         redis_session: "128Mi"
+
+  persistence:
+    enabled: false
+    mountVolumesOnConsole: true # possible to disable, but may lead to unexpected concequences with app init/migrate
+
+    elasticsearch:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
+    mysql:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    postgres:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    redis:
+      enabled: false
+      accessMode: ReadWriteOnce
+      size: 2Gi
 
   tls:
     key: |
