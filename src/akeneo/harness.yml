@@ -19,6 +19,7 @@ attributes:
       - mysql
     file_storage_directory: /app/app/file_storage
     uploads_directory: /app/app/uploads
+    web_directory: /app/web
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
   php:

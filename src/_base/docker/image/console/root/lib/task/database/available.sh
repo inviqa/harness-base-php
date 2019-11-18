@@ -4,10 +4,13 @@ function task_database_available()
 {
     local command=""
 
-    if [ "{{ @('database.type')|raw }}" == "mysql" ]; then
+    if [ "${DB_PLATFORM}" == "mysql" ]; then
         command="mysqladmin -h $DB_HOST -u root -p$DB_ROOT_PASS ping"
-    elif [ "{{ @('database.type')|raw }}" == "postgres" ]; then
+    elif [ "${DB_PLATFORM}" == "postgres" ]; then
         command="pg_isready -h $DB_HOST"
+    elif [ "${DB_PLATFORM}" == "" ]; then
+        # no database is used
+        return
     else
         (>&2 echo "invalid database type")
         exit 1
@@ -18,7 +21,7 @@ function task_database_available()
     while ! $command &> /dev/null; do
 
         if (( counter > 30 )); then
-            (>&2 echo "timeout while waiting on {{ @('database.type')|raw }} to become available")
+            (>&2 echo "timeout while waiting on ${DB_PLATFORM} to become available")
             exit 1
         fi
 
