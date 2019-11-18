@@ -46,6 +46,13 @@ command('logs %'):
     #!bash(harness:/)|=
     docker-compose logs ={input.argument('%')}
 
+command('ps'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    docker-compose ps
+
 command('console'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
