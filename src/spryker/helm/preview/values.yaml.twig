@@ -1,20 +1,9 @@
-{{ @('workspace.name') }}:
-  environment:
+{% set hosts_env = {} %}
 {% for store, yves_external_host in @('pipeline.preview.yves.external_hosts') %}
-    YVES_HOST_{{ store }}: {{ yves_external_host }}
+{% set hosts_env = hosts_env|merge({('YVES_HOST_' ~ store): yves_external_host}) %}
 {% endfor %}
-    ZED_HOST: {{ @('pipeline.preview.zed.external_host') }}
 {% for store, glue_external_host in @('pipeline.preview.glue.external_hosts') %}
-    GLUE_HOST_{{ store }}: {{ glue_external_host }}
-{% endfor %}
-    RABBITMQ_EXTERNAL_HOST: {{ @('pipeline.preview.rabbitmq.external_host') }}
-    JENKINS_EXTERNAL_HOST: {{ @('pipeline.preview.jenkins.external_host') }}
-    SMTP_HOST: {{ @('pipeline.preview.smtp.host') }}
-  nginx:
-    environment:
-      ZED_HOST: {{ @('pipeline.preview.zed.external_host') }}
-{% for store, yves_external_host in @('pipeline.preview.yves.external_hosts') %}
-      YVES_HOST_{{ store }}: {{ yves_external_host }}
+{% set hosts_env = hosts_env|merge({('GLUE_HOST_' ~ store): glue_external_host}) %}
 {% endfor %}
 {% for store, glue_external_host in @('pipeline.preview.glue.external_hosts') %}
       GLUE_HOST_{{ store }}: {{ glue_external_host }}
@@ -24,4 +13,17 @@
   persistence:
 {{ to_nice_yaml(@('pipeline.preview.persistence'), 2, 4) | raw }}
 {% endif %}
+{% set additional_services = {
+  'php-base': {
+    'environment': hosts_env
+  },
+  'nginx': {
+    'environment': hosts_env
+  }
+} %}
+{{ @('workspace.name') }}:
+  docker:
+    services:
+{{ deep_merge_to_yaml([@('pipeline.preview.services'), additional_services], 2, 6) | raw }}
 
+  prefix: ""

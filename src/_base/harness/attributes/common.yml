@@ -42,6 +42,8 @@ attributes.default:
     base:
       resourcePrefix: ~
       persistence: ~
+    base:
+      hostname:  = @('pipeline.preview.hostname')
     qa:
       enabled: no
       environment: ~

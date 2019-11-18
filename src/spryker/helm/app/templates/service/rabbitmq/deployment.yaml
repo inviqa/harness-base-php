@@ -17,10 +17,10 @@ spec:
     spec:
       containers:
       - env:
-        - name: RABBITMQ_DEFAULT_PASS
-          value: {{ .Values.environment.RABBITMQ_PASSWORD }}
-        - name: RABBITMQ_DEFAULT_USER
-          value: {{ .Values.environment.RABBITMQ_USER }}
+        {{- range $key, $value := .Values.docker.services.rabbitmq.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: rabbitmq:3.7-management-alpine
         imagePullPolicy: Always
         name: rabbitmq

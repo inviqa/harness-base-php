@@ -21,7 +21,7 @@
     labels:
       - traefik.enable=false
     environment:
-{{ to_nice_yaml(@('services.console.environment'), 2, 6) | raw }}
+{{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.console.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
@@ -39,6 +39,10 @@
       - traefik.frontend.rule=Host:{{ @('hostname') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
+{% if @('services.nginx.environment') %}
+    environment:
+{{ to_nice_yaml(@('services.nginx.environment'), 2, 6) | raw }}
+{% endif %}
     links:
       - php-fpm:php-fpm
     networks:
@@ -61,5 +65,5 @@
     networks:
       - private
     environment:
-{{ to_nice_yaml(@('services.php-fpm.environment'), 2, 6) | raw }}
+{{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}

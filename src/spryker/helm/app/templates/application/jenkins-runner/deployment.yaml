@@ -17,12 +17,18 @@ spec:
     spec:
       containers:
       - env:
-        {{ range $key, $value := .Values.environment }}
-        - name: {{ $key }}
-          value: "{{ $value }}"
-        {{ end }}
-        - name: JENKINS_RUNNER_NAME
-          value: backend
+        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- range $key, $value := index .Values.docker.services "jenkins-runner" "environment" }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- range $key, $value := .Values.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: {{ .Values.docker.image.jenkins_runner }}
         imagePullPolicy: Always
         name: jenkins-runner

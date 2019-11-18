@@ -15,7 +15,12 @@ spec:
         app.service: {{ .Values.resourcePrefix }}nginx
     spec:
       containers:
-      - image: {{ .Values.docker.image.nginx }}
+      - env:
+        {{- range $key, $value := .Values.docker.services.nginx.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        image: {{ .Values.docker.image.nginx }}
         imagePullPolicy: Always
         name: nginx
         ports:
