@@ -36,6 +36,24 @@ function('deep_merge_to_yaml', [arrays, indentation, nesting]): |
   $text = $deepMerge($arrays);
   = preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), \Symfony\Component\Yaml\Yaml::dump($text, 100, $indentation ?: 2));
 
+function('get_docker_external_networks'): |
+  #!php
+  $configRaw = shell_exec('docker-compose config');
+  $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+  $externalNetworks = [];
+  if (isset($config['networks'])) {
+    foreach ($config['networks'] as $network) {
+      if (isset($network['external'])) {
+        if (is_array($network['external'])) {
+          $externalNetworks[] = $network['external']['name'];
+        } else if ($network['external'] === true) {
+          $externalNetworks[] = $network['name'];
+        }
+      }
+    }
+  }
+  = join(" ", $externalNetworks);
+
 function('branch'): |
   #!bash(workspace:/)
   =$(git branch | grep \* | cut -d ' ' -f2)
