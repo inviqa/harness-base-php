@@ -12,7 +12,7 @@ server {
         {{ name }} {{ value }};
     {% endfor %}
 
-    root /app/web;
+    root {{ @('app.web_directory') }};
 
     location = /favicon.ico {
         log_not_found off;

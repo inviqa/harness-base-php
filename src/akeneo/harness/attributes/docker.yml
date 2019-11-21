@@ -1,4 +1,9 @@
 attributes:
+  nginx:
+    copy_directories:
+     - = @('app.web_directory')
+     - = @('app.vendor_directory')
+     - /app/src/Resources
   services:
     php-base:
       environment:

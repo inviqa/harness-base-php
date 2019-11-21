@@ -1,8 +1,10 @@
 {{ @('workspace.name') }}:
   resourcePrefix: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}
+{{% if @('pipeline.qa.services') %}
   docker:
     services:
-{{ deep_merge_to_yaml([@('services'), @('pipeline.qa.services')], 2, 6) | raw }}       
+{{ to_nice_yaml(@('pipeline.qa.services'), 2, 6) | raw }}  
+{{% endif %}
 {% if @('pipeline.qa.persistence') %}
   persistence:
 {{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) | raw }}
