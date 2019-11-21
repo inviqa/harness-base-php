@@ -28,4 +28,5 @@ VOLUME /app
 VOLUME /home/build/application
 {% endif %}
 
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sleep", "infinity"]
