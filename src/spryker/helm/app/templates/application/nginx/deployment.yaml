@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}nginx
+  name: {{ .Values.resourcePrefix }}nginx
   labels:
-    app.service: {{ .Values.prefix }}nginx
+    app.service: {{ .Values.resourcePrefix }}nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}nginx
+      app.service: {{ .Values.resourcePrefix }}nginx
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}nginx
+        app.service: {{ .Values.resourcePrefix }}nginx
     spec:
       containers:
       - env:
@@ -41,7 +41,7 @@ spec:
         {{- else }} []
         {{- end }}
       imagePullSecrets:
-      - name: {{ .Values.prefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
       volumes:
       {{- if not (eq "" (include "application.volumes.all" .)) }}
