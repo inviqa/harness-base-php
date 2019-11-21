@@ -24,7 +24,7 @@ spec:
         - "www-data"
         {{- include "application.volumes.wwwDataPaths" . | indent 8 }}
         volumeMounts:
-        {{- if not (or (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
         {{- include "application.volumeMounts.backend" . | indent 8 }}
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
@@ -46,7 +46,7 @@ spec:
         {{- end }}
         image: {{ .Values.docker.image.fpm }}
         imagePullPolicy: Always
-        name: {{ .Values.resourcePrefix }php-fpm
+        name: {{ .Values.resourcePrefix }}php-fpm
         ports:
         - containerPort: 9000
         resources:
@@ -60,7 +60,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        {{- if not (or (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
         {{- include "application.volumeMounts.backend" . | indent 8 }}
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
@@ -69,7 +69,7 @@ spec:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
       volumes:
-      {{- if not (or (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
+      {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
       {{- include "application.volumes.backend" . | indent 6 }}
       {{- include "application.volumes.all" . | indent 6 }}
       {{- else }} []

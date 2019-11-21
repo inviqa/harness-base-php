@@ -52,7 +52,7 @@ spec:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
       volumes:
-      {{- if not (eq "" (include "application.volumeMounts.console" .)) }}
+      {{- if not (eq "" (include "application.volumes.console" .)) }}
       {{- include "application.volumes.console" . | indent 6 }}
       {{- else }} []
       {{- end }}

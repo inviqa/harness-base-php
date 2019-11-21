@@ -20,6 +20,8 @@ attributes.default:
     web_writable_files: []
 
     web_directory: /app/public
+    src_resources_directory: /app/src/Resources
+    vendor_directory: /app/vendor
 
   docker-sync: yes
 
@@ -96,8 +98,11 @@ attributes.default:
     global:
       conf: []
     # used to limit what is copied into an Nginx static-built image
+    # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)
     copy_directories:
      - = @('app.web_directory')
+     - = @('app.src_resources_directory')
+     - = @('app.vendor_directory')
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default

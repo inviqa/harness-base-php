@@ -40,11 +40,11 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - {{ .Values.resourcePrefix }}name: mysql-persistent-storage
+        - name: {{ .Values.resourcePrefix }}mysql-persistent-storage
           mountPath: /var/lib/mysql
       restartPolicy: Always
       volumes:
-      - {{ .Values.resourcePrefix }}name: mysql-persistent-storage
+      - name: {{ .Values.resourcePrefix }}mysql-persistent-storage
 {{- if .Values.persistence.mysql.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.resourcePrefix }}mysql-pv-claim

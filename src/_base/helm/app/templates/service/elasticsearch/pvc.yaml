@@ -5,9 +5,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.resourcePrefix }}elasticsearch-pv-claim
+  name: {{ $.Values.resourcePrefix }}elasticsearch-pv-claim
   labels:
-    app.service: {{ .Values.resourcePrefix }}elasticsearch
+    app.service: {{ $.Values.resourcePrefix }}elasticsearch
 spec:
   accessModes:
     - {{ .accessMode | quote }}

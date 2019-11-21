@@ -1,5 +1,5 @@
 {{- define "application.volumeMounts.backend" }}
-- mountPath: {{ .Values.persistence.akeneo.file_storage.mountPath | quote }}"
+- mountPath: {{ .Values.persistence.akeneo.file_storage.mountPath | quote }}
   name: akeneo-file-storage-volume
 - mountPath: {{ .Values.persistence.akeneo.uploads.mountPath | quote }}
   name: akeneo-uploads-volume

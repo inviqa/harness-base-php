@@ -8,7 +8,7 @@ metadata:
   name: {{ .Values.resourcePrefix }}nginx
 spec:
   rules:
-  - host: {{ .Values.environment.APP_HOST }}
+  - host: {{ index .Values.docker.services "php-base" "environment" "APP_HOST" }}
     http:
       paths:
       - backend:
