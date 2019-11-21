@@ -20,6 +20,8 @@ attributes:
     file_storage_directory: /app/app/file_storage
     uploads_directory: /app/app/uploads
     web_directory: /app/web
+    src_resources_directory: /app/src/Resources
+    vendor_directory: /app/vendor
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
   php:

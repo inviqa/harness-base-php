@@ -5,9 +5,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.resourcePrefix }}mysql-pv-claim
+  name: {{ $.Values.resourcePrefix }}mysql-pv-claim
   labels:
-    app.service: {{ .Values.resourcePrefix }}mysql
+    app.service: {{ $.Values.resourcePrefix }}mysql
 spec:
   accessModes:
     - {{ .accessMode | quote }}

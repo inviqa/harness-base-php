@@ -20,6 +20,7 @@ attributes.default:
     web_writable_files: []
 
     web_directory: /app/public
+    vendor_directory: /app/vendor
 
   docker-sync: yes
 
@@ -28,6 +29,10 @@ attributes.default:
       my127ws_key: = @('workspace.name') ~ '-my127ws-key'
 
   pipeline:
+    base:
+      persistence: = @('persistence')
+      resourcePrefix: ~
+      hostname:  = @('pipeline.preview.hostname')
     publish:
       enabled: no
     preview:
@@ -37,10 +42,6 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
-    base:
-      resourcePrefix: ~
-      persistence: = @('persistence')
-      hostname:  = @('pipeline.preview.hostname')
     qa:
       enabled: no
       environment: ~
@@ -96,8 +97,10 @@ attributes.default:
     global:
       conf: []
     # used to limit what is copied into an Nginx static-built image
+    # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)
     copy_directories:
      - = @('app.web_directory')
+     - = @('app.vendor_directory')
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default
