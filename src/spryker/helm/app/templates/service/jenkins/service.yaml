@@ -7,10 +7,10 @@ metadata:
     app.service: {{ .Values.resourcePrefix }}jenkins
 spec:
   ports:
-  - name: "8080"
+  - name: http-8080
     port: 8080
     targetPort: 8080
-  - name: "50000"
+  - name: tcp-50000
     port: 50000
     targetPort: 50000
   selector:
