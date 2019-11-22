@@ -90,6 +90,7 @@
             "@test-acceptance"
         ],
         "test-quality": [
+            "find public/app/code/ public/app/design/ -type f \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {}",
             "phpcs -v ./src",
             "phpmd ./src text ./phpmd.xml"
         ],
