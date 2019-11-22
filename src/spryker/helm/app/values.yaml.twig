@@ -32,4 +32,4 @@ persistence:
 {{ to_nice_yaml(@('persistence'), 2, 2) | raw }}
 
 ingress: "standard" # standard or istio
-prefix: {{ @('workspace.name') ~ '-' }}
+resourcePrefix: {{ @('workspace.name') ~ '-' }}

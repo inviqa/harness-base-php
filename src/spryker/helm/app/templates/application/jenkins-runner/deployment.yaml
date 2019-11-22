@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}jenkins-runner
+  name: {{ .Values.resourcePrefix }}jenkins-runner
   labels:
-    app.service: {{ .Values.prefix }}jenkins-runner
+    app.service: {{ .Values.resourcePrefix }}jenkins-runner
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}jenkins-runner
+      app.service: {{ .Values.resourcePrefix }}jenkins-runner
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}jenkins-runner
+        app.service: {{ .Values.resourcePrefix }}jenkins-runner
     spec:
       containers:
       - env:
@@ -45,7 +45,7 @@ spec:
           initialDelaySeconds: 20
           periodSeconds: 10
       imagePullSecrets:
-      - name: {{ .Values.prefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
 status: {}
 {{ end }}

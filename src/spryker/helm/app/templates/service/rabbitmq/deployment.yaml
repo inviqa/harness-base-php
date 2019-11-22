@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}rabbitmq
+  name: {{ .Values.resourcePrefix }}rabbitmq
   labels:
-    app.service: {{ .Values.prefix }}rabbitmq
+    app.service: {{ .Values.resourcePrefix }}rabbitmq
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}rabbitmq
+      app.service: {{ .Values.resourcePrefix }}rabbitmq
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}rabbitmq
+        app.service: {{ .Values.resourcePrefix }}rabbitmq
     spec:
       containers:
       - env:
