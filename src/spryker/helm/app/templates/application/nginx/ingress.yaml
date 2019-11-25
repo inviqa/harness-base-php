@@ -16,7 +16,7 @@ spec:
       - backend:
           serviceName: {{ $root.Values.resourcePrefix }}nginx
           servicePort: 80
-  {{ end }}
+  {{- end }}
 status:
   loadBalancer: {}
-{{- end }}
+{{ end }}
