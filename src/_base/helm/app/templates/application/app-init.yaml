@@ -24,7 +24,12 @@ spec:
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
         name: app-init
+{{ if eq .Values.ingress "istio" }}
+        command: ["/bin/sh"]
+        args: ["-c", "app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
+{{ else }}
         command: ["app", "init"]
+{{ end }}
         resources:
           limits:
             memory: {{ .Values.resources.limits.memory.app_init }}
