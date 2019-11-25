@@ -9,8 +9,8 @@ metadata:
   name: {{ .Values.resourcePrefix }}nginx
 spec:
   rules:
-  {{ range $key, $value := .Values.docker.services.nginx.environment }}
-  - host: "{{ $value }}"
+  {{- range $key, $value := .Values.docker.services.nginx.environment }}
+  - host: {{ $value | quote }}
     http:
       paths:
       - backend:
