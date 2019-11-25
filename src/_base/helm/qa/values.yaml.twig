@@ -1,6 +1,6 @@
 {{ @('workspace.name') }}:
   resourcePrefix: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}
-{{% if @('pipeline.qa.services') %}
+{% if @('pipeline.qa.services') %}
   docker:
     services:
 {{ to_nice_yaml(@('pipeline.qa.services'), 2, 6) | raw }}  
