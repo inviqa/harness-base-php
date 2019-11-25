@@ -1,17 +1,9 @@
 #!/bin/bash
 
-function task_init()
+function task_spryker_init()
 {
-    task "database:available"
-    task "http:wait" $JENKINS_URL
-    task "rabbitmq:vhosts"
     passthru "vendor/bin/install -r docker -s queue-flush"
-
-    task "assets:apply" # calls task "install" when database is not applied
 
     passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -s queue-worker"
     passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -s jenkins-up"
-
-    task "migrate"
-    task "welcome"
 }
