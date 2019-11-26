@@ -2,18 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.prefix }}jenkins
+  name: {{ .Values.resourcePrefix }}jenkins
   labels:
-    app.service: {{ .Values.prefix }}jenkins
+    app.service: {{ .Values.resourcePrefix }}jenkins
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.prefix }}jenkins
+      app.service: {{ .Values.resourcePrefix }}jenkins
   template:
     metadata:
       labels:
-        app.service: {{ .Values.prefix }}jenkins
+        app.service: {{ .Values.resourcePrefix }}jenkins
     spec:
       containers:
       - env:

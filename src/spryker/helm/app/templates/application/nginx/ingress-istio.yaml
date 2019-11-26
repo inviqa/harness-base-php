@@ -2,10 +2,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
- name: {{ .Release.Namespace }}-{{ .Values.prefix }}nginx-virtualservice
+ name: {{ .Release.Namespace }}-{{ .Values.resourcePrefix }}nginx-virtualservice
  labels:
-   app: {{ .Values.prefix }}nginx
-   app.service: {{ .Values.prefix }}nginx
+   app: {{ .Values.resourcePrefix }}nginx
+   app.service: {{ .Values.resourcePrefix }}nginx
 spec:
  hosts:
 {{- range $key, $value := .Values.docker.services.nginx.environment }}
@@ -16,7 +16,7 @@ spec:
  http:
  - route:
    - destination:
-       host: {{ .Values.prefix }}nginx
+       host: {{ .Values.resourcePrefix }}nginx
        port:
          number: 80
 {{ end }}
