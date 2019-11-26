@@ -124,6 +124,7 @@ attributes:
     enabled: false
     magento:
       media:
+        claimName: magento-media-pvc
         mountPath: = @('app.media_directory')
         accessMode: ReadWriteMany # the requirement if persistence is enabled
         #storageClass: "..." most clusters need a custom storageclass
