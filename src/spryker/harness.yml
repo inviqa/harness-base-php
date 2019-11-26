@@ -158,6 +158,7 @@ attributes:
     enabled: false
     spryker:
       data:
+        claimName: spryker-data-pvc
         mountPath: = @('app.data_directory')
         accessMode: ReadWriteMany # the requirement if persistence is enabled
         #storageClass: "..." most clusters need a custom storageclass

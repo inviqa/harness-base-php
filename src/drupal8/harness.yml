@@ -71,6 +71,7 @@ attributes:
     enabled: false
     drupal:
       files:
+        claimName: drupal-files-pvc
         mountPath: = @('app.files_directory')
         accessMode: ReadWriteMany # the requirement if persistence is enabled
         #storageClass: "..." most clusters need a custom storageclass
