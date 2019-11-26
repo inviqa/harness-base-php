@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}php-fpm
+  name: {{ .Values.resourcePrefix }}webapp
   labels:
-    app.service: {{ .Values.resourcePrefix }}php-fpm
+    app.service: {{ .Values.resourcePrefix }}webapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}php-fpm
+      app.service: {{ .Values.resourcePrefix }}webapp
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}php-fpm
+        app.service: {{ .Values.resourcePrefix }}webapp
     spec:
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
       initContainers:
-      - name: php-fpm-volume-permissions
+      - name: {{ .Values.resourcePrefix }}webapp-volume-permissions
         image: busybox
         command: 
         - "/bin/chown"
@@ -31,7 +31,39 @@ spec:
         {{- end }}
       {{- end }}
       containers:
-      - env:
+      - name: {{ .Values.resourcePrefix }}nginx
+        env:
+        {{- range $key, $value := .Values.docker.services.nginx.environment }}
+        {{- $tp := typeOf $value }}
+        - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else}}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        image: {{ .Values.docker.image.nginx }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.nginx }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.nginx }}
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
+        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
+
+      - name: {{ .Values.resourcePrefix }}php-fpm
+        env:
         {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
@@ -56,7 +88,6 @@ spec:
         {{- end }}
         image: {{ .Values.docker.image.fpm }}
         imagePullPolicy: Always
-        name: {{ .Values.resourcePrefix }}php-fpm
         ports:
         - containerPort: 9000
         resources:
@@ -75,6 +106,7 @@ spec:
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
         {{- end }}
+
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always

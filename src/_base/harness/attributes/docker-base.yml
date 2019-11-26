@@ -42,7 +42,7 @@ attributes:
             PHP_IDE_CONFIG: = ''
         nginx:
           environment:
-            FPM_HOST: = '{{ .Values.resourcePrefix }}php-fpm'
+            FPM_HOST: localhost
     qa:
       services:
         php-base:
