@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - env:
-        {{ range $key, $value := .Values.nginx.environment }}
+        {{ range $key, $value := .Values.docker.services.nginx.environment }}
         - name: {{ $key }}
           value: "{{ $value }}"
         {{ end }}
