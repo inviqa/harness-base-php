@@ -25,7 +25,12 @@ spec:
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
         name: app-migrate
+{{ if eq .Values.ingress "istio" }}
+        command: ["/bin/sh"]
+        args: ["-c", "app migrate ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
+{{ else }}
         command: ["app", "migrate"]
+{{ end }}
         resources:
           limits:
             memory: {{ .Values.resources.limits.memory.app_migrate }}
