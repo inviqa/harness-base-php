@@ -39,7 +39,7 @@ server {
 
   location ~ \.php(/|$) {
     
-    fastcgi_pass php-fpm:9000;
+    fastcgi_pass ${FPM_HOST}:9000;
     fastcgi_split_path_info ^(.+\.php)(/.*)$;
     include fastcgi_params;
     fastcgi_param HTTPS $custom_https;
