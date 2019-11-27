@@ -1,0 +1,7 @@
+attributes:
+  spryker:
+    mode: 'development'
+  app:
+    build: dynamic
+    mode: development
+    version: develop

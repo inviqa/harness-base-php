@@ -19,7 +19,7 @@ attributes:
         DB_ROOT_PASS: = @('database.root_pass')
     php-fpm:
       environment: 
-        AUTOSTART_PHP-FPM: "true"
+        AUTOSTART_PHP_FPM: "true"
     mysql:
       environment:
         MYSQL_DATABASE: = @('database.name')
