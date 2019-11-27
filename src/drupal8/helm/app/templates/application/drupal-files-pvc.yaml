@@ -1,5 +1,5 @@
 {{- if .Values.persistence.enabled -}}
-{{- with Values.persistence.drupal.files -}}
+{{- with .Values.persistence.drupal.files -}}
 {{- if .hostPath }}
 ---
 kind: PersistentVolume
