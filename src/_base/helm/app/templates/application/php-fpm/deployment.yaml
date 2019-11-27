@@ -69,7 +69,7 @@ spec:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
       volumes:
-      {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
       {{- include "application.volumes.backend" . | indent 6 }}
       {{- include "application.volumes.all" . | indent 6 }}
       {{- else }} []

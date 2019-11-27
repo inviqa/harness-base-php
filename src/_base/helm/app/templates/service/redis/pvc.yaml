@@ -5,9 +5,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ $.Values.prefix }}redis-pv-claim
+  name: {{ $.Values.resourcePrefix }}redis-pv-claim
   labels:
-    app.service: {{ $.Values.prefix }}redis
+    app.service: {{ $.Values.resourcePrefix }}redis
 spec:
   accessModes:
     - {{ .accessMode | quote }}
