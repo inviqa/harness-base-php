@@ -13,3 +13,5 @@ COPY --from=console {{ copy_directory }} {{ copy_directory }}
 VOLUME /app
 {% endif %}
 
+ENTRYPOINT ["sh", "/docker-entrypoint.d/config_render.sh"]
+CMD ["nginx", "-g", "daemon off;"]

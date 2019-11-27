@@ -98,7 +98,7 @@ server {
         # PHP 5 socket location.
         #fastcgi_pass unix:/var/run/php5-fpm.sock;
         # PHP 7 socket location.
-        fastcgi_pass php-fpm:9000;
+        fastcgi_pass ${FPM_HOST}:9000;
     }
 
     # Fighting with Styles? This little gem is amazing.
