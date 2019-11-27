@@ -18,7 +18,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: spryker-data-pvc
+  name: {{ tpl .claimName $ | quote }}
 spec:
   accessModes:
     - {{ .accessMode | quote }}
