@@ -29,6 +29,7 @@ confd('harness:/'):
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   - { src: helm/app/values.yaml }
   - { src: helm/app/Chart.yaml }
+  - { src: helm/qa/requirements.yaml }
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
   # harness-drupal templates
