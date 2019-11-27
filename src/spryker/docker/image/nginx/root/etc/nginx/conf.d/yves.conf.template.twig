@@ -52,7 +52,7 @@ server {
         }
 
         add_header X-Server $hostname;
-        fastcgi_pass php-fpm:9000;
+        fastcgi_pass ${FPM_HOST}:9000;
         fastcgi_index index.php;
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;

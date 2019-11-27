@@ -165,7 +165,7 @@ attributes.default:
         mysql: "512Mi"
         postgres: "512Mi"
         redis: "256Mi"
-        redis_session: "128Mi"
+        redis_session: "1024Mi"
     limits:
       memory:
         console: "2048Mi"
@@ -177,7 +177,7 @@ attributes.default:
         mysql: "512Mi"
         postgres: "512Mi"
         redis: "256Mi"
-        redis_session: "128Mi"
+        redis_session: "1024Mi"
 
   persistence:
     enabled: false
