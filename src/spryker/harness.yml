@@ -36,11 +36,10 @@ attributes:
     name: spryker
   backend:
     build:
-      when: true
+      when: 'true'
       steps:
         - task "spryker:build"
         - task "overlay:apply"
-        - task "assets:dump"
     install:
       steps:
         - task "rabbitmq:vhosts"
