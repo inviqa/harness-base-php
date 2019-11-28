@@ -9,7 +9,7 @@ metadata:
 spec:
  hosts:
 {{ range $key, $value := .Values.docker.services.nginx.environment }}
- - "{{ $value }}"
+ - {{ $value | quote }}
 {{ end }}
  gateways:
  - istio-system/{{ .Release.Namespace }}-gateway
