@@ -36,19 +36,23 @@ attributes:
     name: spryker
   backend:
     build:
+      when: 'true'
       steps:
-        - task "composer:install"
-        - run "vendor/bin/install -r docker -s generate"
+        - task "spryker:build"
+        - task "overlay:apply"
     install:
       steps:
         - task "rabbitmq:vhosts"
         - task "http:wait" $JENKINS_URL
-        - passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
-        - task "overlay:apply"
-        - task "assets:dump"
+        - task "spryker:install"        
     init:
       steps:
-        - run "vendor/bin/console propel:install -o"
+        - task "http:wait" $JENKINS_URL
+        - task "rabbitmq:vhosts"
+        - task "spryker:init"
+    migrate:
+      steps:
+        - task "spryker:migrate"
   frontend:
     yves:
       watch: npm run yves:watch

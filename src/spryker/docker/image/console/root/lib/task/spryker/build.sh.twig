@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function task_spryker_build()
+{
+    {% if @('app.mode') == 'development' %}
+        passthru "composer install --no-interaction --dev --optimize-autoloader"
+    {% else %}
+        passthru "composer install --no-interaction --no-dev --optimize-autoloader"
+    {% endif %}
+        passthru "vendor/bin/install -r docker -s generate"
+        passthru "vendor/bin/install -r docker -s cache"
+    {% if @('app.mode') == 'development' %}
+        passthru "composer dumpautoload"
+    {% else %}
+        passthru "composer dumpautoload -a"
+    {% endif %}
+}
