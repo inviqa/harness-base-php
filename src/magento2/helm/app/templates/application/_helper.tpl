@@ -7,7 +7,7 @@
 - name: magento-media-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: magento-media-pvc
+    claimName: {{ tpl .Values.persistence.magento.media.claimName $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
