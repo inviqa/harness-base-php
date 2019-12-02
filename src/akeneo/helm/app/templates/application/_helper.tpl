@@ -9,14 +9,14 @@
 - name: akeneo-file-storage-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: akeneo-uploads-pvc
+    claimName: {{ tpl .Values.persistence.akeneo.file_storage.claimName $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
 - name: akeneo-uploads-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: akeneo-uploads-pvc
+    claimName: {{ tpl .Values.persistence.akeneo.uploads.claimName $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}

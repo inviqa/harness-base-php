@@ -7,7 +7,7 @@
 - name: drupal-files-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: drupal-files-pvc
+    claimName: {{ tpl .Values.persistence.drupal.files.claimName $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}

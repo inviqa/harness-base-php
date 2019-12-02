@@ -7,7 +7,7 @@
 - name: spryker-data-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: spryker-data-pvc
+    claimName: {{ tpl .Values.persistence.spryker.data.claimName $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
