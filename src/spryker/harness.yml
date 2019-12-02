@@ -39,13 +39,13 @@ attributes:
       when: 'true'
       steps:
         - task "spryker:build"
-        - task "overlay:apply"
     install:
       steps:
         - task "rabbitmq:vhosts"
         - task "http:wait" $JENKINS_URL
         - task "spryker:install" 
         #- task "spryker:demodata"       
+        - task "overlay:apply"
     init:
       steps:
         - task "http:wait" $JENKINS_URL
