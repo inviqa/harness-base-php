@@ -44,8 +44,8 @@ attributes:
       steps:
         - task "rabbitmq:vhosts"
         - task "http:wait" $JENKINS_URL
-        - task "spryker:install"   
-        - task "overlay:apply"     
+        - task "spryker:install" 
+        #- task "spryker:demodata"       
     init:
       steps:
         - task "http:wait" $JENKINS_URL
