@@ -7,6 +7,11 @@ HARNESSES=(akeneo drupal8 magento1 magento2 spryker wordpress)
 
 function main()
 {
+    if ! which splitsh-lite >/dev/null; then
+        echo "error: splitsh-lite is needed to be installed first" >&2
+        exit 1
+    fi
+
     git checkout -b _build
 
     build
