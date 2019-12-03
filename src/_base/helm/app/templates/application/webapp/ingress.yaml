@@ -4,15 +4,15 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   labels:
-    app.service: {{ .Values.resourcePrefix }}nginx
-  name: {{ .Values.resourcePrefix }}nginx
+    app.service: {{ .Values.resourcePrefix }}webapp
+  name: {{ .Values.resourcePrefix }}webapp
 spec:
   rules:
   - host: {{ index .Values.docker.services "php-base" "environment" "APP_HOST" }}
     http:
       paths:
       - backend:
-          serviceName: {{ .Values.resourcePrefix }}nginx
+          serviceName: {{ .Values.resourcePrefix }}webapp
           servicePort: 80
 status:
   loadBalancer: {}

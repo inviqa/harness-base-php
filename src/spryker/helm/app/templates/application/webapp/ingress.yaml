@@ -5,8 +5,8 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   labels:
-    app.service: {{ .Values.resourcePrefix }}nginx
-  name: {{ .Values.resourcePrefix }}nginx
+    app.service: {{ .Values.resourcePrefix }}webapp
+  name: {{ .Values.resourcePrefix }}webapp
 spec:
   rules:
   {{- range $key, $value := .Values.docker.services.nginx.environment }}
@@ -14,7 +14,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ $root.Values.resourcePrefix }}nginx
+          serviceName: {{ $root.Values.resourcePrefix }}webapp
           servicePort: 80
   {{- end }}
 status:
