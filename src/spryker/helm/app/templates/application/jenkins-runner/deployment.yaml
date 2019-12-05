@@ -18,12 +18,22 @@ spec:
       containers:
       - env:
         {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else }}
           value: {{ $value | quote }}
         {{- end }}
+        {{- end }}
         {{- range $key, $value := index .Values.docker.services "jenkins-runner" "environment" }}
+        {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else }}
           value: {{ $value | quote }}
+        {{- end }}
         {{- end }}
         {{- range $key, $value := .Values.environment }}
         - name: {{ $key | quote }}
