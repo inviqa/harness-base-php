@@ -16,24 +16,8 @@ attributes:
           environment:
             APP_HOST: = @('pipeline.base.hostname')
             PHP_IDE_CONFIG: = ''
-            ES_HOST: = @('pipeline.base.resourcePrefix') ~ 'elasticsearch' ~ ':' ~ ' 9200'
-            DB_HOST: = @('pipeline.base.resourcePrefix') ~ 'mysql'
-        nginx:
-          environment:
-            FPM_HOST: = @('pipeline.base.resourcePrefix') ~ 'php-fpm'
-        next:
-          environment:
-            FPM_HOST: = @('pipeline.base.resourcePrefix') ~ 'php-fpm'
     qa:
       services:
         php-base:
           environment:
             APP_HOST: = @('pipeline.qa.hostname')
-            ES_HOST: = @('pipeline.qa.resourcePrefix') ~ 'elasticsearch' ~ ':' ~ ' 9200'
-            DB_HOST: = @('pipeline.qa.resourcePrefix') ~ 'mysql'
-        nginx:
-          environment:
-            FPM_HOST: = @('pipeline.qa.resourcePrefix') ~ 'php-fpm'
-        next:
-          environment:
-            FPM_HOST: = @('pipeline.qa.resourcePrefix') ~ 'php-fpm'
