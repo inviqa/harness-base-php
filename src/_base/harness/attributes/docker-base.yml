@@ -37,6 +37,7 @@ attributes:
       services:
         php-base:
           environment:
+            ES_HOST: "{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix }}elasticsearch:9200{{ end }}"
             DB_HOST: = '{{ .Values.resourcePrefix }}' ~ @('database.host')
             APP_HOST: = @('pipeline.base.hostname')
             PHP_IDE_CONFIG: = ''
