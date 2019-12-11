@@ -178,12 +178,12 @@ attributes:
       memory:
         jenkins_runner: "256Mi"
         jenkins: "1536Mi"
-        rabbitmq: "1024Mi"
+        rabbitmq: "128Mi"
     limits:
       memory:
         jenkins_runner: "256Mi"
         jenkins: "1536Mi"
-        rabbitmq: "1024Mi"
+        rabbitmq: "128Mi"
   
 ---
 command('frontend yves watch'):
