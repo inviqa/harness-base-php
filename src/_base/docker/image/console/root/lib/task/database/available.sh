@@ -5,7 +5,7 @@ function task_database_available()
     local command=""
 
     if [ "${DB_PLATFORM}" == "mysql" ]; then
-        command="mysqladmin -h $DB_HOST -u root -p$DB_ROOT_PASS ping"
+        command="mysqladmin -h $DB_HOST -u root -p$DB_ROOT_PASS ping --connect_timeout=5"
     elif [ "${DB_PLATFORM}" == "postgres" ]; then
         command="pg_isready -h $DB_HOST"
     elif [ "${DB_PLATFORM}" == "" ]; then
