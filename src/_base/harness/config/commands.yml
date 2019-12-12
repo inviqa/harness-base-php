@@ -38,7 +38,7 @@ command('networks external'):
   exec: |
     #!bash(workspace:/)
     for NETWORK in ${NETWORKS}; do
-      if ! docker network inspect "${NETWORK}" 2>&1 >/dev/null; then
+      if ! docker network inspect "${NETWORK}" >/dev/null 2>&1; then
         passthru docker network create "${NETWORK}"
       fi
     done
