@@ -1,7 +1,14 @@
+{% set command = [] %}
+{% for var,value in @('database.var') -%}
+    {% set command = command|merge(['--' ~ var ~ '=' ~ value]) %}
+{% endfor %}
   mysql:
     image: mysql:5.7
     labels:
       - traefik.enable=false
+{% if command|length %}
+    command: {{ command|join(' ') }}
+{% endif %}
     environment:
 {{ to_nice_yaml(@('services.mysql.environment'), 2, 6) | raw }}
     networks:
