@@ -54,8 +54,20 @@ spec:
             - state
           initialDelaySeconds: 20
           periodSeconds: 10
+        volumeMounts:
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+        {{- include "application.volumeMounts.backend" . | indent 8 }}
+        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
+      volumes:
+      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
+      {{- include "application.volumes.backend" . | indent 6 }}
+      {{- include "application.volumes.all" . | indent 6 }}
+      {{- else }} []
+      {{- end }}
 status: {}
 {{ end }}
