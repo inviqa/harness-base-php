@@ -16,7 +16,8 @@ attributes:
         FPM_HOST: php-fpm
     console:
       environment:
-        DB_ROOT_PASS: = @('database.root_pass')
+        DB_ADMIN_USER: root
+        DB_ADMIN_PASS: = @('database.root_pass')
     php-fpm:
       environment: 
         AUTOSTART_PHP_FPM: "true"

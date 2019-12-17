@@ -8,10 +8,10 @@ function task_assets_apply()
     if [ "${DB_PLATFORM}" == "mysql" ]; then
         SQL="SELECT IF (COUNT(*) = 0, 'no', 'yes') FROM information_schema.tables WHERE table_schema = '$DB_NAME';"
         IS_DATABASE_APPLIED="$(mysql -ss -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" -e "$SQL")"
-        IMPORT_COMMAND="mysql -h $DB_HOST -u root -p$DB_ROOT_PASS $DB_NAME"
+        IMPORT_COMMAND="mysql -h $DB_HOST -u ${DB_ADMIN_USER:-$DB_USER} -p${DB_ROOT_PASS:-${DB_ADMIN_PASS:-$DB_PASS}} $DB_NAME"
     elif [ "${DB_PLATFORM}" == "postgres" ]; then
         SQL="SELECT CASE WHEN COUNT(*) = 0 THEN 'no' ELSE 'yes' END FROM information_schema.tables WHERE table_catalog = '$DB_NAME' and table_schema='public';"
-        IS_DATABASE_APPLIED="$(PGPASSWORD=$DB_PASS psql -qtAX -h "$DB_HOST" -U "$DB_USER" -c "$SQL")"
+        IS_DATABASE_APPLIED="$(PGPASSWORD="$DB_PASS" psql -qtAX -h "$DB_HOST" -U "$DB_USER" -c "$SQL")"
         IMPORT_COMMAND="PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER $DB_NAME"
     elif [ -n "${DB_PLATFORM}" ]; then
         (>&2 echo "invalid database type")
