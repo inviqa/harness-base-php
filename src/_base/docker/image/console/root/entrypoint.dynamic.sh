@@ -1,10 +1,5 @@
 #!/bin/bash
 
-main()
-{
-    source /entrypoint.sh
-}
-
 setup_app_volume_permissions()
 {
     case "$STRATEGY" in
@@ -51,4 +46,5 @@ bootstrap()
 }
 
 bootstrap
-main
+
+source /entrypoint.sh

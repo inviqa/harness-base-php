@@ -10,7 +10,8 @@
       context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
     image: {{ @('workspace.name') ~ '-console:dev' }}
-    entrypoint: /entrypoint.dynamic.sh
+    entrypoint: [/entrypoint.dynamic.sh]
+    command: [sleep, infinity]
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws/application:/home/build/application
