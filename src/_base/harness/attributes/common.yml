@@ -140,6 +140,8 @@ attributes.default:
     root_pass: DV6RdNY3QcFsBk7V
     var:
       max_allowed_packet: 4M
+    import:
+      steps: []
 
   elasticsearch:
     image: elasticsearch

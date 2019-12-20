@@ -30,6 +30,17 @@ attributes:
     user: akeneo
     pass: akeneo
     name: akeneo
+    import:
+      steps:
+        - passthru "echo \"Importing database file\""
+        - run "set -e -o pipefail; zcat \"$1\" | mysql -h \"$DB_HOST\" -u root -p\"$DB_ROOT_PASS\" \"$DB_NAME\""
+        - passthru "bin/console doctrine:schema:update --force"
+        - passthru "echo \"Reindexing Elasticsearch\""
+        - run "bin/console akeneo:elasticsearch:reset-indexes -n"
+        - run "bin/console pim:product:index --all"
+        - passthru "echo \"Clearing cache\""
+        - run "bin/console c:c"
+        - passthru "echo \"Done\""
   backend:
     build:
       steps:
@@ -41,7 +52,10 @@ attributes:
         - task "overlay:apply"
         - task "assets:dump"
     init:
-      steps: []
+      steps:
+        - run "bin/console --env=prod doctrine:schema:update --force"
+        - run "bin/console akeneo:elasticsearch:reset-indexes"
+        - run "bin/console pim:product:index --all"
     migrate:
       steps: []
   frontend:
