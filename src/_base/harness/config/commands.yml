@@ -206,5 +206,5 @@ command('db import <database_file>'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
-    #!bash(workspace:/)|@
+    #!bash(workspace:/)|=
     passthru "docker-compose exec -u build console bash -i -c 'app database:import ={input.argument('database_file')}'"
