@@ -1,11 +1,5 @@
 #!/bin/bash
 
-main()
-{
-    su - build
-    sh -c 'while sleep 3600; do :; done'
-}
-
 setup_app_networking()
 {
     # make linux consistent with docker-for-mac
@@ -24,4 +18,9 @@ bootstrap()
 }
 
 bootstrap
-main
+
+if [ "${1:-}" == "sleep" ]; then
+    "$@"
+else
+    exec "$@"
+fi
