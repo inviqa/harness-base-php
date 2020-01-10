@@ -89,6 +89,9 @@ attributes.default:
   git:
     main_branch: develop
 
+  istio:
+    additionalGateways: []
+
   nginx:
     # used to set site specific configurations under server directive
     site:
