@@ -11,6 +11,9 @@ spec:
  - {{ index .Values.docker.services "php-base" "environment" "APP_HOST" }}
  gateways:
  - istio-system/{{ .Release.Namespace }}-gateway
+{{- range $key, $value := .Values.ingress.additionalGateways }}
+ - {{ $value | quote }}
+{{- end }}
  http:
  - route:
    - destination:
