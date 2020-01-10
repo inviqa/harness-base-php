@@ -31,4 +31,4 @@ resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}
 
 ingress: "standard" # standard or istio
 istio:
-{{ to_nice_yaml(@('istio'), 2, 2) | raw }}
+{{ to_nice_yaml(@('pipeline.base.istio'), 2, 2) | raw }}
