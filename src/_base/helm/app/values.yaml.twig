@@ -27,5 +27,8 @@ resources:
 persistence:
 {{ to_nice_yaml(@('pipeline.base.persistence'), 2, 2) | raw }}
 
-ingress: "standard" # standard or istio
 resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}
+
+ingress: "standard" # standard or istio
+istio:
+{{ to_nice_yaml(@('istio'), 2, 2) | raw }}
