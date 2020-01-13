@@ -45,6 +45,8 @@ attributes:
         nginx:
           environment:
             FPM_HOST: localhost
+      istio:
+        additionalGateways: []
     qa:
       services:
         php-base:
