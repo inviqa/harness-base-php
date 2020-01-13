@@ -13,6 +13,9 @@ spec:
 {{- end }}
  gateways:
  - istio-system/{{ .Release.Namespace }}-gateway
+{{- range $key, $value := .Values.istio.additionalGateways }}
+ - {{ $value | quote }}
+{{- end }}
  http:
  - route:
    - destination:
