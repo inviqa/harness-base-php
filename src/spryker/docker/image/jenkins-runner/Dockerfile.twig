@@ -20,4 +20,5 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
 
 COPY .my127ws/docker/image/jenkins-runner/root /
 
-ENTRYPOINT /entrypoint.jenkins_runner.sh
+ENTRYPOINT ["/entrypoint.jenkins_runner.sh"]
+CMD ["sleep", "infinity"]
