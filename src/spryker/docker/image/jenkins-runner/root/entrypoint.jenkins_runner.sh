@@ -12,4 +12,4 @@ bootstrap()
 }
 
 bootstrap
-main
+main "$@"
