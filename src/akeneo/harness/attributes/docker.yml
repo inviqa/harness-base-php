@@ -1,4 +1,7 @@
 attributes:
+  akeneo:
+    app:
+      mode: dev # dev or prod
   nginx:
     copy_directories:
      - = @('app.web_directory')
@@ -9,6 +12,7 @@ attributes:
       environment:
         AKENEO_SECRET: = @('akeneo.secret')
         AUTOSTART_AKENEO-JOB-QUEUE-CONSUMER: "true"
+        AKENEO_APP_MODE:  = @('akeneo.app.mode')
   pipeline:
     base:
       services:
