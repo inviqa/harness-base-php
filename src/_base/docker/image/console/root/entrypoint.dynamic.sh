@@ -47,4 +47,4 @@ bootstrap()
 
 bootstrap
 
-source /entrypoint.sh
+source /entrypoint.sh "$@"
