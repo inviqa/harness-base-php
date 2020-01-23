@@ -7,8 +7,8 @@ command('app build'): |
   ws app build nginx
 
 command('app build job-queue-consumer'): |
-  #!bash(harness:/docker/image/job-queue-consumer)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-job-queue-consumer .
+  #!bash(workspace:/)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-job-queue-consumer -f .my127ws/docker/image/job-queue-consumer/Dockerfile .
 
 command('app publish'): |
   #!bash(workspace:/)|@
