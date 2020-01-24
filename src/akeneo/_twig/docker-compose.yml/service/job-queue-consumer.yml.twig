@@ -1,6 +1,4 @@
   job-queue-consumer:
-    depends_on:
-      - mysql
 {% if @('app.build') == 'dynamic' %}
     build:
       context: ./

@@ -39,10 +39,12 @@ dynamic()
     passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose build --pull"
     passthru docker-compose build job-queue-consumer
 
-    passthru docker-compose up -d
+    passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app build
     passthru docker-compose exec -T -u build console app init
+
+    passthru docker-compose up -d job-queue-consumer
 }
 
 static()
