@@ -51,8 +51,9 @@ static()
 {
     ws app build
 
-    passthru docker-compose up -d
+    passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose up -d"
     passthru docker-compose exec -T -u build console app init
+    passthru docker-compose up -d job-queue-consumer
 }
 
 main
