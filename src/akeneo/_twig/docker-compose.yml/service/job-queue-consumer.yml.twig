@@ -1,0 +1,18 @@
+  job-queue-consumer:
+{% if @('app.build') == 'dynamic' %}
+    build:
+      context: ./
+      dockerfile: .my127ws/docker/image/job-queue-consumer/Dockerfile
+    volumes:
+      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - ./.my127ws/application:/home/build/application
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-job-queue-consumer' }}
+{% endif %}
+    environment:
+{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.job-queue-consumer.environment')], 2, 6) | raw }}
+{% include blocks ~ 'environment.yml.twig' %}
+    networks:
+      - private
+    labels:
+      - traefik.enable=false

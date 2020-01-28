@@ -11,8 +11,11 @@ attributes:
     php-base:
       environment:
         AKENEO_SECRET: = @('akeneo.secret')
-        AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"
         AKENEO_APP_MODE:  = @('akeneo.app.mode')
+    job-queue-consumer:
+      environment:
+        AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"
+        AKENEO_JOB_QUEUE_CONSUMER_PROCESSES: 5
   pipeline:
     base:
       services:

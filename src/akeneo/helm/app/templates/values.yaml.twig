@@ -1,0 +1,36 @@
+{% set blocks  = 'helm/app/_twig/values.yaml/' %}
+
+environment:
+{% include blocks ~ 'environment.yml.twig' %}
+
+docker:
+  config: {{ @('docker.config') }}
+  image:
+    console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+    fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+    nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
+    job_queue_consumer: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-job-queue-consumer' }}
+    elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
+  services:
+{{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
+
+service:
+  mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
+  postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
+  redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
+  redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
+  memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
+  elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
+  job-queue-consumer: {{ ("job-queue-consumer" in @('app.services')) ? 'true' : 'false' }}
+
+resources:
+{% include blocks ~ 'resources.yml.twig' %}
+
+persistence:
+{{ to_nice_yaml(@('pipeline.base.persistence'), 2, 2) | raw }}
+
+resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}
+
+ingress: "standard" # standard or istio
+istio:
+{{ to_nice_yaml(@('pipeline.base.istio'), 2, 2) | raw }}
