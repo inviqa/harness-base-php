@@ -1,0 +1,24 @@
+---
+harness('inviqa/symfony'):
+  description: A docker based development environment for Symfony
+  require:
+    services:
+      - proxy
+    confd:
+      - harness:/
+---
+attributes:
+  app:
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs:
+      - '/app/var/'
+    web_directory: /app/web
+    services:
+      - chrome
+      - mysql
+---
+import:
+  - harness/config/*.yml
+  - harness/attributes/*.yml
+  - harness/attributes/environment/={env('MY127WS_ENV','local')}.yml

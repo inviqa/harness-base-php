@@ -123,6 +123,17 @@ pipeline {
                     }
                 }
 
+                // Symfony
+
+                stage('symfony (mode=dynamic)') {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test symfony dynamic' }
+                }
+                stage('symfony (mode=static)') {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test symfony static' }
+                }
+
                 // Wordpress
 
                 stage('wordpress (mode=dynamic)') {

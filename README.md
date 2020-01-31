@@ -15,6 +15,7 @@ Each framework will fully override a base harness file if differing behaviour is
 * [Magento 1.x (Ecommerce)](src/magento1/), published to [inviqa/harness-magento1]
 * [Magento 2.x (Ecommerce)](src/magento2/), published to [inviqa/harness-magento2]
 * [Spryker (Ecommerce)](src/spryker/), published to [inviqa/harness-spryker]
+* [Symfony](src/symfony/), published to [inviqa/harness-symfony]
 * [Wordpress (CMS)](src/wordpress/), published to [inviqa/harness-wordpress]
 
 ## Testing
@@ -65,4 +66,5 @@ Once the individual harness repository has the latest 0.2.x branch, a tag can be
 [inviqa/harness-magento1]: https://github.com/inviqa/harness-magento1
 [inviqa/harness-magento2]: https://github.com/inviqa/harness-magento2
 [inviqa/harness-spryker]: https://github.com/inviqa/harness-spryker
+[inviqa/harness-symfony]: https://github.com/inviqa/harness-symfony
 [inviqa/harness-wordpress]: https://github.com/inviqa/harness-wordpress
