@@ -3,7 +3,7 @@ pipeline {
     environment {
         MY127WS_KEY = credentials('base-my127ws-key-20190523')
     }
-    triggers { cron(env.BRANCH_NAME == '0.2.x' ? 'H H(0-6) * * *' : '') }
+    triggers { cron(env.BRANCH_NAME == '0.3.x' ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Test Matrix') {
             parallel {
@@ -39,6 +39,17 @@ pipeline {
                 stage('magento2 (mode=static)') { 
                     agent { label "my127ws" }
                     steps { sh './build && ./test magento2 static' }
+                }
+
+                // PHP
+
+                stage('php (mode=dynamic)') {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test php dynamic' }
+                }
+                stage('php (mode=static)')  {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test php static' }
                 }
 
                 // Spryker
