@@ -11,7 +11,7 @@ pipeline {
                 // Drupal 8
 
                 stage('drupal8 (mode=dynamic)') {
-                    agent { label "my127ws" } 
+                    agent { label "my127ws" }
                     steps { sh './build && ./test drupal8 dynamic' }
                 }
                 stage('drupal8 (mode=static)')  {
@@ -36,7 +36,7 @@ pipeline {
                     agent { label "my127ws" }
                     steps { sh './build && ./test magento2 dynamic' }
                 }
-                stage('magento2 (mode=static)') { 
+                stage('magento2 (mode=static)') {
                     agent { label "my127ws" }
                     steps { sh './build && ./test magento2 static' }
                 }
@@ -74,6 +74,12 @@ pipeline {
                     steps { sh './build && ./test wordpress static' }
                 }
             }
+        }
+    }
+    post {
+        always {
+            sh 'ws destroy || true'
+            cleanWs()
         }
     }
 }
