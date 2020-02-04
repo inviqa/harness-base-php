@@ -21,14 +21,22 @@ function test()
     fi
 
     cp -ap "${path_harness}/.ci/sample-${mode}" "${path_test}"
-    cd ${path_test}
+    cd "${path_test}"
     cp -ap "../${path_harness}" "./.my127ws"
 
     ws install
 
-    ws exec composer test-quality
-    ws exec composer test-unit
-    ws exec composer test-acceptance
+    if [ "$(docker-compose -p "ci-${harness}-sample" ps | grep -c Exit)" -gt 0 ]; then
+      echo 'Some containers failed to start'
+      docker-compose -p "ci-${harness}-sample" ps
+      return 1
+    fi
+
+    if [ -f composer.json ]; then
+      ws exec composer test-quality
+      ws exec composer test-unit
+      ws exec composer test-acceptance
+    fi
 
     ws helm template qa >/dev/null
 
@@ -41,8 +49,8 @@ function clean()
     local path_test="./tmp-test"
 
     if [ -d "$path_test" ]; then
-        (cd $path_test && ws destroy)
-        rm -rf $path_test
+        (cd "$path_test" && ws destroy)
+        rm -rf "$path_test"
     fi
 }
 

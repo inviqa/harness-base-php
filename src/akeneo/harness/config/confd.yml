@@ -1,5 +1,6 @@
 
 confd('harness:/'):
+  # base templates
   - { src: docker/image/console/Dockerfile }
   - { src: docker/image/console/root/home/build/.my.cnf }
   - { src: docker/image/console/root/lib/task/database/import.sh }
@@ -29,10 +30,9 @@ confd('harness:/'):
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   - { src: helm/app/values.yaml }
   - { src: helm/app/Chart.yaml }
+  - { src: helm/qa/requirements.yaml }
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
-  - { src: helm/qa/requirements.yaml }
   # harness-akeneo templates
   - { src: application/overlay/app/config/parameters.yml }
-  - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
   - { src: docker/image/job-queue-consumer/Dockerfile }
