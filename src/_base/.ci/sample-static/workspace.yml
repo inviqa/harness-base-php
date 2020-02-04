@@ -8,3 +8,12 @@ attribute('aws.bucket'): null
 attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
+
+before('harness.install'): |
+  #!bash(workspace:/)|@
+  if [ ! -d public/ ]; then
+    mkdir public
+  fi
+  if [ ! -f public/index.php ]; then
+    echo "<?php echo('Hello, @('workspace.name')');" > public/index.php
+  fi
