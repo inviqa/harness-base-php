@@ -128,10 +128,22 @@ pipeline {
                 stage('symfony (mode=dynamic)') {
                     agent { label "my127ws" }
                     steps { sh './build && ./test symfony dynamic' }
+                    post {
+                        always {
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
+                    }
                 }
                 stage('symfony (mode=static)') {
                     agent { label "my127ws" }
                     steps { sh './build && ./test symfony static' }
+                    post {
+                        always {
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
+                    }
                 }
 
                 // Wordpress
