@@ -18,6 +18,7 @@ attributes:
       - elasticsearch
       - mysql
       - job-queue-consumer
+      - cron
     file_storage_directory: /app/app/file_storage
     uploads_directory: /app/app/uploads
     web_directory: /app/web

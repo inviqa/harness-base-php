@@ -36,9 +36,10 @@ dynamic()
     fi
 
     passthru "docker-compose config --services | grep -v php-fpm | xargs docker-compose pull"
-    passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose build --pull"
+    passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | xargs docker-compose build --pull"
     passthru docker-compose build job-queue-consumer
-
+    passthru docker-compose build cron
+    
     passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app build

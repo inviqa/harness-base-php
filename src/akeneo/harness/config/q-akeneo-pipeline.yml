@@ -4,11 +4,16 @@ command('app build'): |
   ws app build console
   ws app build php-fpm
   ws app build job-queue-consumer
+  ws app build cron
   ws app build nginx
 
 command('app build job-queue-consumer'): |
   #!bash(workspace:/)|@
   passthru docker build -t @('docker.repository'):@('app.version')-job-queue-consumer -f .my127ws/docker/image/job-queue-consumer/Dockerfile .
+
+command('app build cron'): |
+  #!bash(workspace:/)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-cron -f .my127ws/docker/image/cron/Dockerfile .
 
 command('app publish'): |
   #!bash(workspace:/)|@
@@ -16,6 +21,7 @@ command('app publish'): |
   run docker push @('docker.repository'):@('app.version')-console
   run docker push @('docker.repository'):@('app.version')-php-fpm
   run docker push @('docker.repository'):@('app.version')-job-queue-consumer
+  run docker push @('docker.repository'):@('app.version')-cron
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker logout @('docker.repository')
 
