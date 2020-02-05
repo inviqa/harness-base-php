@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.resourcePrefix }}cron
+  labels:
+    app.service: {{ .Values.resourcePrefix }}cron
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: {{ .Values.resourcePrefix }}cron
+  template:
+    metadata:
+      labels:
+        app.service: {{ .Values.resourcePrefix }}cron
+    spec:
+      {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
+      initContainers:
+      - name: cron-volume-permissions
+        image: busybox
+        command: 
+        - "/bin/chown"
+        - "-R"
+        - "www-data"
+        {{- include "application.volumes.wwwDataPaths" . | indent 8 }}
+        volumeMounts:
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+        {{- include "application.volumeMounts.backend" . | indent 8 }}
+        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
+      {{- end }}
+      containers:
+      - name: cron
+        env:
+        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        {{- $tp := typeOf $value }}
+        - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else}}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        {{- range $key, $value := index .Values.docker.services "cron" "environment" }}
+        {{- $tp := typeOf $value }}
+        - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else}}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        {{- range $key, $value := .Values.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        image: {{ .Values.docker.image.cron }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9000
+        resources:
+          limits:
+            memory: {{ .Values.resources.limits.memory.cron }}
+          requests:
+            memory: {{ .Values.resources.requests.memory.cron }}
+        readinessProbe:
+          tcpSocket:
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+        {{- include "application.volumeMounts.backend" . | indent 8 }}
+        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
+
+      imagePullSecrets:
+      - name: {{ .Values.resourcePrefix }}docker-config
+      restartPolicy: Always
+      volumes:
+      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
+      {{- include "application.volumes.backend" . | indent 6 }}
+      {{- include "application.volumes.all" . | indent 6 }}
+      {{- else }} []
+      {{- end }}
+status: {}
