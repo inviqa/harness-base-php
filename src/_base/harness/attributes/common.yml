@@ -77,6 +77,8 @@ attributes.default:
       steps: []
     migrate:
       steps: []
+    cron:
+      jobs: []
 
   frontend:
     path: /app
