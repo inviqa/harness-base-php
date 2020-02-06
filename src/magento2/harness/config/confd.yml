@@ -28,6 +28,7 @@ confd('harness:/'):
   - { src: application/skeleton/README.md }
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
+  - { src: harness/scripts/enable.sh }
   - { src: helm/app/values.yaml }
   - { src: helm/app/Chart.yaml }
   - { src: helm/qa/requirements.yaml }
