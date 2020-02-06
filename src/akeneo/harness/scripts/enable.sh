@@ -53,6 +53,7 @@ static()
     ws app build
 
     passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose up -d"
+    passthru sleep 60s # ensure mysql has had time to start
     passthru docker-compose exec -T -u build console app init
     passthru docker-compose up -d job-queue-consumer
 }
