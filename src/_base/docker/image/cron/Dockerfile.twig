@@ -6,7 +6,7 @@ FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
 
 # install cron
 RUN apt update
-RUN apt install -y cron
+RUN apt install -y cron sudo
 
 WORKDIR /app
 COPY .my127ws/docker/image/cron/root /
