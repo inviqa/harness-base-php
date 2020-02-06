@@ -11,10 +11,6 @@ command('app build job-queue-consumer'): |
   #!bash(workspace:/)|@
   passthru docker build -t @('docker.repository'):@('app.version')-job-queue-consumer -f .my127ws/docker/image/job-queue-consumer/Dockerfile .
 
-command('app build cron'): |
-  #!bash(workspace:/)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-cron -f .my127ws/docker/image/cron/Dockerfile .
-
 command('app publish'): |
   #!bash(workspace:/)|@
   run docker login -u="@('docker.username')" -p="@('docker.password')" @('docker.repository')

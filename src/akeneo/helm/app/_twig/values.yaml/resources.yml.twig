@@ -10,8 +10,8 @@
       postgres: {{ @('resources.requests.memory.postgres') }}
       redis: {{ @('resources.requests.memory.redis') }}
       redis_session: {{ @('resources.requests.memory.redis_session') }}
-      job_queue_consumer: {{ @('resources.requests.memory.job_queue_consumer') }}
       cron: {{ @('resources.requests.memory.cron') }}
+      job_queue_consumer: {{ @('resources.requests.memory.job_queue_consumer') }}
   limits:
     memory:
       console: {{ @('resources.limits.memory.console') }}
@@ -24,5 +24,5 @@
       postgres: {{ @('resources.limits.memory.postgres') }}
       redis: {{ @('resources.limits.memory.redis') }}
       redis_session: {{ @('resources.limits.memory.redis_session') }}
-      job_queue_consumer: {{ @('resources.limits.memory.job_queue_consumer') }}
       cron: {{ @('resources.limits.memory.cron') }}
+      job_queue_consumer: {{ @('resources.limits.memory.job_queue_consumer') }}

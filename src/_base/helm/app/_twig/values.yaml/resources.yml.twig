@@ -10,6 +10,7 @@
       postgres: {{ @('resources.requests.memory.postgres') }}
       redis: {{ @('resources.requests.memory.redis') }}
       redis_session: {{ @('resources.requests.memory.redis_session') }}
+      cron: {{ @('resources.requests.memory.cron') }}
   limits:
     memory:
       console: {{ @('resources.limits.memory.console') }}
@@ -22,3 +23,4 @@
       postgres: {{ @('resources.limits.memory.postgres') }}
       redis: {{ @('resources.limits.memory.redis') }}
       redis_session: {{ @('resources.limits.memory.redis_session') }}
+      cron: {{ @('resources.limits.memory.cron') }}

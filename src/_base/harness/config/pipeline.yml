@@ -9,6 +9,10 @@ command('app build console'): |
   #!bash(workspace:/)|@
   passthru docker build --pull -t @('docker.repository'):@('app.version')-console -f .my127ws/docker/image/console/Dockerfile .
 
+command('app build cron'): |
+  #!bash(workspace:/)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-cron -f .my127ws/docker/image/cron/Dockerfile .
+
 command('app build php-fpm'): |
   #!bash(harness:/docker/image/php-fpm)|@
   passthru docker build -t @('docker.repository'):@('app.version')-php-fpm .
