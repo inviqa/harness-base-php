@@ -1,5 +1,6 @@
 
 confd('harness:/'):
+  # base templates
   - { src: docker/image/console/Dockerfile }
   - { src: docker/image/console/root/home/build/.my.cnf }
   - { src: docker/image/console/root/lib/task/database/import.sh }
