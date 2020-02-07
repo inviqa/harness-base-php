@@ -34,8 +34,14 @@ dynamic()
         passthru docker-sync stop
     fi
 
-    passthru "docker-compose config --services | grep -v console | xargs docker-compose pull"
-    passthru "docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build --pull"
+    {% if ("cron" in @('app.services')) %}
+        passthru "docker-compose config --services | grep -v php-fpm | grep -v console | xargs docker-compose pull"
+        passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose build --pull"
+        passthru docker-compose build cron
+    {% else %}
+        passthru "docker-compose config --services | grep -v console | xargs docker-compose pull"
+        passthru "docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build --pull"
+    {% endif %} 
     passthru docker-compose build jenkins-runner
 
     passthru docker-compose up -d
