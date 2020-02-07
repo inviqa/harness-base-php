@@ -54,6 +54,7 @@ static()
     ws app build
 
     passthru docker-compose up -d
+    passthru sleep 60s # ensure mysql has had time to start
     passthru docker-compose exec -T -u build console app init
 }
 
