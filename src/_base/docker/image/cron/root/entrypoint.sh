@@ -4,5 +4,5 @@
 env > /app/env.sh
 
 # run
-crontab -u www-data /crontab
+crontab /crontab
 exec cron -f -L 15
