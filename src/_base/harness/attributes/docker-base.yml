@@ -33,6 +33,8 @@ attributes:
         POSTGRES_PASSWORD: = @('database.pass')
         POSTGRES_USER: = @('database.user')
         PGDATA: /var/lib/postgresql/data/pgdata
+    cron:
+      environment: []
   pipeline:
     base:
       services:

@@ -2,6 +2,15 @@ attributes:
   akeneo:
     app:
       mode: dev # dev or prod
+  resources:
+    requests:
+      memory:
+        job_queue_consumer: "1024Mi"
+        cron: "1024Mi"
+    limits:
+      memory:
+        job_queue_consumer: "1024Mi"
+        cron: "1024Mi"
   nginx:
     copy_directories:
      - = @('app.web_directory')

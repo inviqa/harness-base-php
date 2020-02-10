@@ -1,0 +1,29 @@
+{% if @('app.build') == 'static' %}
+FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-php-fpm
+{% else %}
+FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
+{% endif %}
+
+# install cron
+RUN apt update
+RUN apt install -y cron sudo
+
+WORKDIR /app
+COPY .my127ws/docker/image/cron/root /
+RUN chmod +x /cron-run-with-env.sh
+
+{% if @('app.build') == 'static' %}
+RUN bash /fix_app_permissions.sh
+{% else %}
+VOLUME /app
+{% endif %}
+ENV APP_MODE {{ @('app.mode') }}
+
+{% if @('app.build') == 'static' %}
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sleep", "infinity"]
+{% else %}
+ENTRYPOINT ["/entrypoint.dynamic.sh"]
+CMD ["sleep", "infinity"]
+{% endif %}

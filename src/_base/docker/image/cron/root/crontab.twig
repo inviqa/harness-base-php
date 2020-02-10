@@ -1,0 +1,3 @@
+{% for cronjob in @('backend.cron.jobs') -%}
+{{ cronjob|raw }}
+{% endfor %}

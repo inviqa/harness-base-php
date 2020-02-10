@@ -22,12 +22,15 @@ confd('harness:/'):
   - { src: docker/image/php-fpm/root/fix_app_permissions.sh }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
+  - { src: docker/image/cron/Dockerfile }
+  - { src: docker/image/cron/root/crontab }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
   - { src: application/skeleton/README.md }
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
+  - { src: harness/scripts/enable.sh }
   - { src: helm/app/values.yaml }
   - { src: helm/app/Chart.yaml }
   - { src: helm/qa/requirements.yaml }

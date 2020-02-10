@@ -10,6 +10,7 @@ docker:
     fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     job_queue_consumer: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-job-queue-consumer' }}
+    cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
   services:
 {{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
@@ -22,6 +23,7 @@ service:
   memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
   elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
   job-queue-consumer: {{ ("job-queue-consumer" in @('app.services')) ? 'true' : 'false' }}
+  cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
