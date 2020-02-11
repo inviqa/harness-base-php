@@ -1,8 +1,15 @@
 <?php
+
+/**
+ * Needed for Travis inspection.
+ */
+
 namespace Pyz\Zed\Queue\Business\Process;
+
 use Pyz\Zed\Queue\QueueConfig;
 use Spryker\Zed\Queue\Business\Process\ProcessManager as SprykerProcessManager;
 use Spryker\Zed\Queue\Persistence\QueueQueryContainerInterface;
+
 class ProcessManager extends SprykerProcessManager
 {
     /**
@@ -17,6 +24,7 @@ class ProcessManager extends SprykerProcessManager
         parent::__construct($queryContainer, $serverUniqueId);
         $this->queueConfig = $queueConfig;
     }
+    
     /**
      * Increase queue worker timeout to allow it to be finished in single run
      * (required for initial run when there are lots of messages to process)

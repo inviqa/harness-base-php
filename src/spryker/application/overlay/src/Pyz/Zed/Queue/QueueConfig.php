@@ -18,6 +18,9 @@ class QueueConfig extends SprykerQueueConfig
 {
     public const RABBITMQ = 'rabbitmq';
 
+    /**
+     * @return int
+     */
     public function getQueueProcessTimeout(): int
     {
         return Config::get(QueueConstants::QUEUE_PROCESS_TIMEOUT, 30);

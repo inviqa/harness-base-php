@@ -1,7 +1,14 @@
 <?php
+
+/**
+ * Needed for Travis inspection.
+ */
+
 namespace Pyz\Zed\Queue\Business;
+
 use Pyz\Zed\Queue\Business\Process\ProcessManager;
 use Spryker\Zed\Queue\Business\QueueBusinessFactory as SprykerQueueBusinessFactory;
+
 class QueueBusinessFactory extends SprykerQueueBusinessFactory
 {
     /**

@@ -1,6 +1,13 @@
 <?php
+
+/**
+ * Needed for Travis inspection.
+ */
+
 namespace Pyz\Shared\Queue;
+
 use Spryker\Shared\Queue\QueueConstants as SprykerQueueConstants;
+
 class QueueConstants implements SprykerQueueConstants
 {
     /**
