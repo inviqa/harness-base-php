@@ -1,4 +1,4 @@
-workspace('ci-php-sample'):
+workspace('ci-php-sample-dynamic'):
   description: generated local workspace for ci-php-sample.
   harness: inviqa/php
 

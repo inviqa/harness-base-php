@@ -1,4 +1,4 @@
-workspace('ci-magento2-sample'):
+workspace('ci-magento2-sample-dynamic'):
   description: generated local workspace for ci-magento2-sample.
   harness: inviqa/magento2
 
