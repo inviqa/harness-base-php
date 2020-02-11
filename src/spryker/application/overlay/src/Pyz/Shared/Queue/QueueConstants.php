@@ -1,7 +1,11 @@
 <?php
 
 /**
- * Needed for Travis inspection.
+ * QueueConstants
+ *
+ * Part of the patch to fix Symfony 60 second timeout issue in queue:task:start
+ * 
+ * @author     Hardik Gajjar
  */
 
 namespace Pyz\Shared\Queue;

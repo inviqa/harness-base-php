@@ -1,7 +1,11 @@
 <?php
 
 /**
- * Needed for Travis inspection.
+ * ProcessManager
+ *
+ * Part of the patch to fix Symfony 60 second timeout issue in queue:task:start
+ * 
+ * @author     Hardik Gajjar
  */
 
 namespace Pyz\Zed\Queue\Business\Process;
@@ -16,15 +20,15 @@ class ProcessManager extends SprykerProcessManager
      * @var \Pyz\Zed\Queue\QueueConfig
      */
     private $queueConfig;
-    public function __construct(
-        QueueQueryContainerInterface $queryContainer,
-        $serverUniqueId,
-        QueueConfig $queueConfig
-    ) {
+
+    /**
+     * Create new ProcessManager
+     */
+    public function __construct(QueueQueryContainerInterface $queryContainer, $serverUniqueId, QueueConfig $queueConfig) {
         parent::__construct($queryContainer, $serverUniqueId);
         $this->queueConfig = $queueConfig;
     }
-    
+
     /**
      * Increase queue worker timeout to allow it to be finished in single run
      * (required for initial run when there are lots of messages to process)
