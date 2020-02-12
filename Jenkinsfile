@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Test Matrix') {
             parallel {
-/*
+
                 // Drupal 8
 
                 stage('drupal8 (mode=dynamic)') {
@@ -99,7 +99,7 @@ pipeline {
                         }
                     }
                 }
-*/
+
                 // Spryker
 
                 stage('spryker (mode=dynamic)') {
@@ -122,7 +122,7 @@ pipeline {
                         }
                     }
                 }
-/*
+
                 // Wordpress
 
                 stage('wordpress (mode=dynamic)') {
@@ -145,7 +145,6 @@ pipeline {
                         }
                     }
                 }
-*/
             }
         }
     }
