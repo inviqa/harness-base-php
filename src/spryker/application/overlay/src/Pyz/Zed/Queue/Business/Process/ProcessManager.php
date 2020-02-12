@@ -5,8 +5,11 @@
  *
  * Part of the patch to fix Symfony 60 second timeout issue in queue:task:start
  *
- * @author     Hardik Gajjar
  * @package Pyz\Zed\Queue\Business\Process
+ * @category blah
+ * @author Hardik Gajjar <hardik.gajjar@inviqa.com>
+ * @license blah
+ * @link blah
  */
 
 namespace Pyz\Zed\Queue\Business\Process;
@@ -17,6 +20,7 @@ use Spryker\Zed\Queue\Persistence\QueueQueryContainerInterface;
 
 /**
  * Class ProcessManager
+ *
  * @package Pyz\Zed\Queue\Business\Process
  */
 class ProcessManager extends SprykerProcessManager
@@ -30,10 +34,11 @@ class ProcessManager extends SprykerProcessManager
      * Create new ProcessManager
      * 
      * @param QueueQueryContainerInterface $queryContainer
-     * @param int $serverUniqueId
-     * @param QueueConfig $queueConfig
+     * @param int                          $serverUniqueId
+     * @param QueueConfig                  $queueConfig
      */
-    public function __construct(QueueQueryContainerInterface $queryContainer, $serverUniqueId, QueueConfig $queueConfig) {
+    public function __construct(QueueQueryContainerInterface $queryContainer, $serverUniqueId, QueueConfig $queueConfig)
+    {
         parent::__construct($queryContainer, $serverUniqueId);
         $this->queueConfig = $queueConfig;
     }

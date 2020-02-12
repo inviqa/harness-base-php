@@ -5,8 +5,11 @@
  *
  * Part of the patch to fix Symfony 60 second timeout issue in queue:task:start
  *
- * @author     Hardik Gajjar
  * @package Pyz\Zed\Queue\Business
+ * @category blah
+ * @author Hardik Gajjar <hardik.gajjar@inviqa.com>
+ * @license blah
+ * @link blah
  */
 
 namespace Pyz\Zed\Queue\Business;
@@ -16,7 +19,14 @@ use Spryker\Zed\Queue\Business\QueueBusinessFactory as SprykerQueueBusinessFacto
 
 /**
  * Class QueueBusinessFactory
+ * 
+ * Short description
+ *
  * @package Pyz\Zed\Queue\Business
+ * @category blah
+ * @author Hardik Gajjar <hardik.gajjar@inviqa.com>
+ * @license blah
+ * @link blah
  */
 class QueueBusinessFactory extends SprykerQueueBusinessFactory
 {
