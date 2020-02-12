@@ -55,6 +55,8 @@ attributes.default:
 
   docker:
     repository: = @("workspace.name")
+    compose:
+      file_version: '3'
     config: null
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
