@@ -1,4 +1,4 @@
-workspace('ci-spryker-sample'):
+workspace('ci-spryker-sample-static'):
   description: generated local workspace for ci-spryker-sample.
   harness: inviqa/spryker
 

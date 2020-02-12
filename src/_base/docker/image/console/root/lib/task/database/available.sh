@@ -20,7 +20,7 @@ function task_database_available()
 
     while ! $command &> /dev/null; do
 
-        if (( counter > 120 )); then
+        if (( counter > 300 )); then
             (>&2 echo "timeout while waiting on ${DB_PLATFORM} to become available")
             exit 1
         fi

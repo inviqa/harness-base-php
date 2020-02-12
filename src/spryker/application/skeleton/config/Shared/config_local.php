@@ -1,6 +1,7 @@
 <?php
 
 use Monolog\Logger;
+use Pyz\Shared\Queue\QueueConstants;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Customer\CustomerConstants;
 use Spryker\Shared\Log\LogConstants;
@@ -123,3 +124,6 @@ $config[LogConstants::LOG_LEVEL] = Logger::ERROR;
 /** Mail configuration **/
 $config[MailConstants::SMTP_HOST] = getenv('SMTP_HOST');
 $config[MailConstants::SMTP_PORT] = getenv('SMTP_PORT');
+
+/** Setting to work with queue process timeout patch */
+$config[QueueConstants::QUEUE_PROCESS_TIMEOUT] = 120;
