@@ -1,15 +1,8 @@
 <?php
 
 /**
- * QueueConstants
- *
- * Part of the patch to fix Symfony 60 second timeout issue in queue:task:start
- *
- * @package Pyz\Shared\Queue
- * @category blah
- * @author Hardik Gajjar <hardik.gajjar@inviqa.com>
- * @license blah
- * @link blah
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace Pyz\Shared\Queue;
