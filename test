@@ -26,7 +26,7 @@ function test()
 
     ws install
 
-    if [ "$(docker-compose -p "ci-${harness}-sample" ps | grep -c Exit)" -gt 0 ]; then
+    if [ "$(docker-compose -p "ci-${harness}-sample-${mode}" ps | grep -c Exit)" -gt 0 ]; then
       echo 'Some containers failed to start'
       docker-compose -p "ci-${harness}-sample" ps
       return 1
