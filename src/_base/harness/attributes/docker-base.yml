@@ -48,6 +48,8 @@ attributes:
           environment:
             FPM_HOST: localhost
       istio:
+        gateways:
+          - "istio-system/{{ .Release.Namespace }}-gateway"
         additionalGateways: []
     qa:
       services:
