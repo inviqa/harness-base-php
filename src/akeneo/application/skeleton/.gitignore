@@ -39,6 +39,7 @@ package-lock.json
 
 # Files
 /.dockerignore
+/mutagen.yml.lock
 /auth.json
 /docker-compose.yml
 /docker-sync.yml

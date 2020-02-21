@@ -22,6 +22,7 @@
 # Files
 
 /.dockerignore
+/mutagen.yml.lock
 /.htaccess*
 /.php_cs*
 /.travis.yml

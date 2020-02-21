@@ -11,6 +11,7 @@
 # Files
 
 /.dockerignore
+/mutagen.yml.lock
 /docker-compose.yml
 /docker-sync.yml
 /phpcs.xml
