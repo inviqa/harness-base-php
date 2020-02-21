@@ -21,6 +21,8 @@ main()
 
     if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
         passthru docker-sync start
+    elif [[ "$APP_BUILD" = "dynamic" && "$USE_MUTAGEN" = "yes" ]]; then
+        passthru ws mutagen resume
     fi
 }
 
@@ -33,6 +35,9 @@ dynamic()
         passthru gem install docker-sync --no-document
         passthru docker-sync start
         passthru docker-sync stop
+    elif [[ "$USE_MUTAGEN" = "yes" ]]; then
+        passthru ws mutagen start
+        passthru ws mutagen pause
     fi
 
     {% if ("cron" in @('app.services')) %}

@@ -89,6 +89,22 @@ with `ws feature docker-sync off`.
 If your page loads too slowly, you can turn docker-sync back on again  with `ws feature docker-sync on`
 {% endif %}
 
+#### Mutagen file sync
+
+[Mutagen](https://mutagen.io/documentation/transports/docker) is another tool to synchronize files between host machine
+and docker containers, just like docker-sync. We have integrated mutagen for synchronizing files as an option of docker-sync.
+This tool is still in beta phase, but you can try it yourself if you are not happy with docker-sync.
+Following are some useful commands regarding Mutagen.
+
+```bash
+# To switch to Mutagen file sync
+ws switch mutagen
+# To switch back to docker-sync
+ws switch docker-sync
+# To check the Mutagen sync status (sync is ready when status is "Watching for changes")
+mutagen monitor
+```
+
 ### Common Issues
 
 As setup issues are encountered please detail with step by step fix instructions, and where possible update the project or the upstream workspace harness itself to provide a more permanent fix.
