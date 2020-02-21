@@ -23,7 +23,6 @@ main()
     elif [[ "$APP_BUILD" = "dynamic" && "$USE_MUTAGEN" = "yes" ]]; then
         passthru ws mutagen resume
     fi
-    fi
 }
 
 dynamic()
@@ -38,7 +37,6 @@ dynamic()
     elif [[ "$USE_MUTAGEN" = "yes" ]]; then
         passthru ws mutagen start
         passthru ws mutagen pause
-    fi
     fi
 
     {% if ("cron" in @('app.services')) %}
