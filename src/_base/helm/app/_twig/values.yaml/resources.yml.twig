@@ -1,29 +1,28 @@
   requests:
     memory:
-      console: {{ @('resources.limits.memory.console') }}
-      nginx: {{ @('resources.limits.memory.nginx') }}
-      php_fpm: {{ @('resources.limits.memory.php_fpm') }}
-      app_init: {{ @('resources.limits.memory.app_init') }}
-      app_migrate: {{ @('resources.limits.memory.app_migrate') }}
-      elasticsearch: {{ @('resources.limits.memory.elasticsearch') }}
-      mysql: {{ @('resources.limits.memory.mysql') }}
-      php_fpm_exporter: {{ @('resources.limits.memory.php_fpm_exporter') }}
-      postgres: {{ @('resources.limits.memory.postgres') }}
-      redis: {{ @('resources.limits.memory.redis') }}
-      redis_session: {{ @('resources.limits.memory.redis_session') }}
-      cron: {{ @('resources.limits.memory.cron') }}
+      console: {{ @('resources.memory.console') }}
+      cron: {{ @('resources.memory.cron') }}
+      nginx: {{ @('resources.memory.nginx') }}
+      php_fpm: {{ @('resources.memory.php_fpm') }}
+      php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
+      app_init: {{ @('resources.memory.app_init') }}
+      app_migrate: {{ @('resources.memory.app_migrate') }}
+      elasticsearch: {{ @('resources.memory.elasticsearch') }}
+      mysql: {{ @('resources.memory.mysql') }}
+      postgres: {{ @('resources.memory.postgres') }}
+      redis: {{ @('resources.memory.redis') }}
+      redis_session: {{ @('resources.memory.redis_session') }}
   limits:
     memory:
-      console: {{ @('resources.limits.memory.console') }}
-      nginx: {{ @('resources.limits.memory.nginx') }}
-      php_fpm: {{ @('resources.limits.memory.php_fpm') }}
-      app_init: {{ @('resources.limits.memory.app_init') }}
-      app_migrate: {{ @('resources.limits.memory.app_migrate') }}
-      elasticsearch: {{ @('resources.limits.memory.elasticsearch') }}
-      mysql: {{ @('resources.limits.memory.mysql') }}
-      php_fpm_exporter: {{ @('resources.limits.memory.php_fpm_exporter') }}
-      postgres: {{ @('resources.limits.memory.postgres') }}
-      redis: {{ @('resources.limits.memory.redis') }}
-      redis_session: {{ @('resources.limits.memory.redis_session') }}
-      cron: {{ @('resources.limits.memory.cron') }}
-      php_fpm_exporter: {{ @('resources.limits.memory.php_fpm_exporter') }}
+      console: {{ @('resources.memory.console') }}
+      cron: {{ @('resources.memory.cron') }}
+      nginx: {{ @('resources.memory.nginx') }}
+      php_fpm: {{ @('resources.memory.php_fpm') }}
+      php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
+      app_init: {{ @('resources.memory.app_init') }}
+      app_migrate: {{ @('resources.memory.app_migrate') }}
+      elasticsearch: {{ @('resources.memory.elasticsearch') }}
+      mysql: {{ @('resources.memory.mysql') }}
+      postgres: {{ @('resources.memory.postgres') }}
+      redis: {{ @('resources.memory.redis') }}
+      redis_session: {{ @('resources.memory.redis_session') }}

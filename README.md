@@ -30,10 +30,10 @@ Each framework will fully override a base harness file if differing behaviour is
 Each harness deploys:
 * A "console" pod for running one-off commands
 * A NGINX/PHP-FPM "webapp" pod for running the php-based application and serving web requests
-* A "cron" pod for running cronjobs
 * A service to route to the "webapp" pods
 * An ingress definition to route via the "webapp" service
-* Optionally, elasticsearch, mysql, postgres, redis
+* Optionally, a "cron" pod for running cronjobs
+* Optionally, elasticsearch, mysql, postgres, redis for supporting services
 
 ### Memory
 
