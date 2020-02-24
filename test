@@ -38,7 +38,7 @@ function test()
       ws exec composer test-acceptance
     fi
 
-    ws helm lint qa
+    ws helm kubeval qa
 
     ws disable
     ws enable
