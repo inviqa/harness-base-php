@@ -29,6 +29,7 @@ confd('harness:/'):
   - { src: application/skeleton/README.md }
   - { src: docker-compose.yml, dst: workspace:/docker-compose.yml }
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
+  - { src: harness/scripts/enable.sh }
   - { src: helm/app/values.yaml }
   - { src: helm/qa/values.yaml }
   - { src: helm/app/Chart.yaml }
@@ -38,3 +39,6 @@ confd('harness:/'):
   - { src: application/overlay/app/config/parameters.yml }
   - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
   - { src: docker/image/job-queue-consumer/Dockerfile }
+  - { src: docker/image/cron/Dockerfile }
+  - { src: docker/image/cron/root/crontab }
+  - { src: docker/image/console/root/lib/task/composer/install.sh }

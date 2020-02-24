@@ -38,10 +38,10 @@ attributes:
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
         - passthru "bin/console doctrine:schema:update --force"
         - passthru "echo 'Reindexing Elasticsearch'"
-        - run "bin/console akeneo:elasticsearch:reset-indexes -n"
-        - run "bin/console pim:product:index --all"
+        - run "bin/console --env=$AKENEO_APP_MODE akeneo:elasticsearch:reset-indexes -n"
+        - run "bin/console --env=$AKENEO_APP_MODE pim:product:index --all"
         - passthru "echo 'Clearing cache'"
-        - run "bin/console c:c"
+        - run "bin/console --env=$AKENEO_APP_MODE c:c"
         - passthru "echo 'Done'"
   backend:
     build:
@@ -49,37 +49,37 @@ attributes:
         - task "composer:install"
     install:
       steps:
-        - run "bin/console pim:install --force --symlink"
+        - run "bin/console --env=$AKENEO_APP_MODE pim:install --force --symlink"
         - run "yarn run webpack-dev"
         - task "overlay:apply"
         - task "assets:dump"
     init:
       steps:
         - run "bin/console --env=prod doctrine:schema:update --force"
-        - run "bin/console akeneo:elasticsearch:reset-indexes"
-        - run "bin/console pim:product:index --all"
+        - run "bin/console --env=$AKENEO_APP_MODE akeneo:elasticsearch:reset-indexes"
+        - run "bin/console --env=$AKENEO_APP_MODE pim:product:index --all"
     migrate:
       steps: []
     cron:
       jobs:
-        - 30 1 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=prod
-        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=prod
-        - 20 0 1 * * /cron-run-with-env.sh /app/bin/console akeneo:batch:purge-job-execution --env=prod
-        - 0 1 * * * /cron-run-with-env.sh /app/bin/console pim:asset:send-expiration-notification --env=prod
-        - 30 4 * * * /cron-run-with-env.sh /app/bin/console pim:volume:aggregate --env=prod
-        - 0 4 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:purge --more-than-days 90 --no-interaction --force --env=prod
-        - 0 5 * * * /cron-run-with-env.sh /app/bin/console akeneo:rule:run --env=prod
-        - 20 0 * * * /cron-run-with-env.sh /app/bin/console pimee:project:notify-before-due-date --env=prod
-        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pimee:project:recalculate --env=prod
-        - 30 */1 * * * /cron-run-with-env.sh /app/bin/console pimee:franklin-insights:fetch-products --env=prod
-        - 0 23 * * * /cron-run-with-env.sh /app/bin/console akeneo:reference-entity:refresh-records --all --env=prod
+        - 30 1 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=$AKENEO_APP_MODE 
+        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=$AKENEO_APP_MODE 
+        - 20 0 1 * * /cron-run-with-env.sh /app/bin/console akeneo:batch:purge-job-execution --env=$AKENEO_APP_MODE 
+        - 0 1 * * * /cron-run-with-env.sh /app/bin/console pim:asset:send-expiration-notification --env=$AKENEO_APP_MODE 
+        - 30 4 * * * /cron-run-with-env.sh /app/bin/console pim:volume:aggregate --env=$AKENEO_APP_MODE 
+        - 0 4 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:purge --more-than-days 90 --no-interaction --force --env=$AKENEO_APP_MODE 
+        - 0 5 * * * /cron-run-with-env.sh /app/bin/console akeneo:rule:run --env=$AKENEO_APP_MODE 
+        - 20 0 * * * /cron-run-with-env.sh /app/bin/console pimee:project:notify-before-due-date --env=$AKENEO_APP_MODE 
+        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pimee:project:recalculate --env=$AKENEO_APP_MODE 
+        - 30 */1 * * * /cron-run-with-env.sh /app/bin/console pimee:franklin-insights:fetch-products --env=$AKENEO_APP_MODE 
+        - 0 23 * * * /cron-run-with-env.sh /app/bin/console akeneo:reference-entity:refresh-records --all --env=$AKENEO_APP_MODE 
   frontend:
     path: /app
     build:
       when: -f "package.json"
       steps:
         - run "yarn install"
-        - run "bin/console --env=prod pim:installer:assets --symlink"
+        - run "bin/console --env=$AKENEO_APP_MODE pim:installer:assets --symlink"
         - run "yarn run webpack-dev"
   docker:
     image:
