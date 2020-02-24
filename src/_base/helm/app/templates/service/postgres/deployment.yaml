@@ -30,7 +30,7 @@ spec:
           limits:
             memory: {{ .Values.resources.limits.memory.postgres }}
           requests:
-            memory: {{ .Values.resources.requests.memory.postgres }}
+            memory: {{ .Values.resources.limits.memory.postgres }}
         readinessProbe:
           tcpSocket:
             port: 5432

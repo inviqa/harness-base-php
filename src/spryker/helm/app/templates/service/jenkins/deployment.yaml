@@ -28,7 +28,7 @@ spec:
           limits:
             memory: {{ .Values.resources.limits.memory.jenkins }}
           requests:
-            memory: {{ .Values.resources.requests.memory.jenkins }}
+            memory: {{ .Values.resources.limits.memory.jenkins }}
         readinessProbe:
           tcpSocket:
             port: 8080

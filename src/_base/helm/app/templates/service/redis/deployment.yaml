@@ -41,7 +41,7 @@ spec:
           limits:
             memory: {{ .Values.resources.limits.memory.redis }}
           requests:
-            memory: {{ .Values.resources.requests.memory.redis }}
+            memory: {{ .Values.resources.limits.memory.redis }}
         readinessProbe:
           tcpSocket:
             port: 6379

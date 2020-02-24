@@ -44,7 +44,7 @@ spec:
           limits:
             memory: {{ .Values.resources.limits.memory.app_init }}
           requests:
-            memory: {{ .Values.resources.requests.memory.app_init }}
+            memory: {{ .Values.resources.limits.memory.app_init }}
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Never

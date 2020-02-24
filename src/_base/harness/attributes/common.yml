@@ -163,19 +163,7 @@ attributes.default:
 
   resources:
     requests:
-      memory:
-        console: "10Mi"
-        cron: "1024Mi"
-        nginx: "100Mi"
-        php_fpm: "1024Mi"
-        app_init: "1024Mi"
-        app_migrate: "1024Mi"
-        elasticsearch: "1024Mi"
-        mysql: "512Mi"
-        postgres: "512Mi"
-        redis: "256Mi"
-        redis_session: "1024Mi"
-        php_fpm_exporter: "256Mi"
+      memory: [] # Always set to same as limits to avoid OOM on nodes.
     limits:
       memory:
         console: "2048Mi"

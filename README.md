@@ -18,6 +18,41 @@ Each framework will fully override a base harness file if differing behaviour is
 * [Symfony](src/symfony/), published to [inviqa/harness-symfony]
 * [Wordpress (CMS)](src/wordpress/), published to [inviqa/harness-wordpress]
 
+## Features of each harness
+
+* Local docker-compose development environment
+* Skeleton for simple set-up of new projects
+* Pipeline docker-compose environment for use in Jenkins or other tools to run tests
+* Helm chart for deploying QA, UAT and Production environments to Kubernetes clusters
+
+## Helm charts
+
+Each harness deploys:
+* A "console" pod for running one-off commands
+* A NGINX/PHP-FPM "webapp" pod for running the php-based application and serving web requests
+* A "cron" pod for running cronjobs
+* A service to route to the "webapp" pods
+* An ingress definition to route via the "webapp" service
+* Optionally, elasticsearch, mysql, postgres, redis
+
+### Memory
+
+The memory requests for pods have been deliberately set to be the same as the limits.
+
+This is to avoid nodes going to "NotReady" status due to dockerd/containerd/kubelet being killed by the kernel.
+
+An example:
+Requesting 10Mi of memory but allowing the pod to spike to 1024Mi means that kubernetes will schedule the pod it onto a
+node with 10Mi allocatable memory left. It doesn't consider the limits at all when scheduling pods.
+
+As soon as something in the pod starts using more than 10Mi when the node is already at capacity, kubelet attempts to
+kill processes in the container to get back down to 10Mi.
+
+Sometimes kubelet does not manage to kick in fast enough and the Linux kernel's Out Of Memory (OOM) killer kicks in
+instead. Whilst core kubernetes processes such as dockerd, containerd and kubelet have an extremely low priority for
+the OOMKiller, sometimes the kernel decides to kill one of these core processes anyway as it would free up the most
+memory, leading to the node having issues.
+
 ## Testing
 
 The final harness version for each of the frameworks is put together by the [build script](./build) into a "dist"

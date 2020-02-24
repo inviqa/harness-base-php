@@ -63,7 +63,7 @@ spec:
           limits:
             memory: {{ .Values.resources.limits.memory.job_queue_consumer }}
           requests:
-            memory: {{ .Values.resources.requests.memory.job_queue_consumer }}
+            memory: {{ .Values.resources.limits.memory.job_queue_consumer }}
         readinessProbe:
           tcpSocket:
             port: 9000

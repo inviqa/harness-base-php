@@ -3,9 +3,6 @@ attributes:
     app:
       mode: dev # dev or prod
   resources:
-    requests:
-      memory:
-        job_queue_consumer: "1024Mi"
     limits:
       memory:
         job_queue_consumer: "1024Mi"

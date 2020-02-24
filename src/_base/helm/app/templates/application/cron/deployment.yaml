@@ -19,7 +19,7 @@ spec:
       initContainers:
       - name: cron-volume-permissions
         image: busybox
-        command: 
+        command:
         - "/bin/chown"
         - "-R"
         - "www-data"
