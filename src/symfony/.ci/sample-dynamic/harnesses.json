@@ -1,0 +1,8 @@
+{
+  "inviqa/symfony": {
+    "vx.x.x": {
+      "type": "tar.gz",
+      "url": "https://github.com/inviqa/harness-symfony/archive/x.x.x.tar.gz"
+    }
+  }
+}
