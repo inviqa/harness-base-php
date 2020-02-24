@@ -1,28 +1,16 @@
-  requests:
-    memory:
-      console: {{ @('resources.memory.console') }}
-      cron: {{ @('resources.memory.cron') }}
-      nginx: {{ @('resources.memory.nginx') }}
-      php_fpm: {{ @('resources.memory.php_fpm') }}
-      php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
-      app_init: {{ @('resources.memory.app_init') }}
-      app_migrate: {{ @('resources.memory.app_migrate') }}
-      elasticsearch: {{ @('resources.memory.elasticsearch') }}
-      mysql: {{ @('resources.memory.mysql') }}
-      postgres: {{ @('resources.memory.postgres') }}
-      redis: {{ @('resources.memory.redis') }}
-      redis_session: {{ @('resources.memory.redis_session') }}
-  limits:
-    memory:
-      console: {{ @('resources.memory.console') }}
-      cron: {{ @('resources.memory.cron') }}
-      nginx: {{ @('resources.memory.nginx') }}
-      php_fpm: {{ @('resources.memory.php_fpm') }}
-      php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
-      app_init: {{ @('resources.memory.app_init') }}
-      app_migrate: {{ @('resources.memory.app_migrate') }}
-      elasticsearch: {{ @('resources.memory.elasticsearch') }}
-      mysql: {{ @('resources.memory.mysql') }}
-      postgres: {{ @('resources.memory.postgres') }}
-      redis: {{ @('resources.memory.redis') }}
-      redis_session: {{ @('resources.memory.redis_session') }}
+  cpu:
+    requests:
+    limits:
+  memory:
+    console: {{ @('resources.memory.console') }}
+    cron: {{ @('resources.memory.cron') }}
+    nginx: {{ @('resources.memory.nginx') }}
+    php_fpm: {{ @('resources.memory.php_fpm') }}
+    php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
+    app_init: {{ @('resources.memory.app_init') }}
+    app_migrate: {{ @('resources.memory.app_migrate') }}
+    elasticsearch: {{ @('resources.memory.elasticsearch') }}
+    mysql: {{ @('resources.memory.mysql') }}
+    postgres: {{ @('resources.memory.postgres') }}
+    redis: {{ @('resources.memory.redis') }}
+    redis_session: {{ @('resources.memory.redis_session') }}
