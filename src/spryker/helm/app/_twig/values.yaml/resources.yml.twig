@@ -1,6 +1,7 @@
   requests:
     memory:
       console: {{ @('resources.requests.memory.console') }}
+      cron: {{ @('resources.requests.memory.cron') }}
       nginx: {{ @('resources.requests.memory.nginx') }}
       php_fpm: {{ @('resources.requests.memory.php_fpm') }}
       app_init: {{ @('resources.requests.memory.app_init') }}
@@ -16,6 +17,7 @@
   limits:
     memory:
       console: {{ @('resources.limits.memory.console') }}
+      cron: {{ @('resources.requests.memory.cron') }}
       nginx: {{ @('resources.limits.memory.nginx') }}
       php_fpm: {{ @('resources.limits.memory.php_fpm') }}
       app_init: {{ @('resources.limits.memory.app_init') }}

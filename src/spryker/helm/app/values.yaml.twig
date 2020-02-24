@@ -10,6 +10,7 @@ docker:
     fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     jenkins_runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
+    cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
   services:
 {{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
@@ -24,6 +25,7 @@ service:
   jenkins: {{ ("jenkins" in @('app.services')) ? 'true' : 'false' }}
   jenkins_runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
   rabbitmq: {{ ("rabbitmq" in @('app.services')) ? 'true' : 'false' }}
+  cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
