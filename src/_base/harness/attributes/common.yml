@@ -163,6 +163,7 @@ attributes.default:
     requests:
       memory:
         console: "10Mi"
+        cron: "1024Mi"
         nginx: "100Mi"
         php_fpm: "1024Mi"
         app_init: "1024Mi"
@@ -175,6 +176,7 @@ attributes.default:
     limits:
       memory:
         console: "2048Mi"
+        cron: "1024Mi"
         nginx: "100Mi"
         php_fpm: "1024Mi"
         app_init: "1024Mi"
