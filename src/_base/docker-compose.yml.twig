@@ -3,7 +3,7 @@
 {% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
 {% set dockersync = true %}
 {% endif %}
-version: '3'
+version: '{{ @('docker.compose.file_version') }}'
 services:
 {% include blocks ~ 'application.yml.twig' %}
 {% for service in @('app.services') %}
