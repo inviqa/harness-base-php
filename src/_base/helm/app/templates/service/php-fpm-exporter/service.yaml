@@ -1,4 +1,4 @@
-{{ if .Values.service.php-fpm-exporter }}
+{{ if .Values.service.php_fpm_exporter }}
 apiVersion: v1
 kind: Service
 metadata:
