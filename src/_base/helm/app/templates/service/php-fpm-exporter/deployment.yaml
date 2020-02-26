@@ -1,0 +1,32 @@
+{{ if .Values.service.php-fpm-exporter }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.resourcePrefix }}php-fpm-exporter
+  labels:
+    app.service: {{ .Values.resourcePrefix }}php-fpm-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: {{ .Values.resourcePrefix }}php-fpm-exporter
+  template:
+    metadata:
+      labels:
+        app.service: {{ .Values.resourcePrefix }}php-fpm-exporter
+    spec:
+      containers:
+      - image: hipages/php-fpm_exporter
+        imagePullPolicy: Always
+        name: php-fpm-exporter
+        ports:
+        - containerPort: 9253
+        resources: {}
+        readinessProbe:
+          tcpSocket:
+            port: 9253
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      restartPolicy: Always
+status: {}
+{{ end }}
