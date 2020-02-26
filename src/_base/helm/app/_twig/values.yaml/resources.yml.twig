@@ -11,6 +11,7 @@
       redis: {{ @('resources.requests.memory.redis') }}
       redis_session: {{ @('resources.requests.memory.redis_session') }}
       cron: {{ @('resources.requests.memory.cron') }}
+      php_fpm_exporter: {{ @('resources.requests.memory.php_fpm_exporter') }}
   limits:
     memory:
       console: {{ @('resources.limits.memory.console') }}
@@ -24,3 +25,4 @@
       redis: {{ @('resources.limits.memory.redis') }}
       redis_session: {{ @('resources.limits.memory.redis_session') }}
       cron: {{ @('resources.limits.memory.cron') }}
+      php_fpm_exporter: {{ @('resources.limits.memory.php_fpm_exporter') }}
