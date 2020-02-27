@@ -14,6 +14,7 @@
       jenkins_runner: {{ @('resources.requests.memory.jenkins_runner') }}
       jenkins: {{ @('resources.requests.memory.jenkins') }}
       rabbitmq: {{ @('resources.requests.memory.rabbitmq') }}
+      php_fpm_exporter: {{ @('resources.requests.memory.php_fpm_exporter') }}
   limits:
     memory:
       console: {{ @('resources.limits.memory.console') }}
@@ -30,3 +31,4 @@
       jenkins_runner: {{ @('resources.requests.memory.jenkins_runner') }}
       jenkins: {{ @('resources.requests.memory.jenkins') }}
       rabbitmq: {{ @('resources.requests.memory.rabbitmq') }}
+      php_fpm_exporter: {{ @('resources.limits.memory.php_fpm_exporter') }}
