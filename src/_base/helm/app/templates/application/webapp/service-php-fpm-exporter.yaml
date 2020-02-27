@@ -1,0 +1,17 @@
+{{ if .Values.service.php_fpm_exporter }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.service: {{ .Values.resourcePrefix }}php-fpm-exporter
+  name: {{ .Values.resourcePrefix }}php-fpm-exporter
+spec:
+  ports:
+  - name: tcp-9253
+    port: 9253
+    targetPort: 9253
+  selector:
+    app.service: {{ .Values.resourcePrefix }}webapp
+status:
+  loadBalancer: {}
+{{ end }}

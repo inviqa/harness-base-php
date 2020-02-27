@@ -175,6 +175,7 @@ attributes.default:
         postgres: "512Mi"
         redis: "256Mi"
         redis_session: "1024Mi"
+        php_fpm_exporter: "256Mi"
     limits:
       memory:
         console: "2048Mi"
@@ -188,6 +189,7 @@ attributes.default:
         postgres: "512Mi"
         redis: "256Mi"
         redis_session: "1024Mi"
+        php_fpm_exporter: "256Mi"
 
   persistence:
     enabled: false
