@@ -64,4 +64,4 @@ command('helm kubeval <chart-path>'):
     passthru helm init --client-only
     passthru helm dependency build
     passthru helm plugin install https://github.com/instrumenta/helm-kubeval || true
-    helm kubeval .
+    passthru helm kubeval .
