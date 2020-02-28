@@ -25,7 +25,7 @@ function task_database_available()
             exit 1
         fi
 
-        sleep 1
+        sleep 2
         ((++counter))
     done
 }

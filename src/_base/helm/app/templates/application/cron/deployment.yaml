@@ -1,3 +1,4 @@
+{{ if .Values.service.cron }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,18 +58,11 @@ spec:
         {{- end }}
         image: {{ .Values.docker.image.cron }}
         imagePullPolicy: Always
-        ports:
-        - containerPort: 9000
         resources:
           limits:
             memory: {{ .Values.resources.limits.memory.cron }}
           requests:
             memory: {{ .Values.resources.requests.memory.cron }}
-        readinessProbe:
-          tcpSocket:
-            port: 9000
-          initialDelaySeconds: 5
-          periodSeconds: 10
         volumeMounts:
         {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
         {{- include "application.volumeMounts.backend" . | indent 8 }}
@@ -86,3 +80,4 @@ spec:
       {{- else }} []
       {{- end }}
 status: {}
+{{ end }}

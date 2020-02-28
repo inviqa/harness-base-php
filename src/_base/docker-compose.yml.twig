@@ -5,7 +5,7 @@
 {% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
 {% set syncvolume = true %}
 {% endif %}
-version: '3'
+version: '{{ @('docker.compose.file_version') }}'
 services:
 {% include blocks ~ 'application.yml.twig' %}
 {% for service in @('app.services') %}

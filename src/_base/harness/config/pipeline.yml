@@ -53,3 +53,15 @@ command('helm template <chart-path>'):
     passthru helm init --client-only
     passthru helm dependency build
     passthru helm template .
+
+command('helm kubeval <chart-path>'):
+  env:
+    CHART_PATH: = input.argument('chart-path')
+    NAMESPACE: = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+  exec: |
+    #!bash(harness:/helm)|=
+    cd "${CHART_PATH}"
+    passthru helm init --client-only
+    passthru helm dependency build
+    passthru helm plugin install https://github.com/instrumenta/helm-kubeval || true
+    helm kubeval .

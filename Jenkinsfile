@@ -3,7 +3,7 @@ pipeline {
     environment {
         MY127WS_KEY = credentials('base-my127ws-key-20190523')
     }
-    triggers { cron(env.BRANCH_NAME == '0.3.x' ? 'H H(0-6) * * *' : '') }
+    triggers { cron(env.BRANCH_NAME ==~ /^\d+\.\d+\.x$/ ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Test Matrix') {
             parallel {
@@ -115,6 +115,29 @@ pipeline {
                 stage('spryker (mode=static)') {
                     agent { label "my127ws" }
                     steps { sh './build && ./test spryker static' }
+                    post {
+                        always {
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
+                    }
+                }
+
+                // Symfony
+
+                stage('symfony (mode=dynamic)') {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test symfony dynamic' }
+                    post {
+                        always {
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
+                    }
+                }
+                stage('symfony (mode=static)') {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test symfony static' }
                     post {
                         always {
                             sh 'ws destroy || true'

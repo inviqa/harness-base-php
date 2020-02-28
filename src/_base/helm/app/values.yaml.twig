@@ -11,6 +11,7 @@ docker:
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
     cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
+    php_fpm_exporter: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm-exporter' }}
   services:
 {{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
 
@@ -22,6 +23,7 @@ service:
   redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
   redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
   cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
+  php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}

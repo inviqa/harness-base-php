@@ -56,6 +56,8 @@ attributes.default:
 
   docker:
     repository: = @("workspace.name")
+    compose:
+      file_version: '3'
     config: null
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
@@ -164,6 +166,7 @@ attributes.default:
     requests:
       memory:
         console: "10Mi"
+        cron: "1024Mi"
         nginx: "100Mi"
         php_fpm: "1024Mi"
         app_init: "1024Mi"
@@ -173,9 +176,11 @@ attributes.default:
         postgres: "512Mi"
         redis: "256Mi"
         redis_session: "1024Mi"
+        php_fpm_exporter: "256Mi"
     limits:
       memory:
         console: "2048Mi"
+        cron: "1024Mi"
         nginx: "100Mi"
         php_fpm: "1024Mi"
         app_init: "1024Mi"
@@ -185,6 +190,7 @@ attributes.default:
         postgres: "512Mi"
         redis: "256Mi"
         redis_session: "1024Mi"
+        php_fpm_exporter: "256Mi"
 
   persistence:
     enabled: false
