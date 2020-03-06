@@ -3,6 +3,9 @@ pipeline {
     environment {
         MY127WS_KEY = credentials('base-my127ws-key-20190523')
     }
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '30'))
+    }
     triggers { cron(env.BRANCH_NAME == '0.3.x' ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Test Matrix') {
