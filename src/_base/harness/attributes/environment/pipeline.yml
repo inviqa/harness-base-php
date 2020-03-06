@@ -5,3 +5,4 @@ attributes:
   app:
     build: static
     version: =exec("git log -n 1 --pretty=format:'%H'")
+    mode: production
