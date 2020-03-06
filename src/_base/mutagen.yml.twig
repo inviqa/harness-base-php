@@ -1,10 +1,10 @@
 forward:
-  teufel:
+  {{ @('workspace.name') }}:
     source: "tcp:localhost:6060"
     destination: "docker://{{ @('workspace.name') }}-sync:tcp:localhost:6060"
 
 sync:
-  teufel:
+  {{ @('workspace.name') }}:
     alpha: "."
     beta: "docker://{{ @('workspace.name') }}-sync/app"
     mode: "two-way-resolved"
