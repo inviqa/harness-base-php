@@ -56,7 +56,7 @@ command('exec %'):
     else
       docker-compose exec -T -u build console ={ input.argument('%') }
     fi
-    
+
 command('logs %'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
@@ -116,12 +116,12 @@ command('feature docker-sync (on|off)'):
     run ws install --step=prepare
     echo 'Bringing up the environment with the new setting'
     if [[ "$ATTR_VAL" = "yes" ]]; then
-      passthru docker-sync start
+      passthru ws docker-sync start
     fi
     passthru ws enable
     if [[ "$ATTR_VAL" = "no" ]]; then
-      passthru docker-sync stop
-      passthru docker-sync clean
+      passthru ws docker-sync stop
+      passthru ws docker-sync clean
     fi
     echo 'Done'
 
