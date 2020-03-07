@@ -26,7 +26,7 @@ function test()
 
     if [[ "$mode" == "dynamic" ]]; then
       setup "$harness" "$mode"
-      setup_dynamic_docker_sync
+      setup_dynamic_mutagen
       install_environment
       check_environment_started "$harness" "$mode"
       run_pipeline_tests
@@ -36,7 +36,7 @@ function test()
       teardown
 
       setup "$harness" "$mode"
-      setup_dynamic_mutagen
+      setup_dynamic_docker_sync
       install_environment
       check_environment_started "$harness" "$mode"
       run_pipeline_tests
