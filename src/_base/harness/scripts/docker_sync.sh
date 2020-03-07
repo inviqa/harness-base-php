@@ -45,17 +45,21 @@ start()
 {
     install_docker_sync
 
+    rbenv init
+
     passthru docker-sync start
 }
 
 stop()
 {
+    rbenv init
     passthru docker-sync stop
     run docker rm "${NAMESPACE}-sync"
 }
 
 clean()
 {
+    rbenv init
     passthru docker-sync stop
     passthru docker-sync clean
 }
