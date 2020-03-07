@@ -27,8 +27,8 @@ install_rbenv()
         git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
     fi
 
-    rbenv install --skip-existing 2.7.0
-    rbenv local 2.7.0
+    passthru rbenv install --skip-existing 2.7.0
+    run rbenv local 2.7.0
     init_rbenv
 )
 
@@ -44,7 +44,7 @@ install_docker_sync()
     fi
 
     install_rbenv
-    gem install docker-sync --no-document
+    passthru gem install docker-sync --no-document
 )
 
 start()
