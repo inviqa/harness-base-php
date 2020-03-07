@@ -34,16 +34,6 @@ function test()
       check_environment_started "$harness" "$mode"
       wait_for_vendor_directory
       teardown
-
-      setup "$harness" "$mode"
-      setup_dynamic_docker_sync
-      install_environment
-      check_environment_started "$harness" "$mode"
-      run_pipeline_tests
-      restart_environment
-      check_environment_started "$harness" "$mode"
-      wait_for_vendor_directory
-      teardown
     fi
 )
 
