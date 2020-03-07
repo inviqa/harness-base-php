@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
 
-if [ $# -ne 1 ]; then
-	echo "This script supports only one parameter"
-	exit 1
+if [ "$#" -ne 1 ]; then
+    echo "This script supports only one parameter"
+    exit 1
 fi
 
-COMMAND=$1
+COMMAND="$1"
 
 install_mutagen()
 {
     if ! command -v mutagen > /dev/null 2>&1; then
-      passthru brew install mutagen-io/mutagen/mutagen
+        if sw_vers | grep -q Mac; then
+            passthru brew install mutagen-io/mutagen/mutagen
+        else
+            curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o mutagen.tar.gz
+            tar -xf mutagen.tar.gz
+        fi
     fi
 }
 
 setup_sync_container()
 {
-    if [[ $(docker ps -a -f "name=${NAMESPACE}-sync" --format '{{.Names}}') == "${NAMESPACE}-sync" ]]; then
+    if [[ "$(docker ps -a -f "name=${NAMESPACE}-sync" --format '{{.Names}}')" == "${NAMESPACE}-sync" ]]; then
       passthru docker rm -f "${NAMESPACE}-sync"
     fi
     passthru docker run -d --name "${NAMESPACE}-sync" -v "${NAMESPACE}-sync":/app alpine:latest tail -f /dev/null

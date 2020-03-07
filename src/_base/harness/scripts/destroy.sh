@@ -2,7 +2,7 @@
 
 run docker-compose down --rmi local --volumes --remove-orphans
 
-if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
+if [[ "$USE_DOCKER_SYNC" = "yes" ]] && [ -f docker-sync.yml ]; then
   run docker-sync stop
   run docker rm "${NAMESPACE}-sync"
   run docker volume rm "${NAMESPACE}-sync"

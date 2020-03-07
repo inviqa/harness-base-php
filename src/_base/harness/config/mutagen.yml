@@ -2,9 +2,10 @@ command('mutagen (start|stop|pause|resume)'):
   env:
     NAMESPACE: = @('namespace')
     COMMAND: = input.command(2)
+    PATH: "$PATH:./"
   exec: |
     #!bash(workspace:/)
-    source .my127ws/harness/scripts/mutagen.sh $COMMAND
+    source .my127ws/harness/scripts/mutagen.sh "$COMMAND"
 
 command('switch (mutagen|docker-sync)'):
   env:
@@ -23,7 +24,7 @@ command('switch (mutagen|docker-sync)'):
     run ws harness prepare
     echo 'Bringing up the environment with the new setting'
     if [[ "$SYNC" = "mutagen" ]]; then
-      if command -v docker-sync >/dev/null 2>&1; then
+      if command -v docker-sync >/dev/null 2>&1 && [ -f docker-sync.yml ]; then
         passthru docker-sync stop
         passthru docker-sync clean
       fi
