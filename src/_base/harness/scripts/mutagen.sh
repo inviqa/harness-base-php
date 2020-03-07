@@ -15,8 +15,8 @@ install_mutagen()
             passthru brew install mutagen-io/mutagen/mutagen
         else
             mkdir -p .my127ws/utilities/mutagen/
-            curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen.tar.gz
-            (cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz)
+            run curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen/mutagen.tar.gz
+            run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
         fi
     fi
 }
@@ -29,10 +29,16 @@ setup_sync_container()
     passthru docker run -d --name "${NAMESPACE}-sync" -v "${NAMESPACE}-sync":/app alpine:latest tail -f /dev/null
 }
 
+start_mutagen_daemon()
+{
+    passthru mutagen daemon start
+}
+
 start()
 {
     install_mutagen
     setup_sync_container
+    start_mutagen_daemon
 
     mutagen project list > /dev/null 2>&1 && passthru mutagen project terminate
     passthru mutagen project start
