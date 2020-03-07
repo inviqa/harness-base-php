@@ -57,7 +57,7 @@ resume()
     passthru mutagen project resume
 }
 
-case $COMMAND in
+case "$COMMAND" in
     start)
         start
         ;;

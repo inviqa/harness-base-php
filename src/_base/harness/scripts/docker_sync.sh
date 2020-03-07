@@ -29,7 +29,13 @@ install_rbenv()
 
     rbenv install --skip-existing 2.7.0
     rbenv local 2.7.0
+    init_rbenv
 )
+
+init_rbenv()
+{
+    eval "$(rbenv init -)"
+}
 
 install_docker_sync()
 (
@@ -44,27 +50,25 @@ install_docker_sync()
 start()
 {
     install_docker_sync
-
-    rbenv init
-
+    init_rbenv
     passthru docker-sync start
 }
 
 stop()
 {
-    rbenv init
+    init_rbenv
     passthru docker-sync stop
     run docker rm "${NAMESPACE}-sync"
 }
 
 clean()
 {
-    rbenv init
-    passthru docker-sync stop
-    passthru docker-sync clean
+    init_rbenv
+    run docker-sync stop
+    run docker rm "${NAMESPACE}-sync"
 }
 
-case $COMMAND in
+case "$COMMAND" in
     start)
         start
         ;;
