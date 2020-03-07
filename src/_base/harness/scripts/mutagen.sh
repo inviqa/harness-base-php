@@ -13,8 +13,8 @@ install_mutagen()
         if sw_vers | grep -q Mac; then
             passthru brew install mutagen-io/mutagen/mutagen
         else
-            curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o mutagen.tar.gz
-            tar -xf mutagen.tar.gz
+            curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o .my127ws/mutagen.tar.gz
+            (cd .my127ws/ && tar -xf mutagen.tar.gz)
         fi
     fi
 }
