@@ -10,15 +10,25 @@ PATH="$PATH:./.my127ws/utilities/mutagen/"
 
 install_mutagen()
 {
-    if ! command -v mutagen > /dev/null 2>&1; then
-        if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac; then
+    if command -v mutagen > /dev/null 2>&1; then
+        return 0
+    fi
+
+    if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac; then
+        if command -v brew > /dev/null 2>&1; then
             passthru brew install mutagen-io/mutagen/mutagen
         else
             mkdir -p .my127ws/utilities/mutagen/
-            run curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen/mutagen.tar.gz
+            run curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_darwin_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen/mutagen.tar.gz
             run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
         fi
+
+        return 0
     fi
+
+    mkdir -p .my127ws/utilities/mutagen/
+    run curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen/mutagen.tar.gz
+    run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
 }
 
 setup_sync_container()
@@ -59,6 +69,7 @@ pause()
 
 resume()
 {
+    start_mutagen_daemon
     passthru docker start "${NAMESPACE}-sync"
     passthru mutagen project resume
 }
