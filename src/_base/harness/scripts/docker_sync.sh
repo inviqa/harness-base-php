@@ -16,7 +16,7 @@ install_rbenv()
         return 0
     fi
 
-    if sw_vers | grep -q Mac; then
+    if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac; then
         passthru brew install rbenv
     else
         mkdir -p .my127ws/utilities/

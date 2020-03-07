@@ -11,7 +11,7 @@ PATH="$PATH:./.my127ws/utilities/mutagen/"
 install_mutagen()
 {
     if ! command -v mutagen > /dev/null 2>&1; then
-        if sw_vers | grep -q Mac; then
+        if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac; then
             passthru brew install mutagen-io/mutagen/mutagen
         else
             mkdir -p .my127ws/utilities/mutagen/
