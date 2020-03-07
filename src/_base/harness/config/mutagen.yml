@@ -23,8 +23,10 @@ command('switch (mutagen|docker-sync)'):
     run ws harness prepare
     echo 'Bringing up the environment with the new setting'
     if [[ "$SYNC" = "mutagen" ]]; then
-      passthru docker-sync stop
-      passthru docker-sync clean
+      if command -v docker-sync >/dev/null 2>&1; then
+        passthru docker-sync stop
+        passthru docker-sync clean
+      fi
       passthru ws mutagen start
     else
       passthru ws mutagen stop
