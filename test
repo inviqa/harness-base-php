@@ -32,6 +32,7 @@ function test()
       run_pipeline_tests
       restart_environment
       check_environment_started "$harness" "$mode"
+      wait_for_vendor_directory
       teardown
 
       setup "$harness" "$mode"
@@ -41,6 +42,7 @@ function test()
       run_pipeline_tests
       restart_environment
       check_environment_started "$harness" "$mode"
+      wait_for_vendor_directory
       teardown
     fi
 )
@@ -110,13 +112,37 @@ function setup_dynamic_docker_sync()
 (
     cd "${path_test}"
     echo "attribute('host.os'): darwin" > workspace.override.yml
+    echo "attribute('docker-sync'): yes" >> workspace.override.yml
+    echo "attribute('mutagen'): no" >> workspace.override.yml
 )
 
 function setup_dynamic_mutagen()
 (
     cd "${path_test}"
     echo "attribute('host.os'): darwin" > workspace.override.yml
-    ws switch mutagen
+    echo "attribute('docker-sync'): no" >> workspace.override.yml
+    echo "attribute('mutagen'): yes" >> workspace.override.yml
+)
+
+function wait_for_vendor_directory()
+(
+    set +x
+    cd "${path_test}"
+    if [ ! -f composer.json ]; then
+        return 0
+    fi
+    local timer=600
+    while [ $timer -gt 0 ]; do
+      if [ -d vendor ]; then
+          echo "Found vendor directory, sync worked"
+          return 0
+      fi
+      timer=$(( timer - 1 ))
+      sleep 1
+    done
+    echo "vendor directory not found within 600 seconds, sync failed"
+    ls -la
+    return 1
 )
 
 function teardown()
