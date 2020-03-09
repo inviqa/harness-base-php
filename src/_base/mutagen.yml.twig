@@ -1,0 +1,23 @@
+forward:
+  {{ @('workspace.name') }}:
+    source: "tcp:localhost:6060"
+    destination: "docker://{{ @('workspace.name') }}-sync:tcp:localhost:6060"
+
+sync:
+  {{ @('workspace.name') }}:
+    alpha: "."
+    beta: "docker://{{ @('workspace.name') }}-sync/app"
+    mode: "two-way-resolved"
+    configurationBeta:
+      permissions:
+        defaultOwner: "id:1000"
+        defaultGroup: "id:1000"
+        defaultFileMode: 0644
+        defaultDirectoryMode: 0755
+    ignore:
+      vcs: true
+      paths:
+        - .docker-sync
+        - .idea
+        - .git
+        - var

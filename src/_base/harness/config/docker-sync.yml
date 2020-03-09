@@ -1,0 +1,8 @@
+command('docker-sync (start|stop|clean)'):
+  env:
+    NAMESPACE: = @('namespace')
+    COMMAND: = input.command(2)
+    PATH: "$PATH:./.my127ws/"
+  exec: |
+    #!bash(workspace:/)
+    source .my127ws/harness/scripts/docker_sync.sh "$COMMAND"
