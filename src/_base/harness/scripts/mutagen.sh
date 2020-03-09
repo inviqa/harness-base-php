@@ -14,20 +14,19 @@ install_mutagen()
         return 0
     fi
 
-    if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac; then
-        if command -v brew > /dev/null 2>&1; then
-            passthru brew install mutagen-io/mutagen/mutagen
-        else
-            mkdir -p .my127ws/utilities/mutagen/
-            run curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_darwin_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen/mutagen.tar.gz
-            run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
-        fi
-
-        return 0
+    if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac && command -v brew > /dev/null 2>&1; then
+        passthru brew install mutagen-io/mutagen/mutagen
+        return "$?"
+    fi
+    mkdir -p .my127ws/utilities/mutagen/
+    local download_url=""
+    download_url="$(php .my127ws/harness/scripts/latest-mutagen-release.php)"
+    if [ -z "$download_url" ]; then
+        echo "Failed to get mutagen download link. Please install mutagen globally."
+        return 1
     fi
 
-    mkdir -p .my127ws/utilities/mutagen/
-    run curl -L -q -sS -f https://github.com/mutagen-io/mutagen/releases/download/v0.11.2/mutagen_linux_amd64_v0.11.2.tar.gz -o .my127ws/utilities/mutagen/mutagen.tar.gz
+    run curl -L -q -sS -f "$download_url" -o .my127ws/utilities/mutagen/mutagen.tar.gz
     run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
 }
 
