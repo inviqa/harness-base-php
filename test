@@ -15,6 +15,8 @@ function test()
     local harness="$1"
     local mode="$2"
 
+    # Test default mode of static or dynamic harnesses
+    # For dynamic this means a mountpoint for the application code
     setup "$harness" "$mode"
     setup_dynamic_mountpoint
     install_environment
@@ -25,6 +27,7 @@ function test()
     teardown
 
     if [[ "$mode" == "dynamic" ]]; then
+      # Test additional dynamic harness modes such as mutagen and docker-sync
       setup "$harness" "$mode"
       setup_dynamic_mutagen
       install_environment
