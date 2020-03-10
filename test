@@ -21,7 +21,7 @@ function test()
     setup_dynamic_mountpoint
     install_environment
     check_environment_started "$harness" "$mode"
-    run_pipeline_tests
+    run_pipeline_tests "$harness" "$mode"
     restart_environment
     check_environment_started "$harness" "$mode"
     teardown
@@ -32,7 +32,7 @@ function test()
       setup_dynamic_mutagen
       install_environment
       check_environment_started "$harness" "$mode"
-      run_pipeline_tests
+      run_pipeline_tests "$harness" "$mode"
       restart_environment
       check_environment_started "$harness" "$mode"
       wait_for_vendor_directory
@@ -77,6 +77,9 @@ function check_environment_started()
 
 function run_pipeline_tests()
 (
+    local harness="$1"
+    local mode="$2"
+
     cd "${path_test}"
 
     if docker-compose -p "ci-${harness}-sample-${mode}" exec console stat composer.json > /dev/null 2>&1; then
