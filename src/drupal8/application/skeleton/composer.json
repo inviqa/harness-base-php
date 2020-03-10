@@ -65,7 +65,7 @@
       "@test-acceptance"
     ],
     "test-quality": [
-      "find docroot/ -type f \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {}",
+      "find docroot/ -type f ! -path 'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php' \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {}",
       "phpcs -v ./docroot/modules/custom",
 
       "drupal-check -ad ./docroot/modules/custom"
