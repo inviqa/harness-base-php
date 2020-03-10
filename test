@@ -79,7 +79,7 @@ function run_pipeline_tests()
 (
     cd "${path_test}"
 
-    if [ -f composer.json ]; then
+    if docker-compose -p "ci-${harness}-sample-${mode}" exec console stat composer.json > /dev/null 2>&1; then
       ws exec composer test-quality
       ws exec composer test-unit
       ws exec composer test-acceptance
