@@ -45,6 +45,7 @@
             "@test-acceptance"
         ],
         "test-quality": [
+            "find public/ -type f -name '*.php' | xargs -n 1 -P 8 -i php -l {}",
             "phpcs"
         ],
         "test-unit": [

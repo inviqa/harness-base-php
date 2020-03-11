@@ -81,6 +81,7 @@
             "@test-acceptance"
         ],
         "test-quality": [
+            "find app/ pub/ -type f \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {}",
             "phpcs -v",
             "phpstan analyse",
             "phpmd ./src text ./phpmd.xml"
