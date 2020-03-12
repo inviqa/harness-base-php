@@ -8,6 +8,12 @@ sync:
     alpha: "."
     beta: "docker://{{ @('workspace.name') }}-sync/app"
     mode: "two-way-resolved"
+    # Configuration for host file system as configured above for "alpha" key
+    configurationAlpha:
+      permissions:
+        defaultFileMode: 0644
+        defaultDirectoryMode: 0755
+    # Configuration for docker file system as configured above for "beta" key
     configurationBeta:
       permissions:
         defaultOwner: "id:1000"
