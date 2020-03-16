@@ -48,3 +48,4 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Never
+      enableServiceLinks: false

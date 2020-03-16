@@ -61,6 +61,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Always
+      enableServiceLinks: false
       volumes:
       {{- if not (eq "" (include "application.volumes.console" .)) }}
       {{- include "application.volumes.console" . | indent 6 }}
