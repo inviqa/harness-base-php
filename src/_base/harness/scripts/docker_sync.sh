@@ -58,7 +58,6 @@ stop()
 {
     init_rbenv
     passthru docker-sync stop
-    run docker rm "${NAMESPACE}-sync"
 }
 
 clean()
