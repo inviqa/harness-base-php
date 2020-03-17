@@ -23,6 +23,7 @@ attributes.default:
     vendor_directory: /app/vendor
 
   docker-sync: yes
+  mutagen: no
 
   jenkins:
     credentials:

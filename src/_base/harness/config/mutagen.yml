@@ -1,0 +1,34 @@
+command('mutagen (start|stop|pause|resume)'):
+  env:
+    NAMESPACE: = @('namespace')
+    COMMAND: = input.command(2)
+  exec: |
+    #!bash(workspace:/)
+    source .my127ws/harness/scripts/mutagen.sh "$COMMAND"
+
+command('switch (mutagen|docker-sync)'):
+  env:
+    SYNC: = input.command(2)
+    NAMESPACE: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|=
+    run ws disable
+    if [[ "$SYNC" = "mutagen" ]]; then
+      ws set mutagen yes
+      ws set docker-sync no
+    else
+      ws set mutagen no
+      ws set docker-sync yes
+    fi
+    run ws harness prepare
+    echo 'Bringing up the environment with the new setting'
+    if [[ "$SYNC" = "mutagen" ]]; then
+      if command -v docker-sync >/dev/null 2>&1 && [ -f docker-sync.yml ]; then
+        passthru ws docker-sync clean
+      fi
+      passthru ws mutagen start
+    else
+      passthru ws mutagen stop
+    fi
+    passthru ws enable
+    echo 'Done'

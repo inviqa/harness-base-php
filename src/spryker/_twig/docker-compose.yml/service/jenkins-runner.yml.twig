@@ -6,7 +6,7 @@
     entrypoint: /entrypoint.jenkins_runner.dynamic.sh
     command: [sleep, infinity]
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws/application:/home/build/application
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}

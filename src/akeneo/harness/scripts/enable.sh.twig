@@ -20,7 +20,9 @@ main()
     fi
 
     if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru docker-sync start
+        passthru ws docker-sync start
+    elif [[ "$APP_BUILD" = "dynamic" && "$USE_MUTAGEN" = "yes" ]]; then
+        passthru ws mutagen resume
     fi
 }
 
@@ -30,16 +32,18 @@ dynamic()
     # will often cause it to crash.
 
     if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru gem install docker-sync --no-document
-        passthru docker-sync start
-        passthru docker-sync stop
+        passthru ws docker-sync start
+        passthru ws docker-sync stop
+    elif [[ "$USE_MUTAGEN" = "yes" ]]; then
+        passthru ws mutagen start
+        passthru ws mutagen pause
     fi
 
     passthru "docker-compose config --services | grep -v php-fpm | xargs docker-compose pull"
     passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | xargs docker-compose build --pull"
     passthru docker-compose build job-queue-consumer
     passthru docker-compose build cron
-    
+
     passthru "docker-compose config --services | grep -v job-queue-consumer | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app build

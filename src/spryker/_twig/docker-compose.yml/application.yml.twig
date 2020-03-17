@@ -1,7 +1,9 @@
 {% set blocks  = '_twig/docker-compose.yml/' %}
-{% set dockersync = false %}
+{% set syncvolume = false %}
 {% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
-{% set dockersync = true %}
+{% set syncvolume = true %}
+{% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% set syncvolume = true %}
 {% endif %}
 
   console:
@@ -13,7 +15,7 @@
     entrypoint: [/entrypoint.dynamic.sh]
     command: [sleep, infinity]
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/lib/task:/lib/task
       - ./.my127ws:/.my127ws
@@ -32,7 +34,7 @@
 {% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/nginx
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
 {% endif %}
@@ -67,7 +69,7 @@
     entrypoint: /entrypoint.dynamic.sh
     command: [sleep, infinity]
     volumes:
-      - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
       - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
