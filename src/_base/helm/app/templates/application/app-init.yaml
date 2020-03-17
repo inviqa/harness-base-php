@@ -46,8 +46,8 @@ spec:
           requests:
             memory: {{ .Values.resources.memory.app_init }}
         volumeMounts:
-        {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
-        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- if not (eq "" (include "application.volumeMounts.console" .)) }}
+        {{- include "application.volumeMounts.console" . | indent 8 }}
         {{- else }} []
         {{- end }}
       imagePullSecrets:
@@ -55,8 +55,7 @@ spec:
       restartPolicy: Never
       enableServiceLinks: false
       volumes:
-      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
-      {{- include "application.volumes.backend" . | indent 6 }}
-      {{- include "application.volumes.all" . | indent 6 }}
+      {{- if not (eq "" (include "application.volumes.console" .)) }}
+      {{- include "application.volumes.console" . | indent 6 }}
       {{- else }} []
       {{- end }}
