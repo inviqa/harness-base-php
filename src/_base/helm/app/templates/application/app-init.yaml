@@ -46,7 +46,8 @@ spec:
           requests:
             memory: {{ .Values.resources.memory.app_init }}
         volumeMounts:
-        {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
+        {{- include "application.volumeMounts.backend" . | indent 8 }}
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
         {{- end }}
