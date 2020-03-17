@@ -43,7 +43,7 @@ attributes:
       steps:
         - task "rabbitmq:vhosts"
         - task "http:wait" $JENKINS_URL
-        - task "spryker:install" 
+        - task "spryker:install"
         - task "overlay:apply"
     init:
       steps:
@@ -172,17 +172,11 @@ attributes:
       enabled: true
 
   resources:
-    requests:
-      memory:
-        jenkins_runner: "256Mi"
-        jenkins: "1536Mi"
-        rabbitmq: "128Mi"
-    limits:
-      memory:
-        jenkins_runner: "256Mi"
-        jenkins: "1536Mi"
-        rabbitmq: "128Mi"
-  
+    memory:
+      jenkins_runner: "256Mi"
+      jenkins: "1536Mi"
+      rabbitmq: "128Mi"
+
 ---
 command('frontend yves watch'):
   env:

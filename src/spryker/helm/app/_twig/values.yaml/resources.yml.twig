@@ -1,34 +1,20 @@
-  requests:
-    memory:
-      console: {{ @('resources.requests.memory.console') }}
-      cron: {{ @('resources.requests.memory.cron') }}
-      nginx: {{ @('resources.requests.memory.nginx') }}
-      php_fpm: {{ @('resources.requests.memory.php_fpm') }}
-      app_init: {{ @('resources.requests.memory.app_init') }}
-      app_migrate: {{ @('resources.requests.memory.app_migrate') }}
-      elasticsearch: {{ @('resources.requests.memory.elasticsearch') }}
-      mysql: {{ @('resources.requests.memory.mysql') }}
-      postgres: {{ @('resources.requests.memory.postgres') }}
-      redis: {{ @('resources.requests.memory.redis') }}
-      redis_session: {{ @('resources.requests.memory.redis_session') }}
-      jenkins_runner: {{ @('resources.requests.memory.jenkins_runner') }}
-      jenkins: {{ @('resources.requests.memory.jenkins') }}
-      rabbitmq: {{ @('resources.requests.memory.rabbitmq') }}
-      php_fpm_exporter: {{ @('resources.requests.memory.php_fpm_exporter') }}
-  limits:
-    memory:
-      console: {{ @('resources.limits.memory.console') }}
-      cron: {{ @('resources.requests.memory.cron') }}
-      nginx: {{ @('resources.limits.memory.nginx') }}
-      php_fpm: {{ @('resources.limits.memory.php_fpm') }}
-      app_init: {{ @('resources.limits.memory.app_init') }}
-      app_migrate: {{ @('resources.limits.memory.app_migrate') }}
-      elasticsearch: {{ @('resources.limits.memory.elasticsearch') }}
-      mysql: {{ @('resources.limits.memory.mysql') }}
-      postgres: {{ @('resources.limits.memory.postgres') }}
-      redis: {{ @('resources.limits.memory.redis') }}
-      redis_session: {{ @('resources.limits.memory.redis_session') }}
-      jenkins_runner: {{ @('resources.requests.memory.jenkins_runner') }}
-      jenkins: {{ @('resources.requests.memory.jenkins') }}
-      rabbitmq: {{ @('resources.requests.memory.rabbitmq') }}
-      php_fpm_exporter: {{ @('resources.limits.memory.php_fpm_exporter') }}
+  cpu:
+    requests:
+    limits:
+  memory:
+    app_init: {{ @('resources.memory.app_init') }}
+    app_migrate: {{ @('resources.memory.app_migrate') }}
+    console: {{ @('resources.memory.console') }}
+    cron: {{ @('resources.memory.cron') }}
+    elasticsearch: {{ @('resources.memory.elasticsearch') }}
+    mysql: {{ @('resources.memory.mysql') }}
+    nginx: {{ @('resources.memory.nginx') }}
+    php_fpm: {{ @('resources.memory.php_fpm') }}
+    php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
+    postgres: {{ @('resources.memory.postgres') }}
+    redis: {{ @('resources.memory.redis') }}
+    redis_session: {{ @('resources.memory.redis_session') }}
+    jenkins: {{ @('resources.memory.jenkins') }}
+    jenkins_runner: {{ @('resources.memory.jenkins_runner') }}
+    job_queue_consumer: {{ @('resources.memory.job_queue_consumer') }}
+    rabbitmq: {{ @('resources.memory.rabbitmq') }}

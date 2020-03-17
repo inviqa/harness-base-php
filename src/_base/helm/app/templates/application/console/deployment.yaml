@@ -43,9 +43,9 @@ spec:
         name: console
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.console }}
+            memory: {{ .Values.resources.memory.console }}
           requests:
-            memory: {{ .Values.resources.requests.memory.console }}
+            memory: {{ .Values.resources.memory.console }}
         readinessProbe:
           exec:
             command:

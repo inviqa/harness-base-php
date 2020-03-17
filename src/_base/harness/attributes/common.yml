@@ -163,34 +163,22 @@ attributes.default:
       steps: []
 
   resources:
-    requests:
-      memory:
-        console: "10Mi"
-        cron: "1024Mi"
-        nginx: "100Mi"
-        php_fpm: "1024Mi"
-        app_init: "1024Mi"
-        app_migrate: "1024Mi"
-        elasticsearch: "1024Mi"
-        mysql: "512Mi"
-        postgres: "512Mi"
-        redis: "256Mi"
-        redis_session: "1024Mi"
-        php_fpm_exporter: "256Mi"
-    limits:
-      memory:
-        console: "2048Mi"
-        cron: "1024Mi"
-        nginx: "100Mi"
-        php_fpm: "1024Mi"
-        app_init: "1024Mi"
-        app_migrate: "1024Mi"
-        elasticsearch: "1024Mi"
-        mysql: "512Mi"
-        postgres: "512Mi"
-        redis: "256Mi"
-        redis_session: "1024Mi"
-        php_fpm_exporter: "256Mi"
+    cpu:
+      requests: []
+      limits: []
+    memory:
+      app_init: "1024Mi"
+      app_migrate: "1024Mi"
+      console: "2048Mi"
+      cron: "1024Mi"
+      elasticsearch: "1024Mi"
+      mysql: "512Mi"
+      nginx: "100Mi"
+      php_fpm: "1024Mi"
+      php_fpm_exporter: "256Mi"
+      postgres: "512Mi"
+      redis: "256Mi"
+      redis_session: "1024Mi"
 
   persistence:
     enabled: false

@@ -44,9 +44,9 @@ spec:
         name: jenkins-runner
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.jenkins_runner }}
+            memory: {{ .Values.resources.memory.jenkins_runner }}
           requests:
-            memory: {{ .Values.resources.requests.memory.jenkins_runner }}
+            memory: {{ .Values.resources.memory.jenkins_runner }}
         readinessProbe:
           exec:
             command:

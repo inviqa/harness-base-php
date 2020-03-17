@@ -31,9 +31,9 @@ spec:
         - containerPort: 3306
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.mysql }}
+            memory: {{ .Values.resources.memory.mysql }}
           requests:
-            memory: {{ .Values.resources.requests.memory.mysql }}
+            memory: {{ .Values.resources.memory.mysql }}
         readinessProbe:
           tcpSocket:
             port: 3306

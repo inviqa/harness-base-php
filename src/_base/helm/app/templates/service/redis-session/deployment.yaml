@@ -38,9 +38,9 @@ spec:
         - containerPort: 6379
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.redis_session }}
+            memory: {{ .Values.resources.memory.redis_session }}
           requests:
-            memory: {{ .Values.resources.requests.memory.redis_session }}
+            memory: {{ .Values.resources.memory.redis_session }}
         readinessProbe:
           tcpSocket:
             port: 6379

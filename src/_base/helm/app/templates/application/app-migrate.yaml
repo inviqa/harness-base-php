@@ -43,9 +43,9 @@ spec:
 {{ end }}
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.app_migrate }}
+            memory: {{ .Values.resources.memory.app_migrate }}
           requests:
-            memory: {{ .Values.resources.requests.memory.app_migrate }}
+            memory: {{ .Values.resources.memory.app_migrate }}
         volumeMounts:
         {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
         {{- include "application.volumeMounts.all" . | indent 8 }}

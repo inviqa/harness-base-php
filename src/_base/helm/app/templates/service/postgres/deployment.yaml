@@ -28,9 +28,9 @@ spec:
         - containerPort: 5432
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.postgres }}
+            memory: {{ .Values.resources.memory.postgres }}
           requests:
-            memory: {{ .Values.resources.requests.memory.postgres }}
+            memory: {{ .Values.resources.memory.postgres }}
         readinessProbe:
           tcpSocket:
             port: 5432

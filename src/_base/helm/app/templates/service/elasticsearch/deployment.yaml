@@ -28,9 +28,9 @@ spec:
         - containerPort: 9200
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.elasticsearch }}
+            memory: {{ .Values.resources.memory.elasticsearch }}
           requests:
-            memory: {{ .Values.resources.requests.memory.elasticsearch }}
+            memory: {{ .Values.resources.memory.elasticsearch }}
         readinessProbe:
           tcpSocket:
             port: 9200

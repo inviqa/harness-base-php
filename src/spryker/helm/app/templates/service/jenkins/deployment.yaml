@@ -26,9 +26,9 @@ spec:
         - containerPort: 8080
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.jenkins }}
+            memory: {{ .Values.resources.memory.jenkins }}
           requests:
-            memory: {{ .Values.resources.requests.memory.jenkins }}
+            memory: {{ .Values.resources.memory.jenkins }}
         readinessProbe:
           tcpSocket:
             port: 8080

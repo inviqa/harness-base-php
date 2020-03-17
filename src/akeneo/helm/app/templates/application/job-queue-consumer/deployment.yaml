@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: job-queue-consumer-volume-permissions
         image: busybox
-        command: 
+        command:
         - "/bin/chown"
         - "-R"
         - "www-data"
@@ -61,9 +61,9 @@ spec:
         - containerPort: 9000
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.job_queue_consumer }}
+            memory: {{ .Values.resources.memory.job_queue_consumer }}
           requests:
-            memory: {{ .Values.resources.requests.memory.job_queue_consumer }}
+            memory: {{ .Values.resources.memory.job_queue_consumer }}
         readinessProbe:
           tcpSocket:
             port: 9000

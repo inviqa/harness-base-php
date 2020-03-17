@@ -29,9 +29,9 @@ spec:
         - containerPort: 15672
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.rabbitmq }}
+            memory: {{ .Values.resources.memory.rabbitmq }}
           requests:
-            memory: {{ .Values.resources.requests.memory.rabbitmq }}
+            memory: {{ .Values.resources.memory.rabbitmq }}
         readinessProbe:
           tcpSocket:
             port: 5672

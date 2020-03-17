@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: webapp-volume-permissions
         image: busybox
-        command: 
+        command:
         - "/bin/chown"
         - "-R"
         - "www-data"
@@ -48,9 +48,9 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.nginx }}
+            memory: {{ .Values.resources.memory.nginx }}
           requests:
-            memory: {{ .Values.resources.requests.memory.nginx }}
+            memory: {{ .Values.resources.memory.nginx }}
         readinessProbe:
           tcpSocket:
             port: 80
@@ -92,9 +92,9 @@ spec:
         - containerPort: 9000
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.php_fpm }}
+            memory: {{ .Values.resources.memory.php_fpm }}
           requests:
-            memory: {{ .Values.resources.requests.memory.php_fpm }}
+            memory: {{ .Values.resources.memory.php_fpm }}
         readinessProbe:
           tcpSocket:
             port: 9000
@@ -106,7 +106,7 @@ spec:
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
         {{- end }}
-      
+
       {{ if .Values.service.php_fpm_exporter }}
       - name: php-fpm-exporter
         image: hipages/php-fpm_exporter
@@ -115,9 +115,9 @@ spec:
         - containerPort: 9253
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.php_fpm_exporter }}
+            memory: {{ .Values.resources.memory.php_fpm_exporter }}
           requests:
-            memory: {{ .Values.resources.requests.memory.php_fpm_exporter }}
+            memory: {{ .Values.resources.memory.php_fpm_exporter }}
         readinessProbe:
           tcpSocket:
             port: 9253

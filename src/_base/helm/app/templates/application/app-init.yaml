@@ -42,9 +42,9 @@ spec:
 {{ end }}
         resources:
           limits:
-            memory: {{ .Values.resources.limits.memory.app_init }}
+            memory: {{ .Values.resources.memory.app_init }}
           requests:
-            memory: {{ .Values.resources.requests.memory.app_init }}
+            memory: {{ .Values.resources.memory.app_init }}
         volumeMounts:
         {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
         {{- include "application.volumeMounts.all" . | indent 8 }}
