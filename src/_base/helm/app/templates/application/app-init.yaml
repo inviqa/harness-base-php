@@ -45,7 +45,18 @@ spec:
             memory: {{ .Values.resources.limits.memory.app_init }}
           requests:
             memory: {{ .Values.resources.requests.memory.app_init }}
+        volumeMounts:
+        {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
+        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- else }} []
+        {{- end }}
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
       restartPolicy: Never
       enableServiceLinks: false
+      volumes:
+      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
+      {{- include "application.volumes.backend" . | indent 6 }}
+      {{- include "application.volumes.all" . | indent 6 }}
+      {{- else }} []
+      {{- end }}
