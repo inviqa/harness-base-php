@@ -22,16 +22,13 @@
 # Files
 
 /.dockerignore
-/mutagen.yml.lock
 /.htaccess*
 /.php_cs*
 /.travis.yml
 /.user.ini
+/behat.yml
 /docker-compose.yml
 /docker-sync.yml
-/phpcs.xml
-/phpmd.xml
-/behat.yml
 /app/.htaccess
 /app/*.php
 /auth.json
@@ -47,9 +44,13 @@
 /LICENSE_AFL.txt
 /LICENSE_EE.txt
 /PULL_REQUEST_TEMPLATE.md
+/mutagen.yml
+/mutagen.yml.lock
 /nginx.conf.sample
 /package.json.sample
 /php.ini.sample
+/phpcs.xml
+/phpmd.xml
 /README_EE.md
 /workspace.override.yml
 

@@ -11,14 +11,15 @@
 # Files
 
 /.dockerignore
-/mutagen.yml.lock
+/auth.json
+/behat.yml
 /docker-compose.yml
 /docker-sync.yml
+/mutagen.yml
+/mutagen.yml.lock
 /phpcs.xml
 /phpmd.xml
-/behat.yml
 /public/wp-config.php
-/auth.json
 /workspace.override.yml
 
 # Keep

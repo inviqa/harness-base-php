@@ -39,10 +39,11 @@ package-lock.json
 
 # Files
 /.dockerignore
-/mutagen.yml.lock
 /auth.json
 /docker-compose.yml
 /docker-sync.yml
+/mutagen.yml
+/mutagen.yml.lock
 /phpcs.xml
 /phpmd.xml
 /phpunit.xml
