@@ -1,5 +1,48 @@
 # Changelog
 
+## [0.4.0](https://github.com/inviqa/harness-base-php/tree/0.4.0) (2020-03-18)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.14...0.4.0)
+
+**Implemented enhancements:**
+
+- Trace of what happens during `ws enable` [\#236](https://github.com/inviqa/harness-base-php/pull/236) ([kierenevans](https://github.com/kierenevans))
+- Ignore mutagen.yml in gitignore [\#233](https://github.com/inviqa/harness-base-php/pull/233) ([kierenevans](https://github.com/kierenevans))
+- Run composer tests in static build [\#232](https://github.com/inviqa/harness-base-php/pull/232) ([kierenevans](https://github.com/kierenevans))
+- Add package namespace to all composer skeleton files [\#231](https://github.com/inviqa/harness-base-php/pull/231) ([kierenevans](https://github.com/kierenevans))
+- Use passthru for helm kubeval [\#225](https://github.com/inviqa/harness-base-php/pull/225) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add php-fpm-exporter to provide a prometheus endpoint [\#223](https://github.com/inviqa/harness-base-php/pull/223) ([g-foster2](https://github.com/g-foster2))
+- Memory requests equal limits [\#218](https://github.com/inviqa/harness-base-php/pull/218) ([kierenevans](https://github.com/kierenevans))
+- Add mutagen sync [\#215](https://github.com/inviqa/harness-base-php/pull/215) ([hgajjar](https://github.com/hgajjar))
+- Allow updating the docker-compose file version [\#212](https://github.com/inviqa/harness-base-php/pull/212) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add PHP syntax checking to code quality testing [\#179](https://github.com/inviqa/harness-base-php/pull/179) ([elvetemedve](https://github.com/elvetemedve))
+- Bump to Magento 2.3.4 [\#157](https://github.com/inviqa/harness-base-php/pull/157) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- add backend volume mount to init and migrate pod specs [\#242](https://github.com/inviqa/harness-base-php/pull/242) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- Add volume mounts to the init and migrate pod specs [\#241](https://github.com/inviqa/harness-base-php/pull/241) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- Disable k8s service links [\#240](https://github.com/inviqa/harness-base-php/pull/240) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- Fix mutagen file permissions sync to host [\#239](https://github.com/inviqa/harness-base-php/pull/239) ([kierenevans](https://github.com/kierenevans))
+- Fix `ws docker-sync stop` removing sync container [\#237](https://github.com/inviqa/harness-base-php/pull/237) ([kierenevans](https://github.com/kierenevans))
+- Anchor mutagen ignore paths at project root [\#235](https://github.com/inviqa/harness-base-php/pull/235) ([kierenevans](https://github.com/kierenevans))
+- Treat non-relative symlinks as raw in mutagen [\#234](https://github.com/inviqa/harness-base-php/pull/234) ([kierenevans](https://github.com/kierenevans))
+- Fix akeneo production mode [\#229](https://github.com/inviqa/harness-base-php/pull/229) ([g-foster2](https://github.com/g-foster2))
+- Cronjob for tests on 0.4.x branch [\#224](https://github.com/inviqa/harness-base-php/pull/224) ([kierenevans](https://github.com/kierenevans))
+
+**Security fixes:**
+
+- Hide docker login password from workspace output [\#228](https://github.com/inviqa/harness-base-php/pull/228) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+## [0.3.14](https://github.com/inviqa/harness-base-php/tree/0.3.14) (2020-03-17)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.13...0.3.14)
+
+**Fixed bugs:**
+
+- \[Mutagen\] Folders created in container are synced to host as 0700 despite configuration [\#238](https://github.com/inviqa/harness-base-php/issues/238)
+- Remove ports and readinessProbe from cron deployment [\#220](https://github.com/inviqa/harness-base-php/pull/220) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [0.3.13](https://github.com/inviqa/harness-base-php/tree/0.3.13) (2020-02-24)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.12...0.3.13)
@@ -14,19 +57,19 @@
 
 ## [0.3.12](https://github.com/inviqa/harness-base-php/tree/0.3.12) (2020-02-13)
 
-[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.10...0.3.12)
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.11...0.3.12)
 
 **Merged pull requests:**
 
 - Fix so that cron script works with all commands [\#213](https://github.com/inviqa/harness-base-php/pull/213) ([g-foster2](https://github.com/g-foster2))
 
-## [0.3.10](https://github.com/inviqa/harness-base-php/tree/0.3.10) (2020-02-12)
-
-[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.11...0.3.10)
-
 ## [0.3.11](https://github.com/inviqa/harness-base-php/tree/0.3.11) (2020-02-12)
 
-[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.9...0.3.11)
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.10...0.3.11)
+
+## [0.3.10](https://github.com/inviqa/harness-base-php/tree/0.3.10) (2020-02-12)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.9...0.3.10)
 
 **Merged pull requests:**
 
@@ -148,7 +191,7 @@
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.2.6...0.2.7)
 
-enhancement
+**Implemented enhancements:**
 
 - add elasticsearch to the list of available services [\#59](https://github.com/inviqa/harness-base-php/issues/59)
 - www-data should not own every file [\#57](https://github.com/inviqa/harness-base-php/issues/57)
@@ -215,7 +258,7 @@ enhancement
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.2.2...0.2.4)
 
-enhancement
+**Implemented enhancements:**
 
 - Dump drupal media assets [\#62](https://github.com/inviqa/harness-base-php/issues/62)
 - Turn off TLS v1.0 [\#49](https://github.com/inviqa/harness-base-php/issues/49)
@@ -234,7 +277,7 @@ enhancement
 - Drupal phpstan setup [\#55](https://github.com/inviqa/harness-base-php/pull/55) ([andytson-inviqa](https://github.com/andytson-inviqa))
 - Make docker-compose more accessible for local development [\#38](https://github.com/inviqa/harness-base-php/pull/38) ([dcole-inviqa](https://github.com/dcole-inviqa))
 
-bug
+**Fixed bugs:**
 
 - Drush connecting to database as root [\#83](https://github.com/inviqa/harness-base-php/issues/83)
 - X Frame Deny stops drupal inline entities loading [\#50](https://github.com/inviqa/harness-base-php/issues/50)
@@ -278,7 +321,7 @@ bug
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/77900845f2821a86f3f1d11ebb1696eacfd83675...0.2.2)
 
-enhancement
+**Implemented enhancements:**
 
 - make docker-compose.yml.twig more versatile [\#2](https://github.com/inviqa/harness-base-php/issues/2)
 
