@@ -39,7 +39,6 @@
 
 **Fixed bugs:**
 
-- \[Mutagen\] Folders created in container are synced to host as 0700 despite configuration [\#238](https://github.com/inviqa/harness-base-php/issues/238)
 - Remove ports and readinessProbe from cron deployment [\#220](https://github.com/inviqa/harness-base-php/pull/220) ([andytson-inviqa](https://github.com/andytson-inviqa))
 
 ## [0.3.13](https://github.com/inviqa/harness-base-php/tree/0.3.13) (2020-02-24)
@@ -101,6 +100,7 @@
 - Support use of specific mode in akeneo commands [\#204](https://github.com/inviqa/harness-base-php/pull/204) ([g-foster2](https://github.com/g-foster2))
 - MISC Pass script arguments into function for further use [\#203](https://github.com/inviqa/harness-base-php/pull/203) ([g-foster2](https://github.com/g-foster2))
 - MISC Add the default sleep command to jenkins-runner [\#202](https://github.com/inviqa/harness-base-php/pull/202) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add database import command and steps configured in harness.yml [\#200](https://github.com/inviqa/harness-base-php/pull/200) ([g-foster2](https://github.com/g-foster2))
 
 ## [0.3.4](https://github.com/inviqa/harness-base-php/tree/0.3.4) (2020-01-13)
 
@@ -109,7 +109,6 @@
 **Merged pull requests:**
 
 - Allow additional istio gateways to be specified [\#201](https://github.com/inviqa/harness-base-php/pull/201) ([g-foster2](https://github.com/g-foster2))
-- Add database import command and steps configured in harness.yml [\#200](https://github.com/inviqa/harness-base-php/pull/200) ([g-foster2](https://github.com/g-foster2))
 - MISC: Dont use -T flag if tty is available [\#199](https://github.com/inviqa/harness-base-php/pull/199) ([hgajjar](https://github.com/hgajjar))
 - Use locks and milestones in Jenkinsfile for reducing concurrency and … [\#198](https://github.com/inviqa/harness-base-php/pull/198) ([andytson-inviqa](https://github.com/andytson-inviqa))
 - MISC Use admin mysql user/pass var naming [\#197](https://github.com/inviqa/harness-base-php/pull/197) ([andytson-inviqa](https://github.com/andytson-inviqa))
@@ -184,7 +183,6 @@
 - Always pull when building images in CI [\#142](https://github.com/inviqa/harness-base-php/pull/142) ([kierenevans](https://github.com/kierenevans))
 - Spryker jenkins improvements [\#141](https://github.com/inviqa/harness-base-php/pull/141) ([hgajjar](https://github.com/hgajjar))
 - Use atomic helm upgrades to rollback automatically in case of upgrade failure. [\#126](https://github.com/inviqa/harness-base-php/pull/126) ([kierenevans](https://github.com/kierenevans))
-- Support php config change without env rebuild [\#80](https://github.com/inviqa/harness-base-php/pull/80) ([hgajjar](https://github.com/hgajjar))
 - Support the use of no database and reduce templating around it [\#73](https://github.com/inviqa/harness-base-php/pull/73) ([andytson-inviqa](https://github.com/andytson-inviqa))
 
 ## [0.2.7](https://github.com/inviqa/harness-base-php/tree/0.2.7) (2019-07-16)
@@ -292,6 +290,7 @@
 - Spryker glue api config [\#86](https://github.com/inviqa/harness-base-php/pull/86) ([hgajjar](https://github.com/hgajjar))
 - Use Jenkins to build and test environments [\#85](https://github.com/inviqa/harness-base-php/pull/85) ([dcole-inviqa](https://github.com/dcole-inviqa))
 - Set mysql root password in .my.cnf [\#81](https://github.com/inviqa/harness-base-php/pull/81) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- Support php config change without env rebuild [\#80](https://github.com/inviqa/harness-base-php/pull/80) ([hgajjar](https://github.com/hgajjar))
 - Support custom composer.json for Spryker harness [\#77](https://github.com/inviqa/harness-base-php/pull/77) ([hgajjar](https://github.com/hgajjar))
 - Fix Jenkins cron syntax - can't span midnight [\#76](https://github.com/inviqa/harness-base-php/pull/76) ([kierenevans](https://github.com/kierenevans))
 - Add a daily Jenkins build for the main branch \(stopping after tests\) [\#74](https://github.com/inviqa/harness-base-php/pull/74) ([kierenevans](https://github.com/kierenevans))
