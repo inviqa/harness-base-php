@@ -21,7 +21,6 @@
 **Fixed bugs:**
 
 - add backend volume mount to init and migrate pod specs [\#242](https://github.com/inviqa/harness-base-php/pull/242) ([dcole-inviqa](https://github.com/dcole-inviqa))
-- Add volume mounts to the init and migrate pod specs [\#241](https://github.com/inviqa/harness-base-php/pull/241) ([dcole-inviqa](https://github.com/dcole-inviqa))
 - Disable k8s service links [\#240](https://github.com/inviqa/harness-base-php/pull/240) ([dcole-inviqa](https://github.com/dcole-inviqa))
 - Fix mutagen file permissions sync to host [\#239](https://github.com/inviqa/harness-base-php/pull/239) ([kierenevans](https://github.com/kierenevans))
 - Fix `ws docker-sync stop` removing sync container [\#237](https://github.com/inviqa/harness-base-php/pull/237) ([kierenevans](https://github.com/kierenevans))
@@ -185,6 +184,7 @@
 - Always pull when building images in CI [\#142](https://github.com/inviqa/harness-base-php/pull/142) ([kierenevans](https://github.com/kierenevans))
 - Spryker jenkins improvements [\#141](https://github.com/inviqa/harness-base-php/pull/141) ([hgajjar](https://github.com/hgajjar))
 - Use atomic helm upgrades to rollback automatically in case of upgrade failure. [\#126](https://github.com/inviqa/harness-base-php/pull/126) ([kierenevans](https://github.com/kierenevans))
+- Support php config change without env rebuild [\#80](https://github.com/inviqa/harness-base-php/pull/80) ([hgajjar](https://github.com/hgajjar))
 - Support the use of no database and reduce templating around it [\#73](https://github.com/inviqa/harness-base-php/pull/73) ([andytson-inviqa](https://github.com/andytson-inviqa))
 
 ## [0.2.7](https://github.com/inviqa/harness-base-php/tree/0.2.7) (2019-07-16)
@@ -292,7 +292,6 @@
 - Spryker glue api config [\#86](https://github.com/inviqa/harness-base-php/pull/86) ([hgajjar](https://github.com/hgajjar))
 - Use Jenkins to build and test environments [\#85](https://github.com/inviqa/harness-base-php/pull/85) ([dcole-inviqa](https://github.com/dcole-inviqa))
 - Set mysql root password in .my.cnf [\#81](https://github.com/inviqa/harness-base-php/pull/81) ([dcole-inviqa](https://github.com/dcole-inviqa))
-- Support php config change without env rebuild [\#80](https://github.com/inviqa/harness-base-php/pull/80) ([hgajjar](https://github.com/hgajjar))
 - Support custom composer.json for Spryker harness [\#77](https://github.com/inviqa/harness-base-php/pull/77) ([hgajjar](https://github.com/hgajjar))
 - Fix Jenkins cron syntax - can't span midnight [\#76](https://github.com/inviqa/harness-base-php/pull/76) ([kierenevans](https://github.com/kierenevans))
 - Add a daily Jenkins build for the main branch \(stopping after tests\) [\#74](https://github.com/inviqa/harness-base-php/pull/74) ([kierenevans](https://github.com/kierenevans))
