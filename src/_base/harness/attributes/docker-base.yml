@@ -37,6 +37,8 @@ attributes:
       environment: []
   pipeline:
     base:
+      prometheus:
+        podMonitoring: false
       services:
         php-base:
           environment:
@@ -47,6 +49,13 @@ attributes:
         nginx:
           environment:
             FPM_HOST: localhost
+          metricsEnabled: false
+          metricsEndpoints:
+            - port: http
+        php_fpm_exporter:
+          metricsEnabled: true
+          metricsEndpoints:
+            - port: php-fpm-exporter-http
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"

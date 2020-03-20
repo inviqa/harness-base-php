@@ -1,0 +1,19 @@
+{{- if .Values.prometheus.podMonitoring -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ .Values.resourcePrefix }}webapp
+  labels:
+    app.service: {{ .Values.resourcePrefix }}webapp
+spec:
+  selector:
+    matchLabels:
+      app.service: {{ .Values.resourcePrefix }}webapp
+  podMetricsEndpoints:
+{{- if .Values.docker.services.nginx.metricsEnabled -}}
+{{ .Values.docker.services.nginx.metricsEndpoints | toYaml | nindent 6 -}}
+{{- end -}}
+{{- if and .Values.service.php_fpm_exporter .Values.docker.services.php_fpm_exporter.metricsEnabled -}}
+{{ .Values.docker.services.php_fpm_exporter.metricsEndpoints | toYaml | nindent 6 -}}
+{{- end -}}
+{{- end -}}

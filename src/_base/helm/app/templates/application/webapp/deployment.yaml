@@ -45,7 +45,8 @@ spec:
         image: {{ .Values.docker.image.nginx }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 80
         resources:
           limits:
             memory: {{ .Values.resources.memory.nginx }}
@@ -112,7 +113,8 @@ spec:
         image: hipages/php-fpm_exporter
         imagePullPolicy: Always
         ports:
-        - containerPort: 9253
+        - name: php-fpm-exporter-http
+          containerPort: 9253
         resources:
           limits:
             memory: {{ .Values.resources.memory.php_fpm_exporter }}
