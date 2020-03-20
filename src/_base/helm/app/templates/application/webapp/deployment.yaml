@@ -113,7 +113,7 @@ spec:
         image: hipages/php-fpm_exporter
         imagePullPolicy: Always
         ports:
-        - name: php-fpm-exporter-http
+        - name: php-fpm-metrics
           containerPort: 9253
         resources:
           limits:
