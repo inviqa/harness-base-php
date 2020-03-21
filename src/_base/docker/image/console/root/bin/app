@@ -12,6 +12,7 @@ bootstrap()
     # shellcheck source=/home/build/nvm.sh
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     . /lib/sidekick.sh
+    . /lib/functions.sh
 }
 
 bootstrap

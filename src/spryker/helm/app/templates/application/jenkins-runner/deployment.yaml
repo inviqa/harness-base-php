@@ -5,6 +5,9 @@ metadata:
   name: {{ .Values.resourcePrefix }}jenkins-runner
   labels:
     app.service: {{ .Values.resourcePrefix }}jenkins-runner
+  annotations:
+    # after migrate
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   replicas: 1
   selector:
