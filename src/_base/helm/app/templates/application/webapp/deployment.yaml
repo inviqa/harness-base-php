@@ -5,8 +5,7 @@ metadata:
   labels:
     app.service: {{ .Values.resourcePrefix }}webapp
   annotations:
-    # after migrate
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   replicas: 1
   selector:

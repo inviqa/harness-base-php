@@ -7,8 +7,7 @@ metadata:
     helm.sh/hook-delete-policy: "before-hook-creation"
     argocd.argoproj.io/hook: "Sync"
     argocd.argoproj.io/hook-delete-policy: "BeforeHookCreation"
-    # after dependent services but before webapp/cron/console
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   template:
     spec:
