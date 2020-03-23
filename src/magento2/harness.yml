@@ -57,7 +57,7 @@ attributes:
         - task "composer:install"
         - task "magento:tidy"
         - |
-          if [ "$APP_BUILD" == "static" ]; then
+          if [ "$APP_BUILD" == "static" ] && validate-magento-config ; then
             run "mv app/etc/env.php app/etc/env-backup.php"
             passthru "bin/magento setup:static-content:deploy -f"
             run "mv app/etc/env-backup.php app/etc/env.php"
