@@ -56,6 +56,12 @@ attributes:
       steps:
         - task "composer:install"
         - task "magento:tidy"
+        - |
+          if [ "$APP_BUILD" == "static" ] && validate-magento-config ; then
+            run "mv app/etc/env.php app/etc/env-backup.php"
+            passthru "bin/magento setup:static-content:deploy -f"
+            run "mv app/etc/env-backup.php app/etc/env.php"
+          fi
     install:
       steps:
         # the magento installer will not work if the dpeloyment config is present so we remove and
@@ -103,6 +109,7 @@ attributes:
           fi
         - run "rm -f /app/app/etc/env.php"
         - task "overlay:apply"
+        - task "magento:dump-config"
         - task "assets:dump"
     init:
       steps:

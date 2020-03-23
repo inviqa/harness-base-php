@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * Outputs a stripped down magento config which can be
+ * used with static content deploy.
+ */
+
+$config = include "/app/app/etc/config.php";
+unset($config['system']);
+file_put_contents("/app/app/etc/config.php", "<?php \n return ".var_export($config, true).";\n");
