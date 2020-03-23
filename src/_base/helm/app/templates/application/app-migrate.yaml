@@ -5,6 +5,9 @@ metadata:
   annotations:
     helm.sh/hook: "pre-upgrade"
     helm.sh/hook-delete-policy: "before-hook-creation"
+    argocd.argoproj.io/hook: "Sync"
+    argocd.argoproj.io/hook-delete-policy: "BeforeHookCreation"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   template:
     spec:

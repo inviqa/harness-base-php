@@ -5,6 +5,8 @@ metadata:
   name: {{ .Values.resourcePrefix }}cron
   labels:
     app.service: {{ .Values.resourcePrefix }}cron
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   replicas: 1
   selector:
