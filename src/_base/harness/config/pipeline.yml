@@ -29,6 +29,33 @@ command('app publish'): |
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker logout @('docker.repository')
 
+command('app publish chart <release> <message>'):
+  env:
+    SSH_KEY:    = @('publish.chart.git.key')
+    REPOSITORY: = @('publish.chart.git.repository')
+    ARTIFACTS:  = "./build-artifacts-repository/" ~ @('publish.chart.git.path') ~ "/" ~ input.argument('release')
+    MESSAGE:    = input.argument('message')
+    USER_EMAIL: = @('publish.chart.git.email')
+  exec: |
+    #!bash(workspace:/)|@
+    
+    run rm -rf build-artifacts-repository
+    echo "${SSH_KEY}" | base64 -d > id_rsa
+    chmod 0600 id_rsa
+
+    export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
+    
+    run git clone $REPOSITORY ./build-artifacts-repository
+    run git -C ./build-artifacts-repository config user.email \"${USER_EMAIL}\"
+
+    run mkdir -p $ARTIFACTS
+    run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ ${ARTIFACTS}/
+    
+    export GIT_SSH_COMMAND='ssh -i ../id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
+    run git -C ./build-artifacts-repository add .
+    run git -C ./build-artifacts-repository commit --allow-empty -m \"${MESSAGE}\"
+    run git -C ./build-artifacts-repository push origin master
+
 command('app deploy <environment>'):
   env:
     ENVIRONMENT: = input.argument('environment')
