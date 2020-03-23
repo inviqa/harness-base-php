@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: pull
+spec:
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      name: pull
+  template:
+    metadata:
+      labels:
+        name: pull
+    spec:
+      initContainers:
+      - name: pull
+        image: docker
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo \
+              {{ .Values.docker.image.console }} \
+              {{ .Values.docker.image.fpm }}     \
+              {{ .Values.docker.image.nginx }}   \
+            | xargs -P3 -n1 docker pull
+        volumeMounts:
+        - name: docker
+          mountPath: /var/run
+        - name: docker-config
+          mountPath: /root
+          readOnly: true
+      volumes:
+      - name: docker
+        hostPath:
+          path: /var/run
+      - name: docker-config
+        secret:
+          secretName: {{ .Values.resourcePrefix }}docker-config
+          items:
+          - key: .dockerconfigjson
+            path: .docker/config.json
+      containers:
+      - name: pause
+        image: gcr.io/google_containers/pause
