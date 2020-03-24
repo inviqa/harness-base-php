@@ -31,11 +31,11 @@ command('app publish'): |
 
 command('app publish chart <release> <message>'):
   env:
-    SSH_KEY:    = @('publish.chart.git.key')
-    REPOSITORY: = @('publish.chart.git.repository')
-    ARTIFACTS:  = "./build-artifacts-repository/" ~ @('publish.chart.git.path') ~ "/" ~ input.argument('release')
+    SSH_KEY:    = @('pipeline.publish.chart.git.key')
+    REPOSITORY: = @('pipeline.publish.chart.git.repository')
+    ARTIFACTS:  = "./build-artifacts-repository/" ~ @('pipeline.publish.chart.git.path') ~ "/" ~ input.argument('release')
     MESSAGE:    = input.argument('message')
-    USER_EMAIL: = @('publish.chart.git.email')
+    USER_EMAIL: = @('pipeline.publish.chart.git.email')
   exec: |
     #!bash(workspace:/)|@
     
