@@ -3,12 +3,16 @@
 function task_init()
 {
     task "database:available"
-    task "assets:apply"
 
-    {% for step in @('backend.init.steps') -%}
-    {{ step|raw }}
-    {% endfor %}
+    if ! db_hasSchema; then
 
-    task "migrate"
-    task "welcome"
+        task "assets:apply"
+
+        {% for step in @('backend.init.steps') -%}
+        {{ step|raw }}
+        {% endfor %}
+
+        task "welcome"
+
+    fi
 }

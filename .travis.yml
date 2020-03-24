@@ -5,4 +5,4 @@ language: php
 php:
   - 7.2
 script:
-  - find . -type f ! -path "./src/akeneo/application/skeleton/bin/console" ! -path "./.git/*" ! -path "./dist/*" ! -path "./test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" ! -name "*.twig" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +
+  - find . -type f ! -path "./src/akeneo/application/skeleton/bin/console" ! -path "./src/magento2/docker/image/console/root/bin/strip-magento-config" ! -path "./src/magento2/docker/image/console/root/bin/validate-magento-config" ! -path "./.git/*" ! -path "./dist/*" ! -path "./test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" ! -name "*.twig" -and \( -name "*.sh" -or -perm -0111 \) -exec shellcheck --exclude=SC1008,SC1091 {} +

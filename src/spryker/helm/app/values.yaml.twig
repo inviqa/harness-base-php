@@ -1,5 +1,8 @@
 {% set blocks  = 'helm/app/_twig/values.yaml/' %}
 
+console:
+  enabled: true
+
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
 

@@ -1,9 +1,12 @@
+{{ if .Values.console.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.resourcePrefix }}console
   labels:
     app.service: {{ .Values.resourcePrefix }}console
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   replicas: 1
   selector:
@@ -68,3 +71,4 @@ spec:
       {{- else }} []
       {{- end }}
 status: {}
+{{ end }}

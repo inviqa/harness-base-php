@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.resourcePrefix }}job-queue-consumer
   labels:
     app.service: {{ .Values.resourcePrefix }}job-queue-consumer
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   replicas: 1
   selector:

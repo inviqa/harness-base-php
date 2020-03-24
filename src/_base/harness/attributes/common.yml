@@ -36,6 +36,20 @@ attributes.default:
       hostname:  = @('pipeline.preview.hostname')
     publish:
       enabled: no
+      # when enabled the application helm chart will be published
+      # to the given git repository.
+      chart:
+        enabled: no
+        git:
+          # private key with write access to the repository
+          key: ~
+          # eg. git@github.com:organisation/project.git
+          repository: ~
+          # path within the repository to place the chart, no leading or trailing slashes
+          # note: an additional directory with the branch name will be created
+          path: = 'build-artifacts/' ~ @('workspace.name')
+          # sets the git user.email before pushing the commit
+          email: name@example.com
     preview:
       enabled: no
       environment: ~

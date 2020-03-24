@@ -4,6 +4,8 @@ metadata:
   name: {{ .Values.resourcePrefix }}webapp
   labels:
     app.service: {{ .Values.resourcePrefix }}webapp
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
 spec:
   replicas: 1
   selector:

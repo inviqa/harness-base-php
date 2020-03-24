@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * lets us check if the magento config file is likely to contain what we need to
+ * do a static:content:deploy.
+ */
+
+$config = include "/app/app/etc/config.php";
+
+if (!isset($config['scopes'])) {
+    exit(1);
+}
+
+if (!isset($config['themes'])) {
+    exit(1);
+}

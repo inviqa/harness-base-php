@@ -4,6 +4,10 @@ metadata:
   name: {{ .Values.resourcePrefix }}app-init
   annotations:
     helm.sh/hook: "post-install"
+    helm.sh/hook-delete-policy: "before-hook-creation"
+    argocd.argoproj.io/hook: "Sync"
+    argocd.argoproj.io/hook-delete-policy: "BeforeHookCreation"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   template:
     spec:
