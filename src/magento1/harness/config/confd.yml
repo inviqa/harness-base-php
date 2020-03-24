@@ -31,6 +31,7 @@ confd('harness:/'):
   - { src: mutagen.yml, dst: workspace:/mutagen.yml }
   - { src: harness/scripts/enable.sh }
   - { src: helm/app/values.yaml }
+  - { src: helm/app/values-production.yaml }
   - { src: helm/app/values-preview.yaml }
   - { src: helm/app/Chart.yaml }
   - { src: helm/qa/requirements.yaml }

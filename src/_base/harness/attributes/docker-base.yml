@@ -60,6 +60,7 @@ attributes:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
         additionalGateways: []
+    production: {}
     qa:
       services:
         php-base:
