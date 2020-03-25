@@ -4,3 +4,10 @@ attributes:
       environment:
         DRUPAL_DOCROOT: = @('drupal.docroot')
         DRUPAL_SALT: = @('drupal.salt')
+  pipeline:
+    preview:
+      persistence:
+        enabled: true
+        drupal:
+          files:
+            storageClass: nfs

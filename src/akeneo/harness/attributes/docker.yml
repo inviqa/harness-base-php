@@ -31,3 +31,11 @@ attributes:
         php-base:
           environment:
             APP_HOST: = @('pipeline.qa.hostname')
+    preview:
+      persistence:
+        enabled: true
+        akeneo:
+          file_storage:
+            storageClass: nfs
+          uploads:
+            storageClass: nfs

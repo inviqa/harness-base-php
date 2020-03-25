@@ -3,3 +3,10 @@ attributes:
     php-base:
       environment:
         MAGENTO_CRYPT_KEY: = @('magento.crypt.key')
+  pipeline:
+    preview:
+      persistence:
+        enabled: true
+        magento:
+          media:
+            storageClass: nfs
