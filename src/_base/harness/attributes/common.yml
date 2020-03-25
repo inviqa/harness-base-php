@@ -175,7 +175,7 @@ attributes.default:
   php-fpm:
     entrypoint:
       steps: []
-
+  
   resources:
     cpu:
       requests: []

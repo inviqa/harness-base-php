@@ -1,14 +1,10 @@
   php-fpm-exporter:
     image: hipages/php-fpm_exporter
     environment: 
-      PHP_FPM_SCRAPE_URI: "tcp://php-fpm:9000/status"
+{{ to_nice_yaml(@('services.php-fpm-exporter.environment'), 2, 6) | raw }}
     labels:
-      - traefik.backend={{ @('php-fpm-exporter.host') }}
-      - traefik.frontend.rule=Host:{{ @('php-fpm-exporter.external_host') }}
-      - traefik.docker.network=my127ws
-      - traefik.port={{ @('php-fpm-exporter.port') }}
-    links:
-      - php-fpm:php-fpm
+      - traefik.enable=false
+    depends_on:
+      - php-fpm
     networks:
       - private
-      - shared 

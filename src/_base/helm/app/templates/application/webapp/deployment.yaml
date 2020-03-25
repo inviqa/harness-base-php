@@ -113,6 +113,16 @@ spec:
 
       {{ if .Values.service.php_fpm_exporter }}
       - name: php-fpm-exporter
+        env:
+        {{- range $key, $value := index .Values.docker.services "php-fpm-exporter" "environment" }}
+        {{- $tp := typeOf $value }}
+        - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else}}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
         image: hipages/php-fpm_exporter
         imagePullPolicy: Always
         ports:
