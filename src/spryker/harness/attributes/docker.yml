@@ -56,6 +56,11 @@ attributes:
         nginx:
           environment:
             ZED_HOST: = @('pipeline.preview.zed.external_host')
+      persistence:
+        enabled: true
+        spryker:
+          data:
+            storageClass: nfs
     qa:
       services:
         php-base:
