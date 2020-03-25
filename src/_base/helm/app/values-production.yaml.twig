@@ -10,10 +10,7 @@ service:
   redis: false
   redis_session: false
 
-console:
-  enabled: true
-
- {% if @('pipeline.production.services') %}
+{% if @('pipeline.production.services') %}
 docker:
   services:
 {{ to_nice_yaml(@('pipeline.production.services'), 2, 4) | raw }}  
