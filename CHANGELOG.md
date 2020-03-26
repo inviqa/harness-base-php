@@ -1,17 +1,43 @@
 # Changelog
 
+## [0.5.0](https://github.com/inviqa/harness-base-php/tree/0.5.0) (2020-03-26)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.4.0...0.5.0)
+
+**Implemented enhancements:**
+
+- Add php-fpm status endpoint for php-fpm\_exporter [\#260](https://github.com/inviqa/harness-base-php/pull/260) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- lower the revision history limit for k8s deployments [\#258](https://github.com/inviqa/harness-base-php/pull/258) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- enable persistent storage for preview environments [\#257](https://github.com/inviqa/harness-base-php/pull/257) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- Move console.enabled to services for attribute override capability [\#256](https://github.com/inviqa/harness-base-php/pull/256) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- initial support for magento2 pipeline deployment [\#253](https://github.com/inviqa/harness-base-php/pull/253) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- provide default values for production environment [\#252](https://github.com/inviqa/harness-base-php/pull/252) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- provide default values for preview environments [\#251](https://github.com/inviqa/harness-base-php/pull/251) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- make console pod optional in app helm chart [\#250](https://github.com/inviqa/harness-base-php/pull/250) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- initial work to make app helm chart argocd compatible [\#248](https://github.com/inviqa/harness-base-php/pull/248) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- allow publishing app helm chart to a git repository [\#247](https://github.com/inviqa/harness-base-php/pull/247) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- Add prometheus operator podmonitoring [\#246](https://github.com/inviqa/harness-base-php/pull/246) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Fixed bugs:**
+
+- Always use prod mode to avoid issues in interpolating env var [\#259](https://github.com/inviqa/harness-base-php/pull/259) ([g-foster2](https://github.com/g-foster2))
+
+**Deprecated:**
+
+- Remove unused php-fpm-exporter service [\#255](https://github.com/inviqa/harness-base-php/pull/255) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [0.4.0](https://github.com/inviqa/harness-base-php/tree/0.4.0) (2020-03-18)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.3.14...0.4.0)
 
 **Implemented enhancements:**
 
+- Use passthru for helm kubeval [\#225](https://github.com/inviqa/harness-base-php/pull/225) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add php-fpm-exporter to provide a prometheus endpoint [\#223](https://github.com/inviqa/harness-base-php/pull/223) ([g-foster2](https://github.com/g-foster2))
 - Trace of what happens during `ws enable` [\#236](https://github.com/inviqa/harness-base-php/pull/236) ([kierenevans](https://github.com/kierenevans))
 - Ignore mutagen.yml in gitignore [\#233](https://github.com/inviqa/harness-base-php/pull/233) ([kierenevans](https://github.com/kierenevans))
 - Run composer tests in static build [\#232](https://github.com/inviqa/harness-base-php/pull/232) ([kierenevans](https://github.com/kierenevans))
 - Add package namespace to all composer skeleton files [\#231](https://github.com/inviqa/harness-base-php/pull/231) ([kierenevans](https://github.com/kierenevans))
-- Use passthru for helm kubeval [\#225](https://github.com/inviqa/harness-base-php/pull/225) ([andytson-inviqa](https://github.com/andytson-inviqa))
-- Add php-fpm-exporter to provide a prometheus endpoint [\#223](https://github.com/inviqa/harness-base-php/pull/223) ([g-foster2](https://github.com/g-foster2))
 - Memory requests equal limits [\#218](https://github.com/inviqa/harness-base-php/pull/218) ([kierenevans](https://github.com/kierenevans))
 - Add mutagen sync [\#215](https://github.com/inviqa/harness-base-php/pull/215) ([hgajjar](https://github.com/hgajjar))
 - Allow updating the docker-compose file version [\#212](https://github.com/inviqa/harness-base-php/pull/212) ([andytson-inviqa](https://github.com/andytson-inviqa))
@@ -20,14 +46,14 @@
 
 **Fixed bugs:**
 
+- Fix akeneo production mode [\#229](https://github.com/inviqa/harness-base-php/pull/229) ([g-foster2](https://github.com/g-foster2))
+- Cronjob for tests on 0.4.x branch [\#224](https://github.com/inviqa/harness-base-php/pull/224) ([kierenevans](https://github.com/kierenevans))
 - add backend volume mount to init and migrate pod specs [\#242](https://github.com/inviqa/harness-base-php/pull/242) ([dcole-inviqa](https://github.com/dcole-inviqa))
 - Disable k8s service links [\#240](https://github.com/inviqa/harness-base-php/pull/240) ([dcole-inviqa](https://github.com/dcole-inviqa))
 - Fix mutagen file permissions sync to host [\#239](https://github.com/inviqa/harness-base-php/pull/239) ([kierenevans](https://github.com/kierenevans))
 - Fix `ws docker-sync stop` removing sync container [\#237](https://github.com/inviqa/harness-base-php/pull/237) ([kierenevans](https://github.com/kierenevans))
 - Anchor mutagen ignore paths at project root [\#235](https://github.com/inviqa/harness-base-php/pull/235) ([kierenevans](https://github.com/kierenevans))
 - Treat non-relative symlinks as raw in mutagen [\#234](https://github.com/inviqa/harness-base-php/pull/234) ([kierenevans](https://github.com/kierenevans))
-- Fix akeneo production mode [\#229](https://github.com/inviqa/harness-base-php/pull/229) ([g-foster2](https://github.com/g-foster2))
-- Cronjob for tests on 0.4.x branch [\#224](https://github.com/inviqa/harness-base-php/pull/224) ([kierenevans](https://github.com/kierenevans))
 
 **Security fixes:**
 
@@ -100,7 +126,6 @@
 - Support use of specific mode in akeneo commands [\#204](https://github.com/inviqa/harness-base-php/pull/204) ([g-foster2](https://github.com/g-foster2))
 - MISC Pass script arguments into function for further use [\#203](https://github.com/inviqa/harness-base-php/pull/203) ([g-foster2](https://github.com/g-foster2))
 - MISC Add the default sleep command to jenkins-runner [\#202](https://github.com/inviqa/harness-base-php/pull/202) ([andytson-inviqa](https://github.com/andytson-inviqa))
-- Add database import command and steps configured in harness.yml [\#200](https://github.com/inviqa/harness-base-php/pull/200) ([g-foster2](https://github.com/g-foster2))
 
 ## [0.3.4](https://github.com/inviqa/harness-base-php/tree/0.3.4) (2020-01-13)
 
@@ -109,6 +134,7 @@
 **Merged pull requests:**
 
 - Allow additional istio gateways to be specified [\#201](https://github.com/inviqa/harness-base-php/pull/201) ([g-foster2](https://github.com/g-foster2))
+- Add database import command and steps configured in harness.yml [\#200](https://github.com/inviqa/harness-base-php/pull/200) ([g-foster2](https://github.com/g-foster2))
 - MISC: Dont use -T flag if tty is available [\#199](https://github.com/inviqa/harness-base-php/pull/199) ([hgajjar](https://github.com/hgajjar))
 - Use locks and milestones in Jenkinsfile for reducing concurrency and … [\#198](https://github.com/inviqa/harness-base-php/pull/198) ([andytson-inviqa](https://github.com/andytson-inviqa))
 - MISC Use admin mysql user/pass var naming [\#197](https://github.com/inviqa/harness-base-php/pull/197) ([andytson-inviqa](https://github.com/andytson-inviqa))
