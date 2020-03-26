@@ -175,7 +175,7 @@ attributes.default:
   php-fpm:
     entrypoint:
       steps: []
-
+  
   resources:
     cpu:
       requests: []
@@ -189,7 +189,7 @@ attributes.default:
       mysql: "512Mi"
       nginx: "100Mi"
       php_fpm: "1024Mi"
-      php_fpm_exporter: "256Mi"
+      php_fpm_exporter: "100Mi"
       postgres: "512Mi"
       redis: "256Mi"
       redis_session: "1024Mi"

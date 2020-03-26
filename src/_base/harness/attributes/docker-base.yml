@@ -22,6 +22,9 @@ attributes:
     php-fpm:
       environment: 
         AUTOSTART_PHP_FPM: "true"
+    php-fpm-exporter:
+      environment:
+        PHP_FPM_SCRAPE_URI: tcp://php-fpm:9000/status
     mysql:
       environment:
         MYSQL_DATABASE: = @('database.name')
@@ -53,7 +56,9 @@ attributes:
           metricsEnabled: false
           metricsEndpoints:
             - port: http
-        php_fpm_exporter:
+        php-fpm-exporter:
+          environment:
+            PHP_FPM_SCRAPE_URI: tcp://127.0.0.1:9000/status
           metricsEnabled: true
           metricsEndpoints:
             - port: php-fpm-metrics
