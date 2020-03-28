@@ -1,10 +1,41 @@
 default:
   suites:
     application:
+      paths:
+        - features/application
       autowire: true
       contexts:
         - Inviqa\Acceptance\Context\BehatConfigurationVerificationContext
       services: '@bex.magento2_extension.service_container'
+
+    web:
+      paths:
+        - features/web
+      contexts:
+        - Inviqa\Acceptance\Context\WebContext
   
   extensions:
     Bex\Behat\Magento2Extension: ~
+    Behat\MinkExtension:
+      base_url: 'https://{{ @('hostname') }}'
+      default_session: goutte
+      javascript_session: chrome
+      sessions:
+        goutte:
+          goutte:
+            guzzle_parameters:
+              verify: false
+        chrome:
+          chrome:
+            api_url: "http://chrome:9222"
+            validate_certificate: false
+        local_chrome:
+          chrome:
+            api_url: "http://host.docker.internal:9222"
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+
+local: # (google-chrome-stable --remote-debugging-port=9221 &) && socat tcp-l:9222,fork TCP4:127.0.0.1:9221
+  extensions:
+    Behat\MinkExtension\ServiceContainer\MinkExtension:
+      default_session: local_chrome
+      javascript_session: local_chrome
