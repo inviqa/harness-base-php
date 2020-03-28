@@ -47,7 +47,7 @@ $cache = function ($find) {
         return $find();
     }
 
-    $moduleManifestPath = dirname(dirname(__DIR__)) . '/var/module_manifest.php';
+    $moduleManifestPath = dirname(dirname(__DIR__)) . '/generated/module_manifest.php';
 
     if (!file_exists($moduleManifestPath)) {
         file_put_contents($moduleManifestPath, "<?php\nreturn " . var_export($find(), true) . ";");
