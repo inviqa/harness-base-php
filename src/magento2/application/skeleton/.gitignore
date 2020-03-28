@@ -57,4 +57,4 @@
 # Keep
 
 !/app/etc/config.php
-!/app/etc/registration_globlist.php
+!/app/etc/InviqaNonComposerComponentRegistration.php
