@@ -57,3 +57,4 @@
 # Keep
 
 !/app/etc/config.php
+!/app/etc/InviqaNonComposerComponentRegistration.php

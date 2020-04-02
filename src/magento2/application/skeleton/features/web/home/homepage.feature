@@ -5,3 +5,4 @@ Feature: View the homepage
 
   Scenario: visitor views the homepage
     When I visit the home page
+    Then I should see the home page

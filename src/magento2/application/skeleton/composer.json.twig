@@ -3,50 +3,43 @@
     "type": "project",
     "license": "proprietary",
     "require": {
+        "php": ">=7.2",
         "magento/product-{{ @('magento.edition') }}-edition": "2.3.4",
         "composer/composer": "@alpha"
     },
     "require-dev": {
-        "behat/behat": "^3.4",
-        "behat/mink": "^1.7",
+        "behat/behat": "^3.5",
         "behat/mink-extension": "^2.3",
         "behat/mink-goutte-driver": "^1.2",
-        "bex/behat-magento2-init": "^1.0",
-        "ciaranmcnulty/behat-stepthroughextension": "^1.0",
+        "bex/behat-magento2-extension": "^2.0",
         "dmore/behat-chrome-extension": "^1.3",
-        "dmore/chrome-mink-driver": "^2.6",
-        "friends-of-behat/context-service-extension": "^1.2",
-        "friends-of-behat/cross-container-extension": "^1.1",
-        "friendsofphp/php-cs-fixer": "^2.13",
-        "inviqa/phpstan-magento2": "~0.1.1",
-        "lusitanian/oauth": "~0.8.10",
-        "nagno/phpspec-bootstrap-magento2": "^2.0",
-        "pdepend/pdepend": "^2.5",
-        "phpmd/phpmd": "@stable",
-        "phpspec/phpspec": "^4.0",
-        "phpstan/phpstan": "~0.11.5",
-        "phpunit/phpunit": "^6.5",
-        "sebastian/diff": "^2.0.1",
-        "sebastian/phpcpd": "^3.0",
-        "sensiolabs/behat-page-object-extension": "^2.1",
-        "squizlabs/php_codesniffer": "^3.3",
-        "slevomat/coding-standard": "^5.0"
+        "dmore/chrome-mink-driver": "^2.7",
+        "inviqa/phpstan-magento2": "^0.1",
+        "nagno/phpspec-bootstrap-magento2": "^3.1",
+        "phpmd/phpmd": "^2.7",
+        "phpspec/phpspec": "^6.0",
+        "phpstan/phpstan": "^0.12",
+        "phpunit/phpunit": "^8.4",
+        "slevomat/coding-standard": "^6.0",
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "config": {
+        "bin-dir": "bin",
+        "sort-packages": true
+    },
+    "extra": {
+        "magento-force": "override"
     },
     "autoload": {
         "psr-4": {
             "Magento\\Framework\\": "lib/internal/Magento/Framework/",
             "Magento\\Setup\\": "setup/src/Magento/Setup/",
             "Magento\\": "app/code/Magento/",
-            "Zend\\Mvc\\Controller\\": "setup/src/Zend/Mvc/Controller/"
-        },
-        "psr-0": {
-            "": [
-                "src/",
-                "app/code/"
-            ]
+            "Zend\\Mvc\\Controller\\": "setup/src/Zend/Mvc/Controller/",
+            "": "src/"
         },
         "files": [
-            "app/etc/NonComposerComponentRegistration.php"
+            "app/etc/InviqaNonComposerComponentRegistration.php"
         ],
         "exclude-from-classmap": [
             "**/dev/**",
@@ -56,24 +49,21 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Acceptance\\": "features/bootstrap",
             "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
             "Magento\\Tools\\": "dev/tools/Magento/Tools/",
             "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
             "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
-            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/"
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Inviqa\\Acceptance\\": "features/bootstrap"
         }
     },
-    "minimum-stability": "stable",
     "repositories": [
         {
             "type": "composer",
             "url": "https://repo.magento.com/"
         }
     ],
-    "extra": {
-        "magento-force": "override"
-    },
+    "minimum-stability": "stable",
     "scripts": {
         "test": [
             "@test-quality",
@@ -81,8 +71,8 @@
             "@test-acceptance"
         ],
         "test-quality": [
-            "find app/ pub/ -type f \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {}",
-            "phpcs -v",
+            "find src/ pub/ -type f \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'",
+            "phpcs -p",
             "phpstan analyse",
             "phpmd ./src text ./phpmd.xml"
         ],
@@ -91,9 +81,9 @@
         ],
         "test-acceptance": [
             "behat"
+        ],
+        "fix-code": [
+            "phpcbf -p"
         ]
-    },
-    "config": {
-        "bin-dir": "bin"
     }
 }
