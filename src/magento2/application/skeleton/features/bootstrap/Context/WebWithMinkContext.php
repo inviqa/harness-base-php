@@ -6,7 +6,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\MinkExtension\Context\MinkContext;
 
-class WebContext extends MinkContext
+class WebWithMinkContext extends MinkContext
 {
     /**
      * @When I visit the home page
