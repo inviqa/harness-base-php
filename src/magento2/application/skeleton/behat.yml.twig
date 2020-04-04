@@ -8,11 +8,23 @@ default:
         - Inviqa\Acceptance\Context\BehatConfigurationVerificationContext
       services: '@bex.magento2_extension.service_container'
 
-    web:
+    web_with_mink:
       paths:
         - features/web
       contexts:
-        - Inviqa\Acceptance\Context\WebContext
+        - Inviqa\Acceptance\Context\WebWithMinkContext
+
+    web_with_page_objects_first:
+      paths:
+        - features/web
+      contexts:
+        - Inviqa\Acceptance\Context\WebWithPageObjectsWithFactoryInjectionContext
+
+    web_with_page_objects_second:
+      paths:
+        - features/web
+      contexts:
+        - Inviqa\Acceptance\Context\WebWithPageObjectsWithConstructorInjectionContext
   
   extensions:
     Bex\Behat\Magento2Extension: ~
@@ -32,6 +44,9 @@ default:
         local_chrome:
           chrome:
             api_url: "http://host.docker.internal:9222"
+    SensioLabs\Behat\PageObjectExtension:
+      namespaces:
+        page: [Inviqa\Acceptance\Page]
     DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
 
 local: # (google-chrome-stable --remote-debugging-port=9221 &) && socat tcp-l:9222,fork TCP4:127.0.0.1:9221
