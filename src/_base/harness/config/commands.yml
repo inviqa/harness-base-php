@@ -51,7 +51,7 @@ command('exec %'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
-    if [ -t 1 ] ; then
+    if [ -t 0 ] && [ -t 1 ] ; then
       docker-compose exec -u build console ={ input.argument('%') }
     else
       docker-compose exec -T -u build console ={ input.argument('%') }
