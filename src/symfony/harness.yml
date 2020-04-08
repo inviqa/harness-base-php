@@ -13,7 +13,6 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - '/app/var/'
-    web_directory: /app/web
     services:
       - chrome
       - mysql
