@@ -82,3 +82,7 @@
     environment:
 {{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
+    expose:
+{% for pool in @('php-fpm.pools') %}
+      - {{ pool.port }}
+{% endfor %}

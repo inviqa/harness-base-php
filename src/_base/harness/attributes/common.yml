@@ -173,6 +173,9 @@ attributes.default:
     timeout: 300
 
   php-fpm:
+    pools:
+      www:
+        port: 9000
     entrypoint:
       steps: []
   
