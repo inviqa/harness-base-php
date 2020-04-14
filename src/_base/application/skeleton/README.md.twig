@@ -93,7 +93,12 @@ If your page loads too slowly, you can turn docker-sync back on again  with `ws 
 
 [Mutagen](https://mutagen.io/documentation/transports/docker) is another tool to synchronize files between host machine
 and docker containers, just like docker-sync. We have integrated mutagen for synchronizing files as an option of docker-sync.
+{% if @('mutagen') == 'yes' %}
+This tool is still in beta phase but we have enabled it instead of docker-sync on this project. You can switch to
+docker-sync if you are not happy with mutagen.
+{% else %}
 This tool is still in beta phase, but you can try it yourself if you are not happy with docker-sync.
+{% endif %}
 Following are some useful commands regarding Mutagen.
 
 ```bash
