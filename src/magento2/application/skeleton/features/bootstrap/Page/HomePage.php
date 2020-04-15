@@ -1,10 +1,10 @@
 <?php
 
-namespace Acceptance\Page;
+namespace Inviqa\Acceptance\Page;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
-class Home extends Page
+class HomePage extends Page
 {
     protected $path = '/';
 }

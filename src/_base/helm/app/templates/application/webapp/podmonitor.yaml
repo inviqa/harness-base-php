@@ -13,7 +13,7 @@ spec:
 {{- if .Values.docker.services.nginx.metricsEnabled -}}
 {{ .Values.docker.services.nginx.metricsEndpoints | toYaml | nindent 6 -}}
 {{- end -}}
-{{- if and .Values.service.php_fpm_exporter .Values.docker.services.php_fpm_exporter.metricsEnabled -}}
-{{ .Values.docker.services.php_fpm_exporter.metricsEndpoints | toYaml | nindent 6 -}}
+{{- if and .Values.service.php_fpm_exporter (index .Values.docker.services "php-fpm-exporter" "metricsEnabled") -}}
+{{ index .Values.docker.services "php-fpm-exporter" "metricsEndpoints" | toYaml | nindent 6 -}}
 {{- end -}}
 {{- end -}}
