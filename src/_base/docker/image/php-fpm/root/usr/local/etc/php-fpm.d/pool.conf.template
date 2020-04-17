@@ -12,3 +12,7 @@ pm.min_spare_servers = 1
 pm.max_spare_servers = 3
 
 pm.status_path = /status
+
+clear_env = no
+catch_workers_output = yes
+
