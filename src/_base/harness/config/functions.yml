@@ -67,3 +67,16 @@ function('slugify', [text]): |
   $text = preg_replace('~-+~', '-', $text);
   $text = strtolower($text);
   = $text;
+
+function('php_fpm_exporter_scrape_url', [hostname, pools]): |
+  #!php
+  $text = join(
+      ',',
+      array_map(
+        function ($pool) use ($hostname) {
+          return 'tcp://' . $hostname .':' . $pool['port'] . '/status';
+        },
+        $pools
+      )
+    );
+  = $text;

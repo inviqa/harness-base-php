@@ -24,7 +24,7 @@ attributes:
         AUTOSTART_PHP_FPM: "true"
     php-fpm-exporter:
       environment:
-        PHP_FPM_SCRAPE_URI: tcp://php-fpm:9000/status
+        PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('php-fpm', @('php-fpm.pools'))
     mysql:
       environment:
         MYSQL_DATABASE: = @('database.name')
@@ -58,7 +58,7 @@ attributes:
             - port: http
         php-fpm-exporter:
           environment:
-            PHP_FPM_SCRAPE_URI: tcp://127.0.0.1:9000/status
+            PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('127.0.0.1', @('php-fpm.pools'))
           metricsEnabled: true
           metricsEndpoints:
             - port: php-fpm-metrics
