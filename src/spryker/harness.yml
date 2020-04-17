@@ -154,6 +154,11 @@ attributes:
     timeout: 900
 
   php-fpm:
+    pools:
+      www:
+        port: 9000
+      zed:
+        port: 9001
     entrypoint:
       steps:
         - echo "$(getent hosts nginx | awk '{ print $1 }') $ZED_HOST" >> /etc/hosts
