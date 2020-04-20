@@ -99,7 +99,7 @@ attributes.default:
 
   frontend:
     path: /app
-    watch: npm watch
+    watch: npm run watch
     build:
       when: -f "package.json"
       steps:
