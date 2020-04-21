@@ -11,6 +11,7 @@
 /dev/
 /generated*
 /lib/
+/node_modules/
 /phpserver/
 /pub/
 /setup/
@@ -25,8 +26,8 @@
 /.htaccess*
 /.php_cs*
 /.travis.yml
+/.travis.yml.sample
 /.user.ini
-/behat.yml
 /docker-compose.yml
 /docker-sync.yml
 /app/.htaccess
@@ -43,15 +44,16 @@
 /LICENSE.txt
 /LICENSE_AFL.txt
 /LICENSE_EE.txt
-/PULL_REQUEST_TEMPLATE.md
 /mutagen.yml
 /mutagen.yml.lock
 /nginx.conf.sample
 /package.json.sample
+/PULL_REQUEST_TEMPLATE.md
 /php.ini.sample
 /phpcs.xml
 /phpmd.xml
 /README_EE.md
+/SECURITY.md
 /workspace.override.yml
 
 # Keep
