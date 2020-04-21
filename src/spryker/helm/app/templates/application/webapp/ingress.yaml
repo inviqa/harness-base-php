@@ -3,6 +3,12 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+{{- if .Values.docker.services.nginx.ingress.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.docker.services.nginx.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
   creationTimestamp: null
   labels:
     app.service: {{ .Values.resourcePrefix }}webapp
