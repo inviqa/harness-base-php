@@ -12,6 +12,8 @@ attributes:
         DB_NAME: = @('database.name')
         PHP_IDE_CONFIG: "serverName=workspace"
     nginx:
+      ingress:
+        annotations: {}
       environment:
         FPM_HOST: php-fpm
     console:
