@@ -3,7 +3,7 @@
     {% set command = command|merge(['--' ~ var ~ '=' ~ value]) %}
 {% endfor %}
   mysql:
-    image: mysql:5.7
+    image: {{ @('mysql.image') }}:{{ @('mysql.tag') }}
     labels:
       - traefik.enable=false
 {% if command|length %}

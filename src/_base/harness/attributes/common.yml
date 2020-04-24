@@ -180,6 +180,10 @@ attributes.default:
     entrypoint:
       steps: []
 
+  mysql:
+    image: mysql
+    tag: 5.7
+
   resources:
     cpu:
       requests: []
