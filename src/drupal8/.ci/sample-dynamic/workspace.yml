@@ -7,4 +7,8 @@ attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
+attribute('hostname_aliases'):
+  - testOne
+  - testTwo
+
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
