@@ -6,3 +6,7 @@ attributes:
     build: static
     version: =exec("git log -n 1 --pretty=format:'%H'")
     mode: production
+  php:
+    fpm:
+      ini:
+        display_errors: Off
