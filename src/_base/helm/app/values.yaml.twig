@@ -8,6 +8,7 @@ docker:
   image:
     console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
     fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
+    mysql: {{ @('mysql.image') ~ ':' ~ @('mysql.tag') }}
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
     cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
