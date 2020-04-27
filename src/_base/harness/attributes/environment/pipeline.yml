@@ -10,3 +10,4 @@ attributes:
     fpm:
       ini:
         display_errors: Off
+        zend.assertions: -1
