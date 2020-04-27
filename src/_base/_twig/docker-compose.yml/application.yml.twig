@@ -39,7 +39,11 @@
 {% endif %}
     labels:
       - traefik.backend={{ @('workspace.name') }}
+      {% if @('hostname_aliases') %}
+      - traefik.frontend.rule=Host:{{ @('hostname') }},{{ @('hostname_aliases')|join(',') }}
+      {% else %}
       - traefik.frontend.rule=Host:{{ @('hostname') }}
+      {% endif %}
       - traefik.docker.network=my127ws
       - traefik.port=80
 {% if @('services.nginx.environment') %}
@@ -52,6 +56,9 @@
       private:
         aliases:
           - {{ @('hostname') }}
+          {% for alias in @('hostname_aliases') %}
+          - {{ alias }}
+          {% endfor %}
       shared: {}
 
   php-fpm:
