@@ -5,6 +5,8 @@
 {% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
 {% set syncvolume = true %}
 {% endif %}
+{% set hostnames = [@('hostname')] %}
+{% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
 
   console:
 {% if @('app.build') == 'dynamic' %}
@@ -39,11 +41,7 @@
 {% endif %}
     labels:
       - traefik.backend={{ @('workspace.name') }}
-      {% if @('hostname_aliases') %}
-      - traefik.frontend.rule=Host:{{ @('hostname') }},{{ @('hostname_aliases')|join(',') }}
-      {% else %}
-      - traefik.frontend.rule=Host:{{ @('hostname') }}
-      {% endif %}
+      - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
 {% if @('services.nginx.environment') %}
@@ -55,10 +53,9 @@
     networks:
       private:
         aliases:
-          - {{ @('hostname') }}
-          {% for alias in @('hostname_aliases') %}
+{% for alias in hostnames %}
           - {{ alias }}
-          {% endfor %}
+{% endfor %}
       shared: {}
 
   php-fpm:
