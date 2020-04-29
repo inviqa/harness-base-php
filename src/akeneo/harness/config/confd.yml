@@ -9,9 +9,11 @@ confd('harness:/'):
   - { src: docker/image/console/root/lib/task/init.sh }
   - { src: docker/image/console/root/lib/task/install.sh }
   - { src: docker/image/console/root/lib/task/migrate.sh }
+  - { src: docker/image/console/root/lib/task/welcome.sh }
   - { src: docker/image/console/root/usr/local/etc/php/php.ini }
   - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: docker/image/nginx/Dockerfile }
+  - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/0-nginx.conf }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/default.conf.template }
   - { src: docker/image/nginx/root/etc/ssl/certs/app.crt }
@@ -34,10 +36,10 @@ confd('harness:/'):
   - { src: helm/app/values.yaml }
   - { src: helm/app/values-production.yaml }
   - { src: helm/app/values-preview.yaml }
-  - { src: helm/qa/values.yaml }
   - { src: helm/app/Chart.yaml }
-  - { src: helm/qa/Chart.yaml }
   - { src: helm/qa/requirements.yaml }
+  - { src: helm/qa/values.yaml }
+  - { src: helm/qa/Chart.yaml }
   # harness-akeneo templates
   - { src: application/overlay/app/config/parameters.yml }
   - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
