@@ -14,7 +14,7 @@ Here are some examples:
   ```
 * Use a different PHP version:
   ```yaml
-    attribute('php.version'): '7.2'
+  attribute('php.version'): '7.2'
   ```
 * You can use existing attributes to define others using [expressions](https://github.com/my127/workspace/blob/0.1.x/docs/types/attribute.md#attribute-expressions):
   ```yaml
@@ -24,7 +24,8 @@ Here are some examples:
 * It is even possible to update service definitions:
   ```yaml
   attribute('services.redis.volumes'):
-    - = './' ~ @('redis.config_dir') ~ ':/server-config' 
+    - = './' ~ @('redis.config_dir') ~ ':/server-config'
+  
   attribute('services.redis.command'): redis-server /server-config/redis.conf
   ```
 

@@ -167,5 +167,5 @@ attribute('app.web_writable_dirs'):
 
 [new project]: new-project.md
 [existing project]: existing-project.md
-[advanced customisation guide]: ../customise/advanced.md
+[advanced customisation guide]: ../customise/advanced.md#use-twig-temples
 [Update the Drupal settings]: #update-drupal-settings-settingslocalphp
