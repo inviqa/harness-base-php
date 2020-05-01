@@ -13,10 +13,9 @@ Install [Workspace] or ensure that you have the latest version. Follow the instr
 
 ## Customising the Workspace environment
 
-* [Override the Drupal install steps](docs/customise/install-steps.md)
-* [Add custom commands](docs/customise/commands.md)
-* [Add/configure services]()
-* [Advanced customisation]()
+* [Override the defaults](docs/customise/overrides.md)
+* [Adding helper commands](docs/customise/commands.md)
+* [Advanced customisation](docs/customise/advanced.md)
 
 
 ## Contributing back

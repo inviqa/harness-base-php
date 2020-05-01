@@ -12,11 +12,10 @@ Update the required files in `src/drupal8`
 ```
 ./build && ./test drupal8 dynamic
 ```
+This uses `src/drupal8/.ci/sample-dynamic/workspace.yml` so any attributes you want to test specifically can be changed here (but not committed)
 
 ### Pre-requisite 
-You will need to first export the `MY127WS_KEY`:
+You will need to first export the `MY127WS_KEY` in order to run a build:
 ```
 export MY127WS_KEY="<key>"
 ```
-
-This uses `src/drupal8/.ci/sample-dynamic/workspace.yml` so any attributes you want to test specifically can be changed here (but not committed)

@@ -49,7 +49,12 @@ attribute('backend.install.steps'):
   - = 'mysql -u root --password=' ~ @('database.root_pass') ~ ' -e "CREATE DATABASE IF NOT EXISTS two_site"'
   - = 'mysql -u root --password=' ~ @('database.root_pass') ~ ' -e "CREATE DATABASE IF NOT EXISTS three_site"'
 ```
-You may have noticed that there is not a step to create a database for `one_site`. By default, a `drupal` database is created and so this can be used for the default site.
+You may have noticed that there is not a step to create a database for `one_site`. By default, a `drupal` database is created and so this can be used for the default site.  
+
+Having the database named `drupal` doesn't make sense here, so update the name for consistency:
+```yaml
+attribute('database.name'): one_site
+``` 
 
 
 ### Importing databases during install

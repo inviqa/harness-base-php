@@ -79,7 +79,7 @@ Notice the syntax to reference Workspace attributes: `@('<attribute.name>')`
 
 ### Register the new template
 Now the file exists, but it won't be compiled until it has been registered. This is done in `confd.yml`.  
-More information on the `confd` type can be found [here](https://github.com/my127/workspace/blob/629a41b4d56ffc47cb46a5b9ed9d363891eda739/docs/types/confd.md)
+More information on the `confd` type can be found [here](https://github.com/my127/workspace/blob/0.1.x/docs/types/confd.md)
 
 To update the file we will need to override the defaults.  
 Create the `confg.d` override in following folder structure:
