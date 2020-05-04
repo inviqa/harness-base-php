@@ -4,6 +4,7 @@ harness('inviqa/drupal8'):
   require:
     services:
       - proxy
+      - mail
     confd:
       - harness:/
 ---

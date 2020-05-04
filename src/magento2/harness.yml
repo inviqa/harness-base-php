@@ -4,6 +4,7 @@ harness('inviqa/magento2'):
   require:
     services:
       - proxy
+      - mail
     confd:
       - harness:/
     attributes:

@@ -4,6 +4,7 @@ harness('inviqa/akeneo'):
   require:
     services:
       - proxy
+      - mail
     confd:
       - harness:/
 ---

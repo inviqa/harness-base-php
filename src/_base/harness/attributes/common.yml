@@ -228,6 +228,10 @@ attributes.default:
     host: redis-session
     port: 6379
 
+  smtp:
+    host: 'mailhog'
+    port: 1025
+
   resources:
     cpu:
       requests: []
