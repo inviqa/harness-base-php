@@ -25,15 +25,15 @@ server {
         access_log off;
     }
 
-    rewrite ^/(app|app_dev)\.php/?(.*)$ /$1 permanent;
+    rewrite ^/index\.php/?(.*)$ /$1 permanent;
 
     location / {
-        index       app.php;
+        index       index.php;
         try_files   $uri @rewriteapp;
     }
 
     location @rewriteapp {
-        rewrite ^(.*)$ /app.php/$1 last;
+        rewrite ^(.*)$ /index.php/$1 last;
     }
 
     # Don't allow direct access to PHP files in the vendor directory.
@@ -42,7 +42,7 @@ server {
         return 404;
     }
 
-    location ~ ^/app\.php(/|$) {
+    location ~ ^/index\.php(/|$) {
 
         fastcgi_split_path_info ^(.+?\.php)(|/.*)$;
         include fastcgi_params;
