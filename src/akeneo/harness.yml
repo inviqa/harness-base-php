@@ -86,8 +86,10 @@ attributes:
       console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch'
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss
-    tag: 6.5.4
+    image: elasticsearch
+    tag: 7.6.2
+  mysql:
+    tag: 8
   persistence:
     enabled: false
     akeneo:
