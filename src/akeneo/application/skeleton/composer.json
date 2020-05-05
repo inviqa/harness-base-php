@@ -28,7 +28,8 @@
     },
     "require-dev": {
         "doctrine/migrations": "1.5.0",
-        "doctrine/doctrine-migrations-bundle": "1.2.1"
+        "doctrine/doctrine-migrations-bundle": "1.2.1",
+        "phpcompatibility/php-compatibility": "dev-master"
     },
     "scripts": {
         "symfony-scripts": [
@@ -48,7 +49,13 @@
         "post-update-cmd": [
             "@symfony-scripts",
             "Akeneo\\Platform\\Bundle\\InstallerBundle\\ComposerScripts::copyUpgradesFiles"
-        ]
+        ],
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
+    },
+    "config": {
+      "platform": {
+        "php": "7.2.30"
+      }
     },
     "minimum-stability": "stable",
     "extra": {
