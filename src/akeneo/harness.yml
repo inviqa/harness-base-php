@@ -89,8 +89,8 @@ attributes:
         - run "yarn run webpack-dev"
   docker:
     image:
-      console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch'
+      console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster-console'
+      php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster'
   elasticsearch:
     image: elasticsearch
     tag: 7.6.2
