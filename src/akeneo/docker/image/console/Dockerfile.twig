@@ -7,7 +7,8 @@ RUN chown -R build:build /home/build
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
   apt-transport-https \
-  gnupg \
+  dirmngr \
+  gnupg2 \
  && set -ex; \
   key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
   export GNUPGHOME="$(mktemp -d)"; \
