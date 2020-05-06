@@ -55,7 +55,7 @@ attributes:
         - task "composer:install"
     install:
       steps:
-        - run "bin/console pim:install --force --symlink"
+        - passthru "bin/console pim:install --force --symlink"
         - run "yarn run webpack-dev"
         - task "overlay:apply"
         - task "assets:dump"
