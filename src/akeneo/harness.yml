@@ -26,6 +26,7 @@ attributes:
     vendor_directory: /app/vendor
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
+    edition: community
   php:
     version: 7.3
   database:
