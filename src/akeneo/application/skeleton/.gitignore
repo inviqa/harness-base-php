@@ -34,3 +34,21 @@ coverage/*
 .env.local.php
 config/gcp_credentials.json
 deployments/pim/charts/*
+
+# Directories
+/.my127ws
+/.docker-sync/
+/tools/assets/
+/vendor/
+
+# Files
+/.dockerignore
+/auth.json
+/docker-compose.yml
+/docker-sync.yml
+/mutagen.yml
+/mutagen.yml.lock
+/phpcs.xml
+/phpmd.xml
+/phpunit.xml
+/workspace.override.yml
