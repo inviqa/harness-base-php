@@ -4,12 +4,6 @@ FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-php-fpm
 FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
 {% endif %}
 
-RUN apt-get update \
- && apt-get install -y \
-  aspell \
-  ghostscript \
- && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 COPY .my127ws/docker/image/job-queue-consumer/root /
 
