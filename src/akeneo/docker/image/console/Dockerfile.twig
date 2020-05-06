@@ -1,0 +1,38 @@
+FROM {{ @('docker.image.console') }}
+
+COPY .my127ws/docker/image/console/root /
+RUN chown -R build:build /home/build
+
+RUN echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-8.0" > /etc/apt/sources.list.d/mysql.list \
+ && apt-get update \
+ && apt-get install -y mysql-community-client="8.0" \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV APP_MODE={{ @('app.mode') }} \
+  APP_BUILD={{ @('app.build') }} \
+  ASSETS_DIR={{ @('assets.local') }}
+
+{% if @('node.version') is not null %}
+USER build
+RUN . /home/build/.nvm/nvm.sh \
+ && nvm install {{ @('node.version') }} \
+ && nvm use {{ @('node.version') }} \
+ && nvm alias default {{ @('node.version') }} \
+ && npm install -g yarn
+USER root
+{% endif %}
+
+{% if @('app.build') == 'static' %}
+RUN chown build:build /app
+COPY --chown=build:build .my127ws/application  /home/build/application
+COPY --chown=build:build ./                    /app
+USER build
+RUN app build
+USER root
+{% else %}
+VOLUME /app
+VOLUME /home/build/application
+{% endif %}
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sleep", "infinity"]
