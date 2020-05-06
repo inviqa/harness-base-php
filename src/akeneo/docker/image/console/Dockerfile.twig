@@ -3,7 +3,12 @@ FROM {{ @('docker.image.console') }}
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build
 
-RUN # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported \
+# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+  apt-transport-https \
+  gnupg \
+ && set -ex; \
   key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
   export GNUPGHOME="$(mktemp -d)"; \
   gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
@@ -13,7 +18,8 @@ RUN # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.
   apt-key list > /dev/null \
  && echo "deb https://repo.mysql.com/apt/debian/ stretch mysql-8.0" > /etc/apt/sources.list.d/mysql.list \
  && apt-get update \
- && apt-get install -y mysql-community-client="8.0" \
+ && apt-get install -y \
+  mysql-community-client \
  && rm -rf /var/lib/apt/lists/*
 
 ENV APP_MODE={{ @('app.mode') }} \
