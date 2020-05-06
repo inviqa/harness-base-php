@@ -39,10 +39,11 @@ attributes:
       steps:
         - passthru "echo 'Importing database file'"
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
-        - passthru "bin/console doctrine:schema:update --force"
+        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
         - passthru "echo 'Reindexing Elasticsearch'"
         - run "bin/console akeneo:elasticsearch:reset-indexes -n"
         - run "bin/console pim:product:index --all"
+        - run "bin/console pim:product-model:index --all"
         - passthru "echo 'Clearing cache'"
         - run "bin/console c:c"
         - passthru "echo 'Done'"
