@@ -140,7 +140,9 @@ function wait_for_vendor_directory()
 
 function teardown()
 (
-    :
+    cd "${path_test}"
+    ws destroy
+    rm -rf .my127ws
 )
 
 function clean()
@@ -151,5 +153,5 @@ function clean()
     fi
 }
 
-#trap 'clean' EXIT
+trap 'clean' EXIT
 main "$@"
