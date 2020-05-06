@@ -40,13 +40,20 @@
     "symfony/web-server-bundle": "4.4.7"
   },
   "scripts": {
+    "remove-overridden-files": [
+      "grep -v -E '(docker/|docker-compose|.gitignore)' vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh > vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+      "mv vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
+    ],
     "post-update-cmd": [
+      "@remove-overridden-files",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-install-cmd": [
+      "@remove-overridden-files",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-create-project-cmd": [
+      "@remove-overridden-files",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "test": [
