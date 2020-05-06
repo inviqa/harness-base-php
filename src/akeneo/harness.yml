@@ -55,7 +55,7 @@ attributes:
         - task "composer:install"
     install:
       steps:
-        - passthru "bin/console pim:install --force --symlink"
+        - passthru "bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal"
         - run "yarn run webpack-dev"
         - task "overlay:apply"
         - task "assets:dump"
