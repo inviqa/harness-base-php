@@ -33,6 +33,8 @@ attributes:
     user: akeneo
     pass: akeneo
     name: akeneo
+    var:
+      default_authentication_plugin: mysql_native_password
     import:
       steps:
         - passthru "echo 'Importing database file'"
