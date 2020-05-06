@@ -39,10 +39,10 @@ attributes:
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
         - passthru "bin/console doctrine:schema:update --force"
         - passthru "echo 'Reindexing Elasticsearch'"
-        - run "bin/console --env=$AKENEO_APP_MODE akeneo:elasticsearch:reset-indexes -n"
-        - run "bin/console --env=$AKENEO_APP_MODE pim:product:index --all"
+        - run "bin/console akeneo:elasticsearch:reset-indexes -n"
+        - run "bin/console pim:product:index --all"
         - passthru "echo 'Clearing cache'"
-        - run "bin/console --env=$AKENEO_APP_MODE c:c"
+        - run "bin/console c:c"
         - passthru "echo 'Done'"
   backend:
     build:
@@ -50,15 +50,15 @@ attributes:
         - task "composer:install"
     install:
       steps:
-        - run "bin/console --env=$AKENEO_APP_MODE pim:install --force --symlink"
+        - run "bin/console pim:install --force --symlink"
         - run "yarn run webpack-dev"
         - task "overlay:apply"
         - task "assets:dump"
     init:
       steps:
-        - run "bin/console --env=prod doctrine:schema:update --force"
-        - run "bin/console --env=$AKENEO_APP_MODE akeneo:elasticsearch:reset-indexes"
-        - run "bin/console --env=$AKENEO_APP_MODE pim:product:index --all"
+        - run "bin/console doctrine:schema:update --force"
+        - run "bin/console akeneo:elasticsearch:reset-indexes"
+        - run "bin/console pim:product:index --all"
     migrate:
       steps: []
     cron:
@@ -80,7 +80,7 @@ attributes:
       when: -f "package.json"
       steps:
         - run "yarn install"
-        - run "bin/console --env=$AKENEO_APP_MODE pim:installer:assets --symlink"
+        - run "bin/console pim:installer:assets --symlink"
         - run "yarn run webpack-dev"
   docker:
     image:
@@ -108,6 +108,10 @@ attributes:
         #storageClass: "..." most clusters need a custom storageclass
         #hostPath: "..." alternatively for single node testing
         size: 1Gi
+  services:
+    php-base:
+      environment:
+        APP_ENV: "= (@('app.mode') == 'development' ? 'dev' : 'prod')"
 ---
 import:
   - harness/config/*.yml
