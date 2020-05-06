@@ -1,8 +1,11 @@
 {% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-php-fpm
-{% else %}
-FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
+FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
+RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi
 {% endif %}
+
+FROM {{ @('docker.image.php-fpm') }}
+WORKDIR /app
+COPY root  /
 
 RUN apt-get update \
  && apt-get install -y \
@@ -10,10 +13,8 @@ RUN apt-get update \
   ghostscript \
  && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-COPY .my127ws/docker/image/job-queue-consumer/root /
-
 {% if @('app.build') == 'static' %}
+COPY --from=console --chown=root:root /app /app
 RUN bash /fix_app_permissions.sh
 {% else %}
 VOLUME /app
