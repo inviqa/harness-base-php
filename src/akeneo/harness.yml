@@ -29,6 +29,8 @@ attributes:
     edition: community
   php:
     version: 7.3
+    ini:
+      apc.enable_cli: On
   database:
     user: akeneo
     pass: akeneo
