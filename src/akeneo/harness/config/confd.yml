@@ -41,7 +41,6 @@ confd('harness:/'):
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
   # harness-akeneo templates
-  - { src: application/overlay/app/config/parameters.yml }
   - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
   - { src: docker/image/job-queue-consumer/Dockerfile }
   - { src: docker/image/cron/Dockerfile }
