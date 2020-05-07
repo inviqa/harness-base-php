@@ -99,9 +99,13 @@
         ],
         "test-acceptance": [
             "behat"
-        ]
+        ],
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 5.6-"
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "platform": {
+            "php": "5.6.40"
+        }
     }
 }

@@ -25,6 +25,7 @@
         "magento/marketplace-eqp": "dev-master#3303dfc as 2.0.1",
         "magetest/magento-phpspec-extension": "^5.0",
         "pdepend/pdepend": "2.5.2",
+        "phpcompatibility/php-compatibility": "dev-master",
         "phpmd/phpmd": "@stable",
         "phpspec/phpspec": "^4.0",
         "phpstan/phpstan-shim": "~0.11.5",
@@ -98,9 +99,13 @@
         ],
         "test-acceptance": [
             "behat"
-        ]
+        ],
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "platform": {
+            "php": "7.2.30"
+        }
     }
 }
