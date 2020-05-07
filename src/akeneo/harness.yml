@@ -62,7 +62,7 @@ attributes:
     init:
       steps:
         - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
-        - run "bin/console akeneo:elasticsearch:reset-indexes"
+        - run "bin/console akeneo:elasticsearch:reset-indexes --no-interaction"
         - run "bin/console pim:product:index --all"
         - run "bin/console pim:product-model:index --all"
     migrate:
