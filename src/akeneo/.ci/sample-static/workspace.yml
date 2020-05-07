@@ -3,6 +3,7 @@ workspace('ci-akeneo-sample-static'):
   harness: inviqa/akeneo
 
 attribute('app.build'): static
+attribute('app.mode'): production
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null
