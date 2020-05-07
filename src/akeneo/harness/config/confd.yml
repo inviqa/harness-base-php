@@ -43,8 +43,7 @@ confd('harness:/'):
   # harness-akeneo templates
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }
-  - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
-  - { src: docker/image/job-queue-consumer/Dockerfile }
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
   - { src: docker/image/console/root/lib/task/composer/install.sh }
+  - { src: docker/image/job-queue-consumer/Dockerfile }
