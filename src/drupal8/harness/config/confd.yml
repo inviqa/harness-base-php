@@ -45,4 +45,3 @@ confd('harness:/'):
   - { src: application/overlay/phpcs.xml }
   - { src: application/overlay/phpunit.xml }
   - { src: application/skeleton/behat.yml }
-  - { src: application/skeleton/.gitignore }
