@@ -60,5 +60,7 @@ confd('harness:/'):
   - { src: application/skeleton/composer.json }
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
+  - { src: docker/image/console/root/home/build/.ssh/id_rsa }
+  - { src: docker/image/console/root/home/build/.ssh/id_rsa.pub }
   - { src: docker/image/console/root/lib/task/composer/install.sh }
   - { src: docker/image/job-queue-consumer/Dockerfile }

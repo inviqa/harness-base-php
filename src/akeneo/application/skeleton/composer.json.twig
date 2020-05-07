@@ -19,6 +19,15 @@
       "Inviqa\\Acceptance\\": "features/bootstrap"
     }
   },
+  "repositories": {
+    {%- if @('akeneo.edition') == 'enterprise' %}
+    "akeneo": {
+      "type": "vcs",
+      "url": "ssh://git@distribution.akeneo.com:443/{{ @('akeneo.enterprise.distribution.project_name') }}.git",
+      "no-api": true
+    }
+    {%- endif %}
+  },
   "require": {
     "php": ">= 7.3",
     "akeneo/pim-{{ @('akeneo.edition') }}-dev": "^4.0.0"
