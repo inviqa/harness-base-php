@@ -19,6 +19,7 @@ class WebWithPageObjectsWithConstructorInjectionContext implements Context
         // homepage was injected through the constructor by the page object extension
         // see documentation here: https://behat-page-object-extension.readthedocs.io/en/stable/guide/working_with_page_objects.html#injecting-page-objects-into-a-context-file
         $this->homePage = $homePage;
+        $this->loginPage = $loginPage;
     }
 
     /**
