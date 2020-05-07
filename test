@@ -80,6 +80,7 @@ function run_pipeline_tests()
     cd "${path_test}"
 
     if ws exec stat composer.json > /dev/null 2>&1; then
+      ws exec composer install --dev --no-interaction
       ws exec composer test-quality
       ws exec composer test-unit
       ws exec composer test-acceptance

@@ -9,6 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ws install'
+                sh 'ws exec composer install --dev --no-interaction'
                 milestone(10)
             }
         }
@@ -23,7 +24,7 @@ pipeline {
 {% if @('pipeline.publish.enabled') == 'yes' %}
         stage('Publish') {
             when { not { triggeredBy 'TimerTrigger' } }
-            steps { 
+            steps {
                 milestone(50)
                 sh 'ws app publish'
 {% if @('pipeline.publish.chart.enabled') %}
