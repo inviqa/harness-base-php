@@ -7,6 +7,8 @@ harness('inviqa/magento2'):
     confd:
       - harness:/
     attributes:
+      standard:
+        - magento.edition
       secret:
         - magento.username
         - magento.password
