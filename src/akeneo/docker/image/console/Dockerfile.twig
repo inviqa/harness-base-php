@@ -49,5 +49,7 @@ VOLUME /app
 VOLUME /home/build/application
 {% endif %}
 
+ENV PATH "$PATH:/app/bin:/app/vendor/bin"
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sleep", "infinity"]
