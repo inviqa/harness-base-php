@@ -15,6 +15,7 @@
 /behat.yml
 /docker-compose.yml
 /docker-sync.yml
+/env.sh
 /mutagen.yml
 /mutagen.yml.lock
 /phpcs.xml

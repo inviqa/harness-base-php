@@ -30,6 +30,7 @@
 /.user.ini
 /docker-compose.yml
 /docker-sync.yml
+/env.sh
 /app/.htaccess
 /app/*.php
 /auth.json
