@@ -13,6 +13,8 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - = @('uploads_directory')
+      - /app/var/cache
+      - /app/var/logs
     services:
       - chrome
       - elasticsearch
@@ -20,7 +22,7 @@ attributes:
       - job-queue-consumer
       - cron
     file_storage_directory: /app/app/file_storage
-    uploads_directory: /app/app/uploads
+    uploads_directory: /app/var/uploads
     web_directory: /app/public
     src_resources_directory: /app/src/Resources
     vendor_directory: /app/vendor
