@@ -2,6 +2,7 @@
 <ruleset name="Akeneo">
     <description>PHPCS ruleset for Akeneo</description>
     <file>./src</file>
+    <exclude-pattern>src/Kernel.php</exclude-pattern>
     <rule ref="PSR2" />
     <rule ref="Generic.Files.LineLength">
         <properties>
