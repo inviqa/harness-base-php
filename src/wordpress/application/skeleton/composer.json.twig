@@ -17,6 +17,7 @@
         "friendsofphp/php-cs-fixer": "~2.2.1",
         "lusitanian/oauth": "~0.8.10",
         "pdepend/pdepend": "2.5.2",
+        "phpcompatibility/php-compatibility": "dev-master",
         "phpmd/phpmd": "@stable",
         "phpspec/phpspec": "^4.0",
         "phpunit/phpunit": "~6.2.0",
@@ -53,9 +54,13 @@
         ],
         "test-acceptance": [
             "behat"
-        ]
+        ],
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "platform": {
+            "php": "7.2.30"
+        }
     }
 }

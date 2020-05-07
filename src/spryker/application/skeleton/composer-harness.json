@@ -13,6 +13,7 @@
     "dmore/chrome-mink-driver": "^2.6",
     "friends-of-behat/context-service-extension": "^1.2",
     "friends-of-behat/cross-container-extension": "^1.1",
+    "phpcompatibility/php-compatibility": "dev-master",
     "sensiolabs/behat-page-object-extension": "^2.3"
   },
   "autoload-dev": {
@@ -34,6 +35,12 @@
     "test-unit": [],
     "test-acceptance": [
       "true"
-    ]
+    ],
+    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
+  },
+  "config": {
+    "platform": {
+      "php": "7.2.30"
+    }
   }
 }
