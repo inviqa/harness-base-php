@@ -1,0 +1,22 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Argument of an invalid type \\(array\\|float\\|int\\) supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/Kernel.php
+
+		-
+			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: src/Kernel.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: src/Kernel.php
+
+		-
+			message: "#^Parameter \\#3 \\.\\.\\.\\$args of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: src/Kernel.php
+
