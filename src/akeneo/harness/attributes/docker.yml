@@ -5,11 +5,6 @@ attributes:
   resources:
     memory:
       job_queue_consumer: "1024Mi"
-  nginx:
-    copy_directories:
-     - = @('app.web_directory')
-     - = @('app.vendor_directory')
-     - /app/src/Resources
   services:
     php-base:
       environment:
