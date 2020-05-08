@@ -38,7 +38,7 @@ server {
   }
 
   location ~ \.php(/|$) {
-    
+
     fastcgi_pass ${FPM_HOST}:9000;
     fastcgi_split_path_info ^(.+\.php)(/.*)$;
     include fastcgi_params;

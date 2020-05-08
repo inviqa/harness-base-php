@@ -8,10 +8,22 @@ server {
 
     include snippets/certificate.conf;
     include snippets/ssl-params.conf;
+    include snippets/top-*.conf;
 
     {% for name, value in @('nginx.site.conf') %}
         {{ name }} {{ value }};
     {% endfor %}
+
+    set $custom_https $https;
+    set $custom_scheme $scheme;
+
+    if ($http_x_forwarded_proto) {
+      set $custom_scheme $http_x_forwarded_proto;
+    }
+
+    if ($http_x_forwarded_proto = https) {
+      set $custom_https on;
+    }
 
     set $MAGE_ROOT /app;
 
@@ -166,10 +178,14 @@ server {
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
         include        fastcgi_params;
+        fastcgi_param HTTPS $custom_https;
+        fastcgi_param HTTP_PROXY "";
 
         fastcgi_param MAGE_RUN_CODE $MAGE_RUN_CODE if_not_empty;
         fastcgi_param MAGE_RUN_TYPE $MAGE_RUN_TYPE if_not_empty;
     }
+
+    include snippets/bottom-*.conf;
 
     gzip on;
     gzip_disable "msie6";
