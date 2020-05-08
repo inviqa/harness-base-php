@@ -8,6 +8,7 @@ server {
 
   include snippets/certificate.conf;
   include snippets/ssl-params.conf;
+  include snippets/top-*.conf;
 
   {% for name, value in @('nginx.site.conf') %}
     {{ name }} {{ value }};
@@ -15,9 +16,11 @@ server {
 
   set $custom_https $https;
   set $custom_scheme $scheme;
+
   if ($http_x_forwarded_proto) {
     set $custom_scheme $http_x_forwarded_proto;
   }
+
   if ($http_x_forwarded_proto = https) {
     set $custom_https on;
   }
@@ -95,6 +98,7 @@ server {
   }
 
   location ~ \.php(/|$) {
+
     fastcgi_pass ${FPM_HOST}:9000;
     fastcgi_split_path_info ^(.+\.php)(/.*)$;
     include fastcgi_params;
@@ -127,8 +131,11 @@ server {
     image/svg+xml;
   gzip_vary on;
 
+  include snippets/bottom-*.conf;
+
   # Banned locations (only reached if the earlier PHP entry point regexes don't match)
   location ~* (\.php$|\.htaccess$|\.git) {
     deny all;
   }
+
 }
