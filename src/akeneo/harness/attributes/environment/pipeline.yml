@@ -6,6 +6,3 @@ attributes:
     build: static
     version: =exec("git log -n 1 --pretty=format:'%H'")
     mode: production
-  akeneo:
-    app:
-      mode: prod # dev or prod

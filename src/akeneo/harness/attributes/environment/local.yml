@@ -4,6 +4,3 @@ attributes:
     build: dynamic
     mode: development
     version: develop
-  akeneo:
-    app:
-      mode: dev # dev or prod
