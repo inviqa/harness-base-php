@@ -136,6 +136,9 @@ attributes:
     image:
       console: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch'
+  framework:
+    readme_blocks:
+      - xml_urn_generation
   persistence:
     enabled: false
     magento:
