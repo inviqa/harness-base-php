@@ -15,9 +15,9 @@
   <arg value="np"/>
 
   <!-- Use Drupal rules -->
-  <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal"/>
+  <rule ref="./docroot/modules/contrib/coder/coder_sniffer/Drupal"/>
 
-  <!-- 
+  <!--
   Don't enforce class / method comments - in PHP7.x we have return
   types, and lots of classes and methods are self expanatory. Comments
 
@@ -43,8 +43,8 @@
     <severity>0</severity>
   </rule>
 
-  <!-- 
-  Annotations should be imported, not expanded 
+  <!--
+  Annotations should be imported, not expanded
   -->
   <rule ref="Drupal.Commenting.DataTypeNamespace.DataTypeNamespace">
     <severity>0</severity>
