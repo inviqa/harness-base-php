@@ -132,7 +132,7 @@ attributes:
         APP_INDEX_HOSTS: elasticsearch:9200
         APP_PRODUCT_AND_PRODUCT_MODEL_INDEX_NAME: akeneo_pim_product_and_product_model
         MAILER_URL: null://localhost
-        AKENEO_PIM_URL: = @('hostname')
+        AKENEO_PIM_URL: = "https://" ~ @('hostname')
 ---
 import:
   - harness/config/*.yml
