@@ -14,4 +14,4 @@
     networks:
       - private
     ports:
-      - 3306
+      - {% if @('database.port_forward') %}{{ @('database.port_forward') }}:{% endif %}3306

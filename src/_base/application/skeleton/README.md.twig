@@ -46,6 +46,33 @@ To watch for changes, run `ws frontend watch`.
 
 To gain access to the `console` container where the builds happen: `ws frontend console`.
 
+{% if "mysql" in @('app.services') -%}
+### MySQL Access
+
+MySQL can be used either via command line tools via `ws db console` or via GUI tools.
+
+In your GUI tool, set up a new connection to localhost with the port being the returned port number from:
+```bash
+ws port mysql
+```
+
+{% if @('database.port_forward') == "" -%}
+This port will change each time the project environment is started, as docker will allocate a random unused port
+on your host machine.
+
+To set a consistent port for this project, choose a port number that you think will be unique across all projects
+that your developers will encounter (e.g. not 3306!). Acceptable range of ports is 1-65535.
+
+Once you have a port number, you can define it in the workspace.yml with:
+```yaml
+attribute('database.port_forward'): portNumberHere
+```
+{%- endif %}
+
+The connection username and password is listed under the `mysql` service environment section in `docker-compose.yml` in
+the project root.
+{% endif %}
+
 ### Xdebug
 
 Xdebug is turned off by default as it drastically slows down requests for all developers.

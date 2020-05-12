@@ -170,6 +170,7 @@ attributes.default:
     pass: app
     name: app
     root_pass: DV6RdNY3QcFsBk7V
+    port_forward: ~
     var:
       max_allowed_packet: 4M
     import:
