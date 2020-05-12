@@ -97,6 +97,9 @@ attributes.default:
     cron:
       jobs: []
 
+  framework:
+    readme_blocks: []
+
   frontend:
     path: /app
     watch: npm run watch

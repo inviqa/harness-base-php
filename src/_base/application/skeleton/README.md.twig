@@ -1,3 +1,4 @@
+{% set blocks = 'application/skeleton/_twig/README.md/' %}
 # {{ @('workspace.name') }}
 
 Please follow the below steps to get started, if you encounter any issues installing the dependencies or provisioning the development environment, please check the [Common Issues](#common-issues) section first.
@@ -45,6 +46,10 @@ To trigger a rebuild, run `ws frontend build`.
 To watch for changes, run `ws frontend watch`.
 
 To gain access to the `console` container where the builds happen: `ws frontend console`.
+
+{% for readme_block in @('framework.readme_blocks') %}
+{% include blocks ~ readme_block ~ '.md.twig' %}
+{% endfor %}
 
 {% if "mysql" in @('app.services') -%}
 ### MySQL Access
