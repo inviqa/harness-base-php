@@ -4,6 +4,7 @@
 /.my127ws
 /.docker-sync/
 /.github/
+/.idea/
 /app/etc/*
 /app/design/adminhtml/
 /app/design/frontend/Magento/
