@@ -122,11 +122,12 @@ Once the CHANGELOG.markdown is in the branch you wish to release:
 
 1. Tag the release version with `git tag <releaseVersion>`
 2. Push the tag to the repository: `git push origin <releaseVersion>`
-3. Run the deploy script: `./deploy`
-4. On each downstream repository:
+3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
+4. Run the deploy script: `./deploy`
+5. On each downstream repository:
    1. Tag the latest `0.6.x` branch push as the release version.
    2. Push the tag to the repository
-5. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
+6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 
 [Workspace]: https://github.com/my127/workspace
