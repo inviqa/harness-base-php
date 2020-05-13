@@ -80,3 +80,7 @@ function('php_fpm_exporter_scrape_url', [hostname, pools]): |
       )
     );
   = $text;
+
+function('version_compare', [version1, version2, operator]): |
+  #!php
+  = version_compare($version1, $version2, $operator);
