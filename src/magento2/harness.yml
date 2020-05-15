@@ -130,7 +130,7 @@ attributes:
         - run "magento config:set 'web/seo/use_rewrites'        '1'"
     migrate:
       steps:
-        - run "magento setup:upgrade"
+        - run "magento setup:upgrade --keep-generated"
         - run "magento cache:clean"
   docker:
     image:
