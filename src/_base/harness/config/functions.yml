@@ -83,4 +83,8 @@ function('php_fpm_exporter_scrape_url', [hostname, pools]): |
 
 function('version_compare', [version1, version2, operator]): |
   #!php
+  $count1 = substr_count($version1, '.');
+  $count2 = substr_count($version2, '.');
+  $version1 .= $count1 == 1 ? '.0' : '';
+  $version2 .= $count2 == 1 ? '.0' : '';
   = version_compare($version1, $version2, $operator);
