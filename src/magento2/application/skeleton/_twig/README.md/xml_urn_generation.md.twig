@@ -1,0 +1,12 @@
+### XML URN Generation
+
+If using PHPStorm, the Magento console application is capable of generating a URN catalog of `*.xsd` mappings which
+will provide autocomplete and syntax highlighting support for the extensive XML in the Magento 2 project.
+
+To generate the mappings, first access the console container via `ws console` and the run the following:
+```
+magento dev:urn-catalog:generate .idea/misc.xml
+```
+
+Afterwards, go to the `File` menu inside PHPStorm and run `Reload All from Disk`, then check an XML file, for example
+`app/etc/di.xml`, which should now have working autocomplete and syntax highlighting.

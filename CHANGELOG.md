@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.6.0](https://github.com/inviqa/harness-base-php/tree/0.6.0) (2020-05-12)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.5.0...0.6.0)
+
+**Implemented enhancements:**
+
+- Enable production settings for php-fpm in static mode [\#275](https://github.com/inviqa/harness-base-php/issues/275)
+- Allow using a fixed mysql port forward to the host [\#290](https://github.com/inviqa/harness-base-php/pull/290) ([kierenevans](https://github.com/kierenevans))
+- Prompt for magento edition when creating [\#289](https://github.com/inviqa/harness-base-php/pull/289) ([kierenevans](https://github.com/kierenevans))
+- Adding helper commands for composer \(base php\) and drush \(drupal 8\) [\#286](https://github.com/inviqa/harness-base-php/pull/286) ([sawtell](https://github.com/sawtell))
+- Add PHP Compatibility Sniffs by default, to aid with version changes [\#285](https://github.com/inviqa/harness-base-php/pull/285) ([kierenevans](https://github.com/kierenevans))
+- Updating welcome task to be compiled from twig template. [\#282](https://github.com/inviqa/harness-base-php/pull/282) ([sawtell](https://github.com/sawtell))
+- Production PHP Settings [\#280](https://github.com/inviqa/harness-base-php/pull/280) ([kierenevans](https://github.com/kierenevans))
+- Updating application template to support hostname aliases [\#279](https://github.com/inviqa/harness-base-php/pull/279) ([sawtell](https://github.com/sawtell))
+- Make mysql image and tag configurable [\#278](https://github.com/inviqa/harness-base-php/pull/278) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Run `setup:di:compile` for Magento 2 in static mode [\#274](https://github.com/inviqa/harness-base-php/pull/274) ([kierenevans](https://github.com/kierenevans))
+- allow customising annotations on application ingress [\#273](https://github.com/inviqa/harness-base-php/pull/273) ([dcole-inviqa](https://github.com/dcole-inviqa))
+- PHP-FPM Pools and Zed [\#271](https://github.com/inviqa/harness-base-php/pull/271) ([g-foster2](https://github.com/g-foster2))
+- Adjust README if mutagen is turned on [\#269](https://github.com/inviqa/harness-base-php/pull/269) ([kierenevans](https://github.com/kierenevans))
+- Update magento2 gitignore for 2.3.4 [\#268](https://github.com/inviqa/harness-base-php/pull/268) ([kierenevans](https://github.com/kierenevans))
+- Add support for multiple php-fpm pools and split spryker zed into one [\#267](https://github.com/inviqa/harness-base-php/pull/267) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use default Symfony4 web directory [\#266](https://github.com/inviqa/harness-base-php/pull/266) ([NoDiskInDriveA](https://github.com/NoDiskInDriveA))
+- Add SensioLabs Behat PageObjectExtension to Magento 2 skeleton [\#264](https://github.com/inviqa/harness-base-php/pull/264) ([tkotosz](https://github.com/tkotosz))
+
+**Fixed bugs:**
+
+- Ensure latest drupal/core 8.8.5 is installed. Fix test-quality script [\#292](https://github.com/inviqa/harness-base-php/pull/292) ([kierenevans](https://github.com/kierenevans))
+- Ignore cron's env.sh [\#288](https://github.com/inviqa/harness-base-php/pull/288) ([kierenevans](https://github.com/kierenevans))
+- Avoid copying assets to php-fpm from console [\#284](https://github.com/inviqa/harness-base-php/pull/284) ([kierenevans](https://github.com/kierenevans))
+- Fix builds for Symfony by adding in a webroot folder [\#277](https://github.com/inviqa/harness-base-php/pull/277) ([kierenevans](https://github.com/kierenevans))
+- Add extra cache types to avoid env.php needing to be writable at runtime [\#276](https://github.com/inviqa/harness-base-php/pull/276) ([kierenevans](https://github.com/kierenevans))
+- Run the watch script [\#272](https://github.com/inviqa/harness-base-php/pull/272) ([kierenevans](https://github.com/kierenevans))
+- Fix TTY usage when stdin is not a TTY. [\#265](https://github.com/inviqa/harness-base-php/pull/265) ([kierenevans](https://github.com/kierenevans))
+- Fix dash-casing of php-fpm-exporter services [\#262](https://github.com/inviqa/harness-base-php/pull/262) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [0.5.0](https://github.com/inviqa/harness-base-php/tree/0.5.0) (2020-03-26)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.4.0...0.5.0)

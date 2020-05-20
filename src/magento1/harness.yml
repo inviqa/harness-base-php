@@ -7,6 +7,8 @@ harness('inviqa/magento1'):
     confd:
       - harness:/
     attributes:
+      standard:
+        - magento.edition
       secret:
         - composer.auth.github
         - magento.crypt.key

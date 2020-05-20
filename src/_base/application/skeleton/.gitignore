@@ -1,29 +1,16 @@
-
 # Directories
-
 /.my127ws
 /.docker-sync/
-/.github/
 /bin/
-/public/media/
-/public/privatesales/
-/public/var/
 /tools/assets/
 /vendor/
 
 # Files
-
 /.dockerignore
+/auth.json
 /docker-compose.yml
 /docker-sync.yml
 /env.sh
 /mutagen.yml
 /mutagen.yml.lock
-/phpcs.xml
-/phpmd.xml
-/public/app/etc/local.xml
-/public/errors/local.xml
-/auth.json
 /workspace.override.yml
-
-# Keep
