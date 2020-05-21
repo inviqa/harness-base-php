@@ -4,10 +4,6 @@ attributes:
       environment:
         APPLICATION_ENV: = @('spryker.mode')
         SPRYKER_SALT: = @('spryker.salt')
-        ELASTICSEARCH_HOST: = @('elasticsearch.host')
-        ELASTICSEARCH_PORT: = @('elasticsearch.port')
-        REDIS_HOST: = @('redis.host')
-        REDIS_PORT: = @('redis.port')
         REDIS_PROTOCOL: = @('redis.protocol')
         RABBITMQ_HOST: = @('rabbitmq.host')
         RABBITMQ_PORT: = @('rabbitmq.port')
@@ -37,8 +33,6 @@ attributes:
     base:
       services:
         php-base:
-          ELASTICSEARCH_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('elasticsearch.host')
-          REDIS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('redis.host')
           RABBITMQ_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('rabbitmq.host')
           JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
     preview:
