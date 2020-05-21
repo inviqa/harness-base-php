@@ -122,7 +122,7 @@ attributes:
         - task "assets:dump"
     init:
       steps:
-        - run "magento setup:upgrade"
+        - run "magento setup:upgrade --keep-generated"
         - run "magento config:set 'web/unsecure/base_url'       'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/base_url'         'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/use_in_frontend'  '1'"
@@ -130,7 +130,7 @@ attributes:
         - run "magento config:set 'web/seo/use_rewrites'        '1'"
     migrate:
       steps:
-        - run "magento setup:upgrade"
+        - run "magento setup:upgrade --keep-generated"
         - run "magento cache:clean"
   docker:
     image:
