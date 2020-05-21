@@ -49,15 +49,16 @@ run()
               cat /tmp/my127ws-stdout.txt
               echo
               echo "stderr:"
+              cat /tmp/my127ws-stderr.txt
+              echo
             else
               echo "Command failed. stderr:"
+              cat /tmp/my127ws-stderr.txt
+              echo "----------------------------------"
+              echo "Full logs are accessible in the console container at path :-"
+              echo "  stdout: /tmp/my127ws-stdout.txt"
+              echo "  stderr: /tmp/my127ws-stderr.txt"
             fi
-            cat /tmp/my127ws-stderr.txt
-
-            echo "----------------------------------"
-            echo "Full Logs :-"
-            echo "  stdout: /tmp/my127ws-stdout.txt"
-            echo "  stdout: /tmp/my127ws-stderr.txt"
 
             exit 1
         else
