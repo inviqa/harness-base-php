@@ -14,6 +14,8 @@ attributes:
         ELASTICSEARCH_PORT: = @('elasticsearch.port')
         REDIS_HOST: = @('redis.host')
         REDIS_PORT: = @('redis.port')
+        REDIS_SESSION_HOST: = @('redis_session.host')
+        REDIS_SESSION_PORT: = @('redis_session.port')
         PHP_IDE_CONFIG: "serverName=workspace"
     nginx:
       ingress:
@@ -57,7 +59,7 @@ attributes:
             ELASTICSEARCH_HOST: = '{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix  }}' ~ @('elasticsearch.host') ~ '{{ end }}'
             ES_HOST: "{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix }}"elasticsearch":9200{{ end }}"
             REDIS_HOST: = '{{ if .Values.service.redis }}{{ .Values.resourcePrefix }}redis{{ end }}'
-            REDIS_SESSION_HOST: = '{{ if .Values.service.redis-session }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
+            REDIS_SESSION_HOST: = '{{ if .Values.service.redis_session }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
         nginx:
           environment:
