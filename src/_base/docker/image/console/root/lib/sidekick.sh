@@ -39,11 +39,19 @@ run()
         prompt
 
         echo "  > ${COMMAND[*]}"
-        setCommandIndicator $INDICATOR_RUNNING
+        setCommandIndicator "$INDICATOR_RUNNING"
 
         if ! bash -c "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt; then
-            setCommandIndicator $INDICATOR_ERROR
+            setCommandIndicator "$INDICATOR_ERROR"
 
+            if [ "$APP_BUILD" = "static" ]; then
+              echo "Command failed. stdout:"
+              cat /tmp/my127ws-stdout.txt
+              echo
+              echo "stderr:"
+            else
+              echo "Command failed. stderr:"
+            fi
             cat /tmp/my127ws-stderr.txt
 
             echo "----------------------------------"
@@ -53,7 +61,7 @@ run()
 
             exit 1
         else
-            setCommandIndicator $INDICATOR_SUCCESS
+            setCommandIndicator "$INDICATOR_SUCCESS"
         fi
     else
         passthru "${COMMAND[@]}"
