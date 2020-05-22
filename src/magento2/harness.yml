@@ -96,18 +96,18 @@ attributes:
             --db-password=${DB_PASS} \
             \
             --session-save=redis \
-            --session-save-redis-host=redis \
-            --session-save-redis-port=6379 \
+            --session-save-redis-host=${REDIS_SESSION_HOST} \
+            --session-save-redis-port=${REDIS_SESSION_PORT} \
             --session-save-redis-db=1 \
             \
             --cache-backend=redis \
-            --cache-backend-redis-server=redis \
-            --cache-backend-redis-port=6379 \
+            --cache-backend-redis-server=${REDIS_HOST} \
+            --cache-backend-redis-port=${REDIS_PORT} \
             --cache-backend-redis-db=2 \
             \
             --page-cache=redis \
-            --page-cache-redis-server=redis \
-            --page-cache-redis-port=6379 \
+            --page-cache-redis-server=${REDIS_HOST} \
+            --page-cache-redis-port=${REDIS_PORT} \
             --page-cache-redis-db=3"
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.

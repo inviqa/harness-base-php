@@ -10,6 +10,12 @@ attributes:
         DB_USER: = @('database.user')
         DB_PASS: = @('database.pass')
         DB_NAME: = @('database.name')
+        ELASTICSEARCH_HOST: = @('elasticsearch.host')
+        ELASTICSEARCH_PORT: = @('elasticsearch.port')
+        REDIS_HOST: = @('redis.host')
+        REDIS_PORT: = @('redis.port')
+        REDIS_SESSION_HOST: = @('redis_session.host')
+        REDIS_SESSION_PORT: = @('redis_session.port')
         PHP_IDE_CONFIG: "serverName=workspace"
     nginx:
       ingress:
@@ -22,7 +28,7 @@ attributes:
         DB_ADMIN_USER: root
         DB_ADMIN_PASS: = @('database.root_pass')
     php-fpm:
-      environment: 
+      environment:
         AUTOSTART_PHP_FPM: "true"
     php-fpm-exporter:
       environment:
@@ -48,9 +54,12 @@ attributes:
       services:
         php-base:
           environment:
-            ES_HOST: "{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix }}elasticsearch:9200{{ end }}"
-            DB_HOST: = '{{ .Values.resourcePrefix }}' ~ @('database.host')
             APP_HOST: = @('pipeline.base.hostname')
+            DB_HOST: = '{{ .Values.resourcePrefix }}' ~ @('database.host')
+            ELASTICSEARCH_HOST: '{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix  }}elasticsearch{{ end }}'
+            ES_HOST: '{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix }}elasticsearch:9200{{ end }}'
+            REDIS_HOST: '{{ if .Values.service.redis }}{{ .Values.resourcePrefix }}redis{{ end }}'
+            REDIS_SESSION_HOST: '{{ if .Values.service.redis_session }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
         nginx:
           environment:

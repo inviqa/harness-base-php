@@ -180,7 +180,9 @@ attributes.default:
       steps: []
 
   elasticsearch:
+    host: elasticsearch
     image: elasticsearch
+    port: 9200
     tag: 7.1.1
 
   domain: my127.site
@@ -200,6 +202,14 @@ attributes.default:
   mysql:
     image: mysql
     tag: 5.7
+
+  redis:
+    host: redis
+    port: 6379
+
+  redis_session:
+    host: redis-session
+    port: 6379
 
   resources:
     cpu:
