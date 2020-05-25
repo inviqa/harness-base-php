@@ -18,6 +18,7 @@ attributes:
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
         RABBITMQ_PORT: = @('rabbitmq.port')
         RABBITMQ_USER: = @('rabbitmq.user')
+        RABBITMQ_VHOST: "= (@('rabbitmq.vhost') ? @('rabbitmq.vhost')|first : '/')"
         REDIS_HOST: = @('redis.host')
         REDIS_PORT: = @('redis.port')
         REDIS_SESSION_HOST: = @('redis_session.host')
@@ -47,8 +48,10 @@ attributes:
         MYSQL_USER: = @('database.user')
     rabbitmq:
       environment:
-        RABBITMQ_DEFAULT_PASS: rabbitmq
-        RABBITMQ_DEFAULT_USER: rabbitmq
+        RABBITMQ_DEFAULT_USER: = @('rabbitmq.user')
+        RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
+        RABBITMQ_DEFAULT_VHOST: "= (@('rabbitmq.vhost') ? @('rabbitmq.vhost')|first : '/')"
+        RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
     postgres:
       environment:
         POSTGRES_DB: = @('database.name')

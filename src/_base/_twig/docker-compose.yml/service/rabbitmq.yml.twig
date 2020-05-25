@@ -1,8 +1,7 @@
   rabbitmq:
     image: {{ @('rabbitmq.image') }}:{{ @('rabbitmq.tag') }}
     environment:
-      RABBITMQ_DEFAULT_USER: {{ @('rabbitmq.user') }}
-      RABBITMQ_DEFAULT_PASS: {{ @('rabbitmq.password') }}
+{{ to_nice_yaml(@('services.rabbitmq.environment'), 2, 6) | raw }}
     networks:
       - private
       - shared
