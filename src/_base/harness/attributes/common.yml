@@ -57,6 +57,8 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+      rabbitmq:
+        external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
     qa:
       enabled: no
       environment: ~
@@ -67,6 +69,8 @@ attributes.default:
       hostname: = @('pipeline.qa.namespace') ~ '.example.com'
       resourcePrefix: ~
       persistence: ~
+      rabbitmq:
+        external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
 
   docker:
     repository: = @("workspace.name")
@@ -235,6 +239,7 @@ attributes.default:
       php_fpm: "1024Mi"
       php_fpm_exporter: "100Mi"
       postgres: "512Mi"
+      rabbitmq: "128Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
 
