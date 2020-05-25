@@ -208,12 +208,14 @@ attributes.default:
     tag: 5.7
 
   rabbitmq:
+    image: rabbitmq
+    tag: 3.8-alpine-management
     api_port: 15672
     external_host: = 'rabbitmq-' ~ @('hostname')
     host: rabbitmq
-    password: rabbitmq
     port: 5672
     user: rabbitmq
+    password: rabbitmq
     vhosts: []
 
   redis:
