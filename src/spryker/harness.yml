@@ -75,6 +75,7 @@ attributes:
     user: spryker
     password: spryker
     vhosts:
+      default: 'de-spryker'
       DE: = 'de-spryker'
       AT: = 'at-spryker'
       US: = 'us-spryker'
