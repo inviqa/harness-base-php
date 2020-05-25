@@ -271,6 +271,10 @@ attributes.default:
       enabled: false
       accessMode: ReadWriteOnce
       size: 2Gi
+    redis_session:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
 
   tls:
     key: |
