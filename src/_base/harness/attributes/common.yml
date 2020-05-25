@@ -203,6 +203,15 @@ attributes.default:
     image: mysql
     tag: 5.7
 
+  rabbitmq:
+    api_port: 15672
+    external_host: = 'rabbitmq-' ~ @('hostname')
+    host: rabbitmq
+    password: rabbitmq
+    port: 5672
+    user: rabbitmq
+    vhosts: []
+
   redis:
     host: redis
     port: 6379

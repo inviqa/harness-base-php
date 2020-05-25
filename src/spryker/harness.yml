@@ -72,16 +72,12 @@ attributes:
   redis:
     protocol: redis
   rabbitmq:
-    host: rabbitmq
-    port: 5672
-    api_port: 15672
     user: spryker
     password: spryker
     vhosts:
       DE: = 'de-spryker'
       AT: = 'at-spryker'
       US: = 'us-spryker'
-    external_host: = 'rabbitmq-' ~ @('hostname')
   jenkins:
     host: jenkins
     port: 8080

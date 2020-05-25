@@ -5,12 +5,6 @@ attributes:
         APPLICATION_ENV: = @('spryker.mode')
         SPRYKER_SALT: = @('spryker.salt')
         REDIS_PROTOCOL: = @('redis.protocol')
-        RABBITMQ_HOST: = @('rabbitmq.host')
-        RABBITMQ_PORT: = @('rabbitmq.port')
-        RABBITMQ_API_PORT: = @('rabbitmq.api_port')
-        RABBITMQ_USER: = @('rabbitmq.user')
-        RABBITMQ_PASSWORD: = @('rabbitmq.password')
-        RABBITMQ_EXTERNAL_HOST: = @('rabbitmq.external_host')
         SMTP_HOST: = @('smtp.host')
         SMTP_PORT: = @('smtp.port')
         JENKINS_HOST: = @('jenkins.host')
@@ -33,13 +27,11 @@ attributes:
     base:
       services:
         php-base:
-          RABBITMQ_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('rabbitmq.host')
           JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
     preview:
       services:
         php-base:
           environment:
-            RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             JENKINS_EXTERNAL_HOST: = @('pipeline.preview.jenkins.external_host')
             SMTP_HOST: = @('pipeline.preview.smtp.host')
             DOCKER_IMAGE_CONSOLE: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-console'
@@ -59,7 +51,6 @@ attributes:
       services:
         php-base:
           environment:
-            RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
             JENKINS_EXTERNAL_HOST: = @('pipeline.qa.jenkins.external_host')
             SMTP_HOST: = @('pipeline.qa.smtp.host')
             ZED_HOST: = @('pipeline.qa.zed.external_host')

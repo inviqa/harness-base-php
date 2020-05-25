@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# create rabbitmq virtual host for each store
+# create rabbitmq virtual hosts
 function task_rabbitmq_vhosts() {
     local rabbitmq_api_url="http://$RABBITMQ_HOST:$RABBITMQ_API_PORT/api"
     task "http:wait" "$rabbitmq_api_url/index.html"
