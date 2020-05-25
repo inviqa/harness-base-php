@@ -257,6 +257,10 @@ attributes.default:
       enabled: true
       accessMode: ReadWriteOnce
       size: 4Gi
+    rabbitmq:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
     postgres:
       enabled: true
       accessMode: ReadWriteOnce
