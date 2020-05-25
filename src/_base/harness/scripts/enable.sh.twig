@@ -46,8 +46,8 @@ dynamic()
     {% else %}
         passthru docker-compose pull
         passthru docker-compose build --pull
-        passthru docker-compose up -d
     {% endif %}
+    passthru docker-compose up -d
 
     passthru docker-compose exec -T -u build console app build
     passthru docker-compose exec -T -u build console app init
