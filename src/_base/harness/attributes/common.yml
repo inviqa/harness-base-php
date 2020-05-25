@@ -216,7 +216,7 @@ attributes.default:
     port: 5672
     user: rabbitmq
     password: rabbitmq
-    vhosts: []
+    vhosts: {}
 
   redis:
     host: redis

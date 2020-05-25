@@ -140,6 +140,9 @@ attributes:
   framework:
     readme_blocks:
       - xml_urn_generation
+  rabbitmq:
+    vhosts:
+      magento: 'magento'
   persistence:
     enabled: false
     magento:
