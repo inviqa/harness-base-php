@@ -18,7 +18,7 @@ attributes:
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
         RABBITMQ_PORT: = @('rabbitmq.port')
         RABBITMQ_USER: = @('rabbitmq.user')
-        RABBITMQ_VHOST: = @('rabbitmq.vhost.default')
+        RABBITMQ_VHOST: = @('rabbitmq.vhosts.default')
         REDIS_HOST: = @('redis.host')
         REDIS_PORT: = @('redis.port')
         REDIS_SESSION_HOST: = @('redis_session.host')
@@ -50,7 +50,7 @@ attributes:
       environment:
         RABBITMQ_DEFAULT_USER: = @('rabbitmq.user')
         RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
-        RABBITMQ_DEFAULT_VHOST: = @('rabbitmq.vhost.default')
+        RABBITMQ_DEFAULT_VHOST: = @('rabbitmq.vhosts.default')
         RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
     postgres:
       environment:
