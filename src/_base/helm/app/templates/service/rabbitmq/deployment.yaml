@@ -10,6 +10,8 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}rabbitmq
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -21,7 +23,7 @@ spec:
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        image: rabbitmq:3.7-management-alpine
+        image: {{ .Values.docker.image.rabbitmq }}
         imagePullPolicy: Always
         name: rabbitmq
         ports:
@@ -37,6 +39,17 @@ spec:
             port: 5672
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: {{ .Values.resourcePrefix }}rabbitmq-persistent-storage
+          mountPath: /var/lib/rabbitmq
       restartPolicy: Always
+      volumes:
+      - name: {{ .Values.resourcePrefix }}rabbitmq-persistent-storage
+{{- if .Values.persistence.rabbitmq.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.resourcePrefix }}rabbitmq-pv-claim
+{{- else }}
+        emptyDir: {}
+{{- end }}
 status: {}
 {{ end }}

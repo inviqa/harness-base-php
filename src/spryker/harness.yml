@@ -72,16 +72,13 @@ attributes:
   redis:
     protocol: redis
   rabbitmq:
-    host: rabbitmq
-    port: 5672
-    api_port: 15672
     user: spryker
     password: spryker
     vhosts:
+      default: 'de-spryker'
       DE: = 'de-spryker'
       AT: = 'at-spryker'
       US: = 'us-spryker'
-    external_host: = 'rabbitmq-' ~ @('hostname')
   jenkins:
     host: jenkins
     port: 8080
@@ -119,8 +116,6 @@ attributes:
           DE: = 'glue-de-' ~ @('pipeline.preview.hostname')
           AT: = 'glue-at-' ~ @('pipeline.preview.hostname')
           US: = 'glue-us-' ~ @('pipeline.preview.hostname')
-      rabbitmq:
-        external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.preview.hostname')
       smtp:
@@ -139,8 +134,6 @@ attributes:
           DE: = 'glue-de-' ~ @('pipeline.qa.hostname')
           AT: = 'glue-at-' ~ @('pipeline.qa.hostname')
           US: = 'glue-us-' ~ @('pipeline.qa.hostname')
-      rabbitmq:
-        external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
       jenkins:
         external_host: = 'jenkins-' ~ @('pipeline.qa.hostname')
       smtp:
@@ -176,7 +169,6 @@ attributes:
     memory:
       jenkins_runner: "256Mi"
       jenkins: "1536Mi"
-      rabbitmq: "128Mi"
 
 ---
 command('frontend yves watch'):

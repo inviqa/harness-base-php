@@ -12,9 +12,9 @@
     php_fpm: {{ @('resources.memory.php_fpm') }}
     php_fpm_exporter: {{ @('resources.memory.php_fpm_exporter') }}
     postgres: {{ @('resources.memory.postgres') }}
+    rabbitmq: {{ @('resources.memory.rabbitmq') }}
     redis: {{ @('resources.memory.redis') }}
     redis_session: {{ @('resources.memory.redis_session') }}
     jenkins: {{ @('resources.memory.jenkins') }}
     jenkins_runner: {{ @('resources.memory.jenkins_runner') }}
     job_queue_consumer: {{ @('resources.memory.job_queue_consumer') }}
-    rabbitmq: {{ @('resources.memory.rabbitmq') }}

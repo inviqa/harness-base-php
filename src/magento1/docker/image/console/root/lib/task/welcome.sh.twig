@@ -12,7 +12,7 @@ function task_welcome()
     {% endfor -%}
     echo "Admin: /admin"
     echo "  Username: admin"
-    echo "  Password: admin123"
+    echo "  Password: admin123admin123"
     {% if 'rabbitmq' in @('app.services') -%}
     echo ""
     echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"

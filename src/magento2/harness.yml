@@ -123,6 +123,7 @@ attributes:
         - task "assets:dump"
     init:
       steps:
+        - task "rabbitmq:vhosts"
         - run "magento setup:upgrade --keep-generated"
         - run "magento config:set 'web/unsecure/base_url'       'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/base_url'         'https://${APP_HOST}/'"
@@ -143,6 +144,9 @@ attributes:
   framework:
     readme_blocks:
       - xml_urn_generation
+  rabbitmq:
+    vhosts:
+      default: 'magento'
   persistence:
     enabled: false
     magento:

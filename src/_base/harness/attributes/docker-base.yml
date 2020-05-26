@@ -12,6 +12,13 @@ attributes:
         DB_NAME: = @('database.name')
         ELASTICSEARCH_HOST: = @('elasticsearch.host')
         ELASTICSEARCH_PORT: = @('elasticsearch.port')
+        RABBITMQ_API_PORT: = @('rabbitmq.api_port')
+        RABBITMQ_EXTERNAL_HOST: = @('rabbitmq.external_host')
+        RABBITMQ_HOST: = @('rabbitmq.host')
+        RABBITMQ_PASSWORD: = @('rabbitmq.password')
+        RABBITMQ_PORT: = @('rabbitmq.port')
+        RABBITMQ_USER: = @('rabbitmq.user')
+        RABBITMQ_VHOST: = @('rabbitmq.vhosts.default')
         REDIS_HOST: = @('redis.host')
         REDIS_PORT: = @('redis.port')
         REDIS_SESSION_HOST: = @('redis_session.host')
@@ -39,6 +46,12 @@ attributes:
         MYSQL_PASSWORD: = @('database.pass')
         MYSQL_ROOT_PASSWORD: = @('database.root_pass')
         MYSQL_USER: = @('database.user')
+    rabbitmq:
+      environment:
+        RABBITMQ_DEFAULT_USER: = @('rabbitmq.user')
+        RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
+        RABBITMQ_DEFAULT_VHOST: = @('rabbitmq.vhosts.default')
+        RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
     postgres:
       environment:
         POSTGRES_DB: = @('database.name')
@@ -58,6 +71,8 @@ attributes:
             DB_HOST: = '{{ .Values.resourcePrefix }}' ~ @('database.host')
             ELASTICSEARCH_HOST: '{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix  }}elasticsearch{{ end }}'
             ES_HOST: '{{ if .Values.service.elasticsearch }}{{ .Values.resourcePrefix }}elasticsearch:9200{{ end }}'
+            RABBITMQ_HOST: '{{ if .Values.service.rabbitmq }}{{ .Values.resourcePrefix  }}rabbitmq{{ end }}'
+            RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             REDIS_HOST: '{{ if .Values.service.redis }}{{ .Values.resourcePrefix }}redis{{ end }}'
             REDIS_SESSION_HOST: '{{ if .Values.service.redis_session }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
@@ -83,6 +98,7 @@ attributes:
         php-base:
           environment:
             APP_HOST: = @('pipeline.qa.hostname')
+            RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
     preview:
       resources:
         memory:

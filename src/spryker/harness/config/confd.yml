@@ -9,6 +9,7 @@ confd('harness:/'):
   - { src: docker/image/console/root/lib/task/init.sh }
   - { src: docker/image/console/root/lib/task/install.sh }
   - { src: docker/image/console/root/lib/task/migrate.sh }
+  - { src: docker/image/console/root/lib/task/rabbitmq/vhosts.sh }
   - { src: docker/image/console/root/lib/task/welcome.sh }
   - { src: docker/image/console/root/usr/local/etc/php/php.ini }
   - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
@@ -42,7 +43,6 @@ confd('harness:/'):
   - { src: helm/qa/Chart.yaml }
   # harness-spryker templates
   - { src: application/skeleton/config/install/docker.yml }
-  - { src: docker/image/console/root/lib/task/rabbitmq/vhosts.sh }
   - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/lib/task/spryker/build.sh }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf.template }
