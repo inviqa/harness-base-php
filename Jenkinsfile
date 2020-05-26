@@ -17,6 +17,16 @@ pipeline {
                     }
                 }
                 stages {
+                    stage('Test (mode=static)') {
+                        agent { label "my127ws" }
+                        steps { sh './build && ./test $FRAMEWORK static' }
+                        post {
+                            always {
+                                sh 'ws destroy || true'
+                                cleanWs()
+                            }
+                        }
+                    }
                     stage('Test (mode=dynamic)') {
                         agent { label "my127ws" }
                         steps { sh './build && ./test $FRAMEWORK dynamic' }
@@ -27,9 +37,9 @@ pipeline {
                             }
                         }
                     }
-                    stage('Test (mode=static)') {
+                    stage('Test (mode=dynamic, sync=mutagen)') {
                         agent { label "my127ws" }
-                        steps { sh './build && ./test $FRAMEWORK static' }
+                        steps { sh './build && ./test $FRAMEWORK dynamic mutagen' }
                         post {
                             always {
                                 sh 'ws destroy || true'
