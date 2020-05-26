@@ -10,26 +10,27 @@ docker:
   config: {{ @('docker.config') }}
   image:
     console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
+    cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
+    elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
     fpm: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
     mysql: {{ @('mysql.image') ~ ':' ~ @('mysql.tag') }}
     nginx: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
     jenkins_runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
-    cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
-    elasticsearch: {{ @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag') }}
+    rabbitmq: {{ @('rabbitmq.image') ~ ':' ~ @('rabbitmq.tag') }}
     php_fpm_exporter: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm-exporter' }}
   services:
 {{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
 
 service:
-  mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
-  postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
-  redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
-  redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
-  memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
   elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
   jenkins: {{ ("jenkins" in @('app.services')) ? 'true' : 'false' }}
   jenkins_runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
+  memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
+  mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
+  postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
   rabbitmq: {{ ("rabbitmq" in @('app.services')) ? 'true' : 'false' }}
+  redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
+  redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
   cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
   php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
 

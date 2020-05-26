@@ -43,22 +43,37 @@ dynamic()
         passthru "docker-compose config --services | grep -v php-fpm | xargs docker-compose pull"
         passthru "docker-compose config --services | grep -v cron | xargs docker-compose build --pull"
         passthru docker-compose build cron
+        # Bring up all but cron
+        passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
     {% else %}
         passthru docker-compose pull
         passthru docker-compose build --pull
+        # Bring up all services
         passthru docker-compose up -d
     {% endif %}
 
     passthru docker-compose exec -T -u build console app build
     passthru docker-compose exec -T -u build console app init
+
+    # Bring up all services
+    passthru docker-compose up -d
 }
 
 static()
 {
     ws app build
 
-    passthru docker-compose up -d
+    {% if ("cron" in @('app.services')) %}
+        # Bring up all but cron
+        passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
+    {% else %}
+        # Bring up all services
+        passthru docker-compose up -d
+    {% endif %}
+
     passthru docker-compose exec -T -u build console app init
+    # Bring up all services
+    passthru docker-compose up -d
 }
 
 main

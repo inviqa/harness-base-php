@@ -1,9 +1,15 @@
 
-command('app build'): |
-  #!bash(workspace:/)|@
-  ws app build console
-  ws app build php-fpm
-  ws app build nginx
+command('app build'):
+  env:
+    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+  exec: |
+    #!bash(workspace:/)|@
+    ws app build console
+    ws app build php-fpm
+    ws app build nginx
+    if [[ "${HAS_CRON}" == "true" ]]; then
+      ws app build cron
+    fi
 
 command('app build console'): |
   #!bash(workspace:/)|@
@@ -21,13 +27,19 @@ command('app build nginx'): |
   #!bash(harness:/docker/image/nginx)|@
   passthru docker build -t @('docker.repository'):@('app.version')-nginx .
 
-command('app publish'): |
-  #!bash(workspace:/)|@
-  echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.repository')
-  run docker push @('docker.repository'):@('app.version')-console
-  run docker push @('docker.repository'):@('app.version')-php-fpm
-  run docker push @('docker.repository'):@('app.version')-nginx
-  run docker logout @('docker.repository')
+command('app publish'):
+  env:
+    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+  exec: |
+    #!bash(workspace:/)|@
+    echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.repository')
+    run docker push @('docker.repository'):@('app.version')-console
+    run docker push @('docker.repository'):@('app.version')-php-fpm
+    run docker push @('docker.repository'):@('app.version')-nginx
+    if [[ "${HAS_CRON}" == "true" ]]; then
+      run docker push @('docker.repository'):@('app.version')-cron
+    fi
+    run docker logout @('docker.repository')
 
 command('app publish chart <release> <message>'):
   env:
