@@ -1,9 +1,15 @@
 
-command('app build'): |
-  #!bash(workspace:/)|@
-  ws app build console
-  ws app build php-fpm
-  ws app build nginx
+command('app build'):
+  env:
+    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+  exec: |
+    #!bash(workspace:/)|@
+    ws app build console
+    ws app build php-fpm
+    ws app build nginx
+    if [[ "${HAS_CRON}" == "true" ]]; then
+      ws app build cron
+    fi
 
 command('app build console'): |
   #!bash(workspace:/)|@
@@ -21,13 +27,19 @@ command('app build nginx'): |
   #!bash(harness:/docker/image/nginx)|@
   passthru docker build -t @('docker.repository'):@('app.version')-nginx .
 
-command('app publish'): |
-  #!bash(workspace:/)|@
-  echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.repository')
-  run docker push @('docker.repository'):@('app.version')-console
-  run docker push @('docker.repository'):@('app.version')-php-fpm
-  run docker push @('docker.repository'):@('app.version')-nginx
-  run docker logout @('docker.repository')
+command('app publish'):
+  env:
+    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+  exec: |
+    #!bash(workspace:/)|@
+    echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.repository')
+    run docker push @('docker.repository'):@('app.version')-console
+    run docker push @('docker.repository'):@('app.version')-php-fpm
+    run docker push @('docker.repository'):@('app.version')-nginx
+    if [[ "${HAS_CRON}" == "true" ]]; then
+      run docker push @('docker.repository'):@('app.version')-cron
+    fi
+    run docker logout @('docker.repository')
 
 command('app publish chart <release> <message>'):
   env:
@@ -38,19 +50,19 @@ command('app publish chart <release> <message>'):
     USER_EMAIL: = @('pipeline.publish.chart.git.email')
   exec: |
     #!bash(workspace:/)|@
-    
+
     run rm -rf build-artifacts-repository
     echo "${SSH_KEY}" | base64 -d > id_rsa
     chmod 0600 id_rsa
 
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
-    
+
     run git clone $REPOSITORY ./build-artifacts-repository
     run git -C ./build-artifacts-repository config user.email \"${USER_EMAIL}\"
 
     run mkdir -p $ARTIFACTS
     run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ ${ARTIFACTS}/
-    
+
     export GIT_SSH_COMMAND='ssh -i ../id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
     run git -C ./build-artifacts-repository add .
     run git -C ./build-artifacts-repository commit --allow-empty -m \"${MESSAGE}\"
