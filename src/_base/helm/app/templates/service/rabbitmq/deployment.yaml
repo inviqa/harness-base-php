@@ -10,6 +10,8 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}rabbitmq
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
