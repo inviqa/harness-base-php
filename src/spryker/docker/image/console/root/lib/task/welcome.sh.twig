@@ -16,11 +16,11 @@ function task_welcome()
     {% endfor %}
     {% if 'jenkins' in @('app.services') -%}
     echo ""
-    echo "Jenkins: {{ @('jenkins.external_host') }}"
+    echo "Jenkins: https://{{ @('jenkins.external_host') }}"
     {% endif -%}
     {% if 'rabbitmq' in @('app.services') -%}
     echo ""
-    echo "RabbitMQ: {{ @('rabbitmq.external_host') }}"
+    echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"
     echo "  Username: {{ @('rabbitmq.user') }}"
     echo "  Password: {{ @('rabbitmq.password') }}"
     {% endif -%}
