@@ -243,7 +243,7 @@ attributes.default:
       php_fpm: "1024Mi"
       php_fpm_exporter: "100Mi"
       postgres: "512Mi"
-      rabbitmq: "128Mi"
+      rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
 
