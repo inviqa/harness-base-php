@@ -11,6 +11,29 @@ pipeline {
         stage('Test Matrix') {
             parallel {
 
+                // Akeneo 4
+
+                stage('akeneo (mode=dynamic)') {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test akeneo dynamic' }
+                    post {
+                        always {
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
+                    }
+                }
+                stage('akeneo (mode=static)')  {
+                    agent { label "my127ws" }
+                    steps { sh './build && ./test akeneo static' }
+                    post {
+                        always {
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
+                    }
+                }
+
                 // Drupal 8
 
                 stage('drupal8 (mode=dynamic)') {

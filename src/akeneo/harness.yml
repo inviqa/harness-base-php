@@ -13,6 +13,8 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - = @('uploads_directory')
+      - /app/var/cache
+      - /app/var/logs
     services:
       - chrome
       - elasticsearch
@@ -20,28 +22,34 @@ attributes:
       - job-queue-consumer
       - cron
     file_storage_directory: /app/app/file_storage
-    uploads_directory: /app/app/uploads
-    web_directory: /app/web
+    uploads_directory: /app/var/uploads
+    web_directory: /app/public
     src_resources_directory: /app/src/Resources
     vendor_directory: /app/vendor
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
+    edition: community
   php:
-    version: 7.2
+    version: 7.3
+    ini:
+      apc.enable_cli: On
   database:
     user: akeneo
     pass: akeneo
     name: akeneo
+    var:
+      default_authentication_plugin: mysql_native_password
     import:
       steps:
         - passthru "echo 'Importing database file'"
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
-        - passthru "bin/console doctrine:schema:update --force"
+        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
         - passthru "echo 'Reindexing Elasticsearch'"
-        - run "bin/console --env=$AKENEO_APP_MODE akeneo:elasticsearch:reset-indexes -n"
-        - run "bin/console --env=$AKENEO_APP_MODE pim:product:index --all"
+        - run "bin/console akeneo:elasticsearch:reset-indexes -n"
+        - run "bin/console pim:product:index --all"
+        - run "bin/console pim:product-model:index --all"
         - passthru "echo 'Clearing cache'"
-        - run "bin/console --env=$AKENEO_APP_MODE c:c"
+        - run "bin/console c:c"
         - passthru "echo 'Done'"
   backend:
     build:
@@ -49,45 +57,49 @@ attributes:
         - task "composer:install"
     install:
       steps:
-        - run "bin/console --env=$AKENEO_APP_MODE pim:install --force --symlink"
+        - passthru "bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal"
         - run "yarn run webpack-dev"
         - task "overlay:apply"
         - task "assets:dump"
     init:
       steps:
-        - run "bin/console --env=prod doctrine:schema:update --force"
-        - run "bin/console --env=$AKENEO_APP_MODE akeneo:elasticsearch:reset-indexes"
-        - run "bin/console --env=$AKENEO_APP_MODE pim:product:index --all"
+        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
+        - run "bin/console akeneo:elasticsearch:reset-indexes --no-interaction"
+        - run "bin/console pim:product:index --all"
+        - run "bin/console pim:product-model:index --all"
     migrate:
-      steps: []
+      steps:
+        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
     cron:
       jobs:
-        - 30 1 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=prod 
-        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=prod 
-        - 20 0 1 * * /cron-run-with-env.sh /app/bin/console akeneo:batch:purge-job-execution --env=prod 
-        - 0 1 * * * /cron-run-with-env.sh /app/bin/console pim:asset:send-expiration-notification --env=prod 
-        - 30 4 * * * /cron-run-with-env.sh /app/bin/console pim:volume:aggregate --env=prod 
+        - 30 1 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=prod
+        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=prod
+        - 20 0 1 * * /cron-run-with-env.sh /app/bin/console akeneo:batch:purge-job-execution --env=prod
+        - 0 1 * * * /cron-run-with-env.sh /app/bin/console pim:asset:send-expiration-notification --env=prod
+        - 30 4 * * * /cron-run-with-env.sh /app/bin/console pim:volume:aggregate --env=prod
         - 0 4 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:purge --more-than-days 90 --no-interaction --force --env=prod
         - 0 5 * * * /cron-run-with-env.sh /app/bin/console akeneo:rule:run --env=prod
-        - 20 0 * * * /cron-run-with-env.sh /app/bin/console pimee:project:notify-before-due-date --env=prod 
-        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pimee:project:recalculate --env=prod 
-        - 30 */1 * * * /cron-run-with-env.sh /app/bin/console pimee:franklin-insights:fetch-products --env=prod 
-        - 0 23 * * * /cron-run-with-env.sh /app/bin/console akeneo:reference-entity:refresh-records --all --env=prod 
+        - 20 0 * * * /cron-run-with-env.sh /app/bin/console pimee:project:notify-before-due-date --env=prod
+        - 0 2 * * * /cron-run-with-env.sh /app/bin/console pimee:project:recalculate --env=prod
+        - 30 */1 * * * /cron-run-with-env.sh /app/bin/console pimee:franklin-insights:fetch-products --env=prod
+        - 0 23 * * * /cron-run-with-env.sh /app/bin/console akeneo:reference-entity:refresh-records --all --env=prod
   frontend:
     path: /app
     build:
       when: -f "package.json"
       steps:
         - run "yarn install"
-        - run "bin/console --env=$AKENEO_APP_MODE pim:installer:assets --symlink"
+        - run "bin/console pim:installer:assets --symlink"
         - run "yarn run webpack-dev"
   docker:
     image:
-      console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-stretch'
+      console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster-console'
+      php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster'
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss
-    tag: 6.5.4
+    image: elasticsearch
+    tag: 7.6.2
+  mysql:
+    tag: 8
   persistence:
     enabled: false
     akeneo:
@@ -105,6 +117,22 @@ attributes:
         #storageClass: "..." most clusters need a custom storageclass
         #hostPath: "..." alternatively for single node testing
         size: 1Gi
+  services:
+    php-base:
+      environment:
+        APP_DEBUG: "0"
+        APP_ENV: "= (@('app.mode') == 'development' ? 'dev' : 'prod')"
+        APP_DATABASE_HOST: = @('database.host')
+        APP_DATABASE_PORT: = @('database.port')
+        APP_DATABASE_NAME: = @('database.name')
+        APP_DATABASE_USER: = @('database.user')
+        APP_DATABASE_PASSWORD: = @('database.pass')
+        APP_DEFAULT_LOCALE: en
+        APP_SECRET: = @('akeneo.secret')
+        APP_INDEX_HOSTS: elasticsearch:9200
+        APP_PRODUCT_AND_PRODUCT_MODEL_INDEX_NAME: akeneo_pim_product_and_product_model
+        MAILER_URL: null://localhost
+        AKENEO_PIM_URL: = "https://" ~ @('hostname')
 ---
 import:
   - harness/config/*.yml
