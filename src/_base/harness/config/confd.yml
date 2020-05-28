@@ -1,4 +1,4 @@
-
+# this file is not considered part of the public API so changes aren't considered breaking
 confd('harness:/'):
   # base templates
   - { src: docker/image/console/Dockerfile }
