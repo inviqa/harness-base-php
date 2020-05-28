@@ -7,37 +7,33 @@ export path_test="./tmp-test"
 
 function main()
 {
-    test "$1" "$2"
+    test "$1" "$2" "${3:-}"
 }
 
 function test()
 (
     local harness="$1"
     local mode="$2"
+    local sync="$3"
 
     # Test default mode of static or dynamic harnesses
     # For dynamic this means a mountpoint for the application code
+    # or mutagen, or docker-sync
     setup "$harness" "$mode"
-    setup_dynamic_mountpoint
+    if [[ "$sync" == "" ]]; then
+      setup_dynamic_mountpoint
+    elif [[ "$sync" == "mutagen" ]]; then
+      setup_dynamic_mutagen
+    fi
     install_environment
     check_environment_started "$harness" "$mode"
     run_pipeline_tests
     restart_environment
     check_environment_started "$harness" "$mode"
-    teardown
-
-    if [[ "$mode" == "dynamic" ]]; then
-      # Test additional dynamic harness modes such as mutagen and docker-sync
-      setup "$harness" "$mode"
-      setup_dynamic_mutagen
-      install_environment
-      check_environment_started "$harness" "$mode"
-      run_pipeline_tests
-      restart_environment
-      check_environment_started "$harness" "$mode"
+    if [[ "$sync" != "" ]]; then
       wait_for_vendor_directory
-      teardown
     fi
+    teardown
 )
 
 function setup()
