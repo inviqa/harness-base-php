@@ -16,6 +16,10 @@
       - nginx:nginx
     volumes:
       - .my127ws/docker/image/varnish/root/etc/varnish/default.vcl:/etc/varnish/default.vcl:ro
+      - type: tmpfs
+        target: /var/lib/varnish:exec
+        tmpfs:
+          size: "100000"
     networks:
       private:
         aliases:

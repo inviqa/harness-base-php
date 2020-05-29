@@ -20,7 +20,7 @@ import std;
 backend default {
     .host = "nginx";
     .port = "80";
-    .first_byte_timeout = "{{ @('php.fpm.ini.max_execution_time') + 2 }}s";
+    .first_byte_timeout = {{ @('php.fpm.ini.max_execution_time') + 2 }}s;
 }
 
 acl purge {
