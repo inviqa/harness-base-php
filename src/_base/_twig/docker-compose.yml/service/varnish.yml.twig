@@ -1,0 +1,28 @@
+{% if 'varnish' in @('app.services') %}
+{% set hostnames = [@('hostname')] %}
+{% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
+  varnish:
+{% if @('app.build') == 'dynamic' %}
+    build: .my127ws/docker/image/varnish
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-varnish' }}
+{% endif %}
+    labels:
+      - traefik.backend={{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+{% if @('services.varnish.environment') %}
+    environment:
+{{ to_nice_yaml(@('services.varnish.environment'), 2, 6) | raw }}
+{% endif %}
+    links:
+      - nginx:nginx
+    networks:
+      private:
+        aliases:
+{% for alias in hostnames %}
+          - {{ alias }}
+{% endfor %}
+      shared: {}
+{% endif %}
