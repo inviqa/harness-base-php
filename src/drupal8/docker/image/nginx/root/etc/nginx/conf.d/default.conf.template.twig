@@ -102,6 +102,9 @@ server {
     # See http://serverfault.com/q/627903/94922 for details.
     include fastcgi_params;
     fastcgi_param HTTPS $custom_https;
+
+    fastcgi_read_timeout {{ @('php.fpm.ini.max_execution_time') + 1 }}s;
+
     # Block httpoxy attacks. See https://httpoxy.org/.
     fastcgi_param HTTP_PROXY "";
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;

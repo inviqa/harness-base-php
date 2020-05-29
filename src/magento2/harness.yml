@@ -33,6 +33,9 @@ attributes:
     web_directory: /app/pub
     media_directory: = @('app.web_directory') ~ '/media'
   php:
+    fpm:
+      ini:
+        max_execution_time: 18000
     version: 7.3
   composer:
     auth:
