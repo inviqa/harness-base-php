@@ -24,6 +24,7 @@ confd('harness:/'):
   - { src: docker/image/php-fpm/root/fix_app_permissions.sh }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
+  - { src: docker/image/php-fpm/root/usr/local/etc/php-fpm.d/pool.conf.template }
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
   - { src: application/overlay/Jenkinsfile }

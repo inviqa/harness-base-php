@@ -13,6 +13,12 @@ pm.max_spare_servers = 3
 
 pm.status_path = /status
 
-clear_env = no
-catch_workers_output = yes
+; if we send this to /proc/self/fd/1, it never appears
+access.log = /proc/self/fd/2
 
+clear_env = no
+
+catch_workers_output = yes
+{% if version_compare(@('php.version'), '7.3.0', '>=') %}
+decorate_workers_output = no
+{% endif %}
