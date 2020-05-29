@@ -4,16 +4,16 @@
     ws create <projectName> inviqa/drupal8:<latestVersion>
     ```  
     (Note: see [harnesses.json] for available versions.)
-    
+
     E.g.  
     ```
-    ws create testProject inviqa/drupal8:v0.5.1
+    ws create testProject inviqa/drupal8:v0.7.0
     ```  
     This will create the new project in the current directory.
-    
+
 2. Fill in project-specific AWS and Github credentials, set as blank if you don't need them.
 
-3. Change to the directory: 
+3. Change to the directory:
    ```
    cd <projectName>
    ```
