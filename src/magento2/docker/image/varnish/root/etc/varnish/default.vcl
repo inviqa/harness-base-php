@@ -21,13 +21,6 @@ backend default {
     .host = "nginx";
     .port = "80";
     .first_byte_timeout = "{{ @('php.fpm.ini.max_execution_time') + 2 }}s";
-    .probe = {
-        .url = "/pub/health_check.php";
-        .timeout = 2s;
-        .interval = 5s;
-        .window = 10;
-        .threshold = 5;
-    }
 }
 
 acl purge {
