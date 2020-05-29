@@ -2,11 +2,7 @@
 {% set hostnames = [@('hostname')] %}
 {% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
   varnish:
-{% if @('app.build') == 'dynamic' %}
-    build: .my127ws/docker/image/varnish
-{% else %}
-    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-varnish' }}
-{% endif %}
+    image: varnish:6
     labels:
       - traefik.backend={{ @('workspace.name') }}
       - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
@@ -18,6 +14,8 @@
 {% endif %}
     links:
       - nginx:nginx
+    volumes:
+      - .my127ws/docker/image/varnish/root/etc/varnish/default.vcl:/etc/varnish/default.vcl:ro
     networks:
       private:
         aliases:

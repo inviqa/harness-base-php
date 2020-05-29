@@ -1,5 +1,0 @@
-FROM varnish:6
-
-COPY ./root/ /
-
-ENV VARNISH_SIZE=1024M
