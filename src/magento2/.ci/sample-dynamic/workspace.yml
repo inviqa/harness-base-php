@@ -13,6 +13,7 @@ attribute('app.services'):
   - rabbitmq
   - redis
   - redis-session
+  - varnish
 
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
 attribute('magento.username'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi7yUH3P6aCmMBl2qwN7PdlRI1EiWoimdCIjtpOjI7czo0ODoiRPQOwTWonSKk4MysvUFMpCh+ooh/BFclduIOquzh2lW1JWA9mAocweHxe95WExrEIjt9")
