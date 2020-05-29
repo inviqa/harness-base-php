@@ -1,0 +1,55 @@
+{{ if .Values.service.rabbitmq }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.resourcePrefix }}rabbitmq
+  labels:
+    app.service: {{ .Values.resourcePrefix }}rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: {{ .Values.resourcePrefix }}rabbitmq
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.service: {{ .Values.resourcePrefix }}rabbitmq
+    spec:
+      containers:
+      - env:
+        {{- range $key, $value := .Values.docker.services.rabbitmq.environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        image: {{ .Values.docker.image.rabbitmq }}
+        imagePullPolicy: Always
+        name: rabbitmq
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        resources:
+          limits:
+            memory: {{ .Values.resources.memory.rabbitmq }}
+          requests:
+            memory: {{ .Values.resources.memory.rabbitmq }}
+        readinessProbe:
+          tcpSocket:
+            port: 5672
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: {{ .Values.resourcePrefix }}rabbitmq-persistent-storage
+          mountPath: /var/lib/rabbitmq
+      restartPolicy: Always
+      volumes:
+      - name: {{ .Values.resourcePrefix }}rabbitmq-persistent-storage
+{{- if .Values.persistence.rabbitmq.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.resourcePrefix }}rabbitmq-pv-claim
+{{- else }}
+        emptyDir: {}
+{{- end }}
+status: {}
+{{ end }}

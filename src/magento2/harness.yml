@@ -7,6 +7,8 @@ harness('inviqa/magento2'):
     confd:
       - harness:/
     attributes:
+      standard:
+        - magento.edition
       secret:
         - magento.username
         - magento.password
@@ -23,6 +25,7 @@ attributes:
       - '/app/generated'
     services:
       - chrome
+      - cron
       - mysql
       - redis
       - redis-session
@@ -57,6 +60,13 @@ attributes:
         - task "composer:install"
         - task "magento:tidy"
         - |
+          if [ "$APP_BUILD" == "static" ] ; then
+            run "mv app/etc/env.php app/etc/env-backup.php"
+            passthru "bin/magento setup:di:compile"
+            run "composer dump-autoload --optimize"
+            run "mv app/etc/env-backup.php app/etc/env.php"
+          fi
+        - |
           if [ "$APP_BUILD" == "static" ] && validate-magento-config ; then
             run "mv app/etc/env.php app/etc/env-backup.php"
             passthru "bin/magento setup:static-content:deploy -f"
@@ -87,18 +97,18 @@ attributes:
             --db-password=${DB_PASS} \
             \
             --session-save=redis \
-            --session-save-redis-host=redis \
-            --session-save-redis-port=6379 \
+            --session-save-redis-host=${REDIS_SESSION_HOST} \
+            --session-save-redis-port=${REDIS_SESSION_PORT} \
             --session-save-redis-db=1 \
             \
             --cache-backend=redis \
-            --cache-backend-redis-server=redis \
-            --cache-backend-redis-port=6379 \
+            --cache-backend-redis-server=${REDIS_HOST} \
+            --cache-backend-redis-port=${REDIS_PORT} \
             --cache-backend-redis-db=2 \
             \
             --page-cache=redis \
-            --page-cache-redis-server=redis \
-            --page-cache-redis-port=6379 \
+            --page-cache-redis-server=${REDIS_HOST} \
+            --page-cache-redis-port=${REDIS_PORT} \
             --page-cache-redis-db=3"
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.
@@ -113,7 +123,8 @@ attributes:
         - task "assets:dump"
     init:
       steps:
-        - run "magento setup:upgrade"
+        - task "rabbitmq:vhosts"
+        - run "magento setup:upgrade --keep-generated"
         - run "magento config:set 'web/unsecure/base_url'       'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/base_url'         'https://${APP_HOST}/'"
         - run "magento config:set 'web/secure/use_in_frontend'  '1'"
@@ -121,12 +132,21 @@ attributes:
         - run "magento config:set 'web/seo/use_rewrites'        '1'"
     migrate:
       steps:
-        - run "magento setup:upgrade"
+        - run "magento setup:upgrade --keep-generated"
         - run "magento cache:clean"
+    cron:
+      jobs:
+        - "= (@('app.mode') == 'production' ? '* * * * * /cron-run-with-env.sh /app/bin/magento cron:run' : '')"
   docker:
     image:
       console: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/magento2:' ~ @('php.version') ~ '-fpm-stretch'
+  framework:
+    readme_blocks:
+      - xml_urn_generation
+  rabbitmq:
+    vhosts:
+      default: 'magento'
   persistence:
     enabled: false
     magento:

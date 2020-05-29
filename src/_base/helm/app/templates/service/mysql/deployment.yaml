@@ -21,7 +21,7 @@ spec:
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        image: mysql:5.7
+        image: {{ .Values.docker.image.mysql }}
         imagePullPolicy: Always
         name: mysql
         args:

@@ -3,9 +3,29 @@ FROM {{ @('docker.image.console') }}
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build
 
+# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+  apt-transport-https \
+  dirmngr \
+  gnupg2 \
+ && set -ex; \
+  key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
+  export GNUPGHOME="$(mktemp -d)"; \
+  gpg --batch --keyserver eu.pool.sks-keyservers.net --recv-keys "$key"; \
+  gpg --batch --export "$key" > /etc/apt/trusted.gpg.d/mysql.gpg; \
+  gpgconf --kill all; \
+  rm -rf "$GNUPGHOME"; \
+  apt-key list > /dev/null \
+ && echo "deb https://repo.mysql.com/apt/debian/ stretch mysql-8.0" > /etc/apt/sources.list.d/mysql.list \
+ && apt-get update \
+ && apt-get install -y \
+  mysql-community-client \
+ && rm -rf /var/lib/apt/lists/*
+
 ENV APP_MODE={{ @('app.mode') }} \
-  ASSETS_DIR={{ @('assets.local') }} \
-  AKENEO_APP_MODE={{ @('akeneo.app.mode') }}
+  APP_BUILD={{ @('app.build') }} \
+  ASSETS_DIR={{ @('assets.local') }}
 
 {% if @('node.version') is not null %}
 USER build
@@ -29,11 +49,7 @@ VOLUME /app
 VOLUME /home/build/application
 {% endif %}
 
-{% if @('app.build') == 'static' %}
-RUN chmod +x /entrypoint.sh
+ENV PATH "$PATH:/app/bin:/app/vendor/bin"
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sleep", "infinity"]
-{% else %}
-ENTRYPOINT ["/entrypoint.dynamic.sh"]
-CMD ["sleep", "infinity"]
-{% endif %}

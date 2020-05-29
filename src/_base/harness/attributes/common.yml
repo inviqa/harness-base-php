@@ -57,6 +57,8 @@ attributes.default:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+      rabbitmq:
+        external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
     qa:
       enabled: no
       environment: ~
@@ -67,6 +69,8 @@ attributes.default:
       hostname: = @('pipeline.qa.namespace') ~ '.example.com'
       resourcePrefix: ~
       persistence: ~
+      rabbitmq:
+        external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
 
   docker:
     repository: = @("workspace.name")
@@ -96,6 +100,9 @@ attributes.default:
       steps: []
     cron:
       jobs: []
+
+  framework:
+    readme_blocks: []
 
   frontend:
     path: /app
@@ -133,8 +140,21 @@ attributes.default:
         memory_limit: -1
     fpm:
       ini:
+        disable_functions: pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals
+        error_reporting: "E_ALL"
+        expose_php: Off
+        log_errors: On
+        max_input_time: 60
         memory_limit: 1024M
-    ini: ~
+        output_buffering: 4096
+        register_argc_argv: Off
+        request_order: GP
+        variables_order: GPCS
+    ini:
+      enable_dl: Off
+      opcache.enable_cli: On
+      realpath_cache_ttl: 600
+      short_open_tag: Off
     ext-xdebug:
       enable: no
       cli:
@@ -157,17 +177,21 @@ attributes.default:
     pass: app
     name: app
     root_pass: DV6RdNY3QcFsBk7V
+    port_forward: ~
     var:
       max_allowed_packet: 4M
     import:
       steps: []
 
   elasticsearch:
+    host: elasticsearch
     image: elasticsearch
+    port: 9200
     tag: 7.1.1
 
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
+  hostname_aliases: []
 
   helm:
     timeout: 300
@@ -178,7 +202,32 @@ attributes.default:
         port: 9000
     entrypoint:
       steps: []
-  
+
+  mysql:
+    image: mysql
+    tag: 5.7
+
+  rabbitmq:
+    image: rabbitmq
+    tag: 3.8-management-alpine
+    api_port: 15672
+    erlang_cookie: TeTTiwT9y548yIcfw4peaOrqgtLItD6B
+    external_host: = 'rabbitmq-' ~ @('hostname')
+    host: rabbitmq
+    port: 5672
+    user: rabbitmq
+    password: rabbitmq
+    vhosts:
+      default: '/'
+
+  redis:
+    host: redis
+    port: 6379
+
+  redis_session:
+    host: redis-session
+    port: 6379
+
   resources:
     cpu:
       requests: []
@@ -194,6 +243,7 @@ attributes.default:
       php_fpm: "1024Mi"
       php_fpm_exporter: "100Mi"
       postgres: "512Mi"
+      rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
 
@@ -209,6 +259,10 @@ attributes.default:
       enabled: true
       accessMode: ReadWriteOnce
       size: 4Gi
+    rabbitmq:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
     postgres:
       enabled: true
       accessMode: ReadWriteOnce

@@ -78,6 +78,11 @@ command('console'):
     #!bash(workspace:/)|@
     passthru docker-compose exec -u build console bash
 
+command('composer %'):
+  exec: |
+    #!bash(workspace:/)|=
+    passthru ws exec composer ={ input.argument('%') }
+
 command('db-console'): |
   #!bash
   ws db console

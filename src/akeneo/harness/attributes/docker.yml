@@ -5,16 +5,10 @@ attributes:
   resources:
     memory:
       job_queue_consumer: "1024Mi"
-  nginx:
-    copy_directories:
-     - = @('app.web_directory')
-     - = @('app.vendor_directory')
-     - /app/src/Resources
   services:
     php-base:
       environment:
         AKENEO_SECRET: = @('akeneo.secret')
-        AKENEO_APP_MODE:  = @('akeneo.app.mode')
     job-queue-consumer:
       environment:
         AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"

@@ -1,0 +1,23 @@
+#!/bin/bash
+{% set hostnames = [@('hostname')] %}
+{% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
+
+function task_welcome()
+{
+    echo ""
+    echo "Welcome!"
+    echo "--------"
+    {% for host in hostnames -%}
+    echo "https://{{ host }}"
+    {% endfor -%}
+    echo "Admin: /admin"
+    echo "  Username: admin"
+    echo "  Password: admin123"
+    {% if 'rabbitmq' in @('app.services') -%}
+    echo ""
+    echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"
+    echo "  Username: {{ @('rabbitmq.user') }}"
+    echo "  Password: {{ @('rabbitmq.password') }}"
+    {% endif -%}
+    echo ""
+}

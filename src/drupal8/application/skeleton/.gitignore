@@ -1,0 +1,19 @@
+# Directories
+/.my127ws
+/.docker-sync/
+/bin/
+/tools/assets/
+/vendor/
+
+# Files
+/.dockerignore
+/auth.json
+/docker-compose.yml
+/docker-sync.yml
+/env.sh
+/mutagen.yml
+/mutagen.yml.lock
+/phpcs.xml
+/phpmd.xml
+/phpunit.xml
+/workspace.override.yml

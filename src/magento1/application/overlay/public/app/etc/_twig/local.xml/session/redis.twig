@@ -1,7 +1,7 @@
 <session_save><![CDATA[db]]></session_save>
 <redis_session>
-    <host><![CDATA[redis-session]]></host>
-    <port><![CDATA[6379]]></port>
+    <host><![CDATA[{{ @('redis_session.host') }}]]></host>
+    <port><![CDATA[{{ @('redis_session.port') }}]]></port>
     <password><![CDATA[]]></password><!-- Specify if your Redis server requires authentication -->
     <timeout><![CDATA[2.5]]></timeout>
     <persistent><![CDATA[c]]></persistent> <!-- Specify unique string to enable persistent connections. E.g.: sess-db0; bugs with phpredis and php-fpm are known: https://github.com/nicolasff/phpredis/issues/70 -->

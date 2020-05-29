@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# create rabbitmq virtual hosts
+function task_rabbitmq_vhosts() {
+{% if 'rabbitmq' not in @('app.services') %}
+   :
+{% else %}
+    local rabbitmq_api_url="http://$RABBITMQ_HOST:$RABBITMQ_API_PORT/api"
+    task "http:wait" "$rabbitmq_api_url/index.html"
+
+{% for vhost in @('rabbitmq.vhosts') %}
+    curl -f -I -s -u "$RABBITMQ_USER:$RABBITMQ_PASSWORD" -X PUT "$rabbitmq_api_url/vhosts/{{ vhost }}"
+{% endfor %}
+{% endif %}
+}

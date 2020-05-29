@@ -86,15 +86,52 @@ MY127WS_ENV=pipeline ws install
 
 ## Deployment
 
+### Deploy Script
+
 The [deploy script](./deploy) does a similar thing but the end result is output to `src/<framework>`, where it is then
 committed as a publish commit to a temporary build branch.
 
 A "subtree-split" is then performed which outputs a directory for each folder into a "publish" folder, where it is then
-force pushed to the individual harness repositories' `0.2.x` branch.
+force pushed to the individual harness repositories' `0.8.x` branch.
 
-Once the individual harness repository has the latest 0.2.x branch, a tag can be made in each repository (manually).
+## Release
+
+### Changelog Generation
+
+We are keeping a changelog, powered by [GitHub Changelog Generator].
+
+When ready to tag a release, make a new branch from the `0.8.x` branch for the changelog entries:
+1. Generate a `repo` scope token for use with the changelog generator: https://github.com/settings/tokens/new?description=GitHub%20Changelog%20Generator%20token
+2. Export it in your environment: `export CHANGELOG_GITHUB_TOKEN=...`
+3. Run the following docker command to generate the changelog, replacing `<nextReleaseTag>` with the version number you
+   wish to release:
+  ```bash
+  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --future-release <nextReleaseTag>
+  ```
+4. Examine the generated CHANGELOG.md. For every entry in the `Merged pull requests` section, examine the Pull Requests
+   and assign each pull request either a `enhancement` label for a new feature, `bug` for a bugfix or `deprecated` for
+   a deprecation.
+5. For each Pull Request in the release, assign an appropriate `harness-*` label.
+6. Re-generate the changelog using step 3 as needed.
+7. Commit the resulting CHANGELOG.md, push and raise a pull request.
+8. Once merged, continue with the release process below.
+
+### Performing a Release
+
+Once the CHANGELOG.markdown is in the branch you wish to release:
+
+1. Tag the release version with `git tag <releaseVersion>`
+2. Push the tag to the repository: `git push origin <releaseVersion>`
+3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
+4. Run the deploy script: `./deploy`
+5. On each downstream repository:
+   1. Tag the latest `0.8.x` branch push as the release version.
+   2. Push the tag to the repository
+6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
+   php-based harnesses to `harnesses.json`
 
 [Workspace]: https://github.com/my127/workspace
+[GitHub Changelog Generator]: https://github.com/github-changelog-generator/github-changelog-generator
 [inviqa/harness-php]: https://github.com/inviqa/harness-php
 [inviqa/harness-akeneo]: https://github.com/inviqa/harness-akeneo
 [inviqa/harness-drupal8]: https://github.com/inviqa/harness-drupal8
@@ -103,3 +140,4 @@ Once the individual harness repository has the latest 0.2.x branch, a tag can be
 [inviqa/harness-spryker]: https://github.com/inviqa/harness-spryker
 [inviqa/harness-symfony]: https://github.com/inviqa/harness-symfony
 [inviqa/harness-wordpress]: https://github.com/inviqa/harness-wordpress
+[my127/my127.io]: https://github.com/my127/my127.io
