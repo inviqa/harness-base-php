@@ -40,10 +40,14 @@
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
 {% endif %}
     labels:
+{% if 'varnish' not in @('app.services') %}
       - traefik.backend={{ @('workspace.name') }}
       - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
+{% else %}
+      - traefik.enable=false
+{% endif %}
 {% if @('services.nginx.environment') %}
     environment:
 {{ to_nice_yaml(@('services.nginx.environment'), 2, 6) | raw }}
@@ -51,11 +55,15 @@
     links:
       - php-fpm:php-fpm
     networks:
+{% if 'varnish' not in @('app.services') %}
       private:
         aliases:
 {% for alias in hostnames %}
           - {{ alias }}
 {% endfor %}
+{% else %}
+      private: {}
+{% endif %}
       shared: {}
 
   php-fpm:
