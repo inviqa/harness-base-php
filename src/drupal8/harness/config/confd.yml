@@ -40,6 +40,7 @@ confd('harness:/'):
   - { src: docker-sync.yml, dst: workspace:/docker-sync.yml }
   - { src: mutagen.yml, dst: workspace:/mutagen.yml }
   - { src: harness/scripts/enable.sh }
+  - { src: helm/app/templates/service/varnish/configmap.yaml }
   - { src: helm/app/values.yaml }
   - { src: helm/app/values-production.yaml }
   - { src: helm/app/values-preview.yaml }
