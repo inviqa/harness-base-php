@@ -21,6 +21,22 @@
         tmpfs:
           size: "100000"
     networks:
+      - private
+      - shared
+
+  # Provide TLS offloading for integration tests via varnish
+  tls-offload:
+{% if @('app.build') == 'dynamic' %}
+    build:
+      context: .my127ws/docker/image/tls-offload/
+{% else %}
+    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-tls-offload' }}
+{% endif %}
+    labels:
+      - traefik.enable=false
+    links:
+      - varnish:varnish
+    networks:
       private:
         aliases:
 {% for alias in hostnames %}

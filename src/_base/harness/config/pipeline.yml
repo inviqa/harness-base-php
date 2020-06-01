@@ -2,6 +2,7 @@
 command('app build'):
   env:
     HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+    HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
   exec: |
     #!bash(workspace:/)|@
     ws app build console
@@ -9,6 +10,9 @@ command('app build'):
     ws app build nginx
     if [[ "${HAS_CRON}" == "true" ]]; then
       ws app build cron
+    fi
+    if [[ "${HAS_VARNISH}" == "true" ]]; then
+      ws app build tls-offload
     fi
 
 command('app build console'): |
@@ -26,6 +30,10 @@ command('app build php-fpm'): |
 command('app build nginx'): |
   #!bash(harness:/docker/image/nginx)|@
   passthru docker build -t @('docker.repository'):@('app.version')-nginx .
+
+command('app build tls-offload'): |
+  #!bash(harness:/docker/image/tls-offload)|@
+  passthru docker build -t @('docker.repository'):@('app.version')-tls-offload .
 
 command('app publish'):
   env:
