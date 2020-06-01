@@ -35,6 +35,9 @@ service:
   php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
   varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
 
+replicas:
+{% include blocks ~ 'replicas.yml.twig' %}
+
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
 
