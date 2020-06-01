@@ -32,6 +32,7 @@ service:
   job-queue-consumer: {{ ("job-queue-consumer" in @('app.services')) ? 'true' : 'false' }}
   cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
   php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
+  varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
