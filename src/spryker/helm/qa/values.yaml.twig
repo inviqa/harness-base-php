@@ -25,4 +25,4 @@
   resourcePrefix: ""
 
   ingress:
-    serviceTarget: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
+    targetService: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}

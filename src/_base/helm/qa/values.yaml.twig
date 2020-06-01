@@ -1,7 +1,7 @@
 {{ @('workspace.name') }}:
   resourcePrefix: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}
 ingress:
-  serviceTarget: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
+  targetService: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
 {% if @('pipeline.qa.services') %}
   docker:
     services:

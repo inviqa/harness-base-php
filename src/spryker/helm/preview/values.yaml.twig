@@ -28,4 +28,4 @@
 
   prefix: ""
   ingress:
-    serviceTarget:{{ @('pipeline.preview.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
+    targetService:{{ @('pipeline.preview.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
