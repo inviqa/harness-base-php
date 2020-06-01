@@ -5,6 +5,7 @@ environment:
 
 ingress:
   targetService: {{ @('pipeline.base.resourcePrefix') }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
+  type: "standard" # standard or istio
 
 docker:
   config: {{ @('docker.config') }}
@@ -43,6 +44,5 @@ prometheus:
 
 resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}
 
-ingress: "standard" # standard or istio
 istio:
 {{ to_nice_yaml(@('pipeline.base.istio'), 2, 2) | raw }}

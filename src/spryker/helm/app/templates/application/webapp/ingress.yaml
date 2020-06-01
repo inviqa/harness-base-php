@@ -1,5 +1,5 @@
 {{- $root := . -}}
-{{ if eq .Values.ingress "standard" }}
+{{ if eq .Values.ingress.type "standard" }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

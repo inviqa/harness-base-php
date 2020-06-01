@@ -38,7 +38,7 @@ spec:
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
         name: app-migrate
-{{ if eq .Values.ingress "istio" }}
+{{ if eq .Values.ingress.type "istio" }}
         command: ["/bin/sh"]
         args: ["-c", "app migrate ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
 {{ else }}
