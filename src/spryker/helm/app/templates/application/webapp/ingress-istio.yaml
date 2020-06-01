@@ -19,7 +19,7 @@ spec:
  http:
  - route:
    - destination:
-       host: {{ .Values.resourcePrefix }}webapp
+       host: {{ .Values.ingress.targetService }}
        port:
          number: 80
 {{ end }}
