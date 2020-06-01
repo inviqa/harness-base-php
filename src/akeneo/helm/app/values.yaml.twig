@@ -36,7 +36,7 @@ service:
   varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
 
 replicas:
-{% include blocks ~ 'replicas.yml.twig' %}
+{{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
