@@ -1,9 +1,6 @@
 #
-# This is an example VCL file for Varnish.
-#
-# It does not do anything by default, delegating control to the
-# builtin VCL. The builtin VCL is called when there is no explicit
-# return statement.
+# This is a magento VCL file for Varnish from
+# https://github.com/magento/magento2/blob/2.3.5/app/code/Magento/PageCache/etc/varnish6.vcl
 #
 # See the VCL chapters in the Users Guide for a comprehensive documentation
 # at https://www.varnish-cache.org/docs/.
@@ -259,4 +256,3 @@ sub vcl_hit {
         return (deliver);
     }
 }
-
