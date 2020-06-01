@@ -1,4 +1,4 @@
-{% set blocks  = '../../../../docker/image/varnish/root/etc/varnish/' %}
+{% set blocks  = 'docker/image/varnish/root/etc/varnish/' %}
 {% verbatim %}
 {{ if .Values.service.varnish }}
 apiVersion: v1
@@ -10,7 +10,8 @@ metadata:
 data:
   default.vcl: |
 {% endverbatim %}
-    {% include blocks ~ 'default.vcl' %}
-{% verbatim %}
+{%- set config = include(blocks ~ 'default.vcl.twig') %}
+{{ indent(config, 4) }}
+{%- verbatim %}
 {{ end }}
 {% endverbatim %}
