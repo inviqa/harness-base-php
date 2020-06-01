@@ -23,3 +23,6 @@
 {{ deep_merge_to_yaml([@('pipeline.qa.services'), additional_services], 2, 6) | raw }}
 
   resourcePrefix: ""
+
+  ingress:
+    serviceTarget: {{ @('pipeline.qa.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}

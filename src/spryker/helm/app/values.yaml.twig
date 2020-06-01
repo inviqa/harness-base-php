@@ -7,7 +7,7 @@ environment:
 {% include blocks ~ 'environment.yml.twig' %}
 
 ingress:
-  serviceTarget: {{ .Values.resourcePrefix }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
+  serviceTarget: {{ @('pipeline.base.resourcePrefix') }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
 
 docker:
   config: {{ @('docker.config') }}

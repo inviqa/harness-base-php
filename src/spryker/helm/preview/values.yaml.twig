@@ -27,3 +27,5 @@
 {{ deep_merge_to_yaml([@('pipeline.preview.services'), additional_services], 2, 6) | raw }}
 
   prefix: ""
+  ingress:
+    serviceTarget:{{ @('pipeline.preview.resourcePrefix') | json_encode | raw }}{{ ("varnish" in @('app.services')) ? 'varnish' : 'webapp' }}
