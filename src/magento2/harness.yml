@@ -136,6 +136,9 @@ attributes:
         - run "magento config:set 'web/secure/use_in_frontend'  '1'"
         - run "magento config:set 'web/secure/use_in_adminhtml' '1'"
         - run "magento config:set 'web/seo/use_rewrites'        '1'"
+        - if [[ "$HAS_VARNISH" == "true" ]]; then
+            run "magento config:set 'system/full_page_cache/caching_application' '2'";
+          fi
     migrate:
       steps:
         - run "magento setup:upgrade --keep-generated"

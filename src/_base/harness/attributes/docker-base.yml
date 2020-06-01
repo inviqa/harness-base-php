@@ -34,6 +34,7 @@ attributes:
       environment:
         DB_ADMIN_USER: root
         DB_ADMIN_PASS: = @('database.root_pass')
+        HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
     php-fpm:
       environment:
         AUTOSTART_PHP_FPM: "true"
