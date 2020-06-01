@@ -47,5 +47,4 @@ spec:
       - name: {{ .Values.resourcePrefix }}varnish-cache
         emptyDir:
           medium: Memory
-status: {}
 {{ end }}
