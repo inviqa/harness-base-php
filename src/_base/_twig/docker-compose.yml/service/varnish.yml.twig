@@ -21,8 +21,15 @@
         tmpfs:
           size: "100000"
     networks:
-      - private
-      - shared
+      private:
+        aliases:
+          - varnish-0.varnish-headless
+{% if @('replicas.varnish') > 1 %}
+{% for instanceNumber in 1..(@('replicas.varnish')-1) %}
+          - varnish-{{ instanceNumber }}.varnish-headless
+{% endfor %}
+{% endif %}
+      shared: {}
 
   # Provide TLS offloading for integration tests via varnish
   tls-offload:

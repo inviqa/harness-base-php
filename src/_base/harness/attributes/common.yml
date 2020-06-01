@@ -255,6 +255,9 @@ attributes.default:
       redis_session: "1024Mi"
       varnish: "1124Mi"
 
+  replicas:
+    varnish: 1
+
   persistence:
     enabled: false
     mountVolumesOnConsole: true # possible to disable, but may lead to unexpected concequences with app init/migrate

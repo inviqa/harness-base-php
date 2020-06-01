@@ -6,7 +6,7 @@ metadata:
   labels:
     app.service: {{ .Values.resourcePrefix }}varnish
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas.varnish }}
   podManagementPolicy: Parallel
   selector:
     matchLabels:
