@@ -253,6 +253,7 @@ attributes.default:
       rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
+      varnish: "1124Mi"
 
   persistence:
     enabled: false

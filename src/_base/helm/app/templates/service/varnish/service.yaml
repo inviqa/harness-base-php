@@ -1,0 +1,17 @@
+{{ if .Values.service.varnish }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.service: {{ .Values.resourcePrefix }}varnish
+  name: {{ .Values.resourcePrefix }}varnish
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+  selector:
+    app.service: {{ .Values.resourcePrefix }}varnish
+status:
+  loadBalancer: {}
+{{ end }}

@@ -1,0 +1,45 @@
+{{ if .Values.service.varnish }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.resourcePrefix }}varnish
+  labels:
+    app.service: {{ .Values.resourcePrefix }}varnish
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.service: {{ .Values.resourcePrefix }}varnish
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.service: {{ .Values.resourcePrefix }}varnish
+    spec:
+      containers:
+      - name: varnish
+        image: varnish:6
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: {{ .Values.resources.memory.varnish }}
+          requests:
+            memory: {{ .Values.resources.memory.varnish }}
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: {{ .Values.resourcePrefix }}varnish-cache
+          mountPath: /var/lib/varnish
+      restartPolicy: Always
+      volumes:
+      - name: {{ .Values.resourcePrefix }}varnish-cache
+        emptyDir:
+          medium: Memory
+{{- end }}
+status: {}
+{{ end }}

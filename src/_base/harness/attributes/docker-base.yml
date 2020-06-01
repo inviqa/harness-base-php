@@ -60,6 +60,9 @@ attributes:
         PGDATA: /var/lib/postgresql/data/pgdata
     cron:
       environment: []
+    varnish:
+      environment:
+        VARNISH_SIZE: "1024M"
   pipeline:
     base:
       prometheus:
