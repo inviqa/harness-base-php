@@ -4,7 +4,7 @@ after('harness.install'): |
   ws enable
 
 after('harness.refresh'): |
-  #!bash(harness:/)|@
+  #!bash(workspace:/)|@
   run docker-compose -p @('namespace') stop
   run docker-compose -p @('namespace') pull
   run docker-compose -p @('namespace') build --pull
