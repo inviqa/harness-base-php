@@ -7,4 +7,5 @@ after('harness.refresh'): |
   #!bash(harness:/)|@
   run docker-compose -p @('namespace') stop
   run docker-compose -p @('namespace') pull
+  run docker-compose -p @('namespace') build --pull
   run docker-compose -p @('namespace') up -d --build
