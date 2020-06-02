@@ -19,7 +19,7 @@ spec:
  http:
  - route:
    - destination:
-       host: {{ .Values.ingress.targetService }}
+       host: {{ .Values.ingress.target_service }}
        port:
          number: 80
 {{ end }}

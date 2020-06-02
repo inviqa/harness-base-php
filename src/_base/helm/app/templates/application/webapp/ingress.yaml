@@ -18,7 +18,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ .Values.ingress.targetService }}
+          serviceName: {{ .Values.ingress.target_service }}
           servicePort: 80
 status:
   loadBalancer: {}
