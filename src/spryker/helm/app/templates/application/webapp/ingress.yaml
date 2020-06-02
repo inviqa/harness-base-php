@@ -20,7 +20,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ .Values.resourcePrefix }}{{ $root.Values.ingress.target_service }}
+          serviceName: {{ $root.Values.resourcePrefix }}{{ $root.Values.ingress.target_service }}
           servicePort: 80
   {{- end }}
 status:
