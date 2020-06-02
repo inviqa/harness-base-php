@@ -10,7 +10,7 @@ metadata:
 data:
   default.vcl: |
 {% endverbatim %}
-{%- set config = include(blocks ~ 'default.vcl.twig') %}
+{%- set config = include(blocks ~ 'default.vcl.twig', {varnish: {target_service: "{{ .Values.resourcePrefix }}webapp"}}) %}
 {{ indent(config, 4) }}
 {%- verbatim %}
 {{ end }}
