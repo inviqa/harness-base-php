@@ -4,7 +4,7 @@ environment:
 {% include blocks ~ 'environment.yml.twig' %}
 
 ingress:
-  target_service: "{% verbatim %}{{ .Values.resourcePrefix }}{% endverbatim %}{{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}"
+  target_service: {{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}
   type: "standard" # standard or istio
 
 docker:
