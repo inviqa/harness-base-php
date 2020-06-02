@@ -232,6 +232,7 @@ command('harness update existing'):
     ws harness prepare
     touch .my127ws/.flag-built
     ws refresh
+    ws exec app overlay:apply
     ws exec composer install
     ws exec app migrate
     ws exec app welcome
