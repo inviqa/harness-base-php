@@ -235,6 +235,9 @@ attributes.default:
     host: 'mailhog-relay'
     port: 1025
 
+  varnish:
+    target_service: nginx
+
   resources:
     cpu:
       requests: []

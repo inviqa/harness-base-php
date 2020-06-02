@@ -14,7 +14,7 @@ vcl 4.1;
 
 # Default backend definition. Set this to point to your content server.
 backend default {
-    .host = "nginx";
+    .host = "{{ @('varnish.target_service') }}";
     .port = "80";
     .first_byte_timeout = {{ @('php.fpm.ini.max_execution_time') + 2 }}s;
 }
