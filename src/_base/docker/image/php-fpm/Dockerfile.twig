@@ -7,6 +7,9 @@ FROM {{ @('docker.image.php-fpm') }}
 WORKDIR /app
 COPY root  /
 
+RUN curl -L -o /usr/local/bin/mhsendmail -sS -f https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+ && chmod +x /usr/local/bin/mhsendmail
+
 {% if @('app.build') == 'static' %}
 COPY --from=console --chown=root:root /app /app
 RUN bash /fix_app_permissions.sh
