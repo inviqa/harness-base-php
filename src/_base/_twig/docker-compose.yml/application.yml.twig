@@ -30,6 +30,7 @@
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
+      - shared
 
   nginx:
 {% if @('app.build') == 'dynamic' %}
@@ -74,6 +75,7 @@
       - traefik.enable=false
     networks:
       - private
+      - shared
     environment:
 {{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
