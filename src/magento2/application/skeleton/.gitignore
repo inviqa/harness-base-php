@@ -29,9 +29,6 @@
 /.travis.yml
 /.travis.yml.sample
 /.user.ini
-/docker-compose.yml
-/docker-sync.yml
-/env.sh
 /app/.htaccess
 /app/*.php
 /auth.json
@@ -39,6 +36,9 @@
 /CHANGELOG.md
 /CONTRIBUTING.md
 /COPYING.txt
+/docker-compose.yml
+/docker-sync.yml
+/env.sh
 /Gruntfile.js.sample
 /grunt-config.json.sample
 /index.php

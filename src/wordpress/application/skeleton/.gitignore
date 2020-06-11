@@ -4,6 +4,7 @@
 /.github/
 /bin/
 /public/wp-content/uploads/
+/tools/assets/
 /vendor/
 
 # Files
