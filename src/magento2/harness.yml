@@ -168,6 +168,11 @@ attributes:
 command('redis-flush'): |
   #!bash(harness:/)|@
   docker-compose -p @('namespace') exec redis redis-cli flushall
+
+command('magento %'):
+  exec: |
+    #!bash(workspace:/)|=
+    passthru ws exec bin/magento ={input.argument('%')}
 ---
 import:
   - harness/config/*.yml
