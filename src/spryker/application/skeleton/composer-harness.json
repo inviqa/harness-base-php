@@ -2,6 +2,9 @@
   "name": "inviqa/spryker-startup",
   "description": "Startup template for Spryker projects.",
   "type": "project",
+  "require": {
+    "symfony/console": "^3.4.30"
+  },
   "require-dev": {
     "codeception/codeception": "~2.5.6",
     "behat/behat": "^3.5",
