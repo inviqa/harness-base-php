@@ -29,6 +29,8 @@ attributes:
     mode: development
   php:
     version: 7.2
+    ini:
+      opcache.max_accelerated_files: 32531
   database:
     platform: postgres
     host: postgres
