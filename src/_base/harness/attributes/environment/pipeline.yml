@@ -7,6 +7,8 @@ attributes:
     version: =exec("git log -n 1 --pretty=format:'%H'")
     mode: production
   php:
+    ini:
+      opcache.validate_timestamps: Off
     fpm:
       ini:
         display_errors: Off
