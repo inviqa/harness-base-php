@@ -3,7 +3,6 @@
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
-    "spryker/web-profiler": "^1.2.3",
     "symfony/console": "^3.4.30"
   },
   "require-dev": {
