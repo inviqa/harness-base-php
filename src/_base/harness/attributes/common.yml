@@ -230,7 +230,7 @@ attributes.default:
     port: 6379
 
   smtp:
-    host: 'mailhog'
+    host: 'mailhog-relay'
     port: 1025
 
   resources:
