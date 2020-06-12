@@ -3,7 +3,7 @@
 function task_spryker_build()
 {
     {% if @('app.mode') == 'development' %}
-        passthru "composer install --no-interaction --dev --optimize-autoloader"
+        passthru "composer install --no-interaction --optimize-autoloader"
     {% else %}
         passthru "composer install --no-interaction --no-dev --optimize-autoloader"
     {% endif %}
