@@ -4,6 +4,7 @@ harness('inviqa/spryker'):
   require:
     services:
       - proxy
+      - mail
     confd:
       - harness:/
 ---
@@ -95,9 +96,6 @@ attributes:
       DE: = 'glue-de-' ~ @('hostname')
       AT: = 'glue-at-' ~ @('hostname')
       US: = 'glue-us-' ~ @('hostname')
-  smtp:
-    host: 'mailhog'
-    port: 1025
   nginx:
     global:
       conf:

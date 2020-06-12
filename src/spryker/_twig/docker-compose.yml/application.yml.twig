@@ -78,7 +78,6 @@
       - traefik.enable=false
     networks:
       - private
-      - shared
     environment:
 {{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
@@ -86,3 +85,13 @@
 {% for pool in @('php-fpm.pools') %}
       - {{ pool.port }}
 {% endfor %}
+
+  relay:
+    build: .my127ws/docker/image/relay
+    labels:
+      - traefik.enable=false
+    networks:
+      private:
+        aliases:
+          - mailhog-relay
+      shared: {}

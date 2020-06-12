@@ -81,3 +81,13 @@
 {% for pool in @('php-fpm.pools') %}
       - {{ pool.port }}
 {% endfor %}
+
+  relay:
+    build: .my127ws/docker/image/relay
+    labels:
+      - traefik.enable=false
+    networks:
+      private:
+        aliases:
+          - mailhog-relay
+      shared: {}

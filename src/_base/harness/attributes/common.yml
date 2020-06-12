@@ -154,6 +154,7 @@ attributes.default:
       enable_dl: Off
       opcache.enable_cli: On
       realpath_cache_ttl: 600
+      sendmail_path: = '\'/usr/local/bin/mhsendmail --smtp-addr="' ~ @('smtp.host') ~ ':' ~ @('smtp.port') ~ '"\''
       short_open_tag: Off
     ext-xdebug:
       enable: no
@@ -227,6 +228,10 @@ attributes.default:
   redis_session:
     host: redis-session
     port: 6379
+
+  smtp:
+    host: 'mailhog-relay'
+    port: 1025
 
   resources:
     cpu:

@@ -1,7 +1,9 @@
 FROM {{ @('docker.image.console') }}
 
 COPY .my127ws/docker/image/console/root /
-RUN chown -R build:build /home/build
+RUN chown -R build:build /home/build \
+ && curl -L -o /usr/local/bin/mhsendmail -sS -f https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+ && chmod +x /usr/local/bin/mhsendmail
 
 # gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
 RUN apt-get update \

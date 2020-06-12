@@ -4,6 +4,7 @@ harness('inviqa/symfony'):
   require:
     services:
       - proxy
+      - mail
     confd:
       - harness:/
 ---
