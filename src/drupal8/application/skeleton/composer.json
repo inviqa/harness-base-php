@@ -69,6 +69,9 @@
       "phpcs -v ./docroot/modules/custom",
       "drupal-check -ad ./docroot/modules/custom"
     ],
+    "test-unit": [
+      "echo \"Please run 'ws test-unit' to run phpunit\""
+    ],
     "test-acceptance": [
       "behat"
     ],
