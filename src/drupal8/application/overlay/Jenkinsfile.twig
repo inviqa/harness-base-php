@@ -1,0 +1,63 @@
+pipeline {
+    agent { label "my127ws" }
+    environment {
+        MY127WS_KEY = credentials('{{ @('jenkins.credentials.my127ws_key') }}')
+        MY127WS_ENV = "pipeline"
+    }
+    triggers { cron(env.BRANCH_NAME == '{{ @('git.main_branch') }}' ? 'H H(0-6) * * *' : '') }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'ws install'
+                sh 'ws exec composer install --dev --no-interaction'
+                milestone(10)
+            }
+        }
+        stage('Test')  {
+            parallel {
+                stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
+                stage('unit')       { steps { sh 'ws test-unit'                     } }
+                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+            }
+        }
+{% if @('pipeline.publish.enabled') == 'yes' %}
+        stage('Publish') {
+            when { not { triggeredBy 'TimerTrigger' } }
+            steps {
+                milestone(50)
+                sh 'ws app publish'
+{% if @('pipeline.publish.chart.enabled') %}
+                sh 'ws app publish chart "${GIT_BRANCH}" "{{ @('workspace.name') }} build artifact ${GIT_COMMIT}"'
+{% endif %}
+            }
+        }
+{% endif %}
+{% if @('pipeline.qa.enabled') == 'yes' %}
+        stage('Deploy (QA)') {
+            environment {
+{% for key, value in @('pipeline.qa.environment') %}
+                {{ key }} = {{ value|raw }}
+{% endfor %}
+            }
+            when {
+                not { triggeredBy 'TimerTrigger' }
+                branch '{{ @('pipeline.qa.branch') }}'
+            }
+            steps {
+                milestone(100)
+                lock(resource: '{{ @('workspace.name') }}-qa-deploy', inversePrecedence: true) {
+                    milestone(101)
+                    sh 'ws app deploy qa'
+                }
+            }
+        }
+{% endif %}
+    }
+    post {
+        always {
+            sh 'ws destroy'
+            cleanWs()
+        }
+    }
+}

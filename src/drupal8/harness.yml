@@ -86,6 +86,15 @@ command('drush %'):
     #!bash(workspace:/)|=
     passthru ws exec drush --root=={ @('drupal.docroot') } ={ input.argument('%') }
 ---
+command('test-unit'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|=
+    docker-compose exec -T -u root php-fpm bash -c 'mkdir -p /app/docroot/sites/simpletest'
+    docker-compose exec -T -u root php-fpm bash -c 'chown -R www-data:www-data /app/docroot/sites/simpletest'
+    passthru docker-compose exec -T -u www-data php-fpm bash -c 'bin/phpunit'
+---
 import:
   - harness/config/*.yml
   - harness/attributes/*.yml
