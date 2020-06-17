@@ -20,7 +20,7 @@
     "drupal/core-dev": "^8",
     "drupal/devel": "^2.0",
     "drupal/drupal-extension": "^3.4",
-    "jangregor/phpstan-prophecy": "^0.4.2",
+    "jangregor/phpstan-prophecy": "^0.8",
     "mglaman/drupal-check": "^1.1",
     "mglaman/phpstan-drupal": "^0.12",
     "mikey179/vfsstream": "^1.0",
