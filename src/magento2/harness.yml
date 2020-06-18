@@ -33,7 +33,7 @@ attributes:
     web_directory: /app/pub
     media_directory: = @('app.web_directory') ~ '/media'
   php:
-    version: 7.2
+    version: 7.3
   composer:
     auth:
       basic:
