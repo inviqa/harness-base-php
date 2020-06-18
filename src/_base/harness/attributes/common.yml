@@ -167,6 +167,7 @@ attributes.default:
         remote_autostart: 1
         remote_port: 9000
         remote_host: host.docker.internal
+        idekey: workspace
 
   assets:
     remote: ="s3://"~@("aws.bucket")~"/development"
