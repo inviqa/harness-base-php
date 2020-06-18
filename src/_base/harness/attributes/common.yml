@@ -59,6 +59,9 @@ attributes.default:
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
       rabbitmq:
         external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
+      persistence:
+        redis_session:
+          enabled: false
     qa:
       enabled: no
       environment: ~
@@ -284,6 +287,10 @@ attributes.default:
       size: 4Gi
     redis:
       enabled: false
+      accessMode: ReadWriteOnce
+      size: 2Gi
+    redis_session:
+      enabled: true
       accessMode: ReadWriteOnce
       size: 2Gi
 
