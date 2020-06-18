@@ -170,6 +170,9 @@ docker-sync logs -f
 
 As setup issues are encountered please detail with step by step fix instructions, and where possible update the project or the upstream workspace harness itself to provide a more permanent fix.
 
+* If you get a error that the TLS certificate has expired for the development website in your browser:
+  * Restart the my127 global traefik proxy with `ws global service proxy restart`.
+    This will fetch new TLS certificates for `*.my127.site`.
 * If you use docker-sync and notice that your changes aren't synchronising to the environment:
   * Check if your file exists with your changes in `ws console`
   * If your file in `ws console` has changed okay, check your project for any caching that
