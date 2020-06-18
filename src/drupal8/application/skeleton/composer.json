@@ -62,7 +62,6 @@
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "test": [
       "@test-quality",
-      "@test-unit",
       "@test-acceptance"
     ],
     "test-quality": [
@@ -71,7 +70,7 @@
       "drupal-check -ad ./docroot/modules/custom"
     ],
     "test-unit": [
-      "phpunit"
+      "echo \"Please run 'ws test-unit' to run phpunit\""
     ],
     "test-acceptance": [
       "behat"
