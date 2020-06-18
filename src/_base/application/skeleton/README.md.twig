@@ -102,7 +102,14 @@ To enable on CLI in `ws console`, run `ws feature xdebug cli on`. To turn off ag
 
 Xdebug is set up to listen to your computer's 9000 port once enabled, so all you would need to do in your IDE is:
 1. Create a mapping from the project root to `/app` for name `workspace`, hostname `localhost` and port 80.
-2. Listen for connections.
+2. Depending on the IDE, you may have to configure the settings for the IDE to have idekey being `workspace`.
+   Some IDEs also need to restart after changing this. Not required for PhpStorm.
+3. Listen for connections.
+4. If trying to debug a website, configure the IDE key of browser Xdebug extension such as one listed on
+   [Browser Debugging Extensions](https://www.jetbrains.com/help/phpstorm/browser-debugging-extensions.html)
+   to be `workspace`, toggle debug on, then refresh the page in the browser
+5. If trying to debug a CLI application, re-run the CLI command. Some CLI programs like phpstan explicitly turn
+   off Xdebug deliberately, but provide a `--xdebug` flag to allow running with Xdebug.
 
 [Here's a good guide for PhpStorm](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html).
 
