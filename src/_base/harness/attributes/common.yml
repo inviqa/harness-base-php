@@ -22,8 +22,8 @@ attributes.default:
     web_directory: /app/public
     vendor_directory: /app/vendor
 
-  docker-sync: yes
-  mutagen: no
+  docker-sync: no
+  mutagen: yes
 
   jenkins:
     credentials:

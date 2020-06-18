@@ -110,58 +110,69 @@ If you have trouble with triggered requests not starting connections to your IDE
 `sudo lsof -i :9000 | grep LISTEN` on your host shows process from your IDE.
 If it doesn't, stop the indicated process (e.g. `php-fpm`) and toggle the Xdebug listen button off and on again in PhpStorm.
 
-### Performance on MacOS
+### Performance on macOS
 
-Page load times with Docker for Mac can vary considerably. This is especially so when there is a large
-quantity of small files, such as with a large composer vendor folder.
+Page load times with Docker for Mac can vary considerably due to the sharing of files from the macOS disk to the small
+virtual machine that docker is running inside.
+This is especially so when there is a large quantity of small files, such as with a large composer node_modules or
+vendor folder.
 
-{% if @('docker-sync') == 'yes' %}
-[docker-sync](https://github.com/EugenMayer/docker-sync/) is enabled on this workspace environment to
-try to overcome this.
-It enables production-like performance at the cost of having to synchronise files with an intermediate
+[Mutagen](https://mutagen.io/documentation/transports/docker) and
+[docker-sync](https://github.com/EugenMayer/docker-sync/) are tools to synchronise files between host machine and
+docker containers.
+They both enable production-like performance at the cost of having to synchronise files with an intermediate
 "data" container.
-{% else %}
-If it takes over 2 seconds to load a page, you can consider enabling
-[docker-sync](https://github.com/EugenMayer/docker-sync/) which should enable production-like performance
-at the cost of having to synchronise files with an intermediate "data" container.
 
-You can enable docker-sync with `ws feature docker-sync on` - it takes a while to initially sync.
-{% endif %}
-
-If you don't like the tradeoff of having to synchronise files, you can turn docker-sync off
-with `ws feature docker-sync off`.
-
-{% if @('docker-sync') == 'yes' %}
-If your page loads too slowly, you can turn docker-sync back on again  with `ws feature docker-sync on`
-{% endif %}
-
-#### Mutagen file sync
-
-[Mutagen](https://mutagen.io/documentation/transports/docker) is another tool to synchronize files between host machine
-and docker containers, just like docker-sync. We have integrated mutagen for synchronizing files as an option of docker-sync.
 {% if @('mutagen') == 'yes' %}
-This tool is still in beta phase but we have enabled it instead of docker-sync on this project. You can switch to
-docker-sync if you are not happy with mutagen.
+Mutagen is enabled on the development environment.
+You can switch to docker-sync if you wish with `ws switch docker-sync`.
+{% elseif @('docker-sync') == 'yes'  %}
+docker-sync is enabled on the development environment.
+You can switch to mutagen if you wish with `ws switch mutagen`.
 {% else %}
-This tool is still in beta phase, but you can try it yourself if you are not happy with docker-sync.
-{% endif %}
-Following are some useful commands regarding Mutagen.
+If it takes over 2 seconds to load a page, you should consider enabling mutagen or docker-sync by adding the following
+to `workspace.override.yml` in the project root, or after testing it and the whole team would like to use it,
+`workspace.yml` in the project root:
 
+```yaml
+# for mutagen:
+attribute('docker-sync'): 'no'
+attribute('mutagen'): 'yes'
+# or for docker-sync:
+attribute('docker-sync'): 'yes'
+attribute('mutagen'): 'no'
+```
+
+Then running `ws harness prepare && ws disable && ws enable`.
+The initial sync can take between 5 to 15 minutes, depending on the size of the project directory.
+
+If committing the attribute changes to `workspace.yml`, ensure the `Performance on macOS` section from
+`.my127ws/application/skeleton/README.md` is copied to the project's README.md too!
+{% endif %}
+
+The following are some useful commands regarding Mutagen:
 ```bash
-# To switch to Mutagen file sync
-ws switch mutagen
-# To switch back to docker-sync
-ws switch docker-sync
 # To check the Mutagen sync status (sync is ready when status is "Watching for changes")
 mutagen monitor
-# To debug an errored sync
+# To debug a sync error
 mutagen list
 ```
+{% if @('docker-sync') == 'yes'  %}
+
+Useful commands for docker-sync:
+```bash
+# Check the logs
+docker-sync logs -f
+```
+{% endif %}
 
 ### Common Issues
 
 As setup issues are encountered please detail with step by step fix instructions, and where possible update the project or the upstream workspace harness itself to provide a more permanent fix.
 
+* If you get a error that the TLS certificate has expired for the development website in your browser:
+  * Restart the my127 global traefik proxy with `ws global service proxy restart`.
+    This will fetch new TLS certificates for `*.my127.site`.
 * If you use docker-sync and notice that your changes aren't synchronising to the environment:
   * Check if your file exists with your changes in `ws console`
   * If your file in `ws console` has changed okay, check your project for any caching that
@@ -173,7 +184,7 @@ As setup issues are encountered please detail with step by step fix instructions
 
 # License
 
-Copyright 2019, Inviqa
+Copyright 2020, Inviqa
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
