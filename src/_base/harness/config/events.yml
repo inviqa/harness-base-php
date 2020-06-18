@@ -4,7 +4,9 @@ after('harness.install'): |
   ws enable
 
 after('harness.refresh'): |
-  #!bash(harness:/)|@
+  #!bash(workspace:/)|@
   run docker-compose -p @('namespace') stop
-  run docker-compose -p @('namespace') pull
+  passthru "docker-compose config --services | grep -v php-fpm | xargs docker-compose pull"
+  passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | grep -v jenkins-runner | xargs docker-compose build --pull"
+  passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | grep -v jenkins-runner | xargs docker-compose up -d"
   run docker-compose -p @('namespace') up -d --build

@@ -220,3 +220,28 @@ command('db import <database_file>'):
   exec: |
     #!bash(workspace:/)|=
     passthru "docker-compose exec -u build console bash -i -c 'app database:import ={input.argument('database_file')}'"
+
+command('harness update existing'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    ws disable
+    rm -rf .my127ws
+    ws install --step=download
+    ws harness prepare
+    touch .my127ws/.flag-built
+    ws refresh
+    ws exec app overlay:apply
+    ws exec composer install
+    ws exec app migrate
+    ws exec app welcome
+
+command('harness update fresh'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    ws disable || true
+    rm -rf .my127ws
+    ws install

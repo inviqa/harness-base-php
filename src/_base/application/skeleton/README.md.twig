@@ -47,6 +47,20 @@ To watch for changes, run `ws frontend watch`.
 
 To gain access to the `console` container where the builds happen: `ws frontend console`.
 
+### Harness Version Updates
+
+If you have been notified that a harness version upgrade is available by your team, do the following.
+
+If you have an existing environment running:
+```bash
+ws harness update existing
+```
+
+or if you don't have one running right now or would like to set up from fresh:
+```bash
+ws harness update fresh
+```
+
 {% for readme_block in @('framework.readme_blocks') %}
 {% include blocks ~ readme_block ~ '.md.twig' %}
 {% endfor %}
