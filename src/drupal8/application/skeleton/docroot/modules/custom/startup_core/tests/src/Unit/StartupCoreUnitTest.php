@@ -14,7 +14,7 @@ class StartupCoreUnitTest extends UnitTestCase {
   /**
    * Tests to make sure tests work.
    */
-  public function testShouldWork() {
+  public function testShouldWork() : void {
     $this->assertEquals('Test', 'Test');
   }
 

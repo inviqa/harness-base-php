@@ -12,21 +12,21 @@ use Drupal\KernelTests\KernelTestBase;
 class StartupCoreKernelTest extends KernelTestBase {
 
   /**
-   * {@inheritdoc}
+   * @var string[]
    */
   public static $modules = [];
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp() : void {
     parent::setup();
   }
 
   /**
    * Test should work.
    */
-  public function testShouldEqual() {
+  public function testShouldEqual() : void {
     $this->assertEquals('Test', 'Test');
   }
 
