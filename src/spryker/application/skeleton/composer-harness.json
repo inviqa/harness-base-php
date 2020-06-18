@@ -2,6 +2,9 @@
   "name": "inviqa/spryker-startup",
   "description": "Startup template for Spryker projects.",
   "type": "project",
+  "require": {
+    "symfony/console": "^3.4.30"
+  },
   "require-dev": {
     "codeception/codeception": "~2.5.6",
     "behat/behat": "^3.5",
@@ -28,9 +31,11 @@
       "@test-acceptance"
     ],
     "test-quality": [
+      "APPLICATION_ENV=development vendor/bin/console transfer:generate",
+      "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion",
       "@phpstan",
-      "vendor/bin/console code:sniff:style",
-      "vendor/bin/console code:sniff:architecture"
+      "APPLICATION_ENV=development vendor/bin/console code:sniff:style",
+      "APPLICATION_ENV=development vendor/bin/console code:sniff:architecture"
     ],
     "test-unit": [],
     "test-acceptance": [

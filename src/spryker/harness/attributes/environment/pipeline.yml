@@ -14,3 +14,5 @@ attributes:
         display_errors: Off
         error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
         zend.assertions: -1
+    ini:
+      opcache.validate_timestamps: Off

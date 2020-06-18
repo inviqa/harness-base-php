@@ -70,10 +70,10 @@ sections:
             command: "vendor/bin/console application:build-navigation-cache"
 
         generate-transfer-databuilders:
-            command: "vendor/bin/console transfer:databuilder:generate"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console transfer:databuilder:generate; fi"
 
         generate-ide-auto-completion:
-            command: "vendor/bin/console dev:ide:generate-auto-completion"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console dev:ide:generate-auto-completion; fi"
 
 
     cache:

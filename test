@@ -16,6 +16,10 @@ function test()
     local mode="$2"
     local sync="$3"
 
+    if [[ "$mode" == "static" ]]; then
+      export MY127WS_ENV=pipeline
+    fi
+
     # Test default mode of static or dynamic harnesses
     # For dynamic this means a mountpoint for the application code
     # or mutagen, or docker-sync

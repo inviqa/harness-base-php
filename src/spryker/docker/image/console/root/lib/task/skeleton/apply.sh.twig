@@ -11,7 +11,7 @@ function task_skeleton_apply()
 
 function fetch_demoshop()
 {
-    run "git clone -b 201903.0-p1 {{ @('spryker.demoshop-url') }} /tmp/spryker"
+    run "git clone --depth 1 --branch 201903.0-p1 {{ @('spryker.demoshop-url') }} /tmp/spryker"
     run "shopt -s dotglob && mv /tmp/spryker/* /app"
     run "rm -rf /tmp/spryker"
     run "rm -rf /app/.git"
@@ -29,9 +29,8 @@ function merge_composer_json()
     run "jq -s '.[0] * .[1]' $core_file $override_file > $merged_file"
     run "mv $merged_file $core_file"
 
-    local new_composer_packages="$(jq -r '.["require-dev"] | keys[]' $override_file | tr '\n' ' ')"
+    local new_composer_packages=""
+    new_composer_packages="$(jq -r '.["require-dev"] * .["require"] | keys[]' $override_file | tr '\n' ' ')"
 
-    [ ! -z "$new_composer_packages" ] && passthru "COMPOSER_PROCESS_TIMEOUT=600 composer update --with-dependencies --no-interaction --profile $new_composer_packages"
-
-    passthru "COMPOSER_PROCESS_TIMEOUT=600 composer require --no-interaction --profile symfony/console:3.4.30"
+    [ -n "$new_composer_packages" ] && passthru "COMPOSER_PROCESS_TIMEOUT=600 composer update --with-dependencies --no-interaction --profile $new_composer_packages"
 }
