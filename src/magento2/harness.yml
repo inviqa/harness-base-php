@@ -72,6 +72,8 @@ attributes:
             run "mv app/etc/env.php app/etc/env-backup.php"
             passthru "bin/magento setup:static-content:deploy -f"
             run "mv app/etc/env-backup.php app/etc/env.php"
+          else
+            echo -n "$(date +%s)" > pub/static/deployed_version.txt
           fi
     install:
       steps:
