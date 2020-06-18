@@ -3,6 +3,7 @@ attributes:
     php-base:
       environment:
         MAGENTO_CRYPT_KEY: = @('magento.crypt.key')
+        MAGE_MODE: "= (@('app.mode') == 'production' ? 'production' : 'developer')"
   pipeline:
     preview:
       persistence:

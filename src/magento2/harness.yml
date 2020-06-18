@@ -23,7 +23,7 @@ attributes:
       - '/app/pub/static'
       - '/app/var'
       - '/app/pub/static/frontend'
-      - '/app/generated'
+      - "= (@('app.mode') !== 'production' ? '/app/generated' : '')"
     services:
       - chrome
       - cron
