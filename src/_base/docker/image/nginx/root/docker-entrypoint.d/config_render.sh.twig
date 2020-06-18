@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 function render_configuration()
 {
-   local vars='$FPM_HOST'
+  # shellcheck disable=SC2016
+  local vars='$FPM_HOST'
 
-   for file in /etc/nginx/conf.d/*.template; do
-    envsubst "$vars" < $file > ${file%.template};
+  for file in /etc/nginx/conf.d/*.template; do
+    envsubst "$vars" < "$file" > "${file%.template}";
   done
 }
 

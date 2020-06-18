@@ -3,6 +3,10 @@
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
 
+ingress:
+  target_service: {{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}
+  type: "standard" # standard or istio
+
 docker:
   config: {{ @('docker.config') }}
   image:
@@ -29,6 +33,10 @@ service:
   job-queue-consumer: {{ ("job-queue-consumer" in @('app.services')) ? 'true' : 'false' }}
   cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
   php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
+  varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
+
+replicas:
+{{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
@@ -41,6 +49,5 @@ prometheus:
 
 resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}
 
-ingress: "standard" # standard or istio
 istio:
 {{ to_nice_yaml(@('pipeline.base.istio'), 2, 2) | raw }}

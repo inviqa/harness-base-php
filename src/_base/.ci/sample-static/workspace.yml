@@ -4,6 +4,11 @@ workspace('ci-php-sample-static'):
 
 attribute('app.build'): static
 
+attribute('app.services'):
+  - chrome
+  - mysql
+  - varnish
+
 attribute('aws.bucket'): null
 attribute('app.repository'): null
 attribute('aws.id'): null

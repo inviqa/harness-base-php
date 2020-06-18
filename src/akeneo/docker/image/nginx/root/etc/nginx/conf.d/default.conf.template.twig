@@ -59,6 +59,9 @@ server {
     fastcgi_pass ${FPM_HOST}:9000;
     fastcgi_split_path_info ^(.+\.php)(/.*)$;
     include fastcgi_params;
+
+    fastcgi_read_timeout {{ @('php.fpm.ini.max_execution_time') + 1 }}s;
+
     fastcgi_param HTTPS $custom_https;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_param PATH_INFO $fastcgi_path_info;

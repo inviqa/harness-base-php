@@ -28,6 +28,9 @@ attributes:
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
     mode: development
   php:
+    fpm:
+      ini:
+        max_execution_time: 600
     version: 7.2
     ini:
       opcache.max_accelerated_files: 65407

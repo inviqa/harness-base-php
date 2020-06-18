@@ -3,7 +3,7 @@
 {% if @('pipeline.qa.services') %}
   docker:
     services:
-{{ to_nice_yaml(@('pipeline.qa.services'), 2, 6) | raw }}  
+{{ to_nice_yaml(@('pipeline.qa.services'), 2, 6) | raw }}
 {% endif %}
 {% if @('pipeline.qa.persistence') %}
   persistence:

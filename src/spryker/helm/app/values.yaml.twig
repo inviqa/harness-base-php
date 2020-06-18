@@ -6,6 +6,10 @@ console:
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
 
+ingress:
+  target_service: {{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}
+  type: "standard" # standard or istio
+
 docker:
   config: {{ @('docker.config') }}
   image:
@@ -33,6 +37,10 @@ service:
   redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
   cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
   php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
+  varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
+
+replicas:
+{{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
@@ -43,5 +51,4 @@ persistence:
 prometheus:
 {{ to_nice_yaml(@('pipeline.base.prometheus'), 2, 2) | raw }}
 
-ingress: "standard" # standard or istio
 resourcePrefix: {{ @('workspace.name') ~ '-' }}

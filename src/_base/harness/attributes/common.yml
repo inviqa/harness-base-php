@@ -75,7 +75,7 @@ attributes.default:
   docker:
     repository: = @("workspace.name")
     compose:
-      file_version: '3'
+      file_version: '3.7'
     config: null
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
@@ -137,6 +137,7 @@ attributes.default:
     version: 7.3
     cli:
       ini:
+        max_execution_time: 0
         memory_limit: -1
     fpm:
       ini:
@@ -144,6 +145,7 @@ attributes.default:
         error_reporting: "E_ALL"
         expose_php: Off
         log_errors: On
+        max_execution_time: 30
         max_input_time: 60
         memory_limit: 1024M
         output_buffering: 4096
@@ -233,6 +235,9 @@ attributes.default:
     host: 'mailhog-relay'
     port: 1025
 
+  varnish:
+    target_service: nginx
+
   resources:
     cpu:
       requests: []
@@ -251,6 +256,10 @@ attributes.default:
       rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
+      varnish: "1124Mi"
+
+  replicas:
+    varnish: 1
 
   persistence:
     enabled: false

@@ -6,6 +6,10 @@ function('to_nice_yaml', [text, indentation, nesting]): |
   #!php
   = preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), \Symfony\Component\Yaml\Yaml::dump($text, 100, $indentation ?: 2));
 
+function('indent', [text, indentation]): |
+  #!php
+  = preg_replace('/^/m', str_repeat(' ', $indentation ?: 2), $text);
+
 function('deep_merge_to_yaml', [arrays, indentation, nesting]): |
   #!php
   // source https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_array_merge_deep_array/7.x
