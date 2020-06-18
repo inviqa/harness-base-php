@@ -4,6 +4,6 @@ includes:
     - .my127ws/application/static/phpstan.neon
 
 parameters:
-    level: 7
+    level: max
     paths:
         - docroot/modules/custom
