@@ -14,6 +14,7 @@
 # Files
 
 /.dockerignore
+/auth.json
 /docker-compose.yml
 /docker-sync.yml
 /env.sh
@@ -23,7 +24,6 @@
 /phpmd.xml
 /public/app/etc/local.xml
 /public/errors/local.xml
-/auth.json
 /workspace.override.yml
 
 # Keep

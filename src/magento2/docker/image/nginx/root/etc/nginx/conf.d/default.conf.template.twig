@@ -8,10 +8,22 @@ server {
 
     include snippets/certificate.conf;
     include snippets/ssl-params.conf;
+    include snippets/top-*.conf;
 
     {% for name, value in @('nginx.site.conf') %}
         {{ name }} {{ value }};
     {% endfor %}
+
+    set $custom_https $https;
+    set $custom_scheme $scheme;
+
+    if ($http_x_forwarded_proto) {
+      set $custom_scheme $http_x_forwarded_proto;
+    }
+
+    if ($http_x_forwarded_proto = https) {
+      set $custom_https on;
+    }
 
     set $MAGE_ROOT /app;
 
@@ -25,12 +37,19 @@ server {
     autoindex off;
     charset UTF-8;
     error_page 404 403 = /errors/404.php;
+    #add_header "X-UA-Compatible" "IE=Edge";
+
+    # Deny access to sensitive files
+    location /.user.ini {
+        deny all;
+    }
 
     # PHP entry point for setup application
     location ~* ^/setup($|/) {
         root $MAGE_ROOT;
         location ~ ^/setup/index.php {
             fastcgi_pass   ${FPM_HOST}:9000;
+
             fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
             fastcgi_param  PHP_VALUE "memory_limit=756M \n max_execution_time=600";
             fastcgi_read_timeout 600s;
@@ -78,7 +97,7 @@ server {
     }
 
     location /pub/ {
-        location ~ ^/pub/media/(downloadable|customer|import|theme_customization/.*\.xml) {
+        location ~ ^/pub/media/(downloadable|customer|import|custom_options|theme_customization/.*\.xml) {
             deny all;
         }
         alias $MAGE_ROOT/pub/;
@@ -91,16 +110,16 @@ server {
 
         # Remove signature of the static files that is used to overcome the browser cache
         location ~ ^/static/version {
-            rewrite ^/static/(version[^/]+/)?(.*)$ /static/$2 last;
+            rewrite ^/static/(version\d*/)?(.*)$ /static/$2 last;
         }
 
-        location ~* \.(ico|jpg|jpeg|png|gif|svg|js|css|swf|eot|ttf|otf|woff|woff2|json)$ {
+        location ~* \.(ico|jpg|jpeg|png|gif|svg|js|css|swf|eot|ttf|otf|woff|woff2|html|json)$ {
             add_header Cache-Control "public";
             add_header X-Frame-Options "SAMEORIGIN";
             expires +1y;
 
             if (!-f $request_filename) {
-                rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
+                rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
             }
         }
         location ~* \.(zip|gz|gzip|bz2|csv|xml)$ {
@@ -109,11 +128,11 @@ server {
             expires    off;
 
             if (!-f $request_filename) {
-            rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
+               rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
             }
         }
         if (!-f $request_filename) {
-            rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
+            rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
         }
         add_header X-Frame-Options "SAMEORIGIN";
     }
@@ -152,6 +171,16 @@ server {
         deny all;
     }
 
+    location /media/custom_options/ {
+        deny all;
+    }
+
+    location /errors/ {
+        location ~* \.xml$ {
+            deny all;
+        }
+    }
+
     # PHP entry point for main application
     location ~ ^/(index|get|static|errors/report|errors/404|errors/503|health_check)\.php$ {
         try_files $uri =404;
@@ -166,6 +195,9 @@ server {
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
         include        fastcgi_params;
+
+        fastcgi_param HTTPS $custom_https;
+        fastcgi_param HTTP_PROXY "";
 
         fastcgi_param MAGE_RUN_CODE $MAGE_RUN_CODE if_not_empty;
         fastcgi_param MAGE_RUN_TYPE $MAGE_RUN_TYPE if_not_empty;
@@ -192,8 +224,10 @@ server {
         image/svg+xml;
     gzip_vary on;
 
+    include snippets/bottom-*.conf;
+
     # Banned locations (only reached if the earlier PHP entry point regexes don't match)
-    location ~* (\.php$|\.htaccess$|\.git) {
+    location ~* (\.php$|\.phtml$|\.htaccess$|\.git) {
         deny all;
     }
 }

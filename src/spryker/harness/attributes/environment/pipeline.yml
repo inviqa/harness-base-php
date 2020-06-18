@@ -1,3 +1,4 @@
+
 attributes:
   spryker:
     mode: 'production'
@@ -5,5 +6,11 @@ attributes:
   hostname: =@('workspace.name') ~ '.' ~ @('domain')
   app:
     build: static
-    mode: production
     version: =exec("git log -n 1 --pretty=format:'%H'")
+    mode: production
+  php:
+    fpm:
+      ini:
+        display_errors: Off
+        error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+        zend.assertions: -1
