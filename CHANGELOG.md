@@ -1,12 +1,50 @@
 # Changelog
 
+## [0.8.0](https://github.com/inviqa/harness-base-php/tree/0.8.0) (2020-06-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.7.0...0.8.0)
+
+**Breaking changes:**
+
+- Add Varnish [\#309](https://github.com/inviqa/harness-base-php/pull/309) ([kierenevans](https://github.com/kierenevans))
+
+**Implemented enhancements:**
+
+- Add option for varnish container as the entrypoint to the site in Magento 2.x harness [\#14](https://github.com/inviqa/harness-base-php/issues/14)
+- Run phpstan separately for drupal8 [\#325](https://github.com/inviqa/harness-base-php/pull/325) ([kierenevans](https://github.com/kierenevans))
+- Improve Xdebug IDE support by not assuming PHPStorm [\#324](https://github.com/inviqa/harness-base-php/pull/324) ([kierenevans](https://github.com/kierenevans))
+- Use mutagen by default [\#323](https://github.com/inviqa/harness-base-php/pull/323) ([kierenevans](https://github.com/kierenevans))
+- Fix simpletest usage for Drupal 8 [\#322](https://github.com/inviqa/harness-base-php/pull/322) ([kierenevans](https://github.com/kierenevans))
+- Speed up Spryker build [\#319](https://github.com/inviqa/harness-base-php/pull/319) ([kierenevans](https://github.com/kierenevans))
+- Let production mode work for magento2  [\#318](https://github.com/inviqa/harness-base-php/pull/318) ([kierenevans](https://github.com/kierenevans))
+- Allow the Magento2 executable to be called from the host machine [\#316](https://github.com/inviqa/harness-base-php/pull/316) ([jbarton123](https://github.com/jbarton123))
+- Enable local mail by default [\#315](https://github.com/inviqa/harness-base-php/pull/315) ([kierenevans](https://github.com/kierenevans))
+- Use PHP 7.3 by default in magento2 [\#314](https://github.com/inviqa/harness-base-php/pull/314) ([kierenevans](https://github.com/kierenevans))
+- Improve speed of permissions fixes [\#310](https://github.com/inviqa/harness-base-php/pull/310) ([kierenevans](https://github.com/kierenevans))
+- Add redis-session persistent storage enabled by default [\#305](https://github.com/inviqa/harness-base-php/pull/305) ([kierenevans](https://github.com/kierenevans))
+- Add harness update commands [\#299](https://github.com/inviqa/harness-base-php/pull/299) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- Remove web writable generated directory for Magento2 [\#320](https://github.com/inviqa/harness-base-php/pull/320) ([jbarton123](https://github.com/jbarton123))
+- Fix wrong hosts entry on startup [\#317](https://github.com/inviqa/harness-base-php/pull/317) ([kierenevans](https://github.com/kierenevans))
+- Fix drupal8 build [\#311](https://github.com/inviqa/harness-base-php/pull/311) ([kierenevans](https://github.com/kierenevans))
+- Align framework overrides with base. Update Magento 2 NGINX config. [\#291](https://github.com/inviqa/harness-base-php/pull/291) ([kierenevans](https://github.com/kierenevans))
+- Fix drupal8 phpstan-prophecy path [\#327](https://github.com/inviqa/harness-base-php/pull/327) ([kierenevans](https://github.com/kierenevans))
+
+**Merged pull requests:**
+
+- Bump PHPStan Prophecy based on dependabot upgrading another project [\#321](https://github.com/inviqa/harness-base-php/pull/321) ([kierenevans](https://github.com/kierenevans))
+- Bump Magento 1 to 1.14.4.5 [\#313](https://github.com/inviqa/harness-base-php/pull/313) ([kierenevans](https://github.com/kierenevans))
+- Bump Magento 2 to 2.3.5-p1 [\#312](https://github.com/inviqa/harness-base-php/pull/312) ([kierenevans](https://github.com/kierenevans))
+
 ## [0.7.0](https://github.com/inviqa/harness-base-php/tree/0.7.0) (2020-05-29)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.6.0...0.7.0)
 
 **Breaking changes:**
 
-- Akeneo 4.x Support [\#287](https://github.com/inviqa/harness-base-php/pull/287) ([kierenevans](https://github.com/kierenevans))
+- Akeneo 4.x Support [\#287](https://github.com/inviqa/harness-base-php/pull/287) ([kierenevans](https://github.com/kierenevans) and [a-ast](https://github.com/a-ast))
 
 **Implemented enhancements:**
 
