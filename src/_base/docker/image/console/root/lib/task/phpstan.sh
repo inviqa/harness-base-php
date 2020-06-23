@@ -6,11 +6,12 @@ function task_phpstan()
     phpstan_version="$(find_phpstan_version)"
 
     echo "Using phpstan v$phpstan_version"
-    if [ ! -f "/app/vendor/bin/phpstan-$phpstan_version.phar" ]; then
-        curl -o "/app/vendor/bin/phpstan-$phpstan_version.phar" -L -f -sS "https://github.com/phpstan/phpstan/releases/download/$phpstan_version/phpstan.phar"
+    mkdir -p /app/bin
+    if [ ! -f "/app/bin/phpstan-$phpstan_version.phar" ]; then
+        curl -o "/app/bin/phpstan-$phpstan_version.phar" -L -f -sS "https://github.com/phpstan/phpstan/releases/download/$phpstan_version/phpstan.phar"
     fi
     cd /app || return 1
-    php "/app/vendor/bin/phpstan-$phpstan_version.phar" analyse
+    php "/app/bin/phpstan-$phpstan_version.phar" analyse
 }
 
 function find_phpstan_version()
