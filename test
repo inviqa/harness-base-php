@@ -87,7 +87,9 @@ function run_pipeline_tests()
     # update the local filesystem
     if ws exec stat composer.json > /dev/null 2>&1; then
       # Run production mode phpstan
-      ws exec app phpstan
+      if [[ "${harness}" == "magento2" ]]; then
+        ws exec app phpstan
+      fi
       # Bring in dev dependencies
       ws exec app composer:development_dependencies
       # Run the tests

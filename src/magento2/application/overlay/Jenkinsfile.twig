@@ -9,14 +9,20 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ws install'
-                sh 'ws exec app composer:development_dependencies'
                 milestone(10)
+            }
+        }
+        stage('Production Mode PHPStan') {
+            steps {
+                sh 'ws exec app phpstan'
+                sh 'ws exec app composer:development_dependencies'
+                milestone(20)
             }
         }
         stage('Test')  {
             parallel {
                 stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
-                stage('unit')       { steps { sh 'ws test-unit'                     } }
+                stage('unit')       { steps { sh 'ws exec composer test-unit'       } }
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
             }

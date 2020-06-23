@@ -9,14 +9,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ws install'
-                milestone(10)
-            }
-        }
-        stage('Production Mode PHPStan') {
-            steps {
-                sh 'ws exec app phpstan'
                 sh 'ws exec app composer:development_dependencies'
-                milestone(20)
+                milestone(10)
             }
         }
         stage('Test')  {
