@@ -86,8 +86,10 @@ function run_pipeline_tests()
     # Check inside the console container as static builds do not
     # update the local filesystem
     if ws exec stat composer.json > /dev/null 2>&1; then
+      # Run production mode phpstan
+      ws exec app phpstan
       # Bring in dev dependencies
-      ws exec composer install --no-interaction
+      ws exec app composer:development_dependencies
       # Run the tests
       ws exec composer test-quality
       if [[ "${harness}" == "drupal8" ]]; then
