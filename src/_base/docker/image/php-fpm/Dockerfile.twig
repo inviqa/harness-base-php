@@ -1,6 +1,7 @@
 {% if @('app.build') == 'static' %}
 FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
 RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi
+RUN if [ -d {{ @('frontend.path') }}/node_modules/ ]; then rm -rf {{ @('frontend.path') }}/node_modules/; fi
 {% endif %}
 
 FROM {{ @('docker.image.php-fpm') }}
