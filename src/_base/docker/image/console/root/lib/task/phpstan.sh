@@ -16,6 +16,7 @@ function task_phpstan()
 function find_phpstan_version()
 (
     local phpstan_version="0.12.30"
+    local project_phpstan_version=""
     set +e
     if [ -f /app/composer.lock ]; then
         project_phpstan_version="$(jq -r '(."packages-dev"[] | select( .name == "phpstan/phpstan" )).version' < /app/composer.lock)"
