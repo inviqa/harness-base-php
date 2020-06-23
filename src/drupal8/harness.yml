@@ -88,11 +88,15 @@ command('drush %'):
 ---
 command('test-unit'):
   env:
+    APP_MODE: = @('app.mode')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
     docker-compose exec -T -u root php-fpm bash -c 'mkdir -p /app/docroot/sites/simpletest'
     docker-compose exec -T -u root php-fpm bash -c 'chown -R www-data:www-data /app/docroot/sites/simpletest'
+    if [[ "$APP_MODE" == "production" ]]; then
+      passthru docker-compose exec -T -u root php-fpm bash -c 'composer install --optimize-autoloader'
+    fi
     passthru docker-compose exec -T -u www-data php-fpm bash -c 'bin/phpunit'
 ---
 import:
