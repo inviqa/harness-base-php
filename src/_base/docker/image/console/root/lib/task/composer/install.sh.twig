@@ -3,10 +3,10 @@
 function task_composer_install()
 {
     {% if @('app.mode') == 'development' and @('app.build') == 'static' %}
-        passthru "composer install --no-interaction --optimize-autoloader"
+        passthru "composer install --no-interaction --optimize-autoloader --classmap-authoritative"
     {% elseif @('app.mode') == 'development' %}
         passthru "composer install --no-interaction"
     {% else %}
-        passthru "composer install --no-interaction --no-dev --optimize-autoloader"
+        passthru "composer install --no-interaction --no-dev --optimize-autoloader --classmap-authoritative"
     {% endif %}
 }
