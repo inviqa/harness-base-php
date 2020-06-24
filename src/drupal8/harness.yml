@@ -96,7 +96,7 @@ command('test-unit'):
     docker-compose exec -T -u root php-fpm bash -c 'chown -R www-data:www-data /app/docroot/sites/simpletest'
     if [[ "$APP_MODE" == "production" ]]; then
       passthru "docker-compose exec -T -u root php-fpm bash -c 'command -v composer >/dev/null 2>&1 || /usr/bin/install_composer.sh'"
-      passthru "docker-compose exec -T -u root php-fpm bash -c '[ -f bin/phpunit ] || composer install --optimize-autoloader'"
+      passthru "docker-compose exec -T -u root php-fpm bash -c '[ -f bin/phpunit ] || composer install --optimize-autoloader --classmap-authoritative'"
     fi
     passthru docker-compose exec -T -u www-data php-fpm bash -c 'bin/phpunit'
 ---
