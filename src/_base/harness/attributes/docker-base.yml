@@ -24,6 +24,7 @@ attributes:
         REDIS_SESSION_HOST: = @('redis_session.host')
         REDIS_SESSION_PORT: = @('redis_session.port')
         PHP_IDE_CONFIG: "serverName=workspace"
+        VARNISH_HOSTNAME_TEMPLATE: "varnish-%d.varnish-headless"
     nginx:
       ingress:
         annotations: {}
@@ -80,6 +81,7 @@ attributes:
             REDIS_HOST: '{{ if .Values.service.redis }}{{ .Values.resourcePrefix }}redis{{ end }}'
             REDIS_SESSION_HOST: '{{ if .Values.service.redis_session }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
+            VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
         nginx:
           environment:
             FPM_HOST: localhost
