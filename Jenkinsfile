@@ -6,64 +6,36 @@ pipeline {
     options {
         buildDiscarder(logRotator(daysToKeepStr: '30'))
     }
-    triggers { cron(env.BRANCH_NAME == '0.2.x' ? 'H H(0-6) * * *' : '') }
     stages {
-        stage('Test Matrix') {
-            parallel {
-
-                // Drupal 8
-
-                stage('drupal8 (mode=dynamic)') {
-                    agent { label "my127ws" } 
-                    steps { sh './build && ./test drupal8 dynamic' }
+        stage('BuildAndTest') {
+            matrix {
+                axes {
+                    axis {
+                        name 'FRAMEWORK'
+                        values 'drupal8', 'magento1', 'magento2', 'spryker', 'wordpress'
+                    }
                 }
-                stage('drupal8 (mode=static)')  {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test drupal8 static' }
-                }
-
-                // Magento 1
-
-                stage('magento1 (mode=dynamic)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test magento1 dynamic' }
-                }
-                stage('magento1 (mode=static)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test magento1 static' }
-                }
-
-                // Magento 2
-
-                stage('magento2 (mode=dynamic)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test magento2 dynamic' }
-                }
-                stage('magento2 (mode=static)') { 
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test magento2 static' }
-                }
-
-                // Spryker
-
-                stage('spryker (mode=dynamic)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test spryker dynamic' }
-                }
-                stage('spryker (mode=static)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test spryker static' }
-                }
-
-                // Wordpress
-
-                stage('wordpress (mode=dynamic)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test wordpress dynamic' }
-                }
-                stage('wordpress (mode=static)') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test wordpress static' }
+                stages {
+                    stage('Test (mode=static)') {
+                        agent { label "my127ws" }
+                        steps { sh './build && ./test $FRAMEWORK static' }
+                        post {
+                            always {
+                                sh 'ws destroy || true'
+                                cleanWs()
+                            }
+                        }
+                    }
+                    stage('Test (mode=dynamic)') {
+                        agent { label "my127ws" }
+                        steps { sh './build && ./test $FRAMEWORK dynamic' }
+                        post {
+                            always {
+                                sh 'ws destroy || true'
+                                cleanWs()
+                            }
+                        }
+                    }
                 }
             }
         }
