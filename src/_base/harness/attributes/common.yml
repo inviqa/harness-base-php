@@ -22,6 +22,7 @@ attributes.default:
     web_directory: /app/public
     vendor_directory: /app/vendor
 
+  delegated-volumes: no
   docker-sync: no
   mutagen: yes
 
@@ -79,6 +80,7 @@ attributes.default:
     repository: = @("workspace.name")
     compose:
       file_version: '3.7'
+      host_volume_options: "= ':' ~ (@('delegated-volumes') ? 'delegated' : 'cached')"
     config: null
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
