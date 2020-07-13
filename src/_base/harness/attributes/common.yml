@@ -42,7 +42,7 @@ attributes.default:
         enabled: no
         git:
           # private key with write access to the repository
-          key: ~
+          ssh_private_key: ~
           # eg. git@github.com:organisation/project.git
           repository: ~
           # path within the repository to place the chart, no leading or trailing slashes

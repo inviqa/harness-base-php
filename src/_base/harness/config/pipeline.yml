@@ -51,7 +51,7 @@ command('app publish'):
 
 command('app publish chart <release> <message>'):
   env:
-    SSH_KEY:    = @('pipeline.publish.chart.git.key')
+    SSH_PRIVATE_KEY:    = @('pipeline.publish.chart.git.ssh_private_key')
     REPOSITORY: = @('pipeline.publish.chart.git.repository')
     ARTIFACTS:  = "./build-artifacts-repository/" ~ @('pipeline.publish.chart.git.path') ~ "/" ~ input.argument('release')
     MESSAGE:    = input.argument('message')
@@ -60,7 +60,7 @@ command('app publish chart <release> <message>'):
     #!bash(workspace:/)|@
 
     run rm -rf build-artifacts-repository
-    echo "${SSH_KEY}" | base64 -d > id_rsa
+    echo "${SSH_PRIVATE_KEY}" | base64 -d > id_rsa
     chmod 0600 id_rsa
 
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
