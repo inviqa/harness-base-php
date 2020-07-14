@@ -7,7 +7,7 @@ if [[ "$USE_DOCKER_SYNC" = "yes" ]] && [ -f docker-sync.yml ]; then
   run docker volume rm "${NAMESPACE}-sync"
 elif [[ "$USE_MUTAGEN" = "yes" ]]; then
   run ws mutagen stop
-  run docker volume rm "${NAMESPACE}-sync"
+  passthru ws mutagen rm
 fi
 
 if [[ "$APP_BUILD" = "static" ]]; then
