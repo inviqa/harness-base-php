@@ -22,7 +22,7 @@ command('app build <service>'):
     #!bash(workspace:/)|@
     passthru docker-compose build "${SERVICE}"
 
-command('app publish'):
+command('app publish'): |
   #!bash(workspace:/)|@
   echo '@('docker.password')' | run docker login --username='@('docker.username')' --password-stdin '@('docker.registry_url')'
   run docker-compose push @('pipeline.publish.services')
