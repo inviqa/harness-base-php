@@ -1,5 +1,5 @@
 
 command('app build'): |
   #!bash(workspace:/)|@
-  passthru docker-compose build --pull console
-  passthru docker-compose build --pull php-fpm nginx jenkins-runner
+  passthru docker-compose build console
+  passthru docker-compose build php-fpm nginx jenkins-runner

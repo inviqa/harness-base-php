@@ -1,6 +1,6 @@
 
 command('app build'): |
   #!bash(workspace:/)|@
-  passthru docker-compose build --pull console
-  passthru docker-compose build --pull php-fpm nginx
-  passthru docker-compose build --pull job-queue-consumer cron
+  passthru docker-compose build console
+  passthru docker-compose build php-fpm nginx
+  passthru docker-compose build job-queue-consumer cron
