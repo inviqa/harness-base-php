@@ -1,8 +1,5 @@
-{% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console
-{% else %}
-FROM {{ @('workspace.name') ~ '-console:dev' }}
-{% endif %}
+{# build from console Dockerfile #}
+{% include 'docker/image/console/Dockerfile.twig' %}
 
 # Install Java Runtime
 # ----------------------------

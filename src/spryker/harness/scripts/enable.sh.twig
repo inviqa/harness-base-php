@@ -39,15 +39,8 @@ dynamic()
         passthru ws mutagen pause
     fi
 
-    {% if ("cron" in @('app.services')) %}
-        passthru "docker-compose config --services | grep -v php-fpm | grep -v console | xargs docker-compose pull"
-        passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose build --pull"
-        passthru docker-compose build cron
-    {% else %}
-        passthru "docker-compose config --services | grep -v console | xargs docker-compose pull"
-        passthru "docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build --pull"
-    {% endif %}
-    passthru docker-compose build jenkins-runner
+    docker-compose pull
+    docker-compose build --pull
 
     # Bring up all but cron
     passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
@@ -63,13 +56,13 @@ static()
 {
     ws app build
 
-    {% if ("cron" in @('app.services')) %}
+    if docker-compose config --services | grep cron >/dev/null; then
         # Bring up all but cron
         passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
-    {% else %}
+    else
         # Bring up all services
         passthru docker-compose up -d
-    {% endif %}
+    fi
 
     passthru docker-compose exec -T -u build console app init
 

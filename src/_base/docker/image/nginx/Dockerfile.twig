@@ -1,5 +1,5 @@
 {% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
+{% include 'docker/image/console/Dockerfile.twig' %}
 {% endif %}
 
 FROM nginx:1.17-alpine

@@ -1,8 +1,8 @@
   jenkins-runner:
-{% if @('app.build') == 'dynamic' %}
     build:
       context: ./
       dockerfile: .my127ws/docker/image/jenkins-runner/Dockerfile
+{% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.jenkins_runner.dynamic.sh
     command: [sleep, infinity]
     volumes:

@@ -1,8 +1,5 @@
-{% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-php-fpm
-{% else %}
-FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
-{% endif %}
+{# build from php-fpm Dockerfile #}
+{% include 'docker/image/php-fpm/Dockerfile.twig' %}
 
 WORKDIR /app
 COPY .my127ws/docker/image/job-queue-consumer/root /

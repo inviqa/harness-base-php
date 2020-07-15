@@ -1,5 +1,5 @@
 {% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
+{% include 'docker/image/console/Dockerfile.twig' %}
 RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi
 {% endif %}
 

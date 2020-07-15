@@ -1,4 +1,4 @@
-FROM {{ @('docker.image.console') }}
+FROM {{ @('docker.image.console') }} as console
 
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build \
