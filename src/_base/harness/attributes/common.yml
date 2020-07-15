@@ -37,6 +37,7 @@ attributes.default:
       hostname:  = @('pipeline.preview.hostname')
     publish:
       enabled: no
+      services: = publishable_services(@('services'))
       # when enabled the application helm chart will be published
       # to the given git repository.
       chart:

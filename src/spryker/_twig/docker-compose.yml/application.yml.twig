@@ -7,10 +7,10 @@
 {% endif %}
 
   console:
-{% if @('app.build') == 'dynamic' %}
     build:
       context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
+{% if @('app.build') == 'dynamic' %}
     image: {{ @('workspace.name') ~ '-console:dev' }}
     entrypoint: [/entrypoint.dynamic.sh]
     command: [sleep, infinity]
@@ -31,8 +31,8 @@
       - private
 
   nginx:
-{% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/nginx
+{% if @('app.build') == 'dynamic' %}
     volumes:
       - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
 {% else %}
@@ -64,8 +64,8 @@
       shared: {}
 
   php-fpm:
-{% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/php-fpm
+{% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.dynamic.sh
     command: [sleep, infinity]
     volumes:
