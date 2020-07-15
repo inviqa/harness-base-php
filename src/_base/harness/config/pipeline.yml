@@ -2,7 +2,7 @@
 command('app build'):
   exec: |
     #!bash(workspace:/)|@
-  passthru docker-compose build
+    passthru docker-compose build
 
 command('app build <service>'):
   env:
