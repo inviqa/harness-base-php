@@ -32,6 +32,7 @@ attributes:
       environment:
         FPM_HOST: php-fpm
     console:
+      enabled: true
       publish: true
       environment:
         DB_ADMIN_USER: root
