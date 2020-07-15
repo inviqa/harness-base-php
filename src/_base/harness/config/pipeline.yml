@@ -17,7 +17,7 @@ command('app build'):
 
 command('app build <service>'):
   env:
-    SERVICE:    = input.argument('message')
+    SERVICE:    = input.argument('service')
   exec: |
     #!bash(workspace:/)|@
     passthru docker-compose build "${SERVICE}"

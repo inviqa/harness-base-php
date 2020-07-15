@@ -64,7 +64,7 @@ attributes:
         POSTGRES_USER: = @('database.user')
         PGDATA: /var/lib/postgresql/data/pgdata
     cron:
-      publish: "= ('cron' in @('app.services') ? 'true' : 'false')"
+      publish: "= 'cron' in @('app.services')"
       environment: []
     varnish:
       environment:
