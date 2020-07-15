@@ -25,7 +25,7 @@ command('app build <service>'):
 command('app publish'): |
   #!bash(workspace:/)|@
   echo '@('docker.password')' | run docker login --username='@('docker.username')' --password-stdin '@('docker.registry_url')'
-  run docker-compose push @('pipeline.publish.services')
+  passthru docker-compose push @('pipeline.publish.services')
   run docker logout '@('docker.registry_url')'
 
 command('app publish chart <release> <message>'):
