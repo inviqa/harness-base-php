@@ -2,11 +2,11 @@
 command('app build'):
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose build
+  passthru docker-compose build
 
 command('app build <service>'):
   env:
-    SERVICE:    = input.argument('message')
+    SERVICE: = input.argument('message')
   exec: |
     #!bash(workspace:/)|@
     passthru docker-compose build "${SERVICE}"
