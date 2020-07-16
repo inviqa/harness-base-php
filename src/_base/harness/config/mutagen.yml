@@ -1,3 +1,19 @@
+function('get_mutagen_volume_names'): |
+  #!php
+  $volumeNames = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+    
+    if (isset($config['sync']))  {
+      foreach (array_keys($config['sync']) as $syncName) {
+        $volumeNames[] = $syncName . '-sync';
+      }
+    }
+  }
+  = join("\n", $volumeNames);
+
 function('get_mutagen_volume_containers'): |
   #!php
   $volumeContainers = [];
