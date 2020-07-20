@@ -1,0 +1,19 @@
+{{ if .Values.docker.imagePullConfig.sealed }}
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: {{ .Values.resourcePrefix }}image-pull-config
+spec:
+  encryptedData:
+    .dockerconfigjson: {{ .Values.docker.imagePullConfig.config }}
+  template:
+    type: kubernetes.io/dockerconfigjson
+{{ else }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.resourcePrefix }}image-pull-config
+data:
+  .dockerconfigjson: {{ .Values.docker.imagePullConfig.config }}
+type: kubernetes.io/dockerconfigjson
+{{ end }}

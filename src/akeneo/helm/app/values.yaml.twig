@@ -8,7 +8,8 @@ ingress:
   type: "standard" # standard or istio
 
 docker:
-  config: {{ @('docker.config') }}
+  imagePullConfig:
+{{ to_nice_yaml(@('docker.imagePullConfig'), 2, 4) | raw }}
   image:
     console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
     cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}

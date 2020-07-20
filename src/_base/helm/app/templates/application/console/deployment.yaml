@@ -63,7 +63,7 @@ spec:
         {{- else }} []
         {{- end }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}image-pull-config
       restartPolicy: Always
       enableServiceLinks: false
       volumes:
