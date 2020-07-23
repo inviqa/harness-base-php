@@ -214,6 +214,7 @@ attributes.default:
 
   helm:
     timeout: 300
+    additional_schema_locations: https://inviqa.github.io/kubernetes-json-schema/schema
 
   php-fpm:
     pools:
