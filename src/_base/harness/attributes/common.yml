@@ -84,16 +84,9 @@ attributes.default:
       file_version: '3.7'
       host_volume_options: "= ':' ~ (@('delegated-volumes') ? 'delegated' : 'cached')"
     config: null # deprecated
-    imagePullConfig:
-      # If using gitops helm chart repositories, it's recommended to put this configuration
-      # in the values.yml in there now instead of project application repositories
-      config: = @('docker.config')
-      # Note: be vary careful considering disabling this, as in most cases
-      # it causes the credentials in it to be stored plaintext on filesystem
-      # or in helm chart repositories
-      # requires sealed-secrets k8s operator
-      sealed: true
-    imagePullConfigSealed: true
+    # If using gitops helm chart repositories, it's recommended to put this configuration
+    # in the values.yml in there now instead of project application repositories
+    imagePullConfig: = @('docker.config')
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
@@ -213,8 +206,14 @@ attributes.default:
   hostname_aliases: []
 
   helm:
-    timeout: 300
     additional_schema_locations: https://inviqa.github.io/kubernetes-json-schema/schema
+    feature:
+      # Note: be vary careful considering disabling this, as in most cases
+      # it causes the credentials in it to be stored plaintext on filesystem
+      # or in helm chart repositories
+      # requires sealed-secrets k8s operator
+      sealedSecrets: true
+    timeout: 300s
 
   php-fpm:
     pools:
