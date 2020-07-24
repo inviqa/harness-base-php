@@ -11,7 +11,7 @@ ingress:
   type: "standard" # standard or istio
 
 docker:
-  imagePullConfig: {{ @('docker.imagePullConfig') | raw }}
+  image_pull_config: {{ @('docker.image_pull_config') | raw }}
   image:
     console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
     cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}

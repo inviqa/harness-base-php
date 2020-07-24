@@ -86,7 +86,7 @@ attributes.default:
     config: null # deprecated
     # If using gitops helm chart repositories, it's recommended to put this configuration
     # in the values.yml in there now instead of project application repositories
-    imagePullConfig: = @('docker.config')
+    image_pull_config: = @('docker.config')
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
@@ -212,7 +212,7 @@ attributes.default:
       # it causes the credentials in it to be stored plaintext on filesystem
       # or in helm chart repositories
       # requires sealed-secrets k8s operator
-      sealedSecrets: true
+      sealed_secrets: true
     timeout: 300s
 
   php-fpm:

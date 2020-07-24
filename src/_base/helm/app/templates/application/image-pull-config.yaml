@@ -1,5 +1,5 @@
-{{ if .Values.docker.imagePullConfig }}
-{{ if .Values.feature.sealedSecrets }}
+{{ if .Values.docker.image_pull_config }}
+{{ if .Values.feature.sealed_secrets }}
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 {{ else }}
@@ -9,7 +9,7 @@ kind: Secret
 metadata:
   name: {{ .Values.resourcePrefix }}image-pull-config
 spec:
-{{ if .Values.sealedSecrets }}
+{{ if .Values.sealed_secrets }}
   template:
     type: kubernetes.io/dockerconfigjson
   encryptedData:
@@ -17,5 +17,5 @@ spec:
   type: kubernetes.io/dockerconfigjson
   data:
 {{ end }}
-    .dockerconfigjson: {{ .Values.docker.imagePullConfig }}
+    .dockerconfigjson: {{ .Values.docker.image_pull_config }}
 {{ end }}
