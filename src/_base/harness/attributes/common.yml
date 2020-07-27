@@ -213,7 +213,7 @@ attributes.default:
       # or in helm chart repositories
       # requires sealed-secrets k8s operator
       sealed_secrets: true
-    timeout: 300s
+    timeout: 300
 
   php-fpm:
     pools:
