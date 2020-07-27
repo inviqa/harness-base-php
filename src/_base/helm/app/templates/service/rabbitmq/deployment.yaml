@@ -23,6 +23,11 @@ spec:
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
+        {{- if .Values.docker.services.rabbitmq.environment_secrets }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.resourcePrefix }}rabbitmq
+        {{- end }}
         image: {{ .Values.docker.image.rabbitmq }}
         imagePullPolicy: Always
         name: rabbitmq
