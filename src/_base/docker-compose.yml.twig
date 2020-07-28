@@ -20,7 +20,7 @@ networks:
 {% if syncvolume %}
 volumes:
 {% if @('mutagen') == 'yes' %}
-{% for volumeName in get_mutagen_volume_names()|split('\n') %}
+{% for volumeName in get_mutagen_volume_names() %}
   {{ volumeName }}:
     external: true
 {% endfor %}

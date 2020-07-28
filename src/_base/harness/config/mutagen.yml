@@ -12,7 +12,7 @@ function('get_mutagen_volume_names'): |
       }
     }
   }
-  = join("\n", $volumeNames);
+  = $volumeNames;
 
 function('get_mutagen_volume_containers'): |
   #!php
