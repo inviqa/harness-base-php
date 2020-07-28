@@ -9,12 +9,10 @@
 {% if command|length %}
     command: {{ command|join(' ') }}
 {% endif %}
-    environment:
-{{ deep_merge_to_yaml(
-  [
-    @('services.mysql.environment'),
-    @('services.mysql.environment_secrets')
-  ], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.mysql.environment'),
+        @('services.mysql.environment_secrets')
+      ]), 2, 6) | raw }}
     networks:
       - private
     ports:

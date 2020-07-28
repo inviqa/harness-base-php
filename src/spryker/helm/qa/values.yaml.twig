@@ -6,8 +6,7 @@
 {% set hosts_env = hosts_env|merge({('GLUE_HOST_' ~ store): glue_external_host}) %}
 {% endfor %}
 {% if @('pipeline.qa.persistence') %}
-  persistence:
-{{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) | raw }}
+  persistence: {{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) | raw }}
 {% endif %}
 {% set additional_services = {
   'php-base': {
@@ -19,7 +18,6 @@
 } %}
 {{ @('workspace.name') }}:
   docker:
-    services:
-{{ deep_merge_to_yaml([@('pipeline.qa.services'), additional_services], 2, 6) | raw }}
+    services: {{ to_nice_yaml(deep_merge([@('pipeline.qa.services'), additional_services]), 2, 6) | raw }}
 
   resourcePrefix: ""

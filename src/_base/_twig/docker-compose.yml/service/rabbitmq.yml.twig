@@ -1,11 +1,9 @@
   rabbitmq:
     image: {{ @('rabbitmq.image') }}:{{ @('rabbitmq.tag') }}
-    environment:
-{{ deep_merge_to_yaml(
-  [
-    @('services.rabbitmq.environment'),
-    @('services.rabbitmq.environment_secrets')
-  ], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.rabbitmq.environment'),
+        @('services.rabbitmq.environment_secrets')
+      ]), 2, 6) | raw }}
     networks:
       - private
       - shared

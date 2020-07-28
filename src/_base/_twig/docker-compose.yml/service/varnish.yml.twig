@@ -8,10 +8,10 @@
       - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
-{% if @('services.varnish.environment') %}
-    environment:
-{{ to_nice_yaml(@('services.varnish.environment'), 2, 6) | raw }}
-{% endif %}
+    environment: {{ to_nice_yaml(deep_merge([
+      @('services.varnish.environment'),
+      @('services.varnish.environment_secrets')
+      ]), 2, 6) | raw }}
     links:
       - nginx:nginx
     volumes:
