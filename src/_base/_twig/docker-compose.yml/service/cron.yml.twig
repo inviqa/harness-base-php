@@ -4,7 +4,7 @@
       context: ./
       dockerfile: .my127ws/docker/image/cron/Dockerfile
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}

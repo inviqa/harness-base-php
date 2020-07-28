@@ -6,19 +6,29 @@ command('mutagen (start|stop|pause|resume)'):
     #!bash(workspace:/)
     source .my127ws/harness/scripts/mutagen.sh "$COMMAND"
 
-command('switch (mutagen|docker-sync)'):
+command('switch (cached-volumes|delegated-volumes|mutagen|docker-sync)'):
   env:
     SYNC: = input.command(2)
     NAMESPACE: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
     run ws disable
-    if [[ "$SYNC" = "mutagen" ]]; then
+    if [[ "$SYNC = "delegated-volumes" ]]; then
+      ws set delegated-volumes yes
+      ws set mutagen no
+      ws set docker-sync no
+    elif [[ "$SYNC" = "mutagen" ]]; then
+      ws set delegated-volumes no
       ws set mutagen yes
       ws set docker-sync no
-    else
+    elif [[ "$SYNC" = "docker-sync" ]]; then
+      ws set delegated-volumes no
       ws set mutagen no
       ws set docker-sync yes
+    else
+      ws set delegated-volumes no
+      ws set mutagen no
+      ws set docker-sync no
     fi
     run ws harness prepare
     echo 'Bringing up the environment with the new setting'

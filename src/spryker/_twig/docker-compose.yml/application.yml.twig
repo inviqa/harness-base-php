@@ -15,7 +15,7 @@
     entrypoint: [/entrypoint.dynamic.sh]
     command: [sleep, infinity]
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/lib/task:/lib/task
       - ./.my127ws:/.my127ws
@@ -34,7 +34,7 @@
 {% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/nginx
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
 {% endif %}
@@ -69,7 +69,7 @@
     entrypoint: /entrypoint.dynamic.sh
     command: [sleep, infinity]
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
