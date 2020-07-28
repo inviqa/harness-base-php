@@ -27,8 +27,6 @@ attributes:
         DB_PASS: = @('database.pass')
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
     nginx:
-      ingress:
-        annotations: {}
       environment:
         FPM_HOST: php-fpm
     console:
@@ -90,6 +88,8 @@ attributes:
         nginx:
           environment:
             FPM_HOST: localhost
+          ingress:
+            annotations: {}
           metricsEnabled: false
           metricsEndpoints:
             - port: http
