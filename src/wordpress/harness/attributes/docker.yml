@@ -4,6 +4,7 @@ attributes:
       environment:
         WORDPRESS_INSTALL_DIRECTORY: = @('wordpress.install_directory')
         WORDPRESS_URL: = @('wordpress.url')
+      environment_secrets:
         WORDPRESS_AUTH_KEY: = @('wordpress.security.auth.key')
         WORDPRESS_SECURE_AUTH_KEY: = @('wordpress.security.secure_auth.key')
         WORDPRESS_LOGGED_IN_KEY: = @('wordpress.security.logged_in.key')

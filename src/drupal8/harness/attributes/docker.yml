@@ -3,6 +3,7 @@ attributes:
     php-base:
       environment:
         DRUPAL_DOCROOT: = @('drupal.docroot')
+      environment_secrets:
         DRUPAL_SALT: = @('drupal.salt')
   pipeline:
     preview:

@@ -40,6 +40,24 @@ function('deep_merge_to_yaml', [arrays, indentation, nesting]): |
   $text = $deepMerge($arrays);
   = preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), \Symfony\Component\Yaml\Yaml::dump($text, 100, $indentation ?: 2));
 
+function('filter_local_services', [services]): |
+  #!php
+  $filteredServices = [];
+  foreach ($services as $serviceName => $service) {
+    $filteredService = [];
+    foreach ($service as $key => $value) {
+      switch ($key) {
+        case 'environment':
+        case 'enabled':
+          $filteredService[$key] = $value;
+      }
+    }
+    if (count($filteredService) > 0) {
+      $filteredServices[$serviceName] = $filteredService;
+    }
+  }
+  = $filteredServices;
+
 function('get_docker_external_networks'): |
   #!php
   $configRaw = shell_exec('docker-compose config');

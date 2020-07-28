@@ -23,7 +23,11 @@ docker:
     rabbitmq: {{ @('rabbitmq.image') ~ ':' ~ @('rabbitmq.tag') }}
     php_fpm_exporter: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm-exporter' }}
   services:
-{{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
+{{ deep_merge_to_yaml(
+  [
+    filter_local_services(@('services')),
+    @('pipeline.base.services')
+  ], 2, 4) | raw }}
 
 service:
   elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
