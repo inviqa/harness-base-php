@@ -31,9 +31,11 @@ kind: Secret
 metadata:
   name: {{ .Values.resourcePrefix }}{{ .service_name }}
 {{ if $.Values.feature.sealed_secrets }}
+spec:
   encryptedData:
+{{ index .service.environment_secrets | toYaml | nindent 4 -}}
 {{ else }}
-  data:
+data:
 {{ index .service.environment_secrets | toYaml | nindent 2 -}}
 {{ end }}
 {{ end }}
