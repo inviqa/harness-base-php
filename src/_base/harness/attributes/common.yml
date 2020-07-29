@@ -208,7 +208,7 @@ attributes.default:
   helm:
     additional_schema_locations: https://inviqa.github.io/kubernetes-json-schema/schema
     feature:
-      # Note: be vary careful considering disabling this, as in most cases
+      # Note: be very careful considering disabling this, as in most cases
       # it causes the secrets in it to be stored plaintext on filesystem
       # or in helm chart repositories
       # requires sealed-secrets k8s operator
