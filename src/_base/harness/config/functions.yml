@@ -58,6 +58,14 @@ function('get_docker_external_networks'): |
   }
   = join(" ", $externalNetworks);
 
+function('get_docker_registry', [dockerRepository]): |
+  #!php
+  $dockerRepoParts = explode('/', $dockerRepository);
+  if (strpos($dockerRepoParts[0], '.') !== false) {
+      $registry = $dockerRepoParts[0];
+  }
+  = $registry ?? 'https://index.docker.io/v1/';
+
 function('branch'): |
   #!bash(workspace:/)
   =$(git branch | grep \* | cut -d ' ' -f2)
