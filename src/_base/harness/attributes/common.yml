@@ -42,8 +42,9 @@ attributes.default:
       chart:
         enabled: no
         git:
+          key: ~ # deprecated, use ssh_private_key
           # private key with write access to the repository
-          ssh_private_key: ~
+          ssh_private_key: = @('pipeline.publish.chart.git.key')
           # eg. git@github.com:organisation/project.git
           repository: ~
           # path within the repository to place the chart, no leading or trailing slashes
