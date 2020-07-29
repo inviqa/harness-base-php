@@ -215,6 +215,10 @@ attributes.default:
       sealed_secrets: true
     timeout: 300
 
+    sealed_secrets:
+      controller_name: sealed-secrets
+      controller_namespace: sealed-secrets
+
   php-fpm:
     pools:
       www:
