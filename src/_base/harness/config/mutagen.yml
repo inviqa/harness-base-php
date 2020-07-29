@@ -1,15 +1,74 @@
+function('get_mutagen_volume_names'): |
+  #!php
+  $volumeNames = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+
+    if (isset($config['sync']))  {
+      foreach (array_keys($config['sync']) as $syncName) {
+        $volumeNames[] = $syncName . '-sync';
+      }
+    }
+  }
+  = $volumeNames;
+
+function('get_mutagen_volume_containers'): |
+  #!php
+  $volumeContainers = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+
+    if (isset($config['sync']))  {
+      foreach ($config['sync'] as $syncConfig) {
+        $parts = parse_url($syncConfig['beta']);
+        $volumeContainers[] = $parts['host'];
+      }
+    }
+  }
+  = join("\n", array_unique($volumeContainers));
+
+function('get_mutagen_volume_mappings'): |
+  #!php
+  $volumeMappings = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+
+    if (isset($config['sync']))  {
+      foreach ($config['sync'] as $syncName => $syncConfig) {
+        $parts = parse_url($syncConfig['beta']);
+        $volumeMappings[] = $parts['host'] . ':' . $syncName . '-sync:' . $parts['path'];
+      }
+    }
+  }
+  = join("\n", $volumeMappings);
+
 command('mutagen (start|stop|pause|resume)'):
   env:
-    NAMESPACE: = @('namespace')
     COMMAND: = input.command(2)
+    CONTAINER_NAMES: = get_mutagen_volume_containers()
+    VOLUME_MAPPINGS: = get_mutagen_volume_mappings()
   exec: |
     #!bash(workspace:/)
     source .my127ws/harness/scripts/mutagen.sh "$COMMAND"
 
+command('mutagen rm'):
+  env:
+    CONTAINER_NAMES: = get_mutagen_volume_containers()
+  exec: |
+     #!bash(workspace:/)
+     CONTAINER_NAMES=($CONTAINER_NAMES)
+     passthru docker volume rm "${CONTAINER_NAMES[@]}"
+
 command('switch (cached-volumes|delegated-volumes|mutagen|docker-sync)'):
   env:
     SYNC: = input.command(2)
-    NAMESPACE: = @('namespace')
+    CONTAINER_NAMES: = get_mutagen_volume_containers()
   exec: |
     #!bash(workspace:/)|=
     run ws disable

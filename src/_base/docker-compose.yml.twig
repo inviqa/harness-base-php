@@ -19,6 +19,13 @@ networks:
       name: my127ws
 {% if syncvolume %}
 volumes:
+{% if @('mutagen') == 'yes' %}
+{% for volumeName in get_mutagen_volume_names() %}
+  {{ volumeName }}:
+    external: true
+{% endfor %}
+{% else %}
   {{ @('workspace.name') }}-sync:
     external: true
+{% endif %}
 {% endif %}
