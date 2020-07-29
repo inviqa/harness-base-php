@@ -8,6 +8,8 @@ kind: Secret
 {{ end }}
 metadata:
   name: {{ .Values.resourcePrefix }}image-pull-config
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
 {{ if .Values.feature.sealed_secrets }}
 spec:
   template:
