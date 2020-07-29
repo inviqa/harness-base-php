@@ -8,12 +8,12 @@ command('app build'): |
 
 command('app publish'): |
   #!bash(workspace:/)|@
-  echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.repository')
+  echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.registry_url')
   run docker push @('docker.repository'):@('app.version')-console
   run docker push @('docker.repository'):@('app.version')-php-fpm
   run docker push @('docker.repository'):@('app.version')-nginx
   run docker push @('docker.repository'):@('app.version')-jenkins-runner
-  run docker logout @('docker.repository')
+  run docker logout @('docker.registry_url')
 
 command('app build jenkins-runner'): |
   #!bash(workspace:/)|@
