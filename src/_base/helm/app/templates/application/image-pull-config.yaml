@@ -9,7 +9,7 @@ kind: Secret
 metadata:
   name: {{ .Values.resourcePrefix }}image-pull-config
 spec:
-{{ if .Values.sealed_secrets }}
+{{ if .Values.feature.sealed_secrets }}
   template:
     type: kubernetes.io/dockerconfigjson
   encryptedData:
