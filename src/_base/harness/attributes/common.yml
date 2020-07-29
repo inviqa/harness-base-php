@@ -118,6 +118,11 @@ attributes.default:
       when: -f "package.json"
       steps:
         - run "npm install"
+        - |
+          if [ "$APP_BUILD" == "static" ]; then
+            run "rm -rf node_modules/"
+            run "npm cache clean --force"
+          fi
 
   git:
     main_branch: develop
