@@ -94,6 +94,7 @@ attributes:
           if [ "$APP_BUILD" == "static" ]; then
             run "yarn run webpack"
             run "rm -rf node_modules/"
+            run "npm cache clean --force"
           else
             run "yarn run webpack-dev"
           fi
