@@ -35,7 +35,7 @@ spec:
   encryptedData:
 {{ index .service.environment_secrets | toYaml | nindent 4 -}}
 {{ else }}
-data:
+stringData:
 {{ index .service.environment_secrets | toYaml | nindent 2 -}}
 {{ end }}
 {{ end }}
