@@ -1,5 +1,5 @@
 {{- if .Values.service.jenkins_runner -}}
-{{- $service := merge (dict "environment" .Values.environment) (index .Values.docker.services "jenkins-runner") (index .Values.docker.services "php-base") -}}
+{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "jenkins-runner") (dict "environment" .Values.environment) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

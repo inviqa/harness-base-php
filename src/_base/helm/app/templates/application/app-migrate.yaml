@@ -1,4 +1,4 @@
-{{- $service := merge (dict "environment" .Values.environment) (index .Values.docker.services "console") (index .Values.docker.services "php-base") -}}
+{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
