@@ -1,4 +1,4 @@
-{{- $service_php_fpm := merge (dict "environment" .Values.environment) (index .Values.docker.services "console") (index .Values.docker.services "php-fpm") -}}
+{{- $service_php_fpm := merge (dict "environment" .Values.environment) (index .Values.docker.services "php-fpm") (index .Values.docker.services "php-base") -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
