@@ -1,4 +1,4 @@
-{{- $service := merge (index .Values.docker.services "console") (index .Values.docker.services "job-queue-consumer") (dict "environment" .Values.environment) -}}
+{{- $service := merge (index .Values.docker.services "job-queue-consumer") (index .Values.docker.services "php-base") (dict "environment" .Values.environment) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
