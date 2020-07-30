@@ -21,7 +21,7 @@
 
 {{- define "service.environment.secret" }}
 {{ if .service.environment_secrets }}
-{{ if $.Values.feature.sealed_secrets }}
+{{ if .Values.feature.sealed_secrets }}
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 {{ else }}
@@ -30,7 +30,7 @@ kind: Secret
 {{ end }}
 metadata:
   name: {{ .Values.resourcePrefix }}{{ .service_name }}
-{{ if $.Values.feature.sealed_secrets }}
+{{ if .Values.feature.sealed_secrets }}
   annotations:
     sealedsecrets.bitnami.com/cluster-wide: "true"
 spec:
