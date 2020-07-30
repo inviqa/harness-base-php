@@ -14,6 +14,7 @@ attributes:
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
     jenkins-runner:
+      publish: "= 'jenkins-runner' in @('app.services')"
       environment:
         JENKINS_RUNNER_NAME: backend
     nginx:

@@ -27,16 +27,19 @@ attributes:
         DB_PASS: = @('database.pass')
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
     nginx:
+      publish: true
       environment:
         FPM_HOST: php-fpm
     console:
       enabled: true
+      publish: true
       environment:
         DB_ADMIN_USER: root
         HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
     php-fpm:
+      publish: true
       environment:
         AUTOSTART_PHP_FPM: "true"
     php-fpm-exporter:
@@ -64,6 +67,7 @@ attributes:
       environment_secrets:
         POSTGRES_PASSWORD: = @('database.pass')
     cron:
+      publish: "= 'cron' in @('app.services')"
       environment: []
     varnish:
       environment:

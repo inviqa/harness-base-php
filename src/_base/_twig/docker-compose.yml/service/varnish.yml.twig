@@ -33,12 +33,8 @@
 
   # Provide TLS offloading for integration tests via varnish
   tls-offload:
-{% if @('app.build') == 'dynamic' %}
     build:
       context: .my127ws/docker/image/tls-offload/
-{% else %}
-    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-tls-offload' }}
-{% endif %}
     labels:
       - traefik.enable=false
     links:

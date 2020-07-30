@@ -1,20 +1,5 @@
 
 command('app build'): |
   #!bash(workspace:/)|@
-  ws app build console
-  ws app build php-fpm
-  ws app build nginx
-  ws app build jenkins-runner
-
-command('app publish'): |
-  #!bash(workspace:/)|@
-  echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.registry_url')
-  run docker push @('docker.repository'):@('app.version')-console
-  run docker push @('docker.repository'):@('app.version')-php-fpm
-  run docker push @('docker.repository'):@('app.version')-nginx
-  run docker push @('docker.repository'):@('app.version')-jenkins-runner
-  run docker logout @('docker.registry_url')
-
-command('app build jenkins-runner'): |
-  #!bash(workspace:/)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-jenkins-runner -f .my127ws/docker/image/jenkins-runner/Dockerfile .
+  passthru docker-compose build console
+  passthru docker-compose build php-fpm nginx jenkins-runner
