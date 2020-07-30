@@ -6,12 +6,15 @@ console:
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
 
+feature:
+{{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
+
 ingress:
   target_service: {{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}
   type: "standard" # standard or istio
 
 docker:
-  config: {{ @('docker.config') }}
+  image_pull_config: {{ @('docker.image_pull_config') | raw }}
   image:
     console: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-console' }}
     cron: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}

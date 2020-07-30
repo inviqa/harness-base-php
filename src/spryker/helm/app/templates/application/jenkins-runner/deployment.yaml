@@ -63,8 +63,10 @@ spec:
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
         {{- end }}
+{{- if .Values.docker.image_pull_config }}
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}docker-config
+{{- end }}
       restartPolicy: Always
       enableServiceLinks: false
       volumes:

@@ -105,10 +105,22 @@ command('helm kubeval <chart-path>'):
   env:
     CHART_PATH: = input.argument('chart-path')
     NAMESPACE: = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+    ADDITIONAL_SCHEMA_LOCATIONS: = @('helm.additional_schema_locations')
   exec: |
     #!bash(harness:/helm)|=
     cd "${CHART_PATH}"
     passthru helm init --client-only
     passthru helm dependency build
-    passthru helm plugin install https://github.com/instrumenta/helm-kubeval || true
-    passthru helm kubeval .
+
+    if readlink "${HELM_HOME:-$HOME}/.helm/plugins/helm-kubeval" | grep '/https-github.com-instrumenta-helm-kubeval$' >/dev/null; then
+      passthru helm plugin remove kubeval
+    fi
+
+    passthru helm plugin install https://github.com/inviqa/helm-kubeval || true
+    KUBEVAL_OPTS=()
+
+    if [ -n "${ADDITIONAL_SCHEMA_LOCATIONS:-}" ]; then
+      KUBEVAL_OPTS+=(--additional-schema-locations "${ADDITIONAL_SCHEMA_LOCATIONS}")
+    fi
+
+    passthru helm kubeval "${KUBEVAL_OPTS[@]}" .

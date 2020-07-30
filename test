@@ -80,6 +80,8 @@ function run_pipeline_tests()
     local harness="$1"
     cd "${path_test}"
 
+    ws helm kubeval qa
+
     # Check if we have a composer.json so we can run tests
     # Check inside the console container as static builds do not
     # update the local filesystem
@@ -95,8 +97,6 @@ function run_pipeline_tests()
       fi
       ws exec composer test-acceptance
     fi
-
-    ws helm kubeval qa
 )
 
 function restart_environment()

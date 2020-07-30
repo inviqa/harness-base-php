@@ -66,6 +66,18 @@ function('get_docker_registry', [dockerRepository]): |
   }
   = $registry ?? 'https://index.docker.io/v1/';
 
+function('docker_config', [attrConfig]): |
+  #!php
+  $config = [
+    'auths' => [
+      $attrConfig['registry_url'] => [
+        'auth' => base64_encode($attrConfig['username'].':'.$attrConfig['password'])
+      ]
+    ]
+  ];
+  
+  = json_encode($config);
+
 function('branch'): |
   #!bash(workspace:/)
   =$(git branch | grep \* | cut -d ' ' -f2)
