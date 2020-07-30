@@ -124,7 +124,7 @@ attributes.default:
             run "npm install"
           fi
         - |
-          if jq ".scripts.build != null" < package.json; then
+          if [ "$(jq ".scripts.build != null" < package.json)" != "false" ]; then
             run "npm run build"
           fi
         - |
