@@ -105,6 +105,17 @@ function('php_fpm_exporter_scrape_url', [hostname, pools]): |
     );
   = $text;
 
+function('publishable_services', [services]): |
+  #!php
+  $pushServices = array_map(
+    function ($serviceName, $service) {
+      return ($service['publish'] ?? false) ? $serviceName : null;
+    },
+    array_keys($services),
+    $services
+  );
+  = join(' ', array_filter($pushServices));
+
 function('version_compare', [version1, version2, operator]): |
   #!php
   $count1 = substr_count($version1, '.');

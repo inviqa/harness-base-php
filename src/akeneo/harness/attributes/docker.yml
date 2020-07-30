@@ -10,6 +10,7 @@ attributes:
       environment:
         AKENEO_SECRET: = @('akeneo.secret')
     job-queue-consumer:
+      publish: "= 'job-queue-consumer' in @('app.services')"
       environment:
         AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"
         AKENEO_JOB_QUEUE_CONSUMER_PROCESSES: 5

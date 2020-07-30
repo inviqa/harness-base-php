@@ -13,6 +13,7 @@ attributes:
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
         ZED_HOST: = @('zed.external_host')
     jenkins-runner:
+      publish: "= 'jenkins-runner' in @('app.services')"
       environment:
         JENKINS_RUNNER_NAME: backend
     nginx:

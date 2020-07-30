@@ -2,52 +2,27 @@
 command('app build'):
   env:
     HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
-    HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
   exec: |
     #!bash(workspace:/)|@
-    ws app build console
-    ws app build php-fpm
-    ws app build nginx
+    # dependency ordered build
+    passthru docker-compose build console
+    passthru docker-compose build php-fpm nginx
     if [[ "${HAS_CRON}" == "true" ]]; then
-      ws app build cron
-    fi
-    if [[ "${HAS_VARNISH}" == "true" ]]; then
-      ws app build tls-offload
+      passthru docker-compose build cron
     fi
 
-command('app build console'): |
-  #!bash(workspace:/)|@
-  passthru docker build --pull -t @('docker.repository'):@('app.version')-console -f .my127ws/docker/image/console/Dockerfile .
-
-command('app build cron'): |
-  #!bash(workspace:/)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-cron -f .my127ws/docker/image/cron/Dockerfile .
-
-command('app build php-fpm'): |
-  #!bash(harness:/docker/image/php-fpm)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-php-fpm .
-
-command('app build nginx'): |
-  #!bash(harness:/docker/image/nginx)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-nginx .
-
-command('app build tls-offload'): |
-  #!bash(harness:/docker/image/tls-offload)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-tls-offload .
-
-command('app publish'):
+command('app build <service>'):
   env:
-    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+    SERVICE:    = input.argument('service')
   exec: |
     #!bash(workspace:/)|@
-    echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.registry_url')
-    run docker push @('docker.repository'):@('app.version')-console
-    run docker push @('docker.repository'):@('app.version')-php-fpm
-    run docker push @('docker.repository'):@('app.version')-nginx
-    if [[ "${HAS_CRON}" == "true" ]]; then
-      run docker push @('docker.repository'):@('app.version')-cron
-    fi
-    run docker logout @('docker.registry_url')
+    passthru docker-compose build "${SERVICE}"
+
+command('app publish'): |
+  #!bash(workspace:/)|@
+  echo '@('docker.password')' | run docker login --username='@('docker.username')' --password-stdin '@('docker.registry_url')'
+  passthru docker-compose push @('pipeline.publish.services')
+  run docker logout '@('docker.registry_url')'
 
 command('app publish chart <release> <message>'):
   env:

@@ -26,17 +26,20 @@ attributes:
         PHP_IDE_CONFIG: "serverName=workspace"
         VARNISH_HOSTNAME_TEMPLATE: "varnish-%d.varnish-headless"
     nginx:
+      publish: true
       ingress:
         annotations: {}
       environment:
         FPM_HOST: php-fpm
     console:
       enabled: true
+      publish: true
       environment:
         DB_ADMIN_USER: root
         DB_ADMIN_PASS: = @('database.root_pass')
         HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
     php-fpm:
+      publish: true
       environment:
         AUTOSTART_PHP_FPM: "true"
     php-fpm-exporter:
@@ -61,6 +64,7 @@ attributes:
         POSTGRES_USER: = @('database.user')
         PGDATA: /var/lib/postgresql/data/pgdata
     cron:
+      publish: "= 'cron' in @('app.services')"
       environment: []
     varnish:
       environment:
