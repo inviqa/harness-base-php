@@ -117,15 +117,20 @@ attributes.default:
     build:
       when: -f "package.json"
       steps:
-        - run "yarn install"
+        - |
+          if [ "$APP_BUILD" == "static" ] && [ -f package-lock.json ]; then
+            run "npm clean-install"
+          else
+            run "npm install"
+          fi
         - |
           if jq ".scripts.build != null" < package.json; then
-            run "yarn run build"
+            run "npm run build"
           fi
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run "rm -rf node_modules/"
-            run "yarn cache clean"
+            run "npm cache clean --force"
           fi
 
   git:
