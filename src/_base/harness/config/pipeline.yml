@@ -2,7 +2,6 @@
 command('app build'):
   env:
     HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
-    HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
   exec: |
     #!bash(workspace:/)|@
     # dependency ordered build
@@ -10,9 +9,6 @@ command('app build'):
     passthru docker-compose build php-fpm nginx
     if [[ "${HAS_CRON}" == "true" ]]; then
       passthru docker-compose build cron
-    fi
-    if [[ "${HAS_VARNISH}" == "true" ]]; then
-      passthru docker-compose build tls-offload
     fi
 
 command('app build <service>'):
