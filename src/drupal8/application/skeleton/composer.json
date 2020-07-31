@@ -23,6 +23,7 @@
     "jangregor/phpstan-prophecy": "^0.8",
     "mglaman/drupal-check": "^1.1",
     "mikey179/vfsstream": "^1.0",
+    "mglaman/phpstan-drupal": "^0.12",
     "phpcompatibility/php-compatibility": "dev-master",
     "phpstan/phpstan": "^0.12",
     "phpstan/phpstan-deprecation-rules": "^0.12"
