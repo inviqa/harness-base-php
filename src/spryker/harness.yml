@@ -68,6 +68,11 @@ attributes:
       when: -f "package.json"
       steps:
         - run "vendor/bin/install -r docker -s frontend"
+        - |
+          if [ "$APP_BUILD" == "static" ]; then
+            run "rm -rf node_modules/ vendor/*/*/assets/Zed/node_modules"
+            run "npm cache clean --force"
+          fi
   docker:
     image:
       console: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch-console'
