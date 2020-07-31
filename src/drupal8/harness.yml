@@ -88,7 +88,6 @@ command('drush %'):
 ---
 command('test-unit'):
   env:
-    APP_MODE: = @('app.mode')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
