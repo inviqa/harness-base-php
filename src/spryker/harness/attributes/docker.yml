@@ -3,7 +3,6 @@ attributes:
     php-base:
       environment:
         APPLICATION_ENV: = @('spryker.mode')
-        SPRYKER_SALT: = @('spryker.salt')
         REDIS_PROTOCOL: = @('redis.protocol')
         SMTP_HOST: = @('smtp.host')
         SMTP_PORT: = @('smtp.port')
@@ -12,6 +11,8 @@ attributes:
         JENKINS_URL: = 'http://' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
         ZED_HOST: = @('zed.external_host')
+      environment_secrets:
+        SPRYKER_SALT: = @('spryker.salt')
     jenkins-runner:
       publish: "= 'jenkins-runner' in @('app.services')"
       environment:
@@ -21,8 +22,9 @@ attributes:
         ZED_HOST: = @('zed.external_host')
     rabbitmq:
       environment:
-        RABBITMQ_DEFAULT_PASS: spryker
         RABBITMQ_DEFAULT_USER: spryker
+      environment_secrets:
+        RABBITMQ_DEFAULT_PASS: spryker
 
   pipeline:
     base:

@@ -24,8 +24,12 @@
 {% endif %}
     labels:
       - traefik.enable=false
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.console.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.console.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.console.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
@@ -78,8 +82,12 @@
       - traefik.enable=false
     networks:
       - private
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.php-fpm.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.php-fpm.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     expose:
 {% for pool in @('php-fpm.pools') %}

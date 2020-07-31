@@ -6,8 +6,7 @@ console:
 environment:
 {% include blocks ~ 'environment.yml.twig' %}
 
-feature:
-{{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
+feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
 ingress:
   target_service: {{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}
@@ -25,8 +24,10 @@ docker:
     jenkins_runner: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
     rabbitmq: {{ @('rabbitmq.image') ~ ':' ~ @('rabbitmq.tag') }}
     php_fpm_exporter: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm-exporter' }}
-  services:
-{{ deep_merge_to_yaml([@('services'), @('pipeline.base.services')], 2, 4) | raw }}
+  services: {{ to_nice_yaml(deep_merge([
+      filter_local_services(@('services')),
+      @('pipeline.base.services')
+    ]), 2, 4) | raw }}
 
 service:
   elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
@@ -42,16 +43,13 @@ service:
   php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
   varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
 
-replicas:
-{{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
+replicas: {{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 
 resources:
 {% include blocks ~ 'resources.yml.twig' %}
 
-persistence:
-{{ to_nice_yaml(@('persistence'), 2, 2) | raw }}
+persistence: {{ to_nice_yaml(@('persistence'), 2, 2) | raw }}
 
-prometheus:
-{{ to_nice_yaml(@('pipeline.base.prometheus'), 2, 2) | raw }}
+prometheus: {{ to_nice_yaml(@('pipeline.base.prometheus'), 2, 2) | raw }}
 
 resourcePrefix: {{ @('workspace.name') ~ '-' }}

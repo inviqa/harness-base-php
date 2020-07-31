@@ -12,15 +12,12 @@ service:
 
 {% if @('pipeline.production.services') %}
 docker:
-  services:
-{{ to_nice_yaml(@('pipeline.production.services'), 2, 4) | raw }}  
+  services: {{ to_nice_yaml(@('pipeline.production.services'), 2, 4) | raw }}  
 {% endif %}
 {% if @('pipeline.production.persistence') %}
-persistence:
-{{ to_nice_yaml(@('pipeline.production.persistence'), 2, 2) | raw }}
+persistence: {{ to_nice_yaml(@('pipeline.production.persistence'), 2, 2) | raw }}
 {% endif %}
 
  {% if @('pipeline.production.resources') %}
-resources:
-{{ to_nice_yaml(@('pipeline.production.resources'), 2, 2) | raw }}
+resources: {{ to_nice_yaml(@('pipeline.production.resources'), 2, 2) | raw }}
 {% endif %}

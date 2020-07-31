@@ -1,17 +1,55 @@
-function('to_yaml', [text]): |
+function('to_yaml', [data]): |
   #!php
-  = preg_replace('/^/m', '  ', \Symfony\Component\Yaml\Yaml::dump($text, 100, 2));
+  $yaml = \Symfony\Component\Yaml\Yaml::dump($data, 100, 2));
+  if (is_array($data) && count($data) > 0) {
+    $yaml = "\n" . rtrim(preg_replace('/^/m', '  ', $yaml), "\n");
+  }
+  = $yaml;
 
-function('to_nice_yaml', [text, indentation, nesting]): |
+function('to_nice_yaml', [data, indentation, nesting]): |
   #!php
-  = preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), \Symfony\Component\Yaml\Yaml::dump($text, 100, $indentation ?: 2));
+  $yaml = \Symfony\Component\Yaml\Yaml::dump($data, 100, $indentation ?: 2);
+  if (is_array($data) && count($data) > 0) {
+    $yaml = "\n" . rtrim(preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), $yaml), "\n");
+  }
+  = $yaml;
 
 function('indent', [text, indentation]): |
   #!php
   = preg_replace('/^/m', str_repeat(' ', $indentation ?: 2), $text);
 
+function('deep_merge', [arrays]): |
+  #!php
+  // source https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_array_merge_deep_array/7.x
+  $deepMerge = function ($arrays) use (&$deepMerge) {
+    $result = array();
+    foreach ($arrays as $array) {
+        if ($array === null) { continue; }
+        foreach ($array as $key => $value) {
+            // Renumber integer keys as array_merge_recursive() does. Note that PHP
+            // automatically converts array keys that are integer strings (e.g., '1')
+            // to integers.
+            if (is_integer($key)) {
+                $result[] = $value;
+            }
+            elseif (isset($result[$key]) && is_array($result[$key]) && is_array($value)) {
+                $result[$key] = $deepMerge(array(
+                    $result[$key],
+                    $value,
+                ));
+            }
+            else {
+                $result[$key] = $value;
+            }
+        }
+    }
+    return $result;
+  };
+  = $deepMerge($arrays);
+
 function('deep_merge_to_yaml', [arrays, indentation, nesting]): |
   #!php
+  trigger_error('deep_merge_to_yaml is deprecated, please use separate deep_merge and to_nice_yaml functions', E_USER_DEPRECATED);
   // source https://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_array_merge_deep_array/7.x
   $deepMerge = function ($arrays) use (&$deepMerge) {
     $result = array();
@@ -39,6 +77,24 @@ function('deep_merge_to_yaml', [arrays, indentation, nesting]): |
   };
   $text = $deepMerge($arrays);
   = preg_replace('/^/m', str_repeat(' ', $nesting ?: 2), \Symfony\Component\Yaml\Yaml::dump($text, 100, $indentation ?: 2));
+
+function('filter_local_services', [services]): |
+  #!php
+  $filteredServices = [];
+  foreach ($services as $serviceName => $service) {
+    $filteredService = [];
+    foreach ($service as $key => $value) {
+      switch ($key) {
+        case 'environment':
+        case 'enabled':
+          $filteredService[$key] = $value;
+      }
+    }
+    if (count($filteredService) > 0) {
+      $filteredServices[$serviceName] = $filteredService;
+    }
+  }
+  = $filteredServices;
 
 function('get_docker_external_networks'): |
   #!php

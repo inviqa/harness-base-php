@@ -7,7 +7,7 @@ attributes:
       job_queue_consumer: "1024Mi"
   services:
     php-base:
-      environment:
+      environment_secrets:
         AKENEO_SECRET: = @('akeneo.secret')
     job-queue-consumer:
       publish: "= 'job-queue-consumer' in @('app.services')"

@@ -1,3 +1,4 @@
+{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -13,7 +14,7 @@ spec:
     spec:
       containers:
       - env:
-        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        {{- range $key, $value := $service.environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -22,18 +23,10 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- range $key, $value := .Values.docker.services.console.environment }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else }}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- range $key, $value := .Values.environment }}
-        - name: {{ $key | quote }}
-          value: {{ $value | quote }}
+        {{- if $service.environment_secrets }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.resourcePrefix }}console
         {{- end }}
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always

@@ -9,8 +9,12 @@
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
 {% endif %}
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.cron.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.cron.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.cron.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private

@@ -1,3 +1,4 @@
+{{- $service_php_fpm := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "php-fpm") (dict "environment" .Values.environment) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,6 +46,11 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
+        {{- if .Values.docker.services.nginx.environment_secrets }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.resourcePrefix }}nginx
+        {{- end }}
         image: {{ .Values.docker.image.nginx }}
         imagePullPolicy: Always
         ports:
@@ -68,7 +74,7 @@ spec:
 
       - name: php-fpm
         env:
-        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        {{- range $key, $value := $service_php_fpm.environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -77,18 +83,10 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- range $key, $value := index .Values.docker.services "php-fpm" "environment" }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else}}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- range $key, $value := .Values.environment }}
-        - name: {{ $key | quote }}
-          value: {{ $value | quote }}
+        {{- if $service_php_fpm.environment_secrets }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.resourcePrefix }}php-fpm
         {{- end }}
         image: {{ .Values.docker.image.fpm }}
         imagePullPolicy: Always

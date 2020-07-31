@@ -8,14 +8,12 @@ attributes:
         DB_PLATFORM: = @('database.platform')
         DB_HOST: = @('database.host')
         DB_USER: = @('database.user')
-        DB_PASS: = @('database.pass')
         DB_NAME: = @('database.name')
         ELASTICSEARCH_HOST: = @('elasticsearch.host')
         ELASTICSEARCH_PORT: = @('elasticsearch.port')
         RABBITMQ_API_PORT: = @('rabbitmq.api_port')
         RABBITMQ_EXTERNAL_HOST: = @('rabbitmq.external_host')
         RABBITMQ_HOST: = @('rabbitmq.host')
-        RABBITMQ_PASSWORD: = @('rabbitmq.password')
         RABBITMQ_PORT: = @('rabbitmq.port')
         RABBITMQ_USER: = @('rabbitmq.user')
         RABBITMQ_VHOST: = @('rabbitmq.vhosts.default')
@@ -25,10 +23,11 @@ attributes:
         REDIS_SESSION_PORT: = @('redis_session.port')
         PHP_IDE_CONFIG: "serverName=workspace"
         VARNISH_HOSTNAME_TEMPLATE: "varnish-%d.varnish-headless"
+      environment_secrets:
+        DB_PASS: = @('database.pass')
+        RABBITMQ_PASSWORD: = @('rabbitmq.password')
     nginx:
       publish: true
-      ingress:
-        annotations: {}
       environment:
         FPM_HOST: php-fpm
     console:
@@ -36,8 +35,9 @@ attributes:
       publish: true
       environment:
         DB_ADMIN_USER: root
-        DB_ADMIN_PASS: = @('database.root_pass')
         HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
+      environment_secrets:
+        DB_ADMIN_PASS: = @('database.root_pass')
     php-fpm:
       publish: true
       environment:
@@ -48,21 +48,24 @@ attributes:
     mysql:
       environment:
         MYSQL_DATABASE: = @('database.name')
+        MYSQL_USER: = @('database.user')
+      environment_secrets:
         MYSQL_PASSWORD: = @('database.pass')
         MYSQL_ROOT_PASSWORD: = @('database.root_pass')
-        MYSQL_USER: = @('database.user')
     rabbitmq:
       environment:
         RABBITMQ_DEFAULT_USER: = @('rabbitmq.user')
-        RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
         RABBITMQ_DEFAULT_VHOST: = @('rabbitmq.vhosts.default')
+      environment_secrets:
+        RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
         RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
     postgres:
       environment:
         POSTGRES_DB: = @('database.name')
-        POSTGRES_PASSWORD: = @('database.pass')
         POSTGRES_USER: = @('database.user')
         PGDATA: /var/lib/postgresql/data/pgdata
+      environment_secrets:
+        POSTGRES_PASSWORD: = @('database.pass')
     cron:
       publish: "= 'cron' in @('app.services')"
       environment: []
@@ -89,6 +92,8 @@ attributes:
         nginx:
           environment:
             FPM_HOST: localhost
+          ingress:
+            annotations: {}
           metricsEnabled: false
           metricsEndpoints:
             - port: http

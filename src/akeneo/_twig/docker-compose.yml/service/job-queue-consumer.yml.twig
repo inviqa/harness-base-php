@@ -9,8 +9,12 @@
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-job-queue-consumer' }}
 {% endif %}
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.job-queue-consumer.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.job-queue-consumer.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.job-queue-consumer.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
