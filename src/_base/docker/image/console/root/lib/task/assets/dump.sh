@@ -9,9 +9,9 @@ function task_assets_dump()
     fi
 
     if [ "${DB_PLATFORM}" == "mysql" ]; then
-        run mysqldump -h "${DB_HOST}" -u "${DB_USER}" "-p${DB_PASS}" "${DB_NAME}" | gzip > "/app/${ASSETS_DIR}/${DB_NAME}.sql.gz"
+        run "mysqldump -h '${DB_HOST}' -u '${DB_USER}' '-p${DB_PASS}' '${DB_NAME}' | gzip > '/app/${ASSETS_DIR}/${DB_NAME}.sql.gz'"
     elif [ "${DB_PLATFORM}"  == "postgres" ]; then
-        PGPASSWORD=$DB_PASS run  pg_dump -h ${DB_HOST} -U ${DB_USER} ${DB_NAME} | gzip > /app/${ASSETS_DIR}/${DB_NAME}.sql.gz"
+        PGPASSWORD="$DB_PASS" run "pg_dump -h '${DB_HOST}' -U '${DB_USER}' '${DB_NAME}' | gzip > '/app/${ASSETS_DIR}/${DB_NAME}.sql.gz'"
     elif [ -n "${DB_PLATFORM}" ]; then
         (>&2 echo "invalid database type")
         exit 1
