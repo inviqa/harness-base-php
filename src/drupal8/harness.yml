@@ -35,7 +35,7 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
+        - task composer:install
     install:
       steps:
         - |
@@ -56,8 +56,8 @@ attributes:
               --account-mail=admin@example.com \
               --account-pass=admin123"
         - run chmod 755 /app/docroot/sites/default
-        - task "overlay:apply"
-        - task "assets:dump"
+        - task overlay:apply
+        - task assets:dump
     migrate:
       steps:
         - run drupal cache:rebuild

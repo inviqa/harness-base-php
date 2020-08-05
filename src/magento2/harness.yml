@@ -61,8 +61,8 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
-        - task "magento:tidy"
+        - task composer:install
+        - task magento:tidy
         - |
           if [ "$APP_BUILD" == "static" ] ; then
             run mv app/etc/env.php app/etc/env-backup.php
@@ -124,12 +124,12 @@ attributes:
             exit 1
           fi
         - run rm -f /app/app/etc/env.php
-        - task "overlay:apply"
-        - task "magento:dump-config"
-        - task "assets:dump"
+        - task overlay:apply
+        - task magento:dump-config
+        - task assets:dump
     init:
       steps:
-        - task "rabbitmq:vhosts"
+        - task rabbitmq:vhosts
         - run magento setup:upgrade --keep-generated
         - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
         - run magento config:set 'web/secure/base_url'         "https://${APP_HOST}/"

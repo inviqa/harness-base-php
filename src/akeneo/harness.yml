@@ -55,12 +55,12 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
+        - task composer:install
     install:
       steps:
         - passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal
-        - task "overlay:apply"
-        - task "assets:dump"
+        - task overlay:apply
+        - task assets:dump
     init:
       steps:
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration

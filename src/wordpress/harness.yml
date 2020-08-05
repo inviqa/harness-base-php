@@ -39,9 +39,9 @@ attributes:
   backend:
     build:
       steps:
-        - task "wp-cli:install"
-        - task "wordpress:download"
-        - task "composer:install"
+        - task wp-cli:install
+        - task wordpress:download
+        - task composer:install
     install:
       steps:
         - |
@@ -53,7 +53,7 @@ attributes:
             --admin_user=admin \
             --admin_password=admin123 \
             --admin_email=admin@localhost.local
-        - task "assets:dump"
+        - task assets:dump
     init:
       steps:
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" option update siteurl "$(eval echo "${WORDPRESS_URL}")"

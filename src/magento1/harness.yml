@@ -52,8 +52,8 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
-        - task "n98:install"
+        - task composer:install
+        - task n98:install
     install:
       steps:
         - run rm -f /app/public/app/etc/local.xml
@@ -83,8 +83,8 @@ attributes:
             --session_save db \
             --admin_frontname admin"
         - run rm -f /app/public/app/etc/local.xml
-        - task "overlay:apply"
-        - task "assets:dump"
+        - task overlay:apply
+        - task assets:dump
     init:
       steps:
         - run n98-magerun.phar config:set 'web/unsecure/base_url' "https://${APP_HOST}/"
