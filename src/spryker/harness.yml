@@ -48,7 +48,7 @@ attributes:
     install:
       steps:
         - task rabbitmq:vhosts
-        - task http:wait' $JENKINS_URL
+        - task http:wait $JENKINS_URL
         - task spryker:install
         - task overlay:apply
     init:
