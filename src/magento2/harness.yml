@@ -85,11 +85,11 @@ attributes:
         - run rm -f /app/app/etc/env.php
         - run rm -f /app/app/etc/config.php
         - |
-          passthru magento setup:install \
-            "--key=${MAGENTO_CRYPT_KEY}" \
+          passthru "magento setup:install \
+            --key='${MAGENTO_CRYPT_KEY}' \
             \
             --backend-frontname=admin \
-            "--base-url=https://${APP_HOST}/" \
+            --base-url='https://${APP_HOST}/'' \
             \
             --admin-user=admin \
             --admin-password=admin123 \
@@ -97,24 +97,24 @@ attributes:
             --admin-firstname=First \
             --admin-lastname=Last \
             \
-            "--db-host=${DB_HOST}" \
-            "--db-name=${DB_NAME}" \
-            "--db-user=${DB_USER}" \
-            "--db-password=${DB_PASS}" \
+            --db-host='${DB_HOST}' \
+            --db-name='${DB_NAME}' \
+            --db-user='${DB_USER}' \
+            --db-password='${DB_PASS}' \
             \
             --session-save=redis \
-            "--session-save-redis-host=${REDIS_SESSION_HOST}" \
-            "--session-save-redis-port=${REDIS_SESSION_PORT}" \
+            --session-save-redis-host='${REDIS_SESSION_HOST}' \
+            --session-save-redis-port='${REDIS_SESSION_PORT}' \
             --session-save-redis-db=1 \
             \
             --cache-backend=redis \
-            "--cache-backend-redis-server=${REDIS_HOST}" \
-            "--cache-backend-redis-port=${REDIS_PORT}" \
+            --cache-backend-redis-server='${REDIS_HOST}' \
+            --cache-backend-redis-port='${REDIS_PORT}' \
             --cache-backend-redis-db=2 \
             \
             --page-cache=redis \
-            "--page-cache-redis-server=${REDIS_HOST}" \
-            "--page-cache-redis-port=${REDIS_PORT}" \
+            --page-cache-redis-server='${REDIS_HOST}' \
+            --page-cache-redis-port='${REDIS_PORT}' \
             --page-cache-redis-db=3"
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.
