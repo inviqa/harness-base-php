@@ -55,6 +55,15 @@ sections:
         generate-transfers:
             command: "vendor/bin/console transfer:generate"
 
+        generate-entity-transfer:
+            command: "vendor/bin/console transfer:entity:generate"
+
+        setup-seach-create-source-map:
+            command: "vendor/bin/console search:setup:source-map"
+            stores: true
+            groups:
+                - elastic
+
         generate-transfer-databuilders:
             command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console transfer:databuilder:generate; fi"
 
@@ -187,9 +196,6 @@ sections:
             command: "vendor/bin/console maintenance:disable"
             stores: true
 
-        generate-entity-transfer:
-            command: "vendor/bin/console transfer:entity:generate"
-
         init-database:
             command: "vendor/bin/console setup:init-db"
             stores:
@@ -197,12 +203,6 @@ sections:
 
         setup-search-create-sources:
             command: "vendor/bin/console search:setup:sources"
-            stores: true
-            groups:
-                - elastic
-
-        setup-seach-create-source-map:
-            command: "vendor/bin/console search:setup:source-map"
             stores: true
             groups:
                 - elastic
