@@ -26,6 +26,7 @@ attributes:
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
+    demoshop-version: 202001.0-p1
     mode: development
   php:
     fpm:
