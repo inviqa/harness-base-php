@@ -46,7 +46,14 @@ $config[NewsletterConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE
 $config[CustomerConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
 $config[ApplicationConstants::YVES_TRUSTED_HOSTS]
     = $config[HttpConstants::YVES_TRUSTED_HOSTS]
-    = [];
+    = [
+    $config[ApplicationConstants::HOST_YVES],
+];
+$config[HttpConstants::YVES_TRUSTED_PROXIES] = ['REMOTE_ADDR'];
+$config[ApplicationConstants::YVES_SSL_ENABLED]
+    = $config[SessionConstants::YVES_SSL_ENABLED]
+    = $config[RouterConstants::YVES_IS_SSL_ENABLED]
+    = true;
 
 // ---------- Zed host
 $config[ApplicationConstants::HOST_ZED] = getenv('ZED_HOST');
@@ -67,6 +74,12 @@ $config[ZedRequestConstants::BASE_URL_SSL_ZED_API] = $config[ApplicationConstant
 $config[ApplicationConstants::ZED_TRUSTED_HOSTS]
     = $config[HttpConstants::ZED_TRUSTED_HOSTS]
     = [];
+
+$config[ApplicationConstants::ZED_SSL_ENABLED]
+    = $config[SessionConstants::ZED_SSL_ENABLED]
+    = $config[RouterConstants::ZED_IS_SSL_ENABLED]
+    = $config[ZedRequestConstants::ZED_API_SSL_ENABLED]
+    = false;
 
 // ----------- Glue Application
 $config[GlueApplicationConstants::GLUE_APPLICATION_DOMAIN] = sprintf('http://%s', getenv('GLUE_HOST_' . $CURRENT_STORE));
@@ -182,3 +195,10 @@ $config[QueueConstants::QUEUE_PROCESS_TIMEOUT] = 120;
 // ----------- HTTP Security
 $config[KernelConstants::STRICT_DOMAIN_REDIRECT] = false;
 $config[KernelConstants::DOMAIN_WHITELIST] = [];
+
+// ---------- Namespaces
+$config[KernelConstants::PROJECT_NAMESPACE] = 'Inviqa';
+$config[KernelConstants::PROJECT_NAMESPACES] = [
+    'Inviqa',
+    'Pyz',
+];
