@@ -6,15 +6,15 @@ function task_skeleton_apply()
         fetch_demoshop
         merge_composer_json
     fi
-    run "rsync --exclude='*.twig' --exclude='_twig' --exclude='composer-harness.json' -a /home/build/application/skeleton/ /app/"
+    run rsync --exclude='*.twig' --exclude='_twig' --exclude='composer-harness.json' -a /home/build/application/skeleton/ /app/
 }
 
 function fetch_demoshop()
 {
-    run "git clone --depth 1 --branch 201903.0-p1 {{ @('spryker.demoshop-url') }} /tmp/spryker"
+    run git clone --depth 1 --branch 201903.0-p1 "{{ @('spryker.demoshop-url') }}" /tmp/spryker
     run "shopt -s dotglob && mv /tmp/spryker/* /app"
-    run "rm -rf /tmp/spryker"
-    run "rm -rf /app/.git"
+    run rm -rf /tmp/spryker
+    run rm -rf /app/.git
 }
 
 # Merge core composer.json with composer-harness.json
@@ -27,10 +27,14 @@ function merge_composer_json()
     local merged_file="/app/composer-merged.json"
 
     run "jq -s '.[0] * .[1]' $core_file $override_file > $merged_file"
-    run "mv $merged_file $core_file"
+    run mv "$merged_file" "$core_file"
 
-    local new_composer_packages=""
-    new_composer_packages="$(jq -r '.["require-dev"] * .["require"] | keys[]' $override_file | tr '\n' ' ')"
+    local shared_package_list=""
+    local new_composer_packages=()
+    shared_package_list="$(jq -r '.["require-dev"] * .["require"] | keys[]' $override_file | tr '\n' ' ')"
+    IFS=" " read -r -a new_composer_packages <<< "$shared_package_list"
 
-    [ -n "$new_composer_packages" ] && passthru "COMPOSER_PROCESS_TIMEOUT=600 composer update --with-dependencies --no-interaction --profile $new_composer_packages"
+    {% verbatim %}
+    [ "${#new_composer_packages[@]}" -gt 0 ] && passthru env COMPOSER_PROCESS_TIMEOUT=600 composer update --with-dependencies --no-interaction --profile "${new_composer_packages[@]}"
+    {% endverbatim %}
 }

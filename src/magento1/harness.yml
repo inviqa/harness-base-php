@@ -52,48 +52,48 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
-        - task "n98:install"
+        - task composer:install
+        - task n98:install
     install:
       steps:
-        - run "rm -f /app/public/app/etc/local.xml"
+        - run rm -f /app/public/app/etc/local.xml
         - |
-          passthru "php public/install.php -- \
-            --license_agreement_accepted 'yes' \
-            --locale 'en_GB' \
+          passthru php public/install.php -- \
+            --license_agreement_accepted yes \
+            --locale en_GB \
             --timezone 'Europe/London' \
-            --default_currency 'GBP' \
-            --db_model 'mysql4' \
-            --db_host '${DB_HOST}' \
-            --db_name '${DB_NAME}' \
-            --db_user '${DB_USER}' \
-            --db_pass '${DB_PASS}' \
-            --url 'https://${APP_HOST}/' \
-            --skip_url_validation 'yes' \
-            --use_rewrites 'yes' \
-            --use_secure 'yes' \
-            --secure_base_url 'https://${APP_HOST}/' \
-            --use_secure_admin 'yes' \
-            --admin_firstname 'First' \
-            --admin_lastname 'Last' \
+            --default_currency GBP \
+            --db_model mysql4 \
+            --db_host "${DB_HOST}" \
+            --db_name "${DB_NAME}" \
+            --db_user "${DB_USER}" \
+            --db_pass "${DB_PASS}" \
+            --url "https://${APP_HOST}/" \
+            --skip_url_validation yes \
+            --use_rewrites yes \
+            --use_secure yes \
+            --secure_base_url "https://${APP_HOST}/" \
+            --use_secure_admin yes \
+            --admin_firstname First \
+            --admin_lastname Last \
             --admin_email 'admin@example.com' \
-            --admin_username 'admin' \
-            --admin_password 'admin123admin123' \
-            --encryption_key '${MAGENTO_CRYPT_KEY}' \
-            --session_save 'db' \
-            --admin_frontname 'admin'"
-        - run "rm -f /app/public/app/etc/local.xml"
-        - task "overlay:apply"
-        - task "assets:dump"
+            --admin_username admin \
+            --admin_password admin123admin123 \
+            --encryption_key "${MAGENTO_CRYPT_KEY}" \
+            --session_save db \
+            --admin_frontname admin
+        - run rm -f /app/public/app/etc/local.xml
+        - task overlay:apply
+        - task assets:dump
     init:
       steps:
-        - run "n98-magerun.phar config:set 'web/unsecure/base_url' 'https://${APP_HOST}/'"
-        - run "n98-magerun.phar config:set 'web/secure/base_url'   'https://${APP_HOST}/'"
+        - run n98-magerun.phar config:set 'web/unsecure/base_url' "https://${APP_HOST}/"
+        - run n98-magerun.phar config:set 'web/secure/base_url'   "https://${APP_HOST}/"
     migrate:
       steps:
-        - run "n98-magerun.phar sys:setup:incremental -n"
-        - run "n98-magerun.phar index:reindex:all"
-        - run "n98-magerun.phar cache:clean"
+        - run n98-magerun.phar sys:setup:incremental -n
+        - run n98-magerun.phar index:reindex:all
+        - run n98-magerun.phar cache:clean
   docker:
     image:
       console: = 'my127/magento1:' ~ @('php.version') ~ '-fpm-stretch-console'

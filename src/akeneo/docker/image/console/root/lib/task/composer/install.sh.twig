@@ -3,8 +3,8 @@
 function task_composer_install()
 {
     {% if @('app.mode') == 'development' %}
-        passthru "composer install --no-interaction --optimize-autoloader"
+        passthru composer install --no-interaction --optimize-autoloader
     {% else %}
-        passthru "composer install --no-interaction --no-dev --optimize-autoloader"
+        passthru composer install --no-interaction --no-dev --optimize-autoloader
     {% endif %}
 }

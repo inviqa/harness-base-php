@@ -2,17 +2,17 @@
 
 function task_init()
 {
-    task "database:available"
+    task database:available
 
     if ! db_hasSchema; then
 
-        task "assets:apply"
+        task assets:apply
 
         {% for step in @('backend.init.steps') -%}
         {{ step|raw }}
         {% endfor %}
 
-        task "welcome"
+        task welcome
 
     fi
 }

@@ -61,20 +61,20 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
-        - task "magento:tidy"
+        - task composer:install
+        - task magento:tidy
         - |
           if [ "$APP_BUILD" == "static" ] ; then
-            run "mv app/etc/env.php app/etc/env-backup.php"
-            passthru "bin/magento setup:di:compile"
-            run "composer dump-autoload --optimize"
-            run "mv app/etc/env-backup.php app/etc/env.php"
+            run mv app/etc/env.php app/etc/env-backup.php
+            passthru bin/magento setup:di:compile
+            run composer dump-autoload --optimize
+            run mv app/etc/env-backup.php app/etc/env.php
           fi
         - |
           if [ "$APP_BUILD" == "static" ] && validate-magento-config ; then
-            run "mv app/etc/env.php app/etc/env-backup.php"
-            passthru "bin/magento setup:static-content:deploy -f"
-            run "mv app/etc/env-backup.php app/etc/env.php"
+            run mv app/etc/env.php app/etc/env-backup.php
+            passthru bin/magento setup:static-content:deploy -f
+            run mv app/etc/env-backup.php app/etc/env.php
           else
             echo -n "$(date +%s)" > pub/static/deployed_version.txt
           fi
@@ -82,14 +82,14 @@ attributes:
       steps:
         # the magento installer will not work if the dpeloyment config is present so we remove and
         # restore it after installation.
-        - run "rm -f /app/app/etc/env.php"
-        - run "rm -f /app/app/etc/config.php"
+        - run rm -f /app/app/etc/env.php
+        - run rm -f /app/app/etc/config.php
         - |
           passthru "magento setup:install \
-            --key=${MAGENTO_CRYPT_KEY} \
+            --key='${MAGENTO_CRYPT_KEY}' \
             \
             --backend-frontname=admin \
-            --base-url=https://${APP_HOST}/ \
+            --base-url='https://${APP_HOST}/' \
             \
             --admin-user=admin \
             --admin-password=admin123 \
@@ -97,24 +97,24 @@ attributes:
             --admin-firstname=First \
             --admin-lastname=Last \
             \
-            --db-host=${DB_HOST} \
-            --db-name=${DB_NAME} \
-            --db-user=${DB_USER} \
-            --db-password=${DB_PASS} \
+            --db-host='${DB_HOST}' \
+            --db-name='${DB_NAME}' \
+            --db-user='${DB_USER}' \
+            --db-password='${DB_PASS}' \
             \
             --session-save=redis \
-            --session-save-redis-host=${REDIS_SESSION_HOST} \
-            --session-save-redis-port=${REDIS_SESSION_PORT} \
+            --session-save-redis-host='${REDIS_SESSION_HOST}' \
+            --session-save-redis-port='${REDIS_SESSION_PORT}' \
             --session-save-redis-db=1 \
             \
             --cache-backend=redis \
-            --cache-backend-redis-server=${REDIS_HOST} \
-            --cache-backend-redis-port=${REDIS_PORT} \
+            --cache-backend-redis-server='${REDIS_HOST}' \
+            --cache-backend-redis-port='${REDIS_PORT}' \
             --cache-backend-redis-db=2 \
             \
             --page-cache=redis \
-            --page-cache-redis-server=${REDIS_HOST} \
-            --page-cache-redis-port=${REDIS_PORT} \
+            --page-cache-redis-server='${REDIS_HOST}' \
+            --page-cache-redis-port='${REDIS_PORT}' \
             --page-cache-redis-db=3"
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.
@@ -123,26 +123,26 @@ attributes:
             (>&2 cat /tmp/my127ws-stderr.txt)
             exit 1
           fi
-        - run "rm -f /app/app/etc/env.php"
-        - task "overlay:apply"
-        - task "magento:dump-config"
-        - task "assets:dump"
+        - run rm -f /app/app/etc/env.php
+        - task overlay:apply
+        - task magento:dump-config
+        - task assets:dump
     init:
       steps:
-        - task "rabbitmq:vhosts"
-        - run "magento setup:upgrade --keep-generated"
-        - run "magento config:set 'web/unsecure/base_url'       'https://${APP_HOST}/'"
-        - run "magento config:set 'web/secure/base_url'         'https://${APP_HOST}/'"
-        - run "magento config:set 'web/secure/use_in_frontend'  '1'"
-        - run "magento config:set 'web/secure/use_in_adminhtml' '1'"
-        - run "magento config:set 'web/seo/use_rewrites'        '1'"
+        - task rabbitmq:vhosts
+        - run magento setup:upgrade --keep-generated
+        - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
+        - run magento config:set 'web/secure/base_url'         "https://${APP_HOST}/"
+        - run magento config:set 'web/secure/use_in_frontend'  1
+        - run magento config:set 'web/secure/use_in_adminhtml' 1
+        - run magento config:set 'web/seo/use_rewrites'        1
         - if [[ "$HAS_VARNISH" == "true" ]]; then
-            run "magento config:set 'system/full_page_cache/caching_application' '2'";
+            run magento config:set 'system/full_page_cache/caching_application' 2;
           fi
     migrate:
       steps:
-        - run "magento setup:upgrade --keep-generated"
-        - run "magento cache:clean"
+        - run magento setup:upgrade --keep-generated
+        - run magento cache:clean
     cron:
       jobs:
         - "= (@('app.mode') == 'production' ? '* * * * * /cron-run-with-env.sh /app/bin/magento cron:run' : '')"

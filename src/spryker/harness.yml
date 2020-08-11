@@ -44,21 +44,21 @@ attributes:
     build:
       when: 'true'
       steps:
-        - task "spryker:build"
+        - task spryker:build
     install:
       steps:
-        - task "rabbitmq:vhosts"
-        - task "http:wait" $JENKINS_URL
-        - task "spryker:install"
-        - task "overlay:apply"
+        - task rabbitmq:vhosts
+        - task http:wait "$JENKINS_URL"
+        - task spryker:install
+        - task overlay:apply
     init:
       steps:
-        - task "http:wait" $JENKINS_URL
-        - task "rabbitmq:vhosts"
-        - task "spryker:init"
+        - task http:wait "$JENKINS_URL"
+        - task rabbitmq:vhosts
+        - task spryker:init
     migrate:
       steps:
-        - task "spryker:migrate"
+        - task spryker:migrate
   frontend:
     yves:
       watch: npm run yves:watch
@@ -67,11 +67,11 @@ attributes:
     build:
       when: -f "package.json"
       steps:
-        - run "vendor/bin/install -r docker -s frontend"
+        - run vendor/bin/install -r docker -s frontend
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run "rm -rf node_modules/ vendor/*/*/assets/Zed/node_modules"
-            run "npm cache clean --force"
+            run npm cache clean --force
           fi
   docker:
     image:
@@ -181,13 +181,13 @@ command('frontend yves watch'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.yves.watch')'"
+    passthru docker-compose exec -u build --workdir '@('frontend.path')' console @('frontend.yves.watch')
 command('frontend zed watch'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.zed.watch')'"
+    passthru docker-compose exec -u build --workdir '@('frontend.path')' console @('frontend.zed.watch')
 ---
 import:
   - harness/config/*.yml

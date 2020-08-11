@@ -35,35 +35,35 @@ attributes:
   backend:
     build:
       steps:
-        - task "composer:install"
+        - task composer:install
     install:
       steps:
         - |
-          passthru "drupal site:install standard \
+          passthru drupal site:install standard \
               --langcode=en \
               \
               --db-type=mysql \
-              --db-host=${DB_HOST} \
-              --db-name=${DB_NAME} \
-              --db-user=${DB_USER} \
-              --db-pass=${DB_PASS} \
-              --db-port=3306 \
+              "--db-host=${DB_HOST}" \
+              "--db-name=${DB_NAME}" \
+              "--db-user=${DB_USER}" \
+              "--db-pass=${DB_PASS}" \
+              "--db-port=3306" \
               \
               --site-name=Drupal \
               --site-mail=admin@example.com \
               \
               --account-name=admin \
               --account-mail=admin@example.com \
-              --account-pass=admin123"
-        - run "chmod 755 /app/docroot/sites/default"
-        - task "overlay:apply"
-        - task "assets:dump"
+              --account-pass=admin123
+        - run chmod 755 /app/docroot/sites/default
+        - task overlay:apply
+        - task assets:dump
     migrate:
       steps:
-        - run "drupal cache:rebuild"
-        - run "drupal update:entities"
-        - run "drupal update:execute"
-        - run "drupal cache:rebuild"
+        - run drupal cache:rebuild
+        - run drupal update:entities
+        - run drupal update:execute
+        - run drupal cache:rebuild
   docker:
     image:
       console: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch-console'

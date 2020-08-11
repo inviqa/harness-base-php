@@ -92,7 +92,7 @@ command('db console'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec console bash -c 'mysql -h\"\$DB_HOST\" -u\"\$DB_USER\" -p\"\$DB_PASS\" \"\$DB_NAME\"'"
+    passthru docker-compose exec console mysql --host "${DB_HOST}" --user "${DB_USER}" "-p${DB_PASS}" "${DB_NAME}"
 
 command('assets download'):
   env:
@@ -100,7 +100,7 @@ command('assets download'):
     AWS_KEY: =@('aws.key')
   exec: |
     #!bash(workspace:/)|@
-    passthru ws.aws s3 sync @('assets.remote') @('assets.local')
+    passthru ws.aws s3 sync '@('assets.remote')' '@('assets.local')'
 
 command('assets upload'):
   env:
@@ -108,7 +108,7 @@ command('assets upload'):
     AWS_KEY: =@('aws.key')
   exec: |
     #!bash(workspace:/)|@
-    passthru ws.aws s3 sync @('assets.local') @('assets.remote')
+    passthru ws.aws s3 sync '@('assets.local')' '@('assets.remote')'
 
 command('feature docker-sync (on|off)'):
   env:
@@ -135,28 +135,28 @@ command('frontend build'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec -u build console bash -i -c 'app build:frontend'"
+    passthru docker-compose exec -u build console app build:frontend
 
 command('frontend watch'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); @('frontend.watch')'"
+    passthru docker-compose exec -u build --workdir '@('frontend.path')' console @('frontend.watch')
 
 command('frontend console'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec -u build console bash -i -c 'cd @('frontend.path'); bash'"
+    passthru docker-compose exec -u build console  --workdir '@('frontend.path')' bash
 
 command('port <service>'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
-    passthru docker port $(docker-compose ps -q ={input.argument('service')})
+    passthru docker port "$(docker-compose ps -q ={input.argument('service')})"
 
 command('service php-fpm restart'):
   env:
@@ -164,8 +164,8 @@ command('service php-fpm restart'):
   exec: |
     #!bash(workspace:/)|@
     passthru ws install --step=prepare
-    passthru "docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
-    passthru "docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'"
+    passthru docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    passthru docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
     passthru docker-compose exec php-fpm supervisorctl restart php-fpm
 
 command('set <attribute> <value>'):
@@ -217,9 +217,10 @@ command('feature xdebug cli (on|off)'):
 command('db import <database_file>'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
+    DATABASE_FILE: = input.argument('database_file')
   exec: |
     #!bash(workspace:/)|=
-    passthru "docker-compose exec -u build console bash -i -c 'app database:import ={input.argument('database_file')}'"
+    passthru docker-compose exec -u build console app database:import "$DATABASE_FILE"
 
 command('harness update existing'):
   env:

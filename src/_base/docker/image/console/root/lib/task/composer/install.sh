@@ -2,5 +2,5 @@
 
 function task_composer_install()
 {
-    passthru "composer install --no-interaction"
+    passthru composer install --no-interaction
 }
