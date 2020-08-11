@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ws install'
-                sh 'ws exec composer install --dev --no-interaction'
+                sh 'ws exec app composer:development_dependencies'
                 milestone(10)
             }
         }

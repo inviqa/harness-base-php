@@ -93,6 +93,10 @@ command('test-unit'):
     #!bash(workspace:/)|=
     docker-compose exec -T -u root php-fpm bash -c 'mkdir -p /app/docroot/sites/simpletest'
     docker-compose exec -T -u root php-fpm bash -c 'chown -R www-data:www-data /app/docroot/sites/simpletest'
+    if ! docker-compose exec -T -u root php-fpm bash -c '[ -f /app/bin/phpunit ]'; then
+      run "docker cp ${COMPOSE_PROJECT_NAME}_console_1:/app/bin - | docker cp - ${COMPOSE_PROJECT_NAME}_php-fpm_1:/app/"
+      run "docker cp ${COMPOSE_PROJECT_NAME}_console_1:/app/vendor - | docker cp - ${COMPOSE_PROJECT_NAME}_php-fpm_1:/app/"
+    fi
     passthru docker-compose exec -T -u www-data php-fpm bash -c 'bin/phpunit'
 ---
 import:

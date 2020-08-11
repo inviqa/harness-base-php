@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function task_composer_install()
+{
+    {% if @('app.mode') == 'development' and @('app.build') == 'static' %}
+        passthru composer install --no-interaction --optimize-autoloader
+    {% elseif @('app.mode') == 'development' %}
+        passthru composer install --no-interaction
+    {% else %}
+        passthru composer install --no-interaction --no-dev --optimize-autoloader
+    {% endif %}
+
+    {% if @('app.build') == 'static' %}
+        run "composer clear-cache"
+    {% endif %}
+}

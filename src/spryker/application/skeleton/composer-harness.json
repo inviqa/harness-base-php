@@ -30,9 +30,12 @@
       "@test-unit",
       "@test-acceptance"
     ],
-    "test-quality": [
+    "generate": [
       "APPLICATION_ENV=development vendor/bin/console transfer:generate",
-      "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion",
+      "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion"
+    ],
+    "test-quality": [
+      "@generate",
       "@phpstan",
       "APPLICATION_ENV=development vendor/bin/console code:sniff:style",
       "APPLICATION_ENV=development vendor/bin/console code:sniff:architecture"
