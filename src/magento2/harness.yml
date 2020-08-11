@@ -89,7 +89,7 @@ attributes:
             --key='${MAGENTO_CRYPT_KEY}' \
             \
             --backend-frontname=admin \
-            --base-url='https://${APP_HOST}/'' \
+            --base-url='https://${APP_HOST}/' \
             \
             --admin-user=admin \
             --admin-password=admin123 \
