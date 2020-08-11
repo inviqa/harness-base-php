@@ -72,7 +72,7 @@ attributes:
             --skip_url_validation yes \
             --use_rewrites yes \
             --use_secure yes \
-            --secure_base_url "https://${APP_HOST}/"" \
+            --secure_base_url "https://${APP_HOST}/" \
             --use_secure_admin yes' \
             --admin_firstname First \
             --admin_lastname Last \
@@ -81,7 +81,7 @@ attributes:
             --admin_password admin123admin123 \
             --encryption_key "${MAGENTO_CRYPT_KEY}" \
             --session_save db \
-            --admin_frontname admin"
+            --admin_frontname admin
         - run rm -f /app/public/app/etc/local.xml
         - task overlay:apply
         - task assets:dump
