@@ -4,6 +4,8 @@ command('app build'):
     HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
   exec: |
     #!bash(workspace:/)|@
+    ws external-images pull
+    
     # dependency ordered build
     passthru docker-compose build console
     passthru docker-compose build php-fpm nginx

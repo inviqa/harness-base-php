@@ -114,6 +114,30 @@ function('get_docker_external_networks'): |
   }
   = join(" ", $externalNetworks);
 
+function('docker_service_images'): |
+  #!php
+  $configRaw = shell_exec('docker-compose config');
+  $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+  $images = [];
+
+  foreach ($config['services'] as $serviceName => $service) {
+    if (!isset($service['build'])) {
+      continue;
+    }
+    $context = rtrim($service['build']['context'], '/');
+    $dockerfile = $service['build']['dockerfile'] ?? 'Dockerfile';
+
+    if (preg_match_all('/^FROM\s+([^\s]*)/m', file_get_contents($context.'/'.$dockerfile), $matches) === false) {
+      continue;
+    }
+    $images[$serviceName] = [
+      'image' => $service['image'] ?? null,
+      'upstream' => $matches[1],
+    ];
+  }
+
+  = $images;
+
 function('get_docker_registry', [dockerRepository]): |
   #!php
   $dockerRepoParts = explode('/', $dockerRepository);
