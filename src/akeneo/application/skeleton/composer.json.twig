@@ -61,6 +61,7 @@
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "test": [
+      "@test-production-quality",
       "@test-quality",
       "@test-unit",
       "@test-acceptance"
