@@ -2,13 +2,13 @@
 
 function task_spryker_build()
 {
-    task "composer:install"
-    passthru "composer dump-autoload --optimize"
-    passthru "vendor/bin/install -r docker -s generate"
-    passthru "vendor/bin/install -r docker -s cache"
+    task composer:install
+    passthru composer dump-autoload --optimize
+    passthru vendor/bin/install -r docker -s generate
+    passthru vendor/bin/install -r docker -s cache
     {% if @('app.mode') == 'development' %}
-        passthru "composer dump-autoload"
+        passthru composer dump-autoload
     {% else %}
-        passthru "composer dump-autoload --optimize --classmap-authoritative"
+        passthru composer dump-autoload --optimize --classmap-authoritative
     {% endif %}
 }
