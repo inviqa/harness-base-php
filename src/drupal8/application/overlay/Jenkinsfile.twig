@@ -9,8 +9,14 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ws install'
-                sh 'ws exec app composer:development_dependencies'
                 milestone(10)
+            }
+        }
+        stage('Checks without development dependencies') {
+            steps {
+                sh 'ws exec composer test-production-quality'
+                sh 'ws exec app composer:development_dependencies'
+                milestone(20)
             }
         }
         stage('Test')  {
