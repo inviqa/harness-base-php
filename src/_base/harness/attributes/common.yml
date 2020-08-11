@@ -79,7 +79,10 @@ attributes.default:
         external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
 
   docker:
-    registry_url: = get_docker_registry(@('docker.repository'))
+    registry:
+      url: = get_docker_registry(@('docker.repository'))
+      username: = @('docker.username') # for backwards compatibility
+      password: = @('docker.password') # for backwards compatibility
     repository: = @("workspace.name")
     compose:
       file_version: '3.7'

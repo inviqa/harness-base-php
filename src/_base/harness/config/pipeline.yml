@@ -22,9 +22,9 @@ command('app build <service>'):
 
 command('app publish'): |
   #!bash(workspace:/)|@
-  echo '@('docker.password')' | run docker login --username='@('docker.username')' --password-stdin '@('docker.registry_url')'
+  echo '@('docker.registry.password')' | run docker login --username='@('docker.registry.username')' --password-stdin '@('docker.registry.url')'
   passthru docker-compose push @('pipeline.publish.services')
-  run docker logout '@('docker.registry_url')'
+  run docker logout '@('docker.registry.url')'
 
 command('app publish chart <release> <message>'):
   env:
