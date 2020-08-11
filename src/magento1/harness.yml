@@ -73,7 +73,7 @@ attributes:
             --use_rewrites yes \
             --use_secure yes \
             --secure_base_url "https://${APP_HOST}/" \
-            --use_secure_admin yes' \
+            --use_secure_admin yes \
             --admin_firstname First \
             --admin_lastname Last \
             --admin_email 'admin@example.com' \
