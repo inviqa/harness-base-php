@@ -9,4 +9,8 @@ function task_composer_install()
     {% else %}
         passthru composer install --no-interaction --no-dev --optimize-autoloader
     {% endif %}
+
+    {% if @('app.build') == 'static' %}
+        run "composer clear-cache"
+    {% endif %}
 }
