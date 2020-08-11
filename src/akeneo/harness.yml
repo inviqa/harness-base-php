@@ -42,34 +42,34 @@ attributes:
       default_authentication_plugin: mysql_native_password
     import:
       steps:
-        - passthru "echo 'Importing database file'"
+        - passthru echo 'Importing database file'
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
-        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
-        - passthru "echo 'Reindexing Elasticsearch'"
-        - run "bin/console akeneo:elasticsearch:reset-indexes -n"
-        - run "bin/console pim:product:index --all"
-        - run "bin/console pim:product-model:index --all"
-        - passthru "echo 'Clearing cache'"
-        - run "bin/console c:c"
-        - passthru "echo 'Done'"
+        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - passthru echo 'Reindexing Elasticsearch'
+        - run bin/console akeneo:elasticsearch:reset-indexes -n
+        - run bin/console pim:product:index --all
+        - run bin/console pim:product-model:index --all
+        - passthru echo 'Clearing cache'
+        - run bin/console c:c
+        - passthru echo 'Done'
   backend:
     build:
       steps:
-        - task "composer:install"
+        - task composer:install
     install:
       steps:
-        - passthru "bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal"
-        - task "overlay:apply"
-        - task "assets:dump"
+        - passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal
+        - task overlay:apply
+        - task assets:dump
     init:
       steps:
-        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
-        - run "bin/console akeneo:elasticsearch:reset-indexes --no-interaction"
-        - run "bin/console pim:product:index --all"
-        - run "bin/console pim:product-model:index --all"
+        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - run bin/console akeneo:elasticsearch:reset-indexes --no-interaction
+        - run bin/console pim:product:index --all
+        - run bin/console pim:product-model:index --all
     migrate:
       steps:
-        - passthru "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
+        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
     cron:
       jobs:
         - 30 1 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=prod
@@ -88,15 +88,15 @@ attributes:
     build:
       when: -f "package.json"
       steps:
-        - run "yarn install"
-        - run "bin/console pim:installer:assets --symlink --clean"
+        - run yarn install
+        - run bin/console pim:installer:assets --symlink --clean
         - |
           if [ "$APP_BUILD" == "static" ]; then
-            run "yarn run webpack"
-            run "rm -rf node_modules/"
-            run "yarn cache clean"
+            run yarn run webpack
+            run rm -rf node_modules/
+            run yarn cache clean
           else
-            run "yarn run webpack-dev"
+            run yarn run webpack-dev
           fi
   docker:
     image:

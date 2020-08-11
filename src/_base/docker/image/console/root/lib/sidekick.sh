@@ -13,38 +13,58 @@ TASKS="/lib/task"
 
 task()
 {
-    local task_file="${TASKS}/${1//:/\/}.sh"
-    local task_name="task_${1//:/_}"
+    local TASK_FILE="${TASKS}/${1//:/\/}.sh"
+    local TASK_NAME="task_${1//:/_}"
 
     # shellcheck source=/dev/null
-    declare -F "$task_name" &>/dev/null || source "$task_file"
+    declare -F "${TASK_NAME}" &>/dev/null || source "${TASK_FILE}"
 
     shift
 
-    $task_name "$@"
+    "${TASK_NAME}" "$@"
 }
 
 prompt()
 {
     if [ "${RUN_CWD}" != "$(pwd)" ]; then
         RUN_CWD="$(pwd)"
-        echo -e "\\033[1m[\\033[0mdocker(console):$(pwd)\\033[1m]:\\033[0m"
+        echo -e "\\033[1m[\\033[0mdocker(console):$(pwd)\\033[1m]:\\033[0m" >&2
     fi
 }
 
 run()
 {
-    local COMMAND="$*"
+    local -r COMMAND_DEPRECATED="$*"
+    local -r COMMAND=("$@")
+    local DEPRECATED_MODE=no
+
+    if [[ "${COMMAND[0]}" = *" "* ]]; then
+        # echo "deprecated: support for passing multiple arguments in the following line will be removed in a future version" >&2
+        # echo "run '${COMMAND_DEPRECATED[*]}'" >&2
+        # echo "a future major version will only support:" >&2
+        # echo "run ${COMMAND_DEPRECATED[*]}" >&2
+        # echo >&2
+        DEPRECATED_MODE=yes
+    fi
+
     if [ "$VERBOSE" = "no" ]; then
+
         prompt
+        if [ "${DEPRECATED_MODE}" = "yes" ]; then
+            echo "  > ${COMMAND_DEPRECATED[*]}" >&2
+            setCommandIndicator "${INDICATOR_RUNNING}"
+            bash -c "${COMMAND_DEPRECATED[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt
+        else
+            echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
+            setCommandIndicator "${INDICATOR_RUNNING}"
+            "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt
+        fi
 
-        echo "  > ${COMMAND[*]}"
-        setCommandIndicator "$INDICATOR_RUNNING"
+        # shellcheck disable=SC2181
+        if [ "$?" -gt 0 ]; then
+            setCommandIndicator "${INDICATOR_ERROR}"
 
-        if ! bash -c "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt; then
-            setCommandIndicator "$INDICATOR_ERROR"
-
-            if [ "$APP_BUILD" = "static" ]; then
+            if [ "${APP_BUILD}" = "static" ]; then
               echo "Command failed. stdout:"
               cat /tmp/my127ws-stdout.txt
               echo
@@ -62,8 +82,10 @@ run()
 
             exit 1
         else
-            setCommandIndicator "$INDICATOR_SUCCESS"
+            setCommandIndicator "${INDICATOR_SUCCESS}"
         fi
+    elif [ "${DEPRECATED_MODE}" = "yes" ]; then
+        passthru "${COMMAND_DEPRECATED[@]}"
     else
         passthru "${COMMAND[@]}"
     fi
@@ -71,20 +93,39 @@ run()
 
 passthru()
 {
+    local -r COMMAND_DEPRECATED="$*"
+    local -r COMMAND=("$@")
+    local DEPRECATED_MODE=no
+
+    if [[ "${COMMAND[0]}" = *" "* ]]; then
+        # echo "deprecated: support for passing multiple arguments in the following line will be removed in a future version" >&2
+        # echo "passthru '${COMMAND_DEPRECATED[*]}'" >&2
+        # echo "a future major version will only support:" >&2
+        # echo "passthru ${COMMAND_DEPRECATED[*]}" >&2
+        # echo >&2
+        DEPRECATED_MODE=yes
+    fi
+
     prompt
 
-    echo -e "\\033[${INDICATOR_PASSTHRU}■\\033[0m > $*"
-
-    if ! bash -c "$@"; then
-        exit 1
+    if [ "${DEPRECATED_MODE}" = "yes" ]; then
+        echo -e "\\033[${INDICATOR_PASSTHRU}■\\033[0m > $*" >&2
+        if ! bash -e -c "${COMMAND_DEPRECATED[@]}"; then
+            exit 1
+        fi
+    else
+        echo -e "\\033[${INDICATOR_PASSTHRU}■\\033[0m >$(printf ' %q' "${COMMAND[@]}")" >&2
+        if ! "${COMMAND[@]}"; then
+            exit 1
+        fi
     fi
 }
 
 setCommandIndicator()
 {
-    echo -ne "\\033[1A";
-    echo -ne "\\033[$1"
-    echo -n "■"
-    echo -ne "\\033[0m"
-    echo -ne "\\033[1E";
+    echo -ne "\\033[1A" >&2 
+    echo -ne "\\033[$1" >&2
+    echo -n "■" >&2
+    echo -ne "\\033[0m" >&2
+    echo -ne "\\033[1E" >&2
 }
