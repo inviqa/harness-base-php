@@ -92,7 +92,7 @@ The [deploy script](./deploy) does a similar thing but the end result is output 
 committed as a publish commit to a temporary build branch.
 
 A "subtree-split" is then performed which outputs a directory for each folder into a "publish" folder, where it is then
-force pushed to the individual harness repositories' `0.9.x` branch.
+force pushed to the individual harness repositories' `0.10.x` branch.
 
 ## Release
 
@@ -100,7 +100,7 @@ force pushed to the individual harness repositories' `0.9.x` branch.
 
 We are keeping a changelog, powered by [GitHub Changelog Generator].
 
-When ready to tag a release, make a new branch from the `0.9.x` branch for the changelog entries:
+When ready to tag a release, make a new branch from the `0.10.x` branch for the changelog entries:
 1. Generate a `repo` scope token for use with the changelog generator: https://github.com/settings/tokens/new?description=GitHub%20Changelog%20Generator%20token
 2. Export it in your environment: `export CHANGELOG_GITHUB_TOKEN=...`
 3. Run the following docker command to generate the changelog, replacing `<nextReleaseTag>` with the version number you
@@ -125,7 +125,7 @@ Once the CHANGELOG.markdown is in the branch you wish to release:
 3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
 4. Run the deploy script: `./deploy`
 5. On each downstream repository:
-   1. Tag the latest `0.9.x` branch push as the release version.
+   1. Tag the latest `0.10.x` branch push as the release version.
    2. Push the tag to the repository
 6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
