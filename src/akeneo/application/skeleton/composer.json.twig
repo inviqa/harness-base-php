@@ -61,12 +61,15 @@
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "test": [
+      "@test-production-quality",
       "@test-quality",
       "@test-unit",
       "@test-acceptance"
     ],
+    "test-production-quality": [
+      "find src/ | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'"
+    ],
     "test-quality": [
-      "find src/ | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'",
       "phpcs -p",
       "phpstan analyse",
       "phpmd ./src text ./phpmd.xml"

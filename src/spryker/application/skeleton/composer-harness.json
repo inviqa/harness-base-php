@@ -26,6 +26,7 @@
   },
   "scripts": {
     "test": [
+      "@test-production-quality",
       "@test-quality",
       "@test-unit",
       "@test-acceptance"
@@ -33,6 +34,9 @@
     "generate": [
       "APPLICATION_ENV=development vendor/bin/console transfer:generate",
       "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion"
+    ],
+    "test-production-quality": [
+      "find src/ | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'"
     ],
     "test-quality": [
       "@generate",

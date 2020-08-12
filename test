@@ -91,6 +91,8 @@ function run_pipeline_tests()
     # Check inside the console container as static builds do not
     # update the local filesystem
     if ws exec stat /app/composer.json > /dev/null 2>&1; then
+      # Run checks that don't reqiure development dependencies
+      ws exec composer test-production-quality
       # Bring in dev dependencies
       ws exec app composer:development_dependencies
       # Run the tests

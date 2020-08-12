@@ -84,12 +84,15 @@
     },
     "scripts": {
         "test": [
+            "@test-production-quality",
             "@test-quality",
             "@test-unit",
             "@test-acceptance"
         ],
+        "test-production-quality": [
+            "find public/app/code/ public/app/design/ -type f ! -path 'public/app/code/core/Mage/Adminhtml/Model/Extension.php' \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'"
+        ],
         "test-quality": [
-            "find public/app/code/ public/app/design/ -type f ! -path 'public/app/code/core/Mage/Adminhtml/Model/Extension.php' \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {}",
             "phpcs -v ./src",
             "phpstan analyse",
             "phpmd ./src text ./phpmd.xml"
