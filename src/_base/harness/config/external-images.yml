@@ -3,10 +3,14 @@ function('external_images', [services]): |
   $upstreamImages = $producedImages = [];
 
   foreach ($services as $service) {
-    if ($service['image']) {
-      $producedImages[] = $service['image'];
+    if (count($service['upstream']) > 0) {
+      $upstreamImages = array_merge($upstreamImages, $service['upstream']);
+      if ($service['image']) {
+        $producedImages[] = $service['image'];
+      }
+    } else if ($service['image']) {
+      $upstreamImages[] = $service['image'];
     }
-    $upstreamImages = array_merge($upstreamImages, $service['upstream']);
   }
   $externalImages = array_diff($upstreamImages, $producedImages);
 
