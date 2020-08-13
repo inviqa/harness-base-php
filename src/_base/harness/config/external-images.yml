@@ -1,6 +1,7 @@
 function('external_images', [services]): |
   #!php
   $upstreamImages = $producedImages = [];
+  $excludeImages = ['scratch'];
 
   foreach ($services as $service) {
     if (count($service['upstream']) > 0) {
@@ -12,7 +13,7 @@ function('external_images', [services]): |
       $upstreamImages[] = $service['image'];
     }
   }
-  $externalImages = array_diff($upstreamImages, $producedImages);
+  $externalImages = array_diff($upstreamImages, $producedImages, $excludeImages);
 
   # workspace commands don't allow non-string types
   = join(' ', $externalImages);
