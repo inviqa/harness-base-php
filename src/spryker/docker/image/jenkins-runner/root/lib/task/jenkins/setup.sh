@@ -4,7 +4,7 @@
 function task_jenkins_setup()
 {
     echo -e "Bootstrapping jenkins runner"
-    task "http:wait" "$JENKINS_URL"
+    task http:wait "$JENKINS_URL"
 
     curl -s "$JENKINS_URL/jnlpJars/jenkins-cli.jar" -o /usr/local/bin/jenkins-cli.jar
     curl -s "$JENKINS_URL/jnlpJars/slave.jar" -o /usr/local/bin/jenkins-slave.jar

@@ -25,12 +25,12 @@ function task_assets_apply()
         if [ -f "$DATABASE_FILE" ]; then
             passthru "pv --force $DATABASE_FILE | zcat - | $IMPORT_COMMAND"
         else
-            task "install"
+            task install
         fi
     fi
 
     for file in "/app/${ASSETS_DIR}/"*.files.{tgz,tar.gz}; do
         [ -f "$file" ] || continue
-        run "tar -xvf ${file} -C /app"
+        run tar -xvf "${file}" -C /app
     done
 }

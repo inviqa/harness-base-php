@@ -57,11 +57,14 @@
   },
   "scripts": {
     "test": [
+      "@test-production-quality",
       "@test-quality",
       "@test-acceptance"
     ],
+    "test-production-quality": [
+      "find docroot/ -type f ! -path 'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php' \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'"
+    ],
     "test-quality": [
-      "find docroot/ -type f ! -path 'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php' \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'",
       "phpcs -v ./docroot/modules/custom",
       "phpstan analyse",
       "drupal-check -d ./docroot/modules/custom"

@@ -2,5 +2,5 @@
 
 function task_spryker_demodata()
 {
-    passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -s demodata"
+    PGPASSWORD=$DB_PASS passthru vendor/bin/install -r docker -s demodata
 }

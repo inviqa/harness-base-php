@@ -2,7 +2,7 @@
 
 function task_state()
 {
-    task "database:available"
+    task database:available
 
     echo "Ready!"
 }
