@@ -22,7 +22,7 @@ $config[NewsletterConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE
 $config[CustomerConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
 $config[ApplicationConstants::YVES_TRUSTED_HOSTS] = [];
 // ---------- Zed host
-$config[ApplicationConstants::HOST_ZED] = getenv('ZED_HOST');
+$config[ApplicationConstants::HOST_ZED] = getenv('ZED_HOST_' . $CURRENT_STORE);
 $config[ApplicationConstants::PORT_SSL_ZED] = '';
 $config[ApplicationConstants::BASE_URL_ZED] = sprintf(
     'http://%s%s',

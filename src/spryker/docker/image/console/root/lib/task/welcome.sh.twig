@@ -8,7 +8,9 @@ function task_welcome()
     {% for store, yves_external_host in @('yves.external_hosts') %}
     echo "Yves {{ store }}: https://${YVES_HOST_{{ store }}}"
     {% endfor %}
-    echo "Zed: https://${ZED_HOST}"
+    {% for store, zed_external_host in @('zed.external_hosts') %}
+    echo "Zed {{ store }}: https://${ZED_HOST_{{ store }}}"
+    {% endfor %}
     echo "  Username: admin@spryker.com"
     echo "  Password: change123"
     {% for store, glue_external_host in @('glue.external_hosts') %}
