@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the Spryker Commerce OS.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
+ */
+
 namespace Inviqa\Yves\EventDispatcher;
 
 use Inviqa\Yves\Router\Plugin\EventDispatcher\RouterSslRedirectEventDispatcherPlugin;
@@ -18,7 +23,7 @@ class EventDispatcherDependencyProvider extends PyzEventDispatcherDependencyProv
     {
         $corePlugins = parent::getEventDispatcherPlugins();
         $plugins = array_filter($corePlugins, function (EventDispatcherPluginInterface $plugin) {
-            return ! $plugin instanceof SprykerRouterSslRedirectEventDispatcherPlugin;
+            return !$plugin instanceof SprykerRouterSslRedirectEventDispatcherPlugin;
         });
 
         $plugins[] = new RouterSslRedirectEventDispatcherPlugin();

@@ -48,6 +48,7 @@ class ProcessManager extends SprykerProcessManager
     {
         $process = parent::createProcess($command);
         $process->setTimeout($this->queueConfig->getQueueProcessTimeout());
+
         return $process;
     }
 }
