@@ -43,14 +43,14 @@ command('app publish chart <release> <message>'):
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
 
     run git clone $REPOSITORY ./build-artifacts-repository
-    run git -C ./build-artifacts-repository config user.email \"${USER_EMAIL}\"
+    run git -C ./build-artifacts-repository config user.email "${USER_EMAIL}"
 
     run mkdir -p $ARTIFACTS_PATH
     run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ ${ARTIFACTS_PATH}/
 
     export GIT_SSH_COMMAND='ssh -i ../id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
     run git -C ./build-artifacts-repository add .
-    run git -C ./build-artifacts-repository commit --allow-empty -m \"${MESSAGE}\"
+    run git -C ./build-artifacts-repository commit --allow-empty -m "${MESSAGE}"
     run git -C ./build-artifacts-repository push origin master
 
 command('app deploy <environment>'):
