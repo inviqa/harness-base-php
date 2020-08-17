@@ -135,7 +135,7 @@ function('docker_service_images'): |
       }
       $image['upstream'] = $matches[1];
     }
-    $images[$serviceName] = $image
+    $images[$serviceName] = $image;
   }
 
   = $images;
