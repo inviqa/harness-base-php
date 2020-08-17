@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.9.0](https://github.com/inviqa/harness-base-php/tree/0.9.1) (2020-08-17)
+## [0.9.1](https://github.com/inviqa/harness-base-php/tree/0.9.1) (2020-08-17)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.0...0.9.1)
 
