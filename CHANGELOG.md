@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.9.0](https://github.com/inviqa/harness-base-php/tree/0.9.1) (2020-08-17)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.0...0.9.1)
+
+**Fixed bugs:**
+
+- Add missing external images of service images that have no build [\#358](https://github.com/inviqa/harness-base-php/pull/358) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix trailing newlines being added into secrets before encryption [\#360](https://github.com/inviqa/harness-base-php/pull/360) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix escaping in helm chart git commit [\#361](https://github.com/inviqa/harness-base-php/pull/361) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix drupal site:install by skipping bug in drupal/console 1.9.5 [\#362](https://github.com/inviqa/harness-base-php/pull/362) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [0.9.0](https://github.com/inviqa/harness-base-php/tree/0.9.0) (2020-08-12)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.8.0...0.9.0)
