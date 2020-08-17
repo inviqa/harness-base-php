@@ -32,7 +32,7 @@
     "composer/installers": "^1.0",
     "cweagans/composer-patches": "^1.5.0",
     "drupal/admin_toolbar": "^1.0",
-    "drupal/console": "^1.0",
+    "drupal/console": "^1.0, != 1.9.5",
     "drupal/core-composer-scaffold": "~8.9",
     "drupal/core-recommended": "~8.9",
     "drupal/ctools": "^3.0",
