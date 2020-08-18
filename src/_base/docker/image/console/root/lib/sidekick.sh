@@ -54,7 +54,7 @@ run()
             echo "  > ${COMMAND_DEPRECATED[*]}" >&2
             COMMAND=(bash -e -c "${COMMAND_DEPRECATED[@]}")
         else
-          echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
+            echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
         fi
 
         setCommandIndicator "${INDICATOR_RUNNING}"
