@@ -35,7 +35,7 @@ prompt()
 run()
 {
     local -r COMMAND_DEPRECATED="$*"
-    local -r COMMAND=("$@")
+    local COMMAND=("$@")
     local DEPRECATED_MODE=no
 
     if [[ "${COMMAND[0]}" = *" "* ]]; then
@@ -51,19 +51,14 @@ run()
 
         prompt
         if [ "${DEPRECATED_MODE}" = "yes" ]; then
-            echo "  > ${COMMAND_DEPRECATED[*]}" >&2
-            setCommandIndicator "${INDICATOR_RUNNING}"
-            bash -c "${COMMAND_DEPRECATED[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt
-        else
-            echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
-            setCommandIndicator "${INDICATOR_RUNNING}"
-            "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt
+            COMMAND=(bash -c "${COMMAND_DEPRECATED[@]}")
         fi
 
-        # shellcheck disable=SC2181
-        if [ "$?" -gt 0 ]; then
-            setCommandIndicator "${INDICATOR_ERROR}"
+        echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
+        setCommandIndicator "${INDICATOR_RUNNING}"
 
+        if ! "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt; then
+            setCommandIndicator "${INDICATOR_ERROR}"
             if [ "${APP_BUILD}" = "static" ]; then
               echo "Command failed. stdout:"
               cat /tmp/my127ws-stdout.txt
@@ -80,7 +75,7 @@ run()
               echo "  stderr: /tmp/my127ws-stderr.txt"
             fi
 
-            exit 1
+            return 1
         else
             setCommandIndicator "${INDICATOR_SUCCESS}"
         fi
@@ -111,19 +106,19 @@ passthru()
     if [ "${DEPRECATED_MODE}" = "yes" ]; then
         echo -e "\\033[${INDICATOR_PASSTHRU}■\\033[0m > $*" >&2
         if ! bash -e -c "${COMMAND_DEPRECATED[@]}"; then
-            exit 1
+            return 1
         fi
     else
         echo -e "\\033[${INDICATOR_PASSTHRU}■\\033[0m >$(printf ' %q' "${COMMAND[@]}")" >&2
         if ! "${COMMAND[@]}"; then
-            exit 1
+            return 1
         fi
     fi
 }
 
 setCommandIndicator()
 {
-    echo -ne "\\033[1A" >&2 
+    echo -ne "\\033[1A" >&2
     echo -ne "\\033[$1" >&2
     echo -n "■" >&2
     echo -ne "\\033[0m" >&2
