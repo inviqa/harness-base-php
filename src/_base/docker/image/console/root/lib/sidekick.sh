@@ -51,13 +51,17 @@ run()
 
         prompt
         if [ "${DEPRECATED_MODE}" = "yes" ]; then
+            echo "  >$(printf ' %q' "${COMMAND_DEPRECATED[@]}")" >&2
             COMMAND=(bash -c "${COMMAND_DEPRECATED[@]}")
+        else
+          echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
         fi
 
-        echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
         setCommandIndicator "${INDICATOR_RUNNING}"
 
-        if ! "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt; then
+        if "${COMMAND[@]}" > /tmp/my127ws-stdout.txt 2> /tmp/my127ws-stderr.txt; then
+            setCommandIndicator "${INDICATOR_SUCCESS}"
+        else
             setCommandIndicator "${INDICATOR_ERROR}"
             if [ "${APP_BUILD}" = "static" ]; then
               echo "Command failed. stdout:"
@@ -76,8 +80,6 @@ run()
             fi
 
             return 1
-        else
-            setCommandIndicator "${INDICATOR_SUCCESS}"
         fi
     elif [ "${DEPRECATED_MODE}" = "yes" ]; then
         passthru "${COMMAND_DEPRECATED[@]}"
