@@ -51,7 +51,7 @@ run()
 
         prompt
         if [ "${DEPRECATED_MODE}" = "yes" ]; then
-            echo "  >$(printf ' %q' "${COMMAND_DEPRECATED[@]}")" >&2
+            echo "  > ${COMMAND_DEPRECATED[*]}" >&2
             COMMAND=(bash -c "${COMMAND_DEPRECATED[@]}")
         else
           echo "  >$(printf ' %q' "${COMMAND[@]}")" >&2
