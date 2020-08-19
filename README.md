@@ -127,15 +127,15 @@ Once the CHANGELOG.markdown is in the branch you wish to release:
 5. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 6. Create a "Github Release" for this repository and downstream repositories, pasting in the changelog for the release:
-   - https://github.com/inviqa/harness-base-php/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-php/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-akeneo/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-drupal8/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-magento1/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-magento2/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-spryker/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-symfony/releases/new?tag=0.10.0&target=0.10.x
-   - https://github.com/inviqa/harness-wordpress/releases/new?tag=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-base-php/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-php/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-akeneo/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-drupal8/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-magento1/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-magento2/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-spryker/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-symfony/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
+   - https://github.com/inviqa/harness-wordpress/releases/new?tag=0.10.0&title=0.10.0&target=0.10.x
 
 ### Post-release actions
 
