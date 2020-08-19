@@ -139,13 +139,14 @@ attributes:
         APP_DATABASE_PORT: = @('database.port')
         APP_DATABASE_NAME: = @('database.name')
         APP_DATABASE_USER: = @('database.user')
-        APP_DATABASE_PASSWORD: = @('database.pass')
         APP_DEFAULT_LOCALE: en
-        APP_SECRET: = @('akeneo.secret')
         APP_INDEX_HOSTS: elasticsearch:9200
         APP_PRODUCT_AND_PRODUCT_MODEL_INDEX_NAME: akeneo_pim_product_and_product_model
         MAILER_URL: null://localhost
         AKENEO_PIM_URL: = "https://" ~ @('hostname')
+      environment_secrets:
+        APP_DATABASE_PASSWORD: = @('database.pass')
+        APP_SECRET: = @('akeneo.secret')
 ---
 import:
   - harness/config/*.yml
