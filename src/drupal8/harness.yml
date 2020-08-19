@@ -84,7 +84,7 @@ command('drush %'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
-    passthru ws exec drush --root=={ @('drupal.docroot') } ={ input.argument('%') }
+    passthru ws exec drush --root=/app/={ @('drupal.docroot') } ={ input.argument('%') }
 ---
 command('test-unit'):
   env:
