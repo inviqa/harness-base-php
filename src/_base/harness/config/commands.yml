@@ -151,7 +151,7 @@ command('frontend console'):
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru docker-compose exec -u build console  --workdir '@('frontend.path')' bash -i
+    passthru docker-compose exec -u build --workdir '@('frontend.path')' console bash -i
 
 command('port <service>'):
   env:
