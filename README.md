@@ -106,7 +106,7 @@ When ready to tag a release, make a new branch from the `0.9.x` branch for the c
 3. Run the following docker command to generate the changelog, replacing `<nextReleaseTag>` with the version number you
    wish to release:
   ```bash
-  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --future-release <nextReleaseTag>
+  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app -v "$(pwd)/github-changelog-http-cache":/tmp/github-changelog-http-cache ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --release-branch 0.9.x --future-release <nextReleaseTag>
   ```
 4. Examine the generated CHANGELOG.md. For every entry in the `Merged pull requests` section, examine the Pull Requests
    and assign each pull request either a `enhancement` label for a new feature, `bug` for a bugfix or `deprecated` for
