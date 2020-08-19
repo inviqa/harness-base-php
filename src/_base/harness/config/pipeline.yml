@@ -5,7 +5,7 @@ command('app build'):
   exec: |
     #!bash(workspace:/)|@
     ws external-images pull
-    
+
     # dependency ordered build
     passthru docker-compose build console
     passthru docker-compose build php-fpm nginx
@@ -42,15 +42,15 @@ command('app publish chart <release> <message>'):
 
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
 
-    run git clone $REPOSITORY ./build-artifacts-repository
+    run git clone "$REPOSITORY" ./build-artifacts-repository
     run git -C ./build-artifacts-repository config user.email "${USER_EMAIL}"
 
     run mkdir -p $ARTIFACTS_PATH
-    run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ ${ARTIFACTS_PATH}/
+    run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ "${ARTIFACTS_PATH}/"
 
     export GIT_SSH_COMMAND='ssh -i ../id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
     run git -C ./build-artifacts-repository add .
-    run git -C ./build-artifacts-repository commit --allow-empty -m "${MESSAGE}"
+    run "git -C ./build-artifacts-repository commit --allow-empty -m '${MESSAGE}'"
     run git -C ./build-artifacts-repository push origin master
 
 command('app deploy <environment>'):
@@ -63,12 +63,12 @@ command('app deploy <environment>'):
     #!bash(harness:/helm)|=
     set -o pipefail
     cd "${ENVIRONMENT}"
-    doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
+    doctl -t "$DO_ACCESS_TOKEN" kubernetes cluster kubeconfig show "$CLUSTER" > kubectl.config.yaml
     if helm version --short --client | grep '^Client: v2' >/dev/null 2>&1; then
       passthru helm init --client-only
     fi
     passthru helm dependency build
-    passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --atomic --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
+    passthru helm --kubeconfig="${PWD}/kubectl.config.yaml" upgrade --wait --atomic --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
 
 command('helm template <chart-path>'):
   env:
