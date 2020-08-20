@@ -4,7 +4,7 @@
       dockerfile: .my127ws/docker/image/jenkins-runner/Dockerfile
 {% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.jenkins_runner.dynamic.sh
-    command: [sleep, infinity]
+    command: [app, jenkins, start]
     volumes:
       - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
