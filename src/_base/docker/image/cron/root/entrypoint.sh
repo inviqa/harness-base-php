@@ -5,4 +5,4 @@ env > /app/env.sh
 
 # run
 crontab /crontab
-exec cron -f -L 15
+exec /sbin/docker-init -- cron -f -L 15
