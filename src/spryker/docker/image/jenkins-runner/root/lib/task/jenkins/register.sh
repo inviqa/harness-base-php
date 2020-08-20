@@ -2,9 +2,9 @@
 
 function task_jenkins_register()
 {
-    JENKINS_RUNNER_NAME="$(hostname)"
+    local -r JENKINS_RUNNER_NAME="$(hostname)"
 
-    NODE_OUTPUT="$(java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" get-node "$JENKINS_RUNNER_NAME" 2>&1 || true )"
+    local -r NODE_OUTPUT="$(java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" get-node "$JENKINS_RUNNER_NAME" 2>&1 || true )"
 
     if ! echo -n "$NODE_OUTPUT" | grep ERROR: >/dev/null; then
         # In case of runner recreation, jenkins does not allow re-attaching new runner with same node name,

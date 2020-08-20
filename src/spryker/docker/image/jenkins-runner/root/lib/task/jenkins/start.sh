@@ -1,16 +1,18 @@
-# start jenkins runner
+#!/bin/bash
 
 function _trap_jenkins_exit()
 {
     echo 'Terminating jenkins agent' >&2
-    kill -TERM $(jobs -p)
+    local CHILD_PIDS
+    mapfile -t CHILD_PIDS < <(jobs -p)
+    kill -TERM "${CHILD_PIDS[@]}"
     wait
     app jenkins unregister
 }
 
 function task_jenkins_start()
 {
-    JENKINS_RUNNER_NAME=$(hostname)
+    local -r JENKINS_RUNNER_NAME=$(hostname)
 
     trap _trap_jenkins_exit EXIT
 
