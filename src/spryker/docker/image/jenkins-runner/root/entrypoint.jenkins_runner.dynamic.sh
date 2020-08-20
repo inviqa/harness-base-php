@@ -7,7 +7,7 @@ main()
 
 bootstrap()
 {
-    app jenkins setup
+    app jenkins:setup
 }
 
 bootstrap

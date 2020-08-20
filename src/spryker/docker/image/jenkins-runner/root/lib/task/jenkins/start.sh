@@ -14,7 +14,7 @@ function task_jenkins_start()
 
     trap _trap_jenkins_exit EXIT
 
-    app jenkins register
+    app jenkins:register
 
     java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" offline-node ""
     java -jar /usr/local/bin/jenkins-slave.jar -jnlpUrl "$JENKINS_URL/computer/$JENKINS_RUNNER_NAME/slave-agent.jnlp" &
