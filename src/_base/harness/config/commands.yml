@@ -92,7 +92,7 @@ command('db console'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec console mysql --host "${DB_HOST}" --user "${DB_USER}" "-p${DB_PASS}" "${DB_NAME}"
+    passthru "docker-compose exec console bash -c 'mysql --host \"\$DB_HOST\" --user \"\$DB_USER\" -p\"\$DB_PASS\" \"\$DB_NAME\"'"
 
 command('assets download'):
   env:
