@@ -9,6 +9,8 @@ function task_jenkins_setup()
     curl -s "$JENKINS_URL/jnlpJars/jenkins-cli.jar" -o /usr/local/bin/jenkins-cli.jar
     curl -s "$JENKINS_URL/jnlpJars/slave.jar" -o /usr/local/bin/jenkins-slave.jar
 
+    JENKINS_RUNNER_NAME="$(hostname)"
+
     (java -jar /usr/local/bin/jenkins-cli.jar -s "$JENKINS_URL" get-node "$JENKINS_RUNNER_NAME" 2>&1 || true ) > /tmp/jenkins.node
 
     if ! grep ERROR: /tmp/jenkins.node >/dev/null; then
@@ -25,7 +27,7 @@ function task_jenkins_setup()
               <name>$JENKINS_RUNNER_NAME</name>
               <description></description>
               <remoteFS>/data/shop</remoteFS>
-              <numExecutors>3</numExecutors>
+              <numExecutors>$RUNNER_NUM_EXECUTORS</numExecutors>
               <mode>NORMAL</mode>
               <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
               <launcher class="hudson.slaves.JNLPLauncher"/>
