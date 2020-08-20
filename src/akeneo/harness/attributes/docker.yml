@@ -7,8 +7,22 @@ attributes:
       job_queue_consumer: "1024Mi"
   services:
     php-base:
+      environment:
+        APP_DEBUG: "0"
+        APP_ENV: "= (@('app.mode') == 'development' ? 'dev' : 'prod')"
+        APP_DATABASE_HOST: = @('database.host')
+        APP_DATABASE_PORT: = @('database.port')
+        APP_DATABASE_NAME: = @('database.name')
+        APP_DATABASE_USER: = @('database.user')
+        APP_DEFAULT_LOCALE: en
+        APP_INDEX_HOSTS: elasticsearch:9200
+        APP_PRODUCT_AND_PRODUCT_MODEL_INDEX_NAME: akeneo_pim_product_and_product_model
+        MAILER_URL: null://localhost
+        AKENEO_PIM_URL: = "https://" ~ @('hostname')
       environment_secrets:
         AKENEO_SECRET: = @('akeneo.secret')
+        APP_DATABASE_PASSWORD: = @('database.pass')
+        APP_SECRET: = @('akeneo.secret')
     job-queue-consumer:
       publish: "= 'job-queue-consumer' in @('app.services')"
       environment:
