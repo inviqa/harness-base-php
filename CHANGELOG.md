@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.4](https://github.com/inviqa/harness-base-php/tree/0.9.4) (2020-08-20)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.3...0.9.4)
+
+**Fixed bugs:**
+
+- More akeneo secrets [\#369](https://github.com/inviqa/harness-base-php/pull/369) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.3](https://github.com/inviqa/harness-base-php/tree/0.9.3) (2020-08-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.2...0.9.3)
+
+**Fixed bugs:**
+
+- Fix frontend commands not loading nvm [\#368](https://github.com/inviqa/harness-base-php/pull/368) ([kierenevans](https://github.com/kierenevans))
+
 ## [0.9.2](https://github.com/inviqa/harness-base-php/tree/0.9.2) (2020-08-19)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.1...0.9.2)
