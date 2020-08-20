@@ -1,0 +1,21 @@
+includes:
+    - vendor/spryker-sdk/phpstan-spryker/extension.neon
+
+parameters:
+    excludes_analyse:
+        - %rootDir%/../../../src/Generated/*
+        - %rootDir%/../../../src/Orm/*
+        # ignoring following dir temporarily due to errors in core
+        - %rootDir%/../../../src/Pyz/Zed/DataImport/Business/Model/*
+
+    bootstrap: %rootDir%/../../../phpstan-bootstrap.php
+
+    ignoreErrors:
+        - '#Call to an undefined method .+Criteria::.+\(\).#'
+
+    reportUnmatchedIgnoredErrors: false
+
+    dynamicConstantNames:
+        - APPLICATION
+        - APPLICATION_ENV
+        - APPLICATION_STORE

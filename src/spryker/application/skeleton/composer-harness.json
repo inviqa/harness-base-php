@@ -3,7 +3,8 @@
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
-    "symfony/console": "^3.4.30"
+    "spryker/web-profiler": "^1.6",
+    "spryker-shop/web-profiler-widget": "^1.4"
   },
   "require-dev": {
     "codeception/codeception": "~2.5.6",
@@ -22,6 +23,11 @@
   "autoload-dev": {
     "psr-4": {
       "Acceptance\\": "features/bootstrap"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Inviqa\\": "src/Inviqa/"
     }
   },
   "scripts": {

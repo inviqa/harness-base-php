@@ -1,5 +1,5 @@
 # This file is a copy of https://github.com/spryker-shop/b2c-demo-shop/blob/master/config/install/development.yml
-# We have remove US store from database related steps as original file expects a separate database for US store
+# We have removed US store from database related steps as original file expects a separate database for US store
 # which is not the case in this setup
 
 env:
@@ -34,11 +34,9 @@ sections:
         maintenance-yves-off:
             command: "vendor/bin/console maintenance:disable yves"
 
-
     environment:
         console-environment:
             command: "if [ ! -f ./config/Shared/console_env_local.php ]; then cp ./config/Shared/console_env_local.dist.php ./config/Shared/console_env_local.php ; fi"
-
 
     clear:
         remove-logs:
@@ -50,12 +48,6 @@ sections:
         remove-generated-files:
             command: "vendor/bin/console setup:empty-generated-directory"
 
-
-    jenkins-down:
-        jenkins-stop:
-            command: "vendor/bin/console setup:jenkins:disable"
-
-
     generate:
         prepare-propel:
             command: "vendor/bin/console setup:deploy:prepare-propel"
@@ -63,11 +55,14 @@ sections:
         generate-transfers:
             command: "vendor/bin/console transfer:generate"
 
-        generate-search-index-map:
-            command: "vendor/bin/console setup:search:index-map"
+        generate-entity-transfer:
+            command: "vendor/bin/console transfer:entity:generate"
 
-        build-navigation-cache:
-            command: "vendor/bin/console application:build-navigation-cache"
+        setup-seach-create-source-map:
+            command: "vendor/bin/console search:setup:source-map"
+            stores: true
+            groups:
+                - elastic
 
         generate-transfer-databuilders:
             command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console transfer:databuilder:generate; fi"
@@ -75,8 +70,18 @@ sections:
         generate-ide-auto-completion:
             command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console dev:ide:generate-auto-completion; fi"
 
+    jenkins-down:
+        jenkins-stop:
+            command: "vendor/bin/console scheduler:clean"
+            stores: true
 
     cache:
+        router-cache-warmup-yves:
+            command: "vendor/bin/yves router:cache:warm-up"
+
+        router-cache-warmup-zed:
+            command: "vendor/bin/console router:cache:warm-up"
+
         twig-cache-warmup:
             command: "vendor/bin/console twig:cache:warmer"
 
@@ -85,7 +90,6 @@ sections:
 
         rest-request-validation-cache-warmup:
             command: "vendor/bin/console glue:rest:build-request-validation-cache"
-
 
     queue-flush:
         set-permissions:
@@ -103,7 +107,6 @@ sections:
         delete-all-exchanges:
             command: "vendor/bin/console queue:exchanges:delete-all"
             stores: true
-
 
     database-flush:
         delete-elastic-search-index:
@@ -134,13 +137,6 @@ sections:
                 - propel
 
     database-migrate:
-        propel-config:
-            command: "vendor/bin/console propel:config:convert"
-            stores:
-                - DE
-            groups:
-                - propel
-
         propel-create:
             command: "vendor/bin/console propel:database:create"
             stores:
@@ -200,16 +196,13 @@ sections:
             command: "vendor/bin/console maintenance:disable"
             stores: true
 
-        generate-entity-transfer:
-            command: "vendor/bin/console transfer:generate"
-
         init-database:
             command: "vendor/bin/console setup:init-db"
             stores:
                 - DE
 
-        setup-search:
-            command: "vendor/bin/console setup:search"
+        setup-search-create-sources:
+            command: "vendor/bin/console search:setup:sources"
             stores: true
             groups:
                 - elastic
@@ -235,11 +228,12 @@ sections:
 
     jenkins-up:
         jenkins-generate:
-            command: "vendor/bin/console setup:jenkins:generate"
+            command: "vendor/bin/console scheduler:setup"
+            stores: true
 
         jenkins-enable:
-            command: "vendor/bin/console setup:jenkins:enable"
-
+            command: "vendor/bin/console scheduler:resume"
+            stores: true
 
     frontend:
         dependencies-install:
