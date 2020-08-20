@@ -2,7 +2,6 @@
 
 main()
 {
-    app jenkins start
     source /entrypoint.dynamic.sh
 }
 
