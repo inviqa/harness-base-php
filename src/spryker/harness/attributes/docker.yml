@@ -6,6 +6,7 @@ attributes:
         REDIS_PROTOCOL: = @('redis.protocol')
         SMTP_HOST: = @('smtp.host')
         SMTP_PORT: = @('smtp.port')
+        HAS_JENKINS_RUNNER: "= ('jenkins-runner' in @('app.services') ? 'true' : 'false')"
         JENKINS_HOST: = @('jenkins.host')
         JENKINS_PORT: = @('jenkins.port')
         JENKINS_URL: = 'http://' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
