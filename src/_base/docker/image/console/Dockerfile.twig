@@ -4,7 +4,9 @@ STOPSIGNAL SIGTERM
 
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build \
- && curl -L -o /usr/local/bin/mhsendmail -sS -f https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+ && curl --fail --silent --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+ && chmod +x /sbin/tini \
+ && curl --fail --silent --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
  && chmod +x /usr/local/bin/mhsendmail
 
 ENV APP_MODE={{ @('app.mode') }} \
