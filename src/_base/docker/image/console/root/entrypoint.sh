@@ -20,7 +20,7 @@ bootstrap()
 bootstrap
 
 if [ "${1:-}" == "sleep" ]; then
-    exec /sbin/docker-init -- bash -c "$(printf "%q " "$@")"
+    exec /sbin/tini -- bash -c "$(printf "%q " "$@")"
 else
-    exec /sbin/docker-init -- "$@"
+    exec /sbin/tini -- "$@"
 fi
