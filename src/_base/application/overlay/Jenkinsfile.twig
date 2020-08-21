@@ -29,6 +29,11 @@ pipeline {
         }
 {% if @('pipeline.publish.enabled') == 'yes' %}
         stage('Publish') {
+            environment {
+{% for key, value in @('pipeline.publish.environment') %}
+                {{ key }} = {{ value|raw }}
+{% endfor %}
+            }
             when { not { triggeredBy 'TimerTrigger' } }
             steps {
                 milestone(50)

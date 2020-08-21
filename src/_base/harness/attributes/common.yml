@@ -38,6 +38,9 @@ attributes.default:
     publish:
       enabled: no
       services: = publishable_services(@('services'))
+      # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
+      # credential
+      environment: ~
       # when enabled the application helm chart will be published
       # to the given git repository.
       chart:
