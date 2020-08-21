@@ -33,9 +33,10 @@ spec:
         name: app-migrate
 {{ if eq .Values.ingress.type "istio" }}
         command: ["/bin/sh"]
-        args: ["-c", "app migrate ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
+        args: ["-c", "/entrypoint.sh app migrate ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
 {{ else }}
-        command: ["app", "migrate"]
+        command: ["/entrypoint.sh"]
+        args: ["app", "migrate"]
 {{ end }}
         resources:
           limits:
