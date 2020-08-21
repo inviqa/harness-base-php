@@ -1,4 +1,6 @@
 FROM {{ @('docker.image.console') }}
+# fix upstream signal
+STOPSIGNAL SIGTERM
 
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build \
