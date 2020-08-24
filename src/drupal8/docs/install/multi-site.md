@@ -33,22 +33,16 @@ These will have the `.my127.site` suffix added and will end up as:
 ## Creating multiple databases during install
 _If you are using table prefixes rather than multiple databases then you can skip this section._
 
-In order to use multiple databases in single mysql container you will need to change the defaults to use the continuous pipe mysql image.
-
-In `workspace.yml` add:
+In order to use multiple databases, they will need to be created as part of the build process.  
+In `workspace.yml`, use the `init` steps to create the new databases as well as update the database user permissions.  
 ```yaml
-attribute('mysql.image'): quay.io/continuouspipe/mysql5.7
-attribute('mysql.tag'): latest
-attribute('services.mysql.environment.MYSQL_DATABASE_GRANT'): '%_site'
-```
-The last line assumes that the databases you create follow the naming convention of `<name>_site`.
-
-Again, in `workspace.yml`, use the install steps to create the new databases.  
-```yaml
-attribute('backend.install.steps'):
+attribute('backend.init.steps'):
+  - = 'mysql -u root --password=' ~ @('database.root_pass') ~ ' -e "GRANT ALL ON \\`%_site\\`.* TO \'' ~ @('database.user') ~ '\'@\'%\'"'
   - = 'mysql -u root --password=' ~ @('database.root_pass') ~ ' -e "CREATE DATABASE IF NOT EXISTS two_site"'
   - = 'mysql -u root --password=' ~ @('database.root_pass') ~ ' -e "CREATE DATABASE IF NOT EXISTS three_site"'
 ```
+The first line assumes that the databases you create follow the naming convention of `<name>_site`.
+
 You may have noticed that there is not a step to create a database for `one_site`. By default, a `drupal` database is created and so this can be used for the default site.  
 
 Having the database named `drupal` doesn't make sense here, so update the name for consistency:
@@ -73,7 +67,7 @@ project-root/
 └- tools/
 .  └- assets/
 .  .  └- development/
-.  .  .  ├- drupal.sql.gz   
+.  .  .  ├- one_site.sql.gz   
 .  .  .  ├- two_site.sql.gz
 .  .  .  └- three_site.sql.gz
 ```
