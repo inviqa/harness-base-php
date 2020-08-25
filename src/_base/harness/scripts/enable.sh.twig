@@ -47,7 +47,6 @@ dynamic()
         # Bring up all but cron
         passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
     {% elseif ("jenkins-runner" in @('app.services')) %}
-        passthru "docker-compose config --services | grep -v php-fpm | xargs docker-compose pull"
         passthru "docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build"
         passthru docker-compose build jenkins-runner
         # Bring up all but jenkins-runner
