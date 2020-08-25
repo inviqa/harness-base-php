@@ -57,5 +57,6 @@ VOLUME /home/build/application
 
 ENV PATH "$PATH:/app/bin:/app/vendor/bin"
 
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sleep", "infinity"]
