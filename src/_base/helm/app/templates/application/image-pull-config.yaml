@@ -9,7 +9,7 @@ kind: Secret
 metadata:
   name: {{ .Values.resourcePrefix }}image-pull-config
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "1"
 {{ if .Values.feature.sealed_secrets }}
     sealedsecrets.bitnami.com/cluster-wide: "true"
 spec:
