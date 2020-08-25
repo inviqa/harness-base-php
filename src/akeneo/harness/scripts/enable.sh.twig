@@ -39,8 +39,9 @@ dynamic()
         passthru ws mutagen pause
     fi
 
-    passthru "docker-compose config --services | grep -v php-fpm | xargs docker-compose pull"
-    passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | xargs docker-compose build --pull"
+    ws external-images pull
+
+    passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | xargs docker-compose build"
     passthru docker-compose build cron job-queue-consumer
 
     # Bring up all but cron and job-queue-consumer
