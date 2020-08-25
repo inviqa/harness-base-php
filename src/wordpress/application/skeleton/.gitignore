@@ -1,18 +1,15 @@
-
 # Directories
-
 /.my127ws
 /.docker-sync/
 /.github/
 /bin/
 /public/wp-content/uploads/
+/tools/assets/
 /vendor/
 
 # Files
-
 /.dockerignore
 /auth.json
-/behat.yml
 /docker-compose.yml
 /docker-sync.yml
 /env.sh

@@ -4,68 +4,53 @@ command('app build'):
     HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
   exec: |
     #!bash(workspace:/)|@
-    ws app build console
-    ws app build php-fpm
-    ws app build nginx
+    ws external-images pull
+
+    # dependency ordered build
+    passthru docker-compose build console
+    passthru docker-compose build php-fpm nginx
     if [[ "${HAS_CRON}" == "true" ]]; then
-      ws app build cron
+      passthru docker-compose build cron
     fi
 
-command('app build console'): |
-  #!bash(workspace:/)|@
-  passthru docker build --pull -t @('docker.repository'):@('app.version')-console -f .my127ws/docker/image/console/Dockerfile .
-
-command('app build cron'): |
-  #!bash(workspace:/)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-cron -f .my127ws/docker/image/cron/Dockerfile .
-
-command('app build php-fpm'): |
-  #!bash(harness:/docker/image/php-fpm)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-php-fpm .
-
-command('app build nginx'): |
-  #!bash(harness:/docker/image/nginx)|@
-  passthru docker build -t @('docker.repository'):@('app.version')-nginx .
-
-command('app publish'):
+command('app build <service>'):
   env:
-    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+    SERVICE:    = input.argument('service')
   exec: |
     #!bash(workspace:/)|@
-    echo "@('docker.password')" | run docker login --username="@('docker.username')" --password-stdin @('docker.repository')
-    run docker push @('docker.repository'):@('app.version')-console
-    run docker push @('docker.repository'):@('app.version')-php-fpm
-    run docker push @('docker.repository'):@('app.version')-nginx
-    if [[ "${HAS_CRON}" == "true" ]]; then
-      run docker push @('docker.repository'):@('app.version')-cron
-    fi
-    run docker logout @('docker.repository')
+    passthru docker-compose build "${SERVICE}"
+
+command('app publish'): |
+  #!bash(workspace:/)|@
+  echo '@('docker.registry.password')' | run docker login --username='@('docker.registry.username')' --password-stdin '@('docker.registry.url')'
+  passthru docker-compose push @('pipeline.publish.services')
+  run docker logout '@('docker.registry.url')'
 
 command('app publish chart <release> <message>'):
   env:
-    SSH_KEY:    = @('pipeline.publish.chart.git.key')
+    SSH_PRIVATE_KEY:    = @('pipeline.publish.chart.git.ssh_private_key')
     REPOSITORY: = @('pipeline.publish.chart.git.repository')
-    ARTIFACTS:  = "./build-artifacts-repository/" ~ @('pipeline.publish.chart.git.path') ~ "/" ~ input.argument('release')
+    ARTIFACTS_PATH:  = "./build-artifacts-repository/" ~ @('pipeline.publish.chart.git.path') ~ "/" ~ input.argument('release')
     MESSAGE:    = input.argument('message')
     USER_EMAIL: = @('pipeline.publish.chart.git.email')
   exec: |
     #!bash(workspace:/)|@
 
     run rm -rf build-artifacts-repository
-    echo "${SSH_KEY}" | base64 -d > id_rsa
+    echo "${SSH_PRIVATE_KEY}" | base64 -d > id_rsa
     chmod 0600 id_rsa
 
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
 
-    run git clone $REPOSITORY ./build-artifacts-repository
-    run git -C ./build-artifacts-repository config user.email \"${USER_EMAIL}\"
+    run git clone "$REPOSITORY" ./build-artifacts-repository
+    run git -C ./build-artifacts-repository config user.email "${USER_EMAIL}"
 
-    run mkdir -p $ARTIFACTS
-    run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ ${ARTIFACTS}/
+    run mkdir -p $ARTIFACTS_PATH
+    run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ "${ARTIFACTS_PATH}/"
 
     export GIT_SSH_COMMAND='ssh -i ../id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
     run git -C ./build-artifacts-repository add .
-    run git -C ./build-artifacts-repository commit --allow-empty -m \"${MESSAGE}\"
+    run "git -C ./build-artifacts-repository commit --allow-empty -m '${MESSAGE}'"
     run git -C ./build-artifacts-repository push origin master
 
 command('app deploy <environment>'):
@@ -76,11 +61,14 @@ command('app deploy <environment>'):
     TIMEOUT:     = @('helm.timeout')
   exec: |
     #!bash(harness:/helm)|=
+    set -o pipefail
     cd "${ENVIRONMENT}"
-    doctl -t $DO_ACCESS_TOKEN kubernetes cluster kubeconfig show $CLUSTER > kubectl.config.yaml
-    passthru helm init --client-only
+    doctl -t "$DO_ACCESS_TOKEN" kubernetes cluster kubeconfig show "$CLUSTER" > kubectl.config.yaml
+    if helm version --short --client | grep '^Client: v2' >/dev/null 2>&1; then
+      passthru helm init --client-only
+    fi
     passthru helm dependency build
-    passthru helm --kubeconfig=$PWD/kubectl.config.yaml upgrade --wait --atomic --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
+    passthru helm --kubeconfig="${PWD}/kubectl.config.yaml" upgrade --wait --atomic --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
 
 command('helm template <chart-path>'):
   env:
@@ -88,8 +76,11 @@ command('helm template <chart-path>'):
     NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
   exec: |
     #!bash(harness:/helm)|=
+    set -o pipefail
     cd "${CHART_PATH}"
-    passthru helm init --client-only
+    if helm version --short --client | grep '^Client: v2' >/dev/null 2>&1; then
+      passthru helm init --client-only
+    fi
     passthru helm dependency build
     passthru helm template .
 
@@ -97,10 +88,25 @@ command('helm kubeval <chart-path>'):
   env:
     CHART_PATH: = input.argument('chart-path')
     NAMESPACE: = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
+    ADDITIONAL_SCHEMA_LOCATIONS: = @('helm.additional_schema_locations')
   exec: |
     #!bash(harness:/helm)|=
+    set -o pipefail
     cd "${CHART_PATH}"
-    passthru helm init --client-only
+    if helm version --short --client | grep '^Client: v2' >/dev/null 2>&1; then
+      passthru helm init --client-only
+    fi
     passthru helm dependency build
-    passthru helm plugin install https://github.com/instrumenta/helm-kubeval || true
-    passthru helm kubeval .
+
+    if readlink "${HELM_HOME:-$HOME}/.helm/plugins/helm-kubeval" | grep '/https-github.com-instrumenta-helm-kubeval$' >/dev/null; then
+      passthru helm plugin remove kubeval
+    fi
+
+    passthru helm plugin install https://github.com/inviqa/helm-kubeval || true
+    KUBEVAL_OPTS=()
+
+    if [ -n "${ADDITIONAL_SCHEMA_LOCATIONS:-}" ]; then
+      KUBEVAL_OPTS+=(--additional-schema-locations "${ADDITIONAL_SCHEMA_LOCATIONS}")
+    fi
+
+    passthru helm kubeval "${KUBEVAL_OPTS[@]}" .

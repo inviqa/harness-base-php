@@ -2,6 +2,7 @@
 /.my127ws
 /.docker-sync/
 /bin/
+/docroot/sites/simpletest/
 /tools/assets/
 /vendor/
 

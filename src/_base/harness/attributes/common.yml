@@ -22,8 +22,9 @@ attributes.default:
     web_directory: /app/public
     vendor_directory: /app/vendor
 
-  docker-sync: yes
-  mutagen: no
+  delegated-volumes: no
+  docker-sync: no
+  mutagen: yes
 
   jenkins:
     credentials:
@@ -36,13 +37,18 @@ attributes.default:
       hostname:  = @('pipeline.preview.hostname')
     publish:
       enabled: no
+      services: = publishable_services(@('services'))
+      # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
+      # credential
+      environment: {}
       # when enabled the application helm chart will be published
       # to the given git repository.
       chart:
         enabled: no
         git:
+          key: ~ # deprecated, use ssh_private_key
           # private key with write access to the repository
-          key: ~
+          ssh_private_key: = @('pipeline.publish.chart.git.key')
           # eg. git@github.com:organisation/project.git
           repository: ~
           # path within the repository to place the chart, no leading or trailing slashes
@@ -52,16 +58,19 @@ attributes.default:
           email: name@example.com
     preview:
       enabled: no
-      environment: ~
+      environment: {}
       cluster:
         name: null
       namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
       hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
       rabbitmq:
         external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
+      persistence:
+        redis_session:
+          enabled: false
     qa:
       enabled: no
-      environment: ~
+      environment: {}
       branch: develop
       cluster:
         name: null
@@ -73,10 +82,18 @@ attributes.default:
         external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
 
   docker:
+    registry:
+      url: = get_docker_registry(@('docker.repository'))
+      username: = @('docker.username') # for backwards compatibility
+      password: = @('docker.password') # for backwards compatibility
     repository: = @("workspace.name")
     compose:
-      file_version: '3'
-    config: null
+      file_version: '3.7'
+      host_volume_options: "= ':' ~ (@('delegated-volumes') ? 'delegated' : 'cached')"
+    config: null # deprecated
+    # If using gitops helm chart repositories, it's recommended to put this configuration
+    # in the values.yml in there now instead of project application repositories
+    image_pull_config: = @('docker.config')
     image:
       console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
       php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
@@ -91,7 +108,7 @@ attributes.default:
     build:
       when: -f "composer.json"
       steps:
-        - task "composer:install"
+        - task composer:install
     install:
       steps: []
     init:
@@ -110,7 +127,21 @@ attributes.default:
     build:
       when: -f "package.json"
       steps:
-        - run "npm install"
+        - |
+          if [ "$APP_BUILD" == "static" ] && [ -f package-lock.json ]; then
+            run npm clean-install
+          else
+            run npm install
+          fi
+        - |
+          if [ "$(jq ".scripts.build != null" < package.json)" != "false" ]; then
+            run npm run build
+          fi
+        - |
+          if [ "$APP_BUILD" == "static" ]; then
+            run rm -rf node_modules/
+            run npm cache clean --force
+          fi
 
   git:
     main_branch: develop
@@ -123,10 +154,8 @@ attributes.default:
     global:
       conf: []
     # used to limit what is copied into an Nginx static-built image
-    # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)
     copy_directories:
      - = @('app.web_directory')
-     - = @('app.vendor_directory')
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default
@@ -137,6 +166,7 @@ attributes.default:
     version: 7.3
     cli:
       ini:
+        max_execution_time: 0
         memory_limit: -1
     fpm:
       ini:
@@ -144,6 +174,7 @@ attributes.default:
         error_reporting: "E_ALL"
         expose_php: Off
         log_errors: On
+        max_execution_time: 30
         max_input_time: 60
         memory_limit: 1024M
         output_buffering: 4096
@@ -154,6 +185,7 @@ attributes.default:
       enable_dl: Off
       opcache.enable_cli: On
       realpath_cache_ttl: 600
+      sendmail_path: = '\'/usr/local/bin/mhsendmail --smtp-addr="' ~ @('smtp.host') ~ ':' ~ @('smtp.port') ~ '"\''
       short_open_tag: Off
     ext-xdebug:
       enable: no
@@ -164,6 +196,7 @@ attributes.default:
         remote_autostart: 1
         remote_port: 9000
         remote_host: host.docker.internal
+        idekey: workspace
 
   assets:
     remote: ="s3://"~@("aws.bucket")~"/development"
@@ -194,7 +227,18 @@ attributes.default:
   hostname_aliases: []
 
   helm:
+    additional_schema_locations: https://inviqa.github.io/kubernetes-json-schema/schema
+    feature:
+      # Note: be very careful considering disabling this, as in most cases
+      # it causes the secrets in it to be stored plaintext on filesystem
+      # or in helm chart repositories
+      # requires sealed-secrets k8s operator
+      sealed_secrets: false
     timeout: 300
+
+    sealed_secrets:
+      controller_name: sealed-secrets
+      controller_namespace: sealed-secrets
 
   php-fpm:
     pools:
@@ -228,6 +272,13 @@ attributes.default:
     host: redis-session
     port: 6379
 
+  smtp:
+    host: 'mailhog-relay'
+    port: 1025
+
+  varnish:
+    target_service: nginx
+
   resources:
     cpu:
       requests: []
@@ -246,6 +297,10 @@ attributes.default:
       rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
+      varnish: "1124Mi"
+
+  replicas:
+    varnish: 1
 
   persistence:
     enabled: false
@@ -269,6 +324,10 @@ attributes.default:
       size: 4Gi
     redis:
       enabled: false
+      accessMode: ReadWriteOnce
+      size: 2Gi
+    redis_session:
+      enabled: true
       accessMode: ReadWriteOnce
       size: 2Gi
 

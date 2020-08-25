@@ -1,0 +1,31 @@
+{{ if and .Values.service.redis_session .Values.persistence.redis_session.enabled -}}
+
+{{- with .Values.persistence.redis_session -}}
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $.Values.resourcePrefix }}redis-session-pv-claim
+  labels:
+    app.service: {{ $.Values.resourcePrefix }}redis-session
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+
+{{- end }}
+
+{{- end }}

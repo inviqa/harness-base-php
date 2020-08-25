@@ -39,13 +39,13 @@ dynamic()
         passthru ws mutagen pause
     fi
 
+    ws external-images pull
+
     {% if ("cron" in @('app.services')) %}
-        passthru "docker-compose config --services | grep -v php-fpm | grep -v console | xargs docker-compose pull"
-        passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose build --pull"
+        passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose build"
         passthru docker-compose build cron
     {% else %}
-        passthru "docker-compose config --services | grep -v console | xargs docker-compose pull"
-        passthru "docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build --pull"
+        passthru "docker-compose config --services | grep -v jenkins-runner | xargs docker-compose build"
     {% endif %}
     passthru docker-compose build jenkins-runner
 

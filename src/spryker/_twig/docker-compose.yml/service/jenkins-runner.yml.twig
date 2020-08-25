@@ -1,12 +1,12 @@
   jenkins-runner:
-{% if @('app.build') == 'dynamic' %}
     build:
       context: ./
       dockerfile: .my127ws/docker/image/jenkins-runner/Dockerfile
+{% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.jenkins_runner.dynamic.sh
-    command: [sleep, infinity]
+    command: [app, jenkins, start]
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
@@ -14,8 +14,12 @@
     depends_on:
       - console
       - jenkins
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.jenkins-runner.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.jenkins-runner.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.jenkins-runner.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private

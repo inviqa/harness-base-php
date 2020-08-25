@@ -1,0 +1,38 @@
+function('external_images', [services]): |
+  #!php
+  $upstreamImages = $producedImages = [];
+  $excludeImages = ['scratch'];
+
+  foreach ($services as $service) {
+    if (count($service['upstream']) > 0) {
+      $upstreamImages = array_merge($upstreamImages, $service['upstream']);
+      if ($service['image']) {
+        $producedImages[] = $service['image'];
+      }
+    } else if ($service['image']) {
+      $upstreamImages[] = $service['image'];
+    }
+  }
+  $externalImages = array_diff($upstreamImages, $producedImages, $excludeImages);
+
+  # workspace commands don't allow non-string types
+  = join(' ', $externalImages);
+
+
+command('external-images config'):
+  env:
+    IMAGES: = external_images(docker_service_images())
+  exec: |
+    #!php
+    $compose = ['version' => '3', 'services' => []];
+    foreach (explode(' ', $env['IMAGES']) as $image) {
+      $compose['services'][str_replace(['/', ':'], '_', $image)] = ['image' => $image];
+    }
+    echo \Symfony\Component\Yaml\Yaml::dump($compose, 100, 2);
+
+command('external-images pull'):
+  env:
+    BASE_IMAGES: = external_images(docker_service_images())
+  exec: |
+    #!bash(workspace:/)|@
+    passthru 'ws external-images config | docker-compose -f - pull'

@@ -7,15 +7,15 @@
 {% endif %}
 
   console:
-{% if @('app.build') == 'dynamic' %}
     build:
       context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
+{% if @('app.build') == 'dynamic' %}
     image: {{ @('workspace.name') ~ '-console:dev' }}
     entrypoint: [/entrypoint.dynamic.sh]
     command: [sleep, infinity]
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/lib/task:/lib/task
       - ./.my127ws:/.my127ws
@@ -24,17 +24,21 @@
 {% endif %}
     labels:
       - traefik.enable=false
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'),@('services.console.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.console.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.console.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
 
   nginx:
-{% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/nginx
+{% if @('app.build') == 'dynamic' %}
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx' }}
 {% endif %}
@@ -64,12 +68,12 @@
       shared: {}
 
   php-fpm:
-{% if @('app.build') == 'dynamic' %}
     build: .my127ws/docker/image/php-fpm
+{% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.dynamic.sh
     command: [sleep, infinity]
     volumes:
-      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : './:/app:delegated' }}
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws:/.my127ws
 {% else %}
     image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm' }}
@@ -78,11 +82,24 @@
       - traefik.enable=false
     networks:
       - private
-      - shared
-    environment:
-{{ deep_merge_to_yaml([@('services.php-base.environment'), @('services.php-fpm.environment')], 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.php-fpm.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.php-fpm.environment_secrets')
+      ]), 2, 6) | raw }}
 {% include blocks ~ 'environment.yml.twig' %}
     expose:
 {% for pool in @('php-fpm.pools') %}
       - {{ pool.port }}
 {% endfor %}
+
+  relay:
+    build: .my127ws/docker/image/relay
+    labels:
+      - traefik.enable=false
+    networks:
+      private:
+        aliases:
+          - mailhog-relay
+      shared: {}

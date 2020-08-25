@@ -16,6 +16,10 @@ function test()
     local mode="$2"
     local sync="$3"
 
+    if [[ "$mode" == "static" ]]; then
+      export MY127WS_ENV=pipeline
+    fi
+
     # Test default mode of static or dynamic harnesses
     # For dynamic this means a mountpoint for the application code
     # or mutagen, or docker-sync
@@ -27,7 +31,7 @@ function test()
     fi
     install_environment
     check_environment_started "$harness" "$mode"
-    run_pipeline_tests
+    run_pipeline_tests "$harness"
     restart_environment
     check_environment_started "$harness" "$mode"
     if [[ "$sync" != "" ]]; then
@@ -64,30 +68,42 @@ function check_environment_started()
 
     cd "${path_test}"
 
-    if [ "$(docker-compose -p "ci-${harness}-sample-${mode}" ps | grep -c Exit)" -gt 0 ]; then
+    project="ci-${harness}-sample-${mode}"
+    if [[ "$mode" == "static" ]]; then
+      project="$(git log -n 1 --pretty=format:'%H')"
+    fi
+
+    if [ "$(docker-compose -p "$project" ps | grep -c Exit)" -gt 0 ]; then
       echo 'Some containers failed to start'
-      docker-compose -p "ci-${harness}-sample-${mode}" ps
+      docker-compose -p "$project" ps
       return 1
     fi
 )
 
 function run_pipeline_tests()
 (
+    local harness="$1"
     cd "${path_test}"
+
+    ws helm kubeval qa
 
     # Check if we have a composer.json so we can run tests
     # Check inside the console container as static builds do not
     # update the local filesystem
-    if ws exec stat composer.json > /dev/null 2>&1; then
+    if ws exec stat /app/composer.json > /dev/null 2>&1; then
+      # Run checks that don't reqiure development dependencies
+      ws exec composer test-production-quality
       # Bring in dev dependencies
-      ws exec composer install --no-interaction
+      ws exec app composer:development_dependencies
       # Run the tests
       ws exec composer test-quality
-      ws exec composer test-unit
+      if [[ "${harness}" == "drupal8" ]]; then
+        ws test-unit
+      else
+        ws exec composer test-unit
+      fi
       ws exec composer test-acceptance
     fi
-
-    ws helm kubeval qa
 )
 
 function restart_environment()

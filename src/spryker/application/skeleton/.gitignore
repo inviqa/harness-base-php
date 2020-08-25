@@ -37,6 +37,7 @@
 /auth.json
 /c3.php
 /docker-compose.yml
+/docker-sync.yml
 /env.sh
 /mutagen.yml
 /mutagen.yml.lock

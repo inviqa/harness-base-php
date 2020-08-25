@@ -1,3 +1,4 @@
+{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -15,7 +16,7 @@ spec:
       restartPolicy: Never
       containers:
       - env:
-        {{- range $key, $value := index .Values.docker.services "php-base" "environment" }}
+        {{- range $key, $value := $service.environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -24,27 +25,20 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- range $key, $value := .Values.docker.services.console.environment }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else }}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- range $key, $value := .Values.environment }}
-        - name: {{ $key | quote }}
-          value: {{ $value | quote }}
+        {{- if $service.environment_secrets }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.resourcePrefix }}console
         {{- end }}
         image: {{ .Values.docker.image.console }}
         imagePullPolicy: Always
         name: app-init
-{{ if eq .Values.ingress "istio" }}
+{{ if eq .Values.ingress.type "istio" }}
         command: ["/bin/sh"]
-        args: ["-c", "app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
+        args: ["-c", "/entrypoint.sh app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
 {{ else }}
-        command: ["app", "init"]
+        command: ["/entrypoint.sh"]
+        args: ["app", "init"]
 {{ end }}
         resources:
           limits:
@@ -56,8 +50,10 @@ spec:
         {{- include "application.volumeMounts.console" . | indent 8 }}
         {{- else }} []
         {{- end }}
+{{- if .Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}docker-config
+      - name: {{ .Values.resourcePrefix }}image-pull-config
+{{- end }}
       restartPolicy: Never
       enableServiceLinks: false
       volumes:

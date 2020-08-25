@@ -2,8 +2,10 @@
     image: postgres:9.6
     labels:
       - traefik.enable=false
-    environment:
-{{ to_nice_yaml(@('services.postgres.environment'), 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.postgres.environment'),
+        @('services.postgres.environment_secrets')
+      ]), 2, 6) | raw }}
     networks:
       - private
     ports:

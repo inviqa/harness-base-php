@@ -1,9 +1,9 @@
 includes:
     - vendor/mglaman/phpstan-drupal/extension.neon
-    - vendor/jangregor/phpstan-prophecy/src/extension.neon
+    - vendor/jangregor/phpstan-prophecy/extension.neon
     - .my127ws/application/static/phpstan.neon
 
 parameters:
-    level: 7
+    level: max
     paths:
         - docroot/modules/custom

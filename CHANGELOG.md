@@ -1,12 +1,123 @@
 # Changelog
 
+## [0.9.4](https://github.com/inviqa/harness-base-php/tree/0.9.4) (2020-08-20)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.3...0.9.4)
+
+**Fixed bugs:**
+
+- More akeneo secrets [\#369](https://github.com/inviqa/harness-base-php/pull/369) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.3](https://github.com/inviqa/harness-base-php/tree/0.9.3) (2020-08-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.2...0.9.3)
+
+**Fixed bugs:**
+
+- Fix frontend commands not loading nvm [\#368](https://github.com/inviqa/harness-base-php/pull/368) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.2](https://github.com/inviqa/harness-base-php/tree/0.9.2) (2020-08-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.1...0.9.2)
+
+**Fixed bugs:**
+
+- Fix quoting of commit message [\#367](https://github.com/inviqa/harness-base-php/pull/367) ([kierenevans](https://github.com/kierenevans))
+- Fix not having output for failed commands [\#364](https://github.com/inviqa/harness-base-php/pull/364) ([kierenevans](https://github.com/kierenevans))
+- Fix db console command [\#363](https://github.com/inviqa/harness-base-php/pull/363) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.1](https://github.com/inviqa/harness-base-php/tree/0.9.1) (2020-08-17)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.0...0.9.1)
+
+**Fixed bugs:**
+
+- Fix drupal site:install by skipping bug in drupal/console 1.9.5 [\#362](https://github.com/inviqa/harness-base-php/pull/362) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix escaping in helm chart git commit [\#361](https://github.com/inviqa/harness-base-php/pull/361) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix trailing newlines being added into secrets before encryption [\#360](https://github.com/inviqa/harness-base-php/pull/360) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add missing external images of service images that have no build [\#358](https://github.com/inviqa/harness-base-php/pull/358) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+## [0.9.0](https://github.com/inviqa/harness-base-php/tree/0.9.0) (2020-08-12)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.8.0...0.9.0)
+
+**Implemented enhancements:**
+
+- Make external\_images function more readable [\#356](https://github.com/inviqa/harness-base-php/pull/356) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Switch sealed-secrets off [\#355](https://github.com/inviqa/harness-base-php/pull/355) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Pull external images in parallel before building service images [\#354](https://github.com/inviqa/harness-base-php/pull/354) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use more context related docker attribute paths [\#353](https://github.com/inviqa/harness-base-php/pull/353) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix multiple argument run/passthru escaping and migrate most to use it [\#351](https://github.com/inviqa/harness-base-php/pull/351) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Run standalone phpstan over magento2 in production mode [\#350](https://github.com/inviqa/harness-base-php/pull/350) ([kierenevans](https://github.com/kierenevans))
+- Support helm v3 cli by avoiding helm init [\#349](https://github.com/inviqa/harness-base-php/pull/349) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Remove node\_modules from console image. Clear cache [\#347](https://github.com/inviqa/harness-base-php/pull/347) ([kierenevans](https://github.com/kierenevans))
+- Use production webpack build when in static mode for akeneo [\#346](https://github.com/inviqa/harness-base-php/pull/346) ([kierenevans](https://github.com/kierenevans))
+- Deduce the docker registry\_url from repository [\#345](https://github.com/inviqa/harness-base-php/pull/345) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Bump Magento to 2.3.5-p2 [\#344](https://github.com/inviqa/harness-base-php/pull/344) ([kierenevans](https://github.com/kierenevans))
+- Add ability to define env vars from k8s secrets [\#342](https://github.com/inviqa/harness-base-php/pull/342) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add new core Composer tools [\#341](https://github.com/inviqa/harness-base-php/pull/341) ([opdavies](https://github.com/opdavies))
+- Support image pull configuration using sealed-secrets [\#339](https://github.com/inviqa/harness-base-php/pull/339) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use docker-compose build/push and service push config [\#338](https://github.com/inviqa/harness-base-php/pull/338) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use mutagen.yml config to manage mutagen docker containers [\#336](https://github.com/inviqa/harness-base-php/pull/336) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use fully expressive variable name for git ssh private key [\#335](https://github.com/inviqa/harness-base-php/pull/335) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Do not install development dependencies in built docker image [\#331](https://github.com/inviqa/harness-base-php/pull/331) ([kierenevans](https://github.com/kierenevans))
+- Avoid copying node\_modules to php-fpm [\#329](https://github.com/inviqa/harness-base-php/pull/329) ([kierenevans](https://github.com/kierenevans))
+- Avoid copying vendor folder to NGINX, apart from akeneo [\#328](https://github.com/inviqa/harness-base-php/pull/328) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- varnish hostname needs to be set dynamically [\#332](https://github.com/inviqa/harness-base-php/issues/332)
+- Make chart git ssh\_private\_key backwards compatible deprecation [\#343](https://github.com/inviqa/harness-base-php/pull/343) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Remove spryker console dev image [\#340](https://github.com/inviqa/harness-base-php/pull/340) ([kierenevans](https://github.com/kierenevans))
+- Set host volume options to cached and make a delegated-volumes flag [\#334](https://github.com/inviqa/harness-base-php/pull/334) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix varnish cache clearing for magento2 when using resource prefixes [\#333](https://github.com/inviqa/harness-base-php/pull/333) ([kierenevans](https://github.com/kierenevans))
+- Use the production DI for magento2 in phpspec/phpstan [\#330](https://github.com/inviqa/harness-base-php/pull/330) ([kierenevans](https://github.com/kierenevans))
+
+## [0.8.0](https://github.com/inviqa/harness-base-php/tree/0.8.0) (2020-06-18)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.7.0...0.8.0)
+
+**Breaking changes:**
+
+- Add Varnish [\#309](https://github.com/inviqa/harness-base-php/pull/309) ([kierenevans](https://github.com/kierenevans))
+
+**Implemented enhancements:**
+
+- Add option for varnish container as the entrypoint to the site in Magento 2.x harness [\#14](https://github.com/inviqa/harness-base-php/issues/14)
+- Run phpstan separately for drupal8 [\#325](https://github.com/inviqa/harness-base-php/pull/325) ([kierenevans](https://github.com/kierenevans))
+- Improve Xdebug IDE support by not assuming PHPStorm [\#324](https://github.com/inviqa/harness-base-php/pull/324) ([kierenevans](https://github.com/kierenevans))
+- Use mutagen by default [\#323](https://github.com/inviqa/harness-base-php/pull/323) ([kierenevans](https://github.com/kierenevans))
+- Fix simpletest usage for Drupal 8 [\#322](https://github.com/inviqa/harness-base-php/pull/322) ([kierenevans](https://github.com/kierenevans))
+- Speed up Spryker build [\#319](https://github.com/inviqa/harness-base-php/pull/319) ([kierenevans](https://github.com/kierenevans))
+- Let production mode work for magento2  [\#318](https://github.com/inviqa/harness-base-php/pull/318) ([kierenevans](https://github.com/kierenevans))
+- Allow the Magento2 executable to be called from the host machine [\#316](https://github.com/inviqa/harness-base-php/pull/316) ([jbarton123](https://github.com/jbarton123))
+- Enable local mail by default [\#315](https://github.com/inviqa/harness-base-php/pull/315) ([kierenevans](https://github.com/kierenevans))
+- Use PHP 7.3 by default in magento2 [\#314](https://github.com/inviqa/harness-base-php/pull/314) ([kierenevans](https://github.com/kierenevans))
+- Improve speed of permissions fixes [\#310](https://github.com/inviqa/harness-base-php/pull/310) ([kierenevans](https://github.com/kierenevans))
+- Add redis-session persistent storage enabled by default [\#305](https://github.com/inviqa/harness-base-php/pull/305) ([kierenevans](https://github.com/kierenevans))
+- Add harness update commands [\#299](https://github.com/inviqa/harness-base-php/pull/299) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- Remove web writable generated directory for Magento2 [\#320](https://github.com/inviqa/harness-base-php/pull/320) ([jbarton123](https://github.com/jbarton123))
+- Fix wrong hosts entry on startup [\#317](https://github.com/inviqa/harness-base-php/pull/317) ([kierenevans](https://github.com/kierenevans))
+- Fix drupal8 build [\#311](https://github.com/inviqa/harness-base-php/pull/311) ([kierenevans](https://github.com/kierenevans))
+- Align framework overrides with base. Update Magento 2 NGINX config. [\#291](https://github.com/inviqa/harness-base-php/pull/291) ([kierenevans](https://github.com/kierenevans))
+- Fix drupal8 phpstan-prophecy path [\#327](https://github.com/inviqa/harness-base-php/pull/327) ([kierenevans](https://github.com/kierenevans))
+
+**Merged pull requests:**
+
+- Bump PHPStan Prophecy based on dependabot upgrading another project [\#321](https://github.com/inviqa/harness-base-php/pull/321) ([kierenevans](https://github.com/kierenevans))
+- Bump Magento 1 to 1.14.4.5 [\#313](https://github.com/inviqa/harness-base-php/pull/313) ([kierenevans](https://github.com/kierenevans))
+- Bump Magento 2 to 2.3.5-p1 [\#312](https://github.com/inviqa/harness-base-php/pull/312) ([kierenevans](https://github.com/kierenevans))
+
 ## [0.7.0](https://github.com/inviqa/harness-base-php/tree/0.7.0) (2020-05-29)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.6.0...0.7.0)
 
 **Breaking changes:**
 
-- Akeneo 4.x Support [\#287](https://github.com/inviqa/harness-base-php/pull/287) ([kierenevans](https://github.com/kierenevans))
+- Akeneo 4.x Support [\#287](https://github.com/inviqa/harness-base-php/pull/287) ([kierenevans](https://github.com/kierenevans) and [a-ast](https://github.com/a-ast))
 
 **Implemented enhancements:**
 

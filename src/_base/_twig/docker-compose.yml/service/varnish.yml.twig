@@ -1,0 +1,49 @@
+{% if 'varnish' in @('app.services') %}
+{% set hostnames = [@('hostname')] %}
+{% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
+  varnish:
+    image: varnish:6
+    labels:
+      - traefik.backend={{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+    environment: {{ to_nice_yaml(deep_merge([
+      @('services.varnish.environment'),
+      @('services.varnish.environment_secrets')
+      ]), 2, 6) | raw }}
+    links:
+      - nginx:nginx
+    volumes:
+      - .my127ws/docker/image/varnish/root/etc/varnish/default.vcl:/etc/varnish/default.vcl:ro
+      - type: tmpfs
+        target: /var/lib/varnish:exec
+        tmpfs:
+          size: "100000"
+    networks:
+      private:
+        aliases:
+          - varnish-0.varnish-headless
+{% if @('replicas.varnish') > 1 %}
+{% for instanceNumber in 1..(@('replicas.varnish')-1) %}
+          - varnish-{{ instanceNumber }}.varnish-headless
+{% endfor %}
+{% endif %}
+      shared: {}
+
+  # Provide TLS offloading for integration tests via varnish
+  tls-offload:
+    build:
+      context: .my127ws/docker/image/tls-offload/
+    labels:
+      - traefik.enable=false
+    links:
+      - varnish:varnish
+    networks:
+      private:
+        aliases:
+{% for alias in hostnames %}
+          - {{ alias }}
+{% endfor %}
+      shared: {}
+{% endif %}

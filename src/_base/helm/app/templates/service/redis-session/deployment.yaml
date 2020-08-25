@@ -46,6 +46,17 @@ spec:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: {{ .Values.resourcePrefix }}redis-session-persistent-storage
+          mountPath: /data
       restartPolicy: Always
+      volumes:
+      - name: {{ .Values.resourcePrefix }}redis-session-persistent-storage
+{{- if .Values.persistence.redis_session.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.resourcePrefix }}redis-session-pv-claim
+{{- else }}
+        emptyDir: {}
+{{- end }}
 status: {}
 {{ end }}

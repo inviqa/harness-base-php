@@ -2,5 +2,5 @@
 
 function task_spryker_install()
 {
-    passthru "PGPASSWORD=$DB_PASS vendor/bin/install -r docker -x frontend"
+    PGPASSWORD="$DB_PASS" passthru vendor/bin/install -r docker -x frontend
 }

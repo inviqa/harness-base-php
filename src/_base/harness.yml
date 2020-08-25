@@ -4,6 +4,7 @@ harness('inviqa/php'):
   require:
     services:
       - proxy
+      - mail
     confd:
       - harness:/
 ---

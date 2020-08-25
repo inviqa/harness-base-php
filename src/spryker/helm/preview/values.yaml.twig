@@ -10,8 +10,7 @@
 {% endfor %}
   resourcePrefix: {{ @('pipeline.preview.resourcePrefix') | json_encode | raw }}
 {% if @('pipeline.preview.persistence') %}
-  persistence:
-{{ to_nice_yaml(@('pipeline.preview.persistence'), 2, 4) | raw }}
+  persistence: {{ to_nice_yaml(@('pipeline.preview.persistence'), 2, 4) | raw }}
 {% endif %}
 {% set additional_services = {
   'php-base': {
@@ -23,7 +22,6 @@
 } %}
 {{ @('workspace.name') }}:
   docker:
-    services:
-{{ deep_merge_to_yaml([@('pipeline.preview.services'), additional_services], 2, 6) | raw }}
+    services: {{ to_nice_yaml(deep_merge([@('pipeline.preview.services'), additional_services]), 2, 6) | raw }}
 
   prefix: ""

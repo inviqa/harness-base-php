@@ -1,0 +1,25 @@
+{{ if .Values.docker.image_pull_config }}
+{{ if .Values.feature.sealed_secrets }}
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+{{ else }}
+apiVersion: v1
+kind: Secret
+{{ end }}
+metadata:
+  name: {{ .Values.resourcePrefix }}image-pull-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+{{ if .Values.feature.sealed_secrets }}
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+spec:
+  template:
+    type: kubernetes.io/dockerconfigjson
+  encryptedData:
+    .dockerconfigjson: {{ .Values.docker.image_pull_config }}
+{{ else }}
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: {{ .Values.docker.image_pull_config }}
+{{ end }}
+{{ end }}

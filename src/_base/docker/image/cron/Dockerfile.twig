@@ -3,6 +3,8 @@ FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-php-fpm
 {% else %}
 FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
 {% endif %}
+# fix upstream signal
+STOPSIGNAL SIGTERM
 
 # Install cron
 RUN apt-get update -qq \

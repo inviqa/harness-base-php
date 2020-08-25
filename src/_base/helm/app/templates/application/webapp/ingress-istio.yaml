@@ -1,4 +1,4 @@
-{{ if eq .Values.ingress "istio" }}
+{{ if eq .Values.ingress.type "istio" }}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -19,7 +19,7 @@ spec:
  http:
  - route:
    - destination:
-       host: {{ .Values.resourcePrefix }}webapp
+       host: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
        port:
          number: 80
 {{ end }}
