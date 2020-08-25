@@ -9,8 +9,9 @@ kind: Secret
 metadata:
   name: {{ .Values.resourcePrefix }}image-pull-config
   annotations:
-    sealedsecrets.bitnami.com/cluster-wide: "true"
+    argocd.argoproj.io/sync-wave: "4"
 {{ if .Values.feature.sealed_secrets }}
+    sealedsecrets.bitnami.com/cluster-wide: "true"
 spec:
   template:
     type: kubernetes.io/dockerconfigjson
