@@ -6,12 +6,12 @@
     ```
     From here, run the `ws create` command, but don't run the installation:
     ```
-    ws create <projectName> inviqa/drupal8:<version>
+    ws create <projectName> inviqa/drupal8:v0.9.4
     ```
     (Note: see [harnesses.json] for available versions.)
 
 2. You will now have a new directory, `<projectName>` containing a number of files and folders. We don't need to be concerned with all of them.
-    
+
     The following files are unlikely to already exist in the current project, if they do then you will need to review them and merge/override appropriately:
     * `workspace.yml`
     * `workspace.override.yml`
@@ -19,7 +19,7 @@
     * `behat.yml`
     * `Jenkinsfile`
     * `phpstan.neon`
-    
+
     Move these from `<projectName>` into the project root.
 
 3. There will be some files that more than likely already exist in the project. These will need to be merged manually.
