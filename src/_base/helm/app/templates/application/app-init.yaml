@@ -35,9 +35,10 @@ spec:
         name: app-init
 {{ if eq .Values.ingress.type "istio" }}
         command: ["/bin/sh"]
-        args: ["-c", "app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
+        args: ["-c", "/entrypoint.sh app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
 {{ else }}
-        command: ["app", "init"]
+        command: ["/entrypoint.sh"]
+        args: ["app", "init"]
 {{ end }}
         resources:
           limits:
