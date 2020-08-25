@@ -29,6 +29,13 @@ pipeline {
         }
 {% if @('pipeline.publish.enabled') == 'yes' %}
         stage('Publish') {
+{% if @('pipeline.publish.environment') %}
+            environment {
+{% for key, value in @('pipeline.publish.environment') %}
+                {{ key }} = {{ value }}
+{% endfor %}
+            }
+{% endif %}
             when { not { triggeredBy 'TimerTrigger' } }
             steps {
                 milestone(50)
@@ -41,11 +48,13 @@ pipeline {
 {% endif %}
 {% if @('pipeline.qa.enabled') == 'yes' %}
         stage('Deploy (QA)') {
+{% if @('pipeline.qa.environment') %}
             environment {
 {% for key, value in @('pipeline.qa.environment') %}
-                {{ key }} = {{ value|raw }}
+                {{ key }} = {{ value }}
 {% endfor %}
             }
+{% endif %}
             when {
                 not { triggeredBy 'TimerTrigger' }
                 branch '{{ @('pipeline.qa.branch') }}'
