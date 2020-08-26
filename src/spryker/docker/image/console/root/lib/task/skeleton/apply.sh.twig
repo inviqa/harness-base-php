@@ -11,7 +11,7 @@ function task_skeleton_apply()
 
 function fetch_demoshop()
 {
-    run git clone --depth 1 --branch 201903.0-p1 "{{ @('spryker.demoshop-url') }}" /tmp/spryker
+    run git clone --single-branch --branch "{{ @('spryker.demoshop-version')}}" "{{ @('spryker.demoshop-url') }}" /tmp/spryker
     run "shopt -s dotglob && mv /tmp/spryker/* /app"
     run rm -rf /tmp/spryker
     run rm -rf /app/.git

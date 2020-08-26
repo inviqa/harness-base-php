@@ -5,4 +5,4 @@ env > /app/env.sh
 
 # run
 crontab /crontab
-exec cron -f -L 15
+exec /sbin/tini -- cron -f -L 15

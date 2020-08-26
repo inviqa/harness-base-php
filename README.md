@@ -77,7 +77,7 @@ cd `<framework>-test`
 ```
 5. Update the override file in `<framework>-test`:
 ```bash
-echo 'attribute(\'docker-sync\'): off' >> workspace.override.yml
+echo 'attribute(\'mutagen\'): no' >> workspace.override.yml
 ```
 6. Run in `pipeline` mode to activate `static` mode
 ```bash

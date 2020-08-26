@@ -30,8 +30,9 @@ kind: Secret
 {{ end }}
 metadata:
   name: {{ .Values.resourcePrefix }}{{ .service_name }}
-{{ if .Values.feature.sealed_secrets }}
   annotations:
+    argocd.argoproj.io/sync-wave: "1"
+{{ if .Values.feature.sealed_secrets }}
     sealedsecrets.bitnami.com/cluster-wide: "true"
 spec:
   encryptedData:

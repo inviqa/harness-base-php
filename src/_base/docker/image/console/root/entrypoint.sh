@@ -20,7 +20,7 @@ bootstrap()
 bootstrap
 
 if [ "${1:-}" == "sleep" ]; then
-    "$@"
+    exec /sbin/tini -- bash -c "$(printf "%q " "$@")"
 else
-    exec "$@"
+    exec /sbin/tini -- "$@"
 fi

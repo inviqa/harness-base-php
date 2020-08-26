@@ -26,6 +26,7 @@ attributes:
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
+    demoshop-version: 202001.0-p1
     mode: development
   php:
     fpm:
@@ -181,13 +182,15 @@ command('frontend yves watch'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build --workdir '@('frontend.path')' console @('frontend.yves.watch')
+    # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
+    passthru docker-compose exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.yves.watch')'
 command('frontend zed watch'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build --workdir '@('frontend.path')' console @('frontend.zed.watch')
+    # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
+    passthru docker-compose exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.zed.watch')'
 ---
 import:
   - harness/config/*.yml
