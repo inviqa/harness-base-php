@@ -10,6 +10,10 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}redis
+{{- if .Values.persistence.redis.enabled }}
+  strategy:
+    type: Recreate
+{{- end }}
   template:
     metadata:
       creationTimestamp: null

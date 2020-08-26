@@ -10,6 +10,10 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}elasticsearch
+{{- if .Values.persistence.elasticsearch.enabled }}
+  strategy:
+    type: Recreate
+{{- end }}
   template:
     metadata:
       labels:

@@ -10,6 +10,10 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}postgres
+{{- if .Values.persistence.postgres.enabled }}
+  strategy:
+    type: Recreate
+{{- end }}
   template:
     metadata:
       labels:
