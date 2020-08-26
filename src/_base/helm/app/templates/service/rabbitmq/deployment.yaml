@@ -10,8 +10,10 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}rabbitmq
+{{- if .Values.persistence.rabbitmq.enabled }}
   strategy:
     type: Recreate
+{{- end }}
   template:
     metadata:
       labels:
