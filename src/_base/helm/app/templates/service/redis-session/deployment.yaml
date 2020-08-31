@@ -35,7 +35,7 @@ spec:
         - --save
         - "60"
         - "10000"
-        image: redis:4-alpine
+        image: {{ .Values.docker.services.redis_session.image | quote }}
         imagePullPolicy: Always
         name: redis-session
         ports:

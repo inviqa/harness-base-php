@@ -30,7 +30,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}console
         {{- end }}
-        image: {{ .Values.docker.image.console }}
+        image: {{ .Values.docker.image.console | default $service.image | quote }}
         imagePullPolicy: Always
         name: app-init
 {{ if eq .Values.ingress.type "istio" }}

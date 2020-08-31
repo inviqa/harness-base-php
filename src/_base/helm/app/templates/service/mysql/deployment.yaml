@@ -30,7 +30,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}mysql
         {{- end }}
-        image: {{ .Values.docker.image.mysql }}
+        image: {{ .Values.docker.image.mysql | default .Values.docker.services.mysql.image | quote }}
         imagePullPolicy: Always
         name: mysql
         args:

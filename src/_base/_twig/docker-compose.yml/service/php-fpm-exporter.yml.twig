@@ -1,5 +1,5 @@
   php-fpm-exporter:
-    image: hipages/php-fpm_exporter
+    image: {{ @('services.php-fpm-exporter.image') }}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.php-fpm-exporter.environment'),
         @('services.php-fpm-exporter.environment_secrets')

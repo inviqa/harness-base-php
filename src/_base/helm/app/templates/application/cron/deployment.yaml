@@ -52,7 +52,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}cron
         {{- end }}
-        image: {{ .Values.docker.image.cron }}
+        image: {{ .Values.docker.image.cron | default $service.image }}
         imagePullPolicy: Always
         resources:
           limits:

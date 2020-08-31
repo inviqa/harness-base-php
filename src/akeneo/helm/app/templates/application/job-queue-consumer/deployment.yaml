@@ -52,7 +52,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}job-queue-consumer
         {{- end }}
-        image: {{ .Values.docker.image.job_queue_consumer }}
+        image: {{ .Values.docker.image.job_queue_consumer | default $service.image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 9000

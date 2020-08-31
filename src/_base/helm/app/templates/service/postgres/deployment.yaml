@@ -30,7 +30,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}postgres
         {{- end }}
-        image: postgres:9.6
+        image: {{ .Values.docker.services.postgres.image | quote }}
         imagePullPolicy: Always
         name: postgres
         ports:

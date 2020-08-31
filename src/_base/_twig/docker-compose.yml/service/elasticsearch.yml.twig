@@ -1,5 +1,5 @@
   elasticsearch:
-    image: {{ @('elasticsearch.image') }}:{{ @('elasticsearch.tag') }}
+    image: {{ @('services.elasticsearch.image') }}
     labels:
       - traefik.enable=false
     environment:

@@ -1,5 +1,5 @@
   memcached:
-    image: memcached:1-alpine
+    image: {{ @('services.memcached.image') }}
     labels:
       - traefik.enable=false
     networks:
