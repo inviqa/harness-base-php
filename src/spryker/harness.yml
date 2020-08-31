@@ -20,6 +20,8 @@ attributes:
       - redis
       - elasticsearch
       - rabbitmq
+      - jenkins
+      - jenkins-runner
     data_directory: /app/data
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
