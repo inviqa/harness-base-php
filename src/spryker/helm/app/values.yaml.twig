@@ -29,19 +29,8 @@ docker:
       @('pipeline.base.services')
     ]), 2, 4) | raw }}
 
-service:
-  elasticsearch: {{ ("elasticsearch" in @('app.services')) ? 'true' : 'false' }}
-  jenkins: {{ ("jenkins" in @('app.services')) ? 'true' : 'false' }}
-  jenkins_runner: {{ ("jenkins-runner" in @('app.services')) ? 'true' : 'false' }}
-  memcached: {{ ("memcached" in @('app.services')) ? 'true' : 'false' }}
-  mysql: {{ ("mysql" in @('app.services')) ? 'true' : 'false' }}
-  postgres: {{ ("postgres" in @('app.services')) ? 'true' : 'false' }}
-  rabbitmq: {{ ("rabbitmq" in @('app.services')) ? 'true' : 'false' }}
-  redis: {{ ("redis" in @('app.services')) ? 'true' : 'false' }}
-  redis_session: {{ ("redis-session" in @('app.services')) ? 'true' : 'false' }}
-  cron: {{ ("cron" in @('app.services')) ? 'true' : 'false' }}
-  php_fpm_exporter: {{ ("php-fpm-exporter" in @('app.services')) ? 'true' : 'false' }}
-  varnish: {{ ("varnish" in @('app.services')) ? 'true' : 'false' }}
+# deprecated, use docker.services.*.enabled instead
+service: {}
 
 replicas: {{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 
