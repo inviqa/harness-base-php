@@ -62,7 +62,7 @@
       "@test-acceptance"
     ],
     "test-production-quality": [
-      "set -o pipefail && find docroot/ -type f ! -path 'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php' \\( -name '*.inc' -o -name '*.install' -o -name '*.module' -o -name '*.php' -o -name '*.profile' -o -name '*.test' -o -name '*.theme' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' && echo 'OK'"
+      "bash -e -o pipefail -c 'find docroot/ -type f ! -path \\'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php\\' \\( -name \\'*.inc\\' -o -name \\'*.install\\' -o -name \\'*.module\\' -o -name \\'*.php\\' -o -name \\'*.profile\\' -o -name \\'*.test\\' -o -name \\'*.theme\\' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v \\'No syntax errors detected\\' && echo OK'"
     ],
     "test-quality": [
       "phpcs -v ./docroot/modules/custom",
