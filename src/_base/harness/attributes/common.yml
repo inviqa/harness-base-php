@@ -38,6 +38,10 @@ attributes.default:
     publish:
       enabled: no
       services: = publishable_services(@('services'))
+      # branches that should publish (other than change requests and qa)
+      # .* is deprecated and will be limited to one branch by default in a future release
+      branch:
+        regexp: .*
       # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
       # credential
       environment: {}
@@ -144,6 +148,8 @@ attributes.default:
           fi
 
   git:
+    default_branch: = @('main_branch')
+    # potentially deprecated, unless it is repurposed
     main_branch: develop
 
   nginx:
