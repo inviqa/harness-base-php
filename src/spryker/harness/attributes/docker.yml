@@ -13,7 +13,12 @@ attributes:
         ZED_HOST: = @('zed.external_host')
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
+    jenkins:
+      enabled: "= 'jenkins' in @('app.services')"
+      image: jenkins:alpine
     jenkins-runner:
+      enabled: "= 'jenkins-runner' in @('app.services')"
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner'
       publish: "= 'jenkins-runner' in @('app.services')"
       environment:
         RUNNER_NUM_EXECUTORS: 1

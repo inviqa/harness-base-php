@@ -1,4 +1,5 @@
 {{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "job-queue-consumer") (dict "environment" .Values.environment) -}}
+{{- if index .Values.service "job-queue-consumer" | default $service.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,7 +52,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}job-queue-consumer
         {{- end }}
-        image: {{ .Values.docker.image.job_queue_consumer }}
+        image: {{ .Values.docker.image.job_queue_consumer | default $service.image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
@@ -84,3 +85,4 @@ spec:
       {{- else }} []
       {{- end }}
 status: {}
+{{- end }}

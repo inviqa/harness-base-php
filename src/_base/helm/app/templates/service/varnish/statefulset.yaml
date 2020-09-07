@@ -1,4 +1,4 @@
-{{ if .Values.service.varnish }}
+{{ if .Values.service.varnish | default .Values.docker.services.varnish.enabled }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: varnish
-        image: varnish:6
+        image: {{ .Values.docker.services.varnish.image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 80

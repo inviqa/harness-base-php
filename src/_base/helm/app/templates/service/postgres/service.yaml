@@ -1,4 +1,4 @@
-{{ if .Values.service.postgres }}
+{{ if .Values.service.postgres | default .Values.docker.services.postgres.enabled }}
 apiVersion: v1
 kind: Service
 metadata:

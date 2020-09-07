@@ -1,4 +1,4 @@
-{{ if .Values.service.elasticsearch }}
+{{ if .Values.service.elasticsearch | default .Values.docker.services.elasticsearch.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,7 +25,7 @@ spec:
           value: -Xmx512m -Xms512m
         - name: discovery.type
           value: single-node
-        image: {{ .Values.docker.image.elasticsearch }}
+        image: {{ .Values.docker.image.elasticsearch | default .Values.docker.services.elasticsearch.image | quote }}
         imagePullPolicy: Always
         name: elasticsearch
         ports:

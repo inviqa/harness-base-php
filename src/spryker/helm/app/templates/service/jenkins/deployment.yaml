@@ -1,4 +1,4 @@
-{{ if .Values.service.jenkins }}
+{{ if .Values.service.jenkins | default .Values.docker.services.jenkins.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,7 +19,7 @@ spec:
       - env:
         - name: JAVA_OPTS
           value: -Djenkins.install.runSetupWizard=false
-        image: jenkins:alpine
+        image: {{ .Values.docker.services.jenkins.image | quote }}
         imagePullPolicy: Always
         name: jenkins
         ports:

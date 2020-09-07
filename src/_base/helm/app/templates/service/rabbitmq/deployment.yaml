@@ -1,4 +1,4 @@
-{{ if .Values.service.rabbitmq }}
+{{ if .Values.service.rabbitmq | default .Values.docker.services.rabbitmq.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}rabbitmq
         {{- end }}
-        image: {{ .Values.docker.image.rabbitmq }}
+        image: {{ .Values.docker.image.rabbitmq | default .Values.docker.services.rabbitmq.image | quote }}
         imagePullPolicy: Always
         name: rabbitmq
         ports:

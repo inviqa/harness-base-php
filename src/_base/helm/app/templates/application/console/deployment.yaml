@@ -35,7 +35,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}console
         {{- end }}
-        image: {{ .Values.docker.image.console }}
+        image: {{ .Values.docker.image.console | default $service.image }}
         imagePullPolicy: Always
         name: console
         resources:

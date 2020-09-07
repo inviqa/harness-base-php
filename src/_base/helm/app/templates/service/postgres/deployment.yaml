@@ -1,4 +1,4 @@
-{{ if .Values.service.postgres }}
+{{ if .Values.service.postgres | default .Values.docker.services.postgres.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}postgres
         {{- end }}
-        image: postgres:9.6
+        image: {{ .Values.docker.services.postgres.image | quote }}
         imagePullPolicy: Always
         name: postgres
         ports:

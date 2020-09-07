@@ -27,49 +27,74 @@ attributes:
         DB_PASS: = @('database.pass')
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
     nginx:
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
       publish: true
       environment:
         FPM_HOST: php-fpm
     console:
       enabled: true
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-console'
       publish: true
       environment:
         DB_ADMIN_USER: root
         HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
+    cron:
+      enabled: "= 'cron' in @('app.services')"
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
+      publish: "= 'cron' in @('app.services')"
     php-fpm:
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
       environment:
         AUTOSTART_PHP_FPM: "true"
     php-fpm-exporter:
+      image: hipages/php-fpm_exporter
       environment:
         PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('php-fpm', @('php-fpm.pools'))
+    elasticsearch:
+      enabled: "= 'elasticsearch' in @('app.services')"
+      image: = @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag')
+    memcached:
+      enabled: "= 'memcached' in @('app.services')"
+      image: memcached:1-alpine
     mysql:
+      enabled: "= 'mysql' in @('app.services')"
+      image: = @('mysql.image') ~ ':' ~ @('mysql.tag')
       environment:
         MYSQL_DATABASE: = @('database.name')
         MYSQL_USER: = @('database.user')
       environment_secrets:
         MYSQL_PASSWORD: = @('database.pass')
         MYSQL_ROOT_PASSWORD: = @('database.root_pass')
-    rabbitmq:
-      environment:
-        RABBITMQ_DEFAULT_USER: = @('rabbitmq.user')
-        RABBITMQ_DEFAULT_VHOST: = @('rabbitmq.vhosts.default')
-      environment_secrets:
-        RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
-        RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
     postgres:
+      enabled: "= 'postgres' in @('app.services')"
+      image: postgres:9.6
       environment:
         POSTGRES_DB: = @('database.name')
         POSTGRES_USER: = @('database.user')
         PGDATA: /var/lib/postgresql/data/pgdata
       environment_secrets:
         POSTGRES_PASSWORD: = @('database.pass')
-    cron:
-      publish: "= 'cron' in @('app.services')"
-      environment: []
+    rabbitmq:
+      enabled: "= 'rabbitmq' in @('app.services')"
+      image: = @('rabbitmq.image') ~ ':' ~ @('rabbitmq.tag')
+      environment:
+        RABBITMQ_DEFAULT_USER: = @('rabbitmq.user')
+        RABBITMQ_DEFAULT_VHOST: = @('rabbitmq.vhosts.default')
+      environment_secrets:
+        RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
+        RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
+    redis:
+      enabled: "= 'redis' in @('app.services')"
+      image: redis:4-alpine
+    redis_session:
+      enabled: "= 'redis_session' in @('app.services')"
+      image: redis:4-alpine
     varnish:
+      enabled: "= 'varnish' in @('app.services')"
+      image: varnish:6
       environment:
         VARNISH_SIZE: "1024M"
   pipeline:
@@ -107,7 +132,22 @@ attributes:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
         additionalGateways: []
-    production: {}
+    production:
+      # assumption is that in a production style environment these would be
+      # managed services outside of the applications control
+      services:
+        elasticsearch:
+          enabled: false
+        memcached:
+          enabled: false
+        mysql:
+          enabled: false
+        postgres:
+          enabled: false
+        redis:
+          enabled: false
+        redis_session:
+          enabled: false
     qa:
       services:
         php-base:

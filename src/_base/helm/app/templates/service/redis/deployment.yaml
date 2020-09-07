@@ -1,4 +1,4 @@
-{{ if .Values.service.redis }}
+{{ if .Values.service.redis | default .Values.docker.services.redis.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,7 +36,7 @@ spec:
         - --save
         - "60"
         - "10000"
-        image: redis:4-alpine
+        image: {{ .Values.docker.services.redis.image | quote }}
         imagePullPolicy: Always
         name: redis
         ports:

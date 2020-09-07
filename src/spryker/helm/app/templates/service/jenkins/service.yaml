@@ -1,4 +1,4 @@
-{{ if .Values.service.jenkins }}
+{{ if .Values.service.jenkins | default .Values.docker.services.jenkins.enabled }}
 apiVersion: v1
 kind: Service
 metadata:

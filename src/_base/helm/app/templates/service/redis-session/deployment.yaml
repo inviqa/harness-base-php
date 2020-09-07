@@ -1,4 +1,4 @@
-{{ if .Values.service.redis_session }}
+{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,7 +35,7 @@ spec:
         - --save
         - "60"
         - "10000"
-        image: redis:4-alpine
+        image: {{ .Values.docker.services.redis_session.image | quote }}
         imagePullPolicy: Always
         name: redis-session
         ports:
