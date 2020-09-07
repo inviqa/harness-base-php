@@ -39,9 +39,9 @@ attributes.default:
       enabled: no
       services: = publishable_services(@('services'))
       # branches that should publish (other than change requests and qa)
-      # .* is deprecated and will be limited to one branch by default in a future release
-      branch:
-        regexp: .*
+      # * is deprecated and will be limited to one branch by default in a future release
+      branches:
+        - '*'
       # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
       # credential
       environment: {}
@@ -62,6 +62,8 @@ attributes.default:
           email: name@example.com
     preview:
       enabled: no
+      target_branches:
+        - = @('git.default_branch')
       environment: {}
       cluster:
         name: null

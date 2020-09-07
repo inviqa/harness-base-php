@@ -39,12 +39,16 @@ pipeline {
             when {
                 not { triggeredBy 'TimerTrigger' } 
                 anyOf {
-                    branch pattern: '{{ @('pipeline.publish.branch.regexp') }}', comparator: 'REGEXP'
+{% for branch in @('pipeline.publish.branches') %}
+                    branch '{{ branch }}'
+{% endfor %}
 {% if @('pipeline.qa.enabled') == 'yes' %}
                     branch '{{ @('pipeline.qa.branch') }}'
 {% endif %}
 {% if @('pipeline.preview.enabled') == 'yes' %}
-                    changeRequest target: '{{ @('git.default_branch') }}'
+{% for branch in @('pipeline.preview.target_branches') %}
+                    changeRequest target: '{{ branch }}'
+{% endfor %}
 {% endif %}
                 }
             }
