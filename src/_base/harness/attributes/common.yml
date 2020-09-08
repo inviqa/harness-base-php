@@ -95,8 +95,8 @@ attributes.default:
     # in the values.yml in there now instead of project application repositories
     image_pull_config: = @('docker.config')
     image:
-      console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
+      console: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
+      php-fpm: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
 
   composer:
     auth:

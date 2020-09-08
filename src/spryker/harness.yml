@@ -76,8 +76,8 @@ attributes:
           fi
   docker:
     image:
-      console: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/spryker:' ~ @('php.version') ~ '-fpm-stretch'
+      console: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
+      php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   elasticsearch:
     image: elasticsearch
     tag: 5.6
