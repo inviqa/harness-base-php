@@ -37,7 +37,7 @@ command('app publish chart <release> <message>'):
     #!bash(workspace:/)|@
 
     run rm -rf build-artifacts-repository
-    echo "${SSH_PRIVATE_KEY}" | base64 -d > id_rsa
+    echo "${SSH_PRIVATE_KEY}" | base64 --decode > id_rsa
     chmod 0600 id_rsa
 
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
