@@ -19,10 +19,6 @@ default:
         - Inviqa\Acceptance\Context\WebWithPageObjectsWithConstructorInjectionContext
 
   extensions:
-    Behat\Symfony2Extension:
-      kernel:
-        class: Kernel
-        bootstrap: config/bootstrap.php
     Behat\MinkExtension:
       base_url: 'https://{{ @('hostname') }}'
       default_session: goutte
