@@ -17,6 +17,22 @@ attributes:
     services:
       - chrome
       - mysql
+  backend:
+    build:
+      steps:
+        - task composer:install
+    install:
+      steps:
+        - ~
+        - task overlay:apply
+        - task assets:dump
+    init:
+      steps:
+        - ~
+    migrate:
+      steps:
+        - ~
+        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 ---
 import:
   - harness/config/*.yml
