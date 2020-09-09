@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Akeneo">
+<ruleset name="Symfony">
     <description>PHPCS ruleset for Symfony</description>
     <file>./src</file>
     <rule ref="PSR2" />
