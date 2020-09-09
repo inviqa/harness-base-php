@@ -31,7 +31,6 @@ attributes:
         - passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration
     migrate:
       steps:
-        - ~
         - passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration
   symfony:
     secret: XuRDfjlBY7bg2yE0pbGzzS4NOet4ZWhGXdPGsoDCW5MLJip44bsD5t694zlT353tBznCj3Yi3S99M29s3k0lndZogFVqDy2FLoF3
