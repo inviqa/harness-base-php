@@ -205,6 +205,7 @@ attributes.default:
   database:
     # possible platforms are mysql, postgres or ~ for none
     platform: mysql
+    platform_version: 5.7
     host: mysql
     user: app
     pass: app

@@ -23,16 +23,18 @@ attributes:
         - task composer:install
     install:
       steps:
-        - ~
+        - run console doctrine:database:create --if-not-exists
         - task overlay:apply
         - task assets:dump
     init:
       steps:
-        - ~
+        - passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration
     migrate:
       steps:
         - ~
-        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration
+  symfony:
+    secret: XuRDfjlBY7bg2yE0pbGzzS4NOet4ZWhGXdPGsoDCW5MLJip44bsD5t694zlT353tBznCj3Yi3S99M29s3k0lndZogFVqDy2FLoF3
 ---
 import:
   - harness/config/*.yml

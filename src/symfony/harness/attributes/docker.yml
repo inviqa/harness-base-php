@@ -1,0 +1,9 @@
+attributes:
+  services:
+    php-base:
+      environment:
+        APP_DEBUG: "0"
+        APP_ENV: "= (@('app.mode') == 'development' ? 'dev' : 'prod')"
+      environment_secrets:
+        APP_SECRET: = @('symfony.secret')
+        DATABASE_URL: = 'mysql://' ~ @('database.user')  ~ ':' ~ @('database.pass')  ~ '@' ~ @('database.host') ~ ':' ~ @('database.port')  ~ '/' ~ @('database.name')  ~ '?serverVersion=' ~ @('database.platform_version')
