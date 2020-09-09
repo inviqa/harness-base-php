@@ -18,6 +18,7 @@
 
 # Directories
 /.my127ws
+/bin/
 /.docker-sync/
 /tools/assets/
 /vendor/
@@ -33,4 +34,5 @@
 /phpcs.xml
 /phpmd.xml
 /phpunit.xml
+/phpunit.xml.dist
 /workspace.override.yml
