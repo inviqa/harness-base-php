@@ -34,16 +34,17 @@ attributes:
         - task composer:install
     install:
       steps:
-        - run console doctrine:database:create --if-not-exists
+        - "= (@('symfony.has_doctrine') ? 'run console doctrine:database:create --no-interaction --if-not-exists' : '')"
         - task overlay:apply
         - task assets:dump
     init:
       steps:
-        - passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - "= (@('symfony.has_doctrine') ? 'passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration' : '')"
     migrate:
       steps:
-        - passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - "= (@('symfony.has_doctrine') ? 'passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration' : '')"
   symfony:
+    has_doctrine: false
     secret: XuRDfjlBY7bg2yE0pbGzzS4NOet4ZWhGXdPGsoDCW5MLJip44bsD5t694zlT353tBznCj3Yi3S99M29s3k0lndZogFVqDy2FLoF3
 ---
 import:
