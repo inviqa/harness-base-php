@@ -166,8 +166,8 @@ command('service php-fpm restart'):
   exec: |
     #!bash(workspace:/)|@
     passthru ws install --step=prepare
-    passthru docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
-    passthru docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
     passthru docker-compose exec php-fpm supervisorctl restart php-fpm
 
 command('set <attribute> <value>'):
