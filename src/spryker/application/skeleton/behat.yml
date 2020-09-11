@@ -1,8 +1,8 @@
 default:
   suites:
     sample:
-      contexts_services:
-        - yves.plp.context
+      contexts:
+        - Acceptance\Context\Yves\ProductListPageContext
   extensions:
     Behat\MinkExtension:
       default_session: goutte
@@ -23,10 +23,6 @@ default:
       namespaces:
         page: [Acceptance\Page]
         element: [Acceptance\Element]
-    FriendsOfBehat\ContextServiceExtension:
-      imports:
-        - 'features/bootstrap/_config/contexts.yml'
-    FriendsOfBehat\CrossContainerExtension: ~
     Cjm\Behat\StepThroughExtension: ~
     DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
 local: # (google-chrome-stable --remote-debugging-port=9221 &) && socat tcp-l:9222,fork TCP4:127.0.0.1:9221
