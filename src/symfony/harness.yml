@@ -45,7 +45,6 @@ attributes:
         - "= (@('symfony.has_doctrine') ? 'passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration' : '')"
   symfony:
     has_doctrine: false
-    secret: XuRDfjlBY7bg2yE0pbGzzS4NOet4ZWhGXdPGsoDCW5MLJip44bsD5t694zlT353tBznCj3Yi3S99M29s3k0lndZogFVqDy2FLoF3
 ---
 import:
   - harness/config/*.yml
