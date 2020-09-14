@@ -104,9 +104,6 @@ $config[PropelConstants::ZED_DB_PASSWORD] = getenv('DB_PASS');
 $config[PropelConstants::ZED_DB_DATABASE] = getenv('DB_NAME');
 $config[PropelConstants::ZED_DB_HOST] = getenv('DB_HOST');
 $config[PropelConstants::ZED_DB_PORT] = 5432;
-$config[PropelConstants::ZED_DB_ENGINE]
-    = $config[PropelQueryBuilderConstants::ZED_DB_ENGINE]
-    = $config[PropelConstants::ZED_DB_ENGINE_PGSQL];
 $config[PropelConstants::USE_SUDO_TO_MANAGE_DATABASE] = false;
 
 // ---------- Elasticsearch
