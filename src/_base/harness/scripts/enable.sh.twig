@@ -41,16 +41,17 @@ dynamic()
 
     ws external-images pull
 
+    passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose build"
+
     {% if ("cron" in @('app.services')) %}
-        passthru "docker-compose config --services | grep -v cron | xargs docker-compose build"
         passthru docker-compose build cron
-        # Bring up all but cron
-        passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
-    {% else %}
-        passthru docker-compose build
-        # Bring up all services
-        passthru docker-compose up -d
     {% endif %}
+    {% if ("jenkins-runner" in @('app.services')) %}
+        passthru docker-compose build jenkins-runner
+    {% endif %}
+
+    # Bring up all services apart from cron and jenkins-runner
+    passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app build
     passthru docker-compose exec -T -u build console app init

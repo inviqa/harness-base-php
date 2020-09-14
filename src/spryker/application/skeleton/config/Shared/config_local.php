@@ -176,14 +176,18 @@ $config[RabbitMqEnv::RABBITMQ_API_VIRTUAL_HOST] = getenv('RABBITMQ_VHOST_' . $CU
 $config[RabbitMqEnv::RABBITMQ_CONNECTIONS][$CURRENT_STORE][RabbitMqEnv::RABBITMQ_DEFAULT_CONNECTION] = true;
 
 // ---------- Scheduler
-$config[SchedulerConstants::ENABLED_SCHEDULERS] = [
-    SchedulerConfig::SCHEDULER_JENKINS,
-];
-$config[SchedulerJenkinsConstants::JENKINS_CONFIGURATION] = [
-    SchedulerConfig::SCHEDULER_JENKINS => [
-        SchedulerJenkinsConfig::SCHEDULER_JENKINS_BASE_URL => 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/',
-    ],
-];
+$config[SchedulerConstants::ENABLED_SCHEDULERS] = [];
+
+if (getenv('HAS_JENKINS_RUNNER') === 'true') {
+    $config[SchedulerConstants::ENABLED_SCHEDULERS] = [
+        SchedulerConfig::SCHEDULER_JENKINS,
+    ];
+    $config[SchedulerJenkinsConstants::JENKINS_CONFIGURATION] = [
+        SchedulerConfig::SCHEDULER_JENKINS => [
+            SchedulerJenkinsConfig::SCHEDULER_JENKINS_BASE_URL => 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/',
+        ],
+    ];
+}
 
 // ---------- Mail configuration
 $config[MailConstants::SMTP_HOST] = getenv('SMTP_HOST');

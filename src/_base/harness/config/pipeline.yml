@@ -2,6 +2,7 @@
 command('app build'):
   env:
     HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
+    HAS_JENKINS_RUNNER: "= ('jenkins-runner' in @('app.services') ? 'true' : 'false')"
   exec: |
     #!bash(workspace:/)|@
     ws external-images pull
@@ -11,6 +12,9 @@ command('app build'):
     passthru docker-compose build php-fpm nginx
     if [[ "${HAS_CRON}" == "true" ]]; then
       passthru docker-compose build cron
+    fi
+    if [[ "${HAS_JENKINS_RUNNER}" == "true" ]]; then
+      passthru docker-compose build jenkins-runner
     fi
 
 command('app build <service>'):

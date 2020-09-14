@@ -49,12 +49,12 @@ attributes:
     install:
       steps:
         - task rabbitmq:vhosts
-        - task http:wait "$JENKINS_URL"
+        - "= (('jenkins' in @('app.services')) ? 'task http:wait $JENKINS_URL' : '')"
         - task spryker:install
         - task overlay:apply
     init:
       steps:
-        - task http:wait "$JENKINS_URL"
+        - "= (('jenkins' in @('app.services')) ? 'task http:wait $JENKINS_URL' : '')"
         - task rabbitmq:vhosts
         - task spryker:init
     migrate:

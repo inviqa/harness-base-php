@@ -70,8 +70,8 @@ sections:
         generate-ide-auto-completion:
             command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console dev:ide:generate-auto-completion; fi"
 
-    jenkins-down:
-        jenkins-stop:
+    scheduler-down:
+        scheduler-stop:
             command: "vendor/bin/console scheduler:clean"
             stores: true
 
@@ -226,12 +226,12 @@ sections:
                 - AT
                 - US
 
-    jenkins-up:
-        jenkins-generate:
+    scheduler-up:
+        scheduler-generate:
             command: "vendor/bin/console scheduler:setup"
             stores: true
 
-        jenkins-enable:
+        scheduler-enable:
             command: "vendor/bin/console scheduler:resume"
             stores: true
 
