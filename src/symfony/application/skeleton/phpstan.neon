@@ -1,0 +1,6 @@
+includes:
+  - .my127ws/application/static/phpstan.neon
+parameters:
+  level: max
+  paths:
+    - src

@@ -1,0 +1,8 @@
+attributes:
+  services:
+    php-base:
+      environment:
+        APP_DEBUG: "0"
+        APP_ENV: "= (@('app.mode') == 'development' ? 'dev' : 'prod')"
+      environment_secrets:
+        APP_SECRET: XuRDfjlBY7bg2yE0pbGzzS4NOet4ZWhGXdPGsoDCW5MLJip44bsD5t694zlT353tBznCj3Yi3S99M29s3k0lndZogFVqDy2FLoF3
