@@ -59,6 +59,12 @@ spec:
             memory: {{ .Values.resources.memory.job_queue_consumer }}
           requests:
             memory: {{ .Values.resources.memory.job_queue_consumer }}
+        readinessProbe:
+          exec:
+            command:
+            - /bin/readiness.sh
+          initialDelaySeconds: 20
+          periodSeconds: 10
         volumeMounts:
         {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
         {{- include "application.volumeMounts.backend" . | indent 8 }}
