@@ -23,6 +23,7 @@
         "phpmd/phpmd": "^2.7",
         "phpspec/phpspec": "^6.0",
         "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-symfony": "^0.12",
         "phpunit/phpunit": "^9.3",
         "sensiolabs/behat-page-object-extension": "^2.3",
         "slevomat/coding-standard": "^6.0",
@@ -82,7 +83,7 @@
       ],
       "test-quality": [
           "phpcs -p",
-          "phpstan analyse",
+          "@phpstan",
           "phpmd ./src text ./phpmd.xml"
       ],
       "test-unit": [
@@ -93,6 +94,10 @@
       ],
       "fix-code": [
           "phpcbf -p"
+      ],
+      "phpstan": [
+          "APP_DEBUG=1 bin/console cache:warmup --env=dev",
+          "phpstan analyse"
       ],
       "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.3-"
     },
