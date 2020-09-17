@@ -54,18 +54,11 @@ spec:
         {{- end }}
         image: {{ .Values.docker.image.job_queue_consumer | default $service.image | quote }}
         imagePullPolicy: Always
-        ports:
-        - containerPort: 9000
         resources:
           limits:
             memory: {{ .Values.resources.memory.job_queue_consumer }}
           requests:
             memory: {{ .Values.resources.memory.job_queue_consumer }}
-        readinessProbe:
-          tcpSocket:
-            port: 9000
-          initialDelaySeconds: 5
-          periodSeconds: 10
         volumeMounts:
         {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
         {{- include "application.volumeMounts.backend" . | indent 8 }}
