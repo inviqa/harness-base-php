@@ -247,8 +247,13 @@ attributes.default:
     timeout: 300
 
     sealed_secrets:
+      # location of the sealed-secret service to download the active certificate from
       controller_name: sealed-secrets
       controller_namespace: sealed-secrets
+      # Use local file (or fetch from http url) as the certificate
+      # Useful if developers don't have kubectl access or the controller isn't directly
+      # accessible. Only one cluster supported
+      certificate_file: ~
 
   php-fpm:
     pools:
