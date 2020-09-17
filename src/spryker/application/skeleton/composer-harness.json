@@ -3,9 +3,6 @@
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
-    "spryker/web-profiler": "^1.6",
-    "spryker-shop/web-profiler-widget": "^1.4",
-    "twig/twig": "^3.0"
   },
   "require-dev": {
     "codeception/codeception": "~2.5.6",
@@ -19,8 +16,7 @@
     "friends-of-behat/context-service-extension": "^1.2",
     "friends-of-behat/cross-container-extension": "^1.1",
     "phpcompatibility/php-compatibility": "dev-master",
-    "sensiolabs/behat-page-object-extension": "^2.3",
-    "spryker-sdk/spryk": "^0.2.7"
+    "sensiolabs/behat-page-object-extension": "^2.3"
   },
   "autoload-dev": {
     "psr-4": {
