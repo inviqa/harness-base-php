@@ -1,8 +1,8 @@
 # Advanced customisation
 
 There may be times when you need to customise the Workspace environment beyond what is capable via attribute overrides.  
- 
- In these situations, if the customisation can be generalised then please look at the [contributing guide] on how to make the feature available for all projects. 
+
+ In these situations, if the customisation can be generalised then please look at the [contributing guide] on how to make the feature available for all projects.
 
 
 ## Adding a new service
@@ -10,7 +10,7 @@ If you need a service that isn't already provided (see [available base services]
 
 Create your new service file in the `tools/workspace/_twig/docker-compose.yml/service/` directory.  
 
-See the example `solr.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker-compose errors. 
+See the example `solr.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker-compose errors.
 ```yaml
   solr:
     image: {{ @('solr.image') }}:{{ @('solr.version') }}
@@ -50,16 +50,16 @@ attribute('solr.config_dir'): = @('drupal.docroot') ~ '/modules/contrib/search_a
 When overriding harness files or adding application overlay files using twig templates can be valuable for providing access to Workspace attributes. Not only this but you will have the power of [twig] at your fingertips.
 
 To use a twig template there are 2 key steps;
-* First create your file and append `.twig` to the filename. 
+* First create your file and append `.twig` to the filename.
 * Second, register your file within `confd.yml` to be compiled by the twig render method.
 
 Let's work through an example for adding drush aliases based on a list of multi-site domains.  
 Keep in mind that in `workspace.yml` we have defined our hostnames as follows:
 ```yaml
 attribute('hostname_aliases'):
-  - site-one
-  - site-two
-  - site-three
+  - site-one-projectname
+  - site-two-projectname
+  - site-three-projectname
 ```
 
 ### Create the template file
@@ -82,18 +82,18 @@ Now the file exists, but it won't be compiled until it has been registered. This
 More information on the `confd` type can be found [here](https://github.com/my127/workspace/blob/0.1.x/docs/types/confd.md)
 
 To update the file we will need to override the defaults.  
-Create the `confg.d` override in following folder structure:
+Create the `confd` override in following folder structure:
 ```
 tools/workspace/harness/config/confd.yml
 ```
 
 Make sure you copy the default configuration from the relevant harness.   
 The Drupal 8 defaults can be found [here](../../harness/config/confd.yml)
- 
+
 Adding the new file path will look like this:
 ```yaml
 confd('harness:/'):
-  ...
+  ...existing files...
   # Custom templates
   - { src: application/overlay/docroot/drush/sites/ws.site.yml }
 ```
