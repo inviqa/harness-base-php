@@ -36,5 +36,6 @@ VOLUME /app
 VOLUME /home/build/application
 {% endif %}
 
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sleep", "infinity"]
