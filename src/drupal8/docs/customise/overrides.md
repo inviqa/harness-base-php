@@ -5,7 +5,7 @@ More information can be found on the attribute type in the Workspace documentati
 
 ## Set an attribute value
 Take a moment to see the attributes that are defined in the Drupal 8 [harness.yml]. These are built on the defaults from [common.yml] in the base harness.  
-These can all be customised in `workspace.yml` using `attribute()`. 
+These can all be customised in `workspace.yml` using `attribute()`.
 
 Here are some examples:
 * Change the database name:
@@ -20,13 +20,6 @@ Here are some examples:
   ```yaml
   # Set the local URL to mysite.my127.site
   attribute('hostname'): = 'mysite.' ~ @('domain')
-  ```
-* It is even possible to update service definitions:
-  ```yaml
-  attribute('services.redis.volumes'):
-    - = './' ~ @('redis.config_dir') ~ ':/server-config'
-  
-  attribute('services.redis.command'): redis-server /server-config/redis.conf
   ```
 
 ## Merge not override
@@ -69,7 +62,7 @@ You can find even more in [common.yml], e.g. `frontend.build.steps`.
 
 When you see `steps`, there will more than likely be a `task` that defines how and when these steps are executed.
 
-To understand more, take a look at the tasks in the `console` docker image [here](../../../_base/docker/image/console/root/lib/task) 
+To understand more, take a look at the tasks in the `console` docker image [here](https://github.com/inviqa/harness-base-php/blob/0.10.x/src/_base/docker/image/console/root/lib/task)
 
 [harness.yml]: ../../harness.yml
-[common.yml]: ../../../_base/harness/attributes/common.yml
+[common.yml]: https://github.com/inviqa/harness-base-php/blob/0.10.x/src/_base/harness/attributes/common.yml
