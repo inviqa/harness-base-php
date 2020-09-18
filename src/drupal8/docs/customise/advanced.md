@@ -13,7 +13,7 @@ Create your new service file in the `tools/workspace/_twig/docker-compose.yml/se
 See the example `solr.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker-compose errors.
 ```yaml
   solr:
-    image: {{ @('solr.image') }}:{{ @('solr.version') }}
+    image: {{ @('services.solr.image') }}
     labels:
       - traefik.backend=solr{{ @('workspace.name') }}
       - traefik.frontend.rule=Host:solr-{{ @('hostname') }}
@@ -40,8 +40,7 @@ attribute('app.services'):
   - redis
   - solr
 
-attribute('solr.image'): solr
-attribute('solr.version'): 6.6.6
+attribute('services.solr.image'): "solr:6-slim"
 attribute('solr.config_dir'): = @('drupal.docroot') ~ '/modules/contrib/search_api_solr/solr-conf/6.x'
 ```
 
