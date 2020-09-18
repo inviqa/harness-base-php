@@ -29,7 +29,4 @@
     <rule ref="rulesets/unusedcode.xml/UnusedLocalVariable"/>
     <rule ref="rulesets/unusedcode.xml/UnusedPrivateField"/>
     <rule ref="rulesets/unusedcode.xml/UnusedPrivateMethod"/>
-
-    <exclude-pattern>*/migrations/*</exclude-pattern>
-    <exclude-pattern>*/Setup/*</exclude-pattern>
 </ruleset>
