@@ -1,6 +1,9 @@
 includes:
+  - vendor/phpstan/phpstan-symfony/extension.neon
   - .my127ws/application/static/phpstan.neon
 parameters:
   level: max
   paths:
     - src
+  symfony:
+    container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
