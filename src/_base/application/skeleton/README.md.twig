@@ -27,6 +27,7 @@ Please follow the below steps to get started, if you encounter any issues instal
 2. Copy the LastPass entry "{{ @('workspace.name') }}: Development Environment Key" to a new blank file named `workspace.override.yml` in the project root.
 3. Run `ws install`
 
+{% if not @('yves.external_hosts') -%}
 Once installed, the site should be available at [https://{{ @('hostname') }}](https://{{ @('hostname') }}).
 {% set additional_hostnames = @('hostname_aliases')|map(alias => "#{alias}." ~ @('domain')) %}
 {% if additional_hostnames %}
@@ -35,6 +36,17 @@ Additional sites:
 {% for host in additional_hostnames -%}
 - [https://{{ host }}](https://{{ host }})
 {% endfor -%}
+{% else -%}
+Once installed, the site should be available at the following URLs:
+
+**Yves**
+{% for store, yves_external_host in @('yves.external_hosts') -%}
+- {{ store }} Store: [{{ yves_external_host }}]({{ yves_external_host }})
+{% endfor -%}
+
+**Zed**
+- [{{ @('zed.external_host') }}]({{ @('zed.external_host') }})
+{% endif -%}
 
 {% if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') -%}
 Additional services:
