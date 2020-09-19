@@ -28,6 +28,14 @@ Please follow the below steps to get started, if you encounter any issues instal
 3. Run `ws install`
 
 Once installed, the site should be available at [https://{{ @('hostname') }}](https://{{ @('hostname') }}).
+{% set additional_hostnames = @('hostname_aliases')|map(alias => "#{alias}." ~ @('domain')) %}
+{% if additional_hostnames %}
+
+Additional sites:
+{% for host in additional_hostnames -%}
+- [https://{{ host }}](https://{{ host }})
+{% endfor -%}
+{% endif -%}
 
 ### Development environment cleanup
 
