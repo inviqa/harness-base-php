@@ -35,6 +35,16 @@ Additional sites:
 {% for host in additional_hostnames -%}
 - [https://{{ host }}](https://{{ host }})
 {% endfor -%}
+
+{% if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') -%}
+Additional services:
+{% if 'rabbitmq' in @('app.services') -%}
+- RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
+{% endif -%}
+{% if 'jenkins' in @('app.services') -%}
+- Jenkins: [https://{{ @('jenkins.external_host') }}](https://{{ @('jenkins.external_host') }})
+{% endif -%}
+{% endif -%}
 {% endif -%}
 
 ### Development environment cleanup
