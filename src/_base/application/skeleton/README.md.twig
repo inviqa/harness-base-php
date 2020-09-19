@@ -32,7 +32,7 @@ Once installed, the site should be available at [https://{{ @('hostname') }}](ht
 {% set additional_hostnames = @('hostname_aliases')|map(alias => "#{alias}." ~ @('domain')) %}
 {% if additional_hostnames %}
 
-Additional sites:
+**Additional sites**:
 {% for host in additional_hostnames -%}
 - [https://{{ host }}](https://{{ host }})
 {% endfor -%}
@@ -40,18 +40,18 @@ Additional sites:
 {% else -%}
 Once installed, the site should be available at the following URLs:
 
-**Yves**
+**Yves**:
 {% for store, yves_external_host in @('yves.external_hosts') -%}
-- {{ store }} Store: [{{ yves_external_host }}]({{ yves_external_host }})
-{% endfor -%}
+- {{ store }} Store: [https://{{ yves_external_host }}](https://{{ yves_external_host }})
+{% endfor %}
 
-**Zed**
-- [{{ @('zed.external_host') }}]({{ @('zed.external_host') }})
-{%- endif %}
+**Zed**:
+- Zed: [https://{{ @('zed.external_host') }}](https://{{ @('zed.external_host') }})
+{% endif %}
 
-{% if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') -%}
+{%- if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') %}
 
-Additional services:
+**Additional services**:
 {% if 'rabbitmq' in @('app.services') -%}
 - RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
 {% endif -%}
