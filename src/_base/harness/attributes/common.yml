@@ -195,6 +195,15 @@ attributes.default:
       realpath_cache_ttl: 600
       sendmail_path: = '\'/usr/local/bin/mhsendmail --smtp-addr="' ~ @('smtp.host') ~ ':' ~ @('smtp.port') ~ '"\''
       short_open_tag: Off
+    ext-tideways:
+      enable: no
+      cli:
+        enable: no
+      config:
+        connection: "tcp://tideways:9135"
+        collect: tracing
+        sample_rate: 25
+        service: web
     ext-xdebug:
       enable: no
       cli:
