@@ -56,6 +56,15 @@ attributes:
       image: hipages/php-fpm_exporter
       environment:
         PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('php-fpm', @('php-fpm.pools'))
+    blackfire:
+      enabled: "= 'blackfire' in @('app.services')"
+      image: blackfire/blackfire:latest
+      environment:
+      environment_secrets:
+        BLACKFIRE_SERVER_ID: ""
+        BLACKFIRE_SERVER_TOKEN: ""
+        BLACKFIRE_CLIENT_ID: ""
+        BLACKFIRE_CLIENT_TOKEN: ""
     elasticsearch:
       enabled: "= 'elasticsearch' in @('app.services')"
       image: = @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag')
