@@ -190,6 +190,31 @@ command('set <attribute> <value>'):
     echo "Setting '${ATTR_KEY}' setting to '${ATTR_VAL}' in workspace.override.yml"
     echo "attribute('${ATTR_KEY}'): ${ATTR_VAL}" >> workspace.override.yml
 
+command('feature blackfire (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-blackfire.enable'
+    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up php-fpm with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature blackfire cli (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-blackfire.cli.enable'
+    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up console with the new setting'
+    run ws service
+
 command('feature tideways (on|off)'):
   env:
     ATTR_KEY: 'php.ext-tideways.enable'
