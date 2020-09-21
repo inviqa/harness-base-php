@@ -37,4 +37,7 @@ function merge_composer_json()
     {% verbatim %}
     [ "${#new_composer_packages[@]}" -gt 0 ] && passthru env COMPOSER_PROCESS_TIMEOUT=600 composer update --with-dependencies --no-interaction --profile "${new_composer_packages[@]}"
     {% endverbatim %}
+
+    # Move web-profiler from packages-dev to packages due to broken dependencies
+    composer require spryker/web-profiler:^1.6 spryker-shop/web-profiler-widget:^1.4
 }
