@@ -22,7 +22,7 @@ attributes:
       - mysql
       - job-queue-consumer
       - cron
-    file_storage_directory: /app/app/file_storage
+    file_storage_directory: /app/var/file_storage
     uploads_directory: /app/var/uploads
     web_directory: /app/public
     src_resources_directory: /app/src/Resources
