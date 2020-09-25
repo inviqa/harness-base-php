@@ -1,0 +1,23 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/mglaman/phpstan-drupal/extension.neon
+    - .my127ws/application/static/phpstan.neon
+
+parameters:
+    paths:
+        - docroot/modules/custom
+    customRulesetUsed: true
+    excludes_analyse:
+        - */tests/Drupal/Tests/Listeners/Legacy/*
+        - */tests/fixtures/*.php
+        - */settings*.php
+        - */node_modules/*
+    ignoreErrors:
+        - '#\Drupal calls should be avoided in classes, use dependency injection instead#'
+        - '#Plugin definitions cannot be altered.#'
+        - '#Missing cache backend declaration for performance.#'
+        - '#Plugin manager has cache backend specified but does not declare cache tags.#'
+    reportUnmatchedIgnoredErrors: false
+    scanFiles:
+        - docroot/core/tests/Drupal/Tests/PhpunitCompatibilityTrait.php
+    tmpDir: /tmp/phpstan_deprecation_check
