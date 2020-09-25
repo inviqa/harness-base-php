@@ -175,8 +175,15 @@ attributes:
       #- /app/update/pub
 ---
 command('redis-flush'): |
-  #!bash(harness:/)|@
-  docker-compose -p @('namespace') exec redis redis-cli flushall
+  #!bash
+  ws redis flush
+
+command('redis flush'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(harness:/)|@
+    docker-compose exec redis redis-cli flushall
 
 command('magento %'):
   exec: |
