@@ -118,7 +118,7 @@ attributes:
             --page-cache-redis-port='${REDIS_PORT}' \
             --page-cache-redis-db=3"
             \
-            --search-engine=elasticsearch7
+            --search-engine=elasticsearch7 \
             --elasticsearch-host='${ELASTICSEARCH_HOST}' \
             --elasticsearch-port='${ELASTICSEARCH_PORT}' \
           # magento doesn't respond with an exit code when it fails so we check
