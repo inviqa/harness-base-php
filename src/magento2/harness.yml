@@ -175,6 +175,10 @@ attributes:
       #- /app/update/pub
 ---
 command('redis-flush'): |
+  #!bash
+  ws redis flush
+
+command('redis flush'): |
   #!bash(harness:/)|@
   docker-compose -p @('namespace') exec redis redis-cli flushall
 
