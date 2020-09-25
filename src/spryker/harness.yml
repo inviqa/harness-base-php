@@ -95,6 +95,9 @@ attributes:
     host: jenkins
     port: 8080
     external_host: = 'jenkins-' ~ @('hostname')
+  jenkins_runner:
+    # used by the Jenkins JNLP agent
+    java_version: 8
   yves:
     external_hosts:
       DE: = 'yves-de-' ~ @('hostname')
