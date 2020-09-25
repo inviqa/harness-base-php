@@ -30,13 +30,14 @@ attributes:
       - mysql
       - redis
       - redis-session
+      - elasticsearch
     web_directory: /app/pub
     media_directory: = @('app.web_directory') ~ '/media'
   php:
     fpm:
       ini:
         max_execution_time: 18000
-    version: 7.3
+    version: 7.4
   composer:
     auth:
       basic:
@@ -116,6 +117,10 @@ attributes:
             --page-cache-redis-server='${REDIS_HOST}' \
             --page-cache-redis-port='${REDIS_PORT}' \
             --page-cache-redis-db=3"
+            \
+            --search-engine=elasticsearch7
+            --elasticsearch-host='${ELASTICSEARCH_HOST}' \
+            --elasticsearch-port='${ELASTICSEARCH_PORT}' \
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.
           if [ ! -f /app/app/etc/env.php ]; then
