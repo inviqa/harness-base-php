@@ -17,12 +17,15 @@ pipeline {
                         sh './test php static'
                         sh './test symfony static'
                         sh './test wordpress static'
+                        sh './test akeneo static'
                         sh './test php dynamic'
                         sh './test symfony dynamic'
                         sh './test wordpress dynamic'
+                        sh './test akeneo dynamic'
                         sh './test php dynamic mutagen'
                         sh './test symfony dynamic mutagen'
                         sh './test wordpress dynamic mutagen'
+                        sh './test akeneo dynamic mutagen'
                     }
                     post {
                         always {
