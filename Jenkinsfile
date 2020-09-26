@@ -52,29 +52,14 @@ pipeline {
                         }
                     }
                 }
-                stage('3. Spryker Static') {
+                stage('3. Spryker') {
                     agent { label "my127ws" }
-                    steps { sh './build && ./test spryker static' }
-                    post {
-                        always {
-                            sh 'ws destroy || true'
-                            cleanWs()
-                        }
+                    steps {
+                        sh './build'
+                        sh './test spryker static'
+                        sh './test spryker dynamic'
+                        sh './test spryker dynamic mutagen'
                     }
-                }
-                stage('4. Spryker Dynamic') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test spryker dynamic' }
-                    post {
-                        always {
-                            sh 'ws destroy || true'
-                            cleanWs()
-                        }
-                    }
-                }
-                stage('5. Spryker Dynamic Mutagen') {
-                    agent { label "my127ws" }
-                    steps { sh './build && ./test spryker dynamic mutagen' }
                     post {
                         always {
                             sh 'ws destroy || true'
