@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Build and Test') {
             parallel {
-                stage('1. PHP, Symfony, Wordpress, Akeneo') {
+                stage('1. PHP, Drupal 8, Akeneo') {
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
@@ -19,11 +19,8 @@ pipeline {
                         stage('PHP Static') {
                             steps { sh './test php static' }
                         }
-                        stage('Symfony Static') {
-                            steps { sh './test symfony static' }
-                        }
-                        stage('Wordpress Static') {
-                            steps { sh './test wordpress static' }
+                        stage('Drupal 8 Static') {
+                            steps { sh './test drupal8 static' }
                         }
                         stage('Akeneo Static') {
                             steps { sh './test akeneo static' }
@@ -31,11 +28,8 @@ pipeline {
                         stage('PHP Dynamic') {
                             steps { sh './test php dynamic' }
                         }
-                        stage('Symfony Dynamic') {
-                            steps { sh './test symfony dynamic' }
-                        }
-                        stage('Wordpress Dynamic') {
-                            steps { sh './test wordpress dynamic' }
+                        stage('Drupal 8 Dynamic') {
+                            steps { sh './test drupal8 dynamic' }
                         }
                         stage('Akeneo Dynamic') {
                             steps { sh './test akeneo dynamic' }
@@ -43,11 +37,8 @@ pipeline {
                         stage('PHP Dynamic Mutagen') {
                             steps { sh './test php dynamic mutagen' }
                         }
-                        stage('Symfony Dynamic Mutagen') {
-                            steps { sh './test symfony dynamic mutagen' }
-                        }
-                        stage('Wordpress Dynamic Mutagen') {
-                            steps { sh './test wordpress dynamic mutagen' }
+                        stage('Drupal 8 Dynamic Mutagen') {
+                            steps { sh './test drupal8 dynamic mutagen' }
                         }
                         stage('Akeneo Dynamic Mutagen') {
                             steps { sh './test akeneo dynamic mutagen' }
@@ -61,38 +52,38 @@ pipeline {
                         }
                     }
                 }
-                stage('2. Drupal 8, Magento 1, Magento 2') {
+                stage('2. Symfony, Magento 2, Magento 1') {
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
                             steps { sh './build' }
                         }
-                        stage('Drupal 8 Static') {
-                            steps { sh './test drupal8 static' }
-                        }
-                        stage('Magento 1 Static') {
-                            steps { sh './test magento1 static' }
+                        stage('Symfony Static') {
+                            steps { sh './test symfony static' }
                         }
                         stage('Magento 2 Static') {
                             steps { sh './test magento2 static' }
                         }
-                        stage('Drupal 8 Dynamic') {
-                            steps { sh './test drupal8 dynamic' }
+                        stage('Magento 1 Static') {
+                            steps { sh './test magento1 static' }
                         }
-                        stage('Magento 1 Dynamic') {
-                            steps { sh './test magento1 dynamic' }
+                        stage('Symfony Dynamic') {
+                            steps { sh './test symfony dynamic' }
                         }
                         stage('Magento 2 Dynamic') {
                             steps { sh './test magento2 dynamic' }
                         }
-                        stage('Drupal 8 Dynamic Mutagen') {
-                            steps { sh './test drupal8 dynamic mutagen' }
+                        stage('Magento 1 Dynamic') {
+                            steps { sh './test magento1 dynamic' }
                         }
-                        stage('Magento 1 Dynamic Mutagen') {
-                            steps { sh './test magento1 dynamic mutagen' }
+                        stage('Symfony Dynamic Mutagen') {
+                            steps { sh './test symfony dynamic mutagen' }
                         }
                         stage('Magento 2 Dynamic Mutagen') {
                             steps { sh './test magento2 dynamic mutagen' }
+                        }
+                        stage('Magento 1 Dynamic Mutagen') {
+                            steps { sh './test magento1 dynamic mutagen' }
                         }
                     }
                     post {
@@ -103,17 +94,26 @@ pipeline {
                         }
                     }
                 }
-                stage('3. Spryker') {
+                stage('3. Wordpress, Spryker') {
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
                             steps { sh './build' }
                         }
+                        stage('Wordpress Static') {
+                            steps { sh './test wordpress static' }
+                        }
                         stage('Spryker Static') {
                             steps { sh './test spryker static' }
                         }
+                        stage('Wordpress Dynamic') {
+                            steps { sh './test wordpress dynamic' }
+                        }
                         stage('Spryker Dynamic') {
                             steps { sh './test spryker dynamic' }
+                        }
+                        stage('Wordpress Dynamic Mutagen') {
+                            steps { sh './test wordpress dynamic mutagen' }
                         }
                         stage('Spryker Dynamic Mutagen') {
                             steps { sh './test spryker dynamic mutagen' }
