@@ -5,6 +5,7 @@ pipeline {
     }
     options {
         buildDiscarder(logRotator(daysToKeepStr: '30'))
+        parallelsAlwaysFailFast()
     }
     triggers { cron(env.BRANCH_NAME ==~ /^\d+\.\d+\.x$/ ? 'H H(0-6) * * *' : '') }
     stages {
