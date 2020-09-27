@@ -7,11 +7,7 @@ export path_test="./tmp-test"
 
 function main()
 {
-    local HARNESS="$1"
-    if [ -z "$HARNESS" ]; then
-      exit 0;
-    fi
-    test "$HARNESS" "$2" "${3:-}"
+    test "$1" "$2" "${3:-}"
 }
 
 function test()

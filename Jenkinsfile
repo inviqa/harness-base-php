@@ -10,102 +10,121 @@ pipeline {
     triggers { cron(env.BRANCH_NAME ==~ /^\d+\.\d+\.x$/ ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Build and Test') {
-            matrix {
-                axes {
-                    axis {
-                        name 'FRAMEWORKS'
-                        values 'php|drupal8|akeneo', 'symfony|magento2|magento1', 'wordpress|spryker'
+            parallel {
+                stage('1. PHP, Drupal 8, Akeneo') {
+                    agent { label "my127ws" }
+                    stages {
+                        stage('Prepare') {
+                            steps { sh './build' }
+                        }
+                        stage('PHP Static') {
+                            steps { sh './test php static' }
+                        }
+                        stage('Drupal 8 Static') {
+                            steps { sh './test drupal8 static' }
+                        }
+                        stage('Akeneo Static') {
+                            steps { sh './test akeneo static' }
+                        }
+                        stage('PHP Dynamic') {
+                            steps { sh './test php dynamic' }
+                        }
+                        stage('Drupal 8 Dynamic') {
+                            steps { sh './test drupal8 dynamic' }
+                        }
+                        stage('Akeneo Dynamic') {
+                            steps { sh './test akeneo dynamic' }
+                        }
+                        stage('PHP Dynamic Mutagen') {
+                            steps { sh './test php dynamic mutagen' }
+                        }
+                        stage('Drupal 8 Dynamic Mutagen') {
+                            steps { sh './test drupal8 dynamic mutagen' }
+                        }
+                        stage('Akeneo Dynamic Mutagen') {
+                            steps { sh './test akeneo dynamic mutagen' }
+                        }
+                    }
+                    post {
+                        always {
+                            sh '(cd tmp-test && ws destroy) || true'
+                            sh 'ws destroy || true'
+                            cleanWs()
+                        }
                     }
                 }
-                stages {
-                    stage('Static Builds') {
-                        agent { label "my127ws" }
-                        stages {
-                            stage('Prepare') {
-                                steps { sh './build' }
-                            }
-                            stage('1 (mode=static)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f1)" static'
-                                }
-                            }
-                            stage('2 (mode=static)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f2)" static'
-                                }
-                            }
-                            stage('3 (mode=static)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f3)" static'
-                                }
-                            }
+                stage('2. Symfony, Magento 2, Magento 1') {
+                    agent { label "my127ws" }
+                    stages {
+                        stage('Prepare') {
+                            steps { sh './build' }
                         }
-                        post {
-                            always {
-                                sh '(cd tmp-test && ws destroy) || true'
-                                sh 'ws destroy || true'
-                                cleanWs()
-                            }
+                        stage('Symfony Static') {
+                            steps { sh './test symfony static' }
                         }
-                    }
-                    stage('Dynamic Builds') {
-                        agent { label "my127ws" }
-                        stages {
-                            stage('Prepare') {
-                                steps { sh './build' }
-                            }
-                            stage('1 (mode=dynamic)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f1)" dynamic'
-                                }
-                            }
-                            stage('2 (mode=dynamic)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f2)" dynamic'
-                                }
-                            }
-                            stage('3 (mode=dynamic)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f3)" dynamic'
-                                }
-                            }
+                        stage('Magento 2 Static') {
+                            steps { sh './test magento2 static' }
                         }
-                        post {
-                            always {
-                                sh '(cd tmp-test && ws destroy) || true'
-                                sh 'ws destroy || true'
-                                cleanWs()
-                            }
+                        stage('Magento 1 Static') {
+                            steps { sh './test magento1 static' }
+                        }
+                        stage('Symfony Dynamic') {
+                            steps { sh './test symfony dynamic' }
+                        }
+                        stage('Magento 2 Dynamic') {
+                            steps { sh './test magento2 dynamic' }
+                        }
+                        stage('Magento 1 Dynamic') {
+                            steps { sh './test magento1 dynamic' }
+                        }
+                        stage('Symfony Dynamic Mutagen') {
+                            steps { sh './test symfony dynamic mutagen' }
+                        }
+                        stage('Magento 2 Dynamic Mutagen') {
+                            steps { sh './test magento2 dynamic mutagen' }
+                        }
+                        stage('Magento 1 Dynamic Mutagen') {
+                            steps { sh './test magento1 dynamic mutagen' }
                         }
                     }
-                    stage('Dynamic Builds With Mutagen') {
-                        agent { label "my127ws" }
-                        stages {
-                            stage('Prepare') {
-                                steps { sh './build' }
-                            }
-                            stage('1 (mode=dynamic, sync=mutagen)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f1)" dynamic mutagen'
-                                }
-                            }
-                            stage('2 (mode=dynamic, sync=mutagen)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f2)" dynamic mutagen'
-                                }
-                            }
-                            stage('3 (mode=dynamic, sync=mutagen)') {
-                                steps {
-                                    sh './test "$(echo "$FRAMEWORKS" | cut -d"|" -f3)" dynamic mutagen'
-                                }
-                            }
+                    post {
+                        always {
+                            sh '(cd tmp-test && ws destroy) || true'
+                            sh 'ws destroy || true'
+                            cleanWs()
                         }
-                        post {
-                            always {
-                                sh '(cd tmp-test && ws destroy) || true'
-                                sh 'ws destroy || true'
-                                cleanWs()
-                            }
+                    }
+                }
+                stage('3. Wordpress, Spryker') {
+                    agent { label "my127ws" }
+                    stages {
+                        stage('Prepare') {
+                            steps { sh './build' }
+                        }
+                        stage('Wordpress Static') {
+                            steps { sh './test wordpress static' }
+                        }
+                        stage('Spryker Static') {
+                            steps { sh './test spryker static' }
+                        }
+                        stage('Wordpress Dynamic') {
+                            steps { sh './test wordpress dynamic' }
+                        }
+                        stage('Spryker Dynamic') {
+                            steps { sh './test spryker dynamic' }
+                        }
+                        stage('Wordpress Dynamic Mutagen') {
+                            steps { sh './test wordpress dynamic mutagen' }
+                        }
+                        stage('Spryker Dynamic Mutagen') {
+                            steps { sh './test spryker dynamic mutagen' }
+                        }
+                    }
+                    post {
+                        always {
+                            sh '(cd tmp-test && ws destroy) || true'
+                            sh 'ws destroy || true'
+                            cleanWs()
                         }
                     }
                 }
