@@ -30,13 +30,14 @@ attributes:
       - mysql
       - redis
       - redis-session
+      - elasticsearch
     web_directory: /app/pub
     media_directory: = @('app.web_directory') ~ '/media'
   php:
     fpm:
       ini:
         max_execution_time: 18000
-    version: 7.3
+    version: 7.4
   composer:
     auth:
       basic:
@@ -84,6 +85,7 @@ attributes:
         # restore it after installation.
         - run rm -f /app/app/etc/env.php
         - run rm -f /app/app/etc/config.php
+        - task http:wait elasticsearch:9200
         - |
           passthru "magento setup:install \
             --key='${MAGENTO_CRYPT_KEY}' \
@@ -115,7 +117,11 @@ attributes:
             --page-cache=redis \
             --page-cache-redis-server='${REDIS_HOST}' \
             --page-cache-redis-port='${REDIS_PORT}' \
-            --page-cache-redis-db=3"
+            --page-cache-redis-db=3 \
+            \
+            --search-engine=elasticsearch7 \
+            --elasticsearch-host='${ELASTICSEARCH_HOST}' \
+            --elasticsearch-port='${ELASTICSEARCH_PORT}'"
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.
           if [ ! -f /app/app/etc/env.php ]; then
@@ -130,6 +136,7 @@ attributes:
     init:
       steps:
         - task rabbitmq:vhosts
+        - task http:wait elasticsearch:9200
         - run magento setup:upgrade --keep-generated
         - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
         - run magento config:set 'web/secure/base_url'         "https://${APP_HOST}/"
@@ -141,6 +148,7 @@ attributes:
           fi
     migrate:
       steps:
+        - task http:wait elasticsearch:9200
         - run magento setup:upgrade --keep-generated
         - run magento cache:clean
     cron:

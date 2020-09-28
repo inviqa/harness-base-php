@@ -12,6 +12,7 @@ attribute('app.services'):
   - redis
   - redis-session
   - varnish
+  - elasticsearch
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null
