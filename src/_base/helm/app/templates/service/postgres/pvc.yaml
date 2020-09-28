@@ -1,4 +1,4 @@
-{{ if and .Values.service.postgres .Values.persistence.postgres.enabled -}}
+{{ if and .Values.persistence.postgres.enabled (.Values.service.postgres | default .Values.docker.services.postgres.enabled) -}}
 
 {{- with .Values.persistence.postgres -}}
 

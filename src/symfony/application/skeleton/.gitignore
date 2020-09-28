@@ -1,0 +1,41 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/src/preload.php
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+# Directories
+/.my127ws
+/bin/*
+/.docker-sync/
+/tools/assets/
+/vendor/
+
+# Files
+/.dockerignore
+/auth.json
+/docker-compose.yml
+/docker-sync.yml
+/env.sh
+/mutagen.yml
+/mutagen.yml.lock
+/phpcs.xml
+/phpmd.xml
+/phpunit.xml
+/phpunit.xml.dist
+/workspace.override.yml
+
+# Exclusions
+!/bin/console

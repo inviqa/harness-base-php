@@ -3,7 +3,6 @@
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
-    "symfony/console": "^3.4.30"
   },
   "require-dev": {
     "codeception/codeception": "~2.5.6",
@@ -24,6 +23,11 @@
       "Acceptance\\": "features/bootstrap"
     }
   },
+  "autoload": {
+    "psr-4": {
+      "Inviqa\\": "src/Inviqa/"
+    }
+  },
   "scripts": {
     "test": [
       "@test-production-quality",
@@ -36,7 +40,7 @@
       "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion"
     ],
     "test-production-quality": [
-      "find src/ | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'"
+      "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\""
     ],
     "test-quality": [
       "@generate",

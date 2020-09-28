@@ -5,6 +5,7 @@ parameters:
     bootstrapFiles:
         - tools/devtools-bootstrap.php
     paths:
+        - app/etc/InviqaNonComposerComponentRegistration.php
         - src
     excludes_analyse:
         - */src/**/registration.php

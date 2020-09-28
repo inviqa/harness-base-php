@@ -66,8 +66,8 @@ attributes:
         - run drupal cache:rebuild
   docker:
     image:
-      console: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/drupal8:' ~ @('php.version') ~ '-fpm-stretch'
+      console: "= 'my127/drupal8:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
+      php-fpm: "= 'my127/drupal8:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   persistence:
     enabled: false
     drupal:
@@ -84,7 +84,7 @@ command('drush %'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
-    passthru ws exec drush --root=={ @('drupal.docroot') } ={ input.argument('%') }
+    passthru ws exec drush --root=/app/={ @('drupal.docroot') } ={ input.argument('%') }
 ---
 command('test-unit'):
   env:

@@ -7,7 +7,7 @@
       - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
 {% else %}
-    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron' }}
+    image: {{ @('services.cron.image') }}
 {% endif %}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.php-base.environment'),

@@ -20,7 +20,7 @@
 {{- end }}
 
 {{- define "service.environment.secret" }}
-{{ if .service.environment_secrets }}
+{{ if and .service.environment_secrets (.service.enabled | default true) }}
 {{ if .Values.feature.sealed_secrets }}
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -30,8 +30,9 @@ kind: Secret
 {{ end }}
 metadata:
   name: {{ .Values.resourcePrefix }}{{ .service_name }}
-{{ if .Values.feature.sealed_secrets }}
   annotations:
+    argocd.argoproj.io/sync-wave: "1"
+{{ if .Values.feature.sealed_secrets }}
     sealedsecrets.bitnami.com/cluster-wide: "true"
 spec:
   encryptedData:

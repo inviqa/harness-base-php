@@ -62,8 +62,8 @@ attributes:
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" user update admin --role=administrator --user_pass=admin123 --skip-email
   docker:
     image:
-      console: = 'my127/wordpress:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/wordpress:' ~ @('php.version') ~ '-fpm-stretch'
+      console: "= 'my127/wordpress:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
+      php-fpm: "= 'my127/wordpress:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
 ---
 import:
   - harness/config/*.yml

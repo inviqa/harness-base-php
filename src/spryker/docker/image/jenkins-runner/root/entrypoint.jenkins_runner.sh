@@ -2,13 +2,12 @@
 
 main()
 {
-    app jenkins start
     source /entrypoint.sh
 }
 
 bootstrap()
 {
-    app jenkins setup
+    app jenkins:setup
 }
 
 bootstrap

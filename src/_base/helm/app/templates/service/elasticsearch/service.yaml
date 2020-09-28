@@ -1,4 +1,4 @@
-{{ if .Values.service.elasticsearch }}
+{{ if .Values.service.elasticsearch | default .Values.docker.services.elasticsearch.enabled }}
 apiVersion: v1
 kind: Service
 metadata:

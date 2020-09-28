@@ -1,14 +1,19 @@
 function('external_images', [services]): |
   #!php
   $upstreamImages = $producedImages = [];
+  $excludeImages = ['scratch'];
 
   foreach ($services as $service) {
-    if ($service['image']) {
-      $producedImages[] = $service['image'];
+    if (count($service['upstream']) > 0) {
+      $upstreamImages = array_merge($upstreamImages, $service['upstream']);
+      if ($service['image']) {
+        $producedImages[] = $service['image'];
+      }
+    } else if ($service['image']) {
+      $upstreamImages[] = $service['image'];
     }
-    $upstreamImages = array_merge($upstreamImages, $service['upstream']);
   }
-  $externalImages = array_diff($upstreamImages, $producedImages);
+  $externalImages = array_diff($upstreamImages, $producedImages, $excludeImages);
 
   # workspace commands don't allow non-string types
   = join(' ', $externalImages);

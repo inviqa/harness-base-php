@@ -2,7 +2,7 @@
 {% set hostnames = [@('hostname')] %}
 {% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
   varnish:
-    image: varnish:6
+    image: {{ @('services.varnish.image') }}
     labels:
       - traefik.backend={{ @('workspace.name') }}
       - traefik.frontend.rule=Host:{{ hostnames|join(',') }}

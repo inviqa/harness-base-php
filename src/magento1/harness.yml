@@ -96,8 +96,8 @@ attributes:
         - run n98-magerun.phar cache:clean
   docker:
     image:
-      console: = 'my127/magento1:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/magento1:' ~ @('php.version') ~ '-fpm-stretch'
+      console: "= 'my127/magento1:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
+      php-fpm: "= 'my127/magento1:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   persistence:
     enabled: false
     magento:

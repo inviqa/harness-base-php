@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.9.4](https://github.com/inviqa/harness-base-php/tree/0.9.4) (2020-08-20)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.3...0.9.4)
+
+**Fixed bugs:**
+
+- More akeneo secrets [\#369](https://github.com/inviqa/harness-base-php/pull/369) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.3](https://github.com/inviqa/harness-base-php/tree/0.9.3) (2020-08-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.2...0.9.3)
+
+**Fixed bugs:**
+
+- Fix frontend commands not loading nvm [\#368](https://github.com/inviqa/harness-base-php/pull/368) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.2](https://github.com/inviqa/harness-base-php/tree/0.9.2) (2020-08-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.1...0.9.2)
+
+**Fixed bugs:**
+
+- Fix quoting of commit message [\#367](https://github.com/inviqa/harness-base-php/pull/367) ([kierenevans](https://github.com/kierenevans))
+- Fix not having output for failed commands [\#364](https://github.com/inviqa/harness-base-php/pull/364) ([kierenevans](https://github.com/kierenevans))
+- Fix db console command [\#363](https://github.com/inviqa/harness-base-php/pull/363) ([kierenevans](https://github.com/kierenevans))
+
+## [0.9.1](https://github.com/inviqa/harness-base-php/tree/0.9.1) (2020-08-17)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.0...0.9.1)
+
+**Fixed bugs:**
+
+- Fix drupal site:install by skipping bug in drupal/console 1.9.5 [\#362](https://github.com/inviqa/harness-base-php/pull/362) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix escaping in helm chart git commit [\#361](https://github.com/inviqa/harness-base-php/pull/361) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix trailing newlines being added into secrets before encryption [\#360](https://github.com/inviqa/harness-base-php/pull/360) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add missing external images of service images that have no build [\#358](https://github.com/inviqa/harness-base-php/pull/358) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [0.9.0](https://github.com/inviqa/harness-base-php/tree/0.9.0) (2020-08-12)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.8.0...0.9.0)

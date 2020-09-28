@@ -1,4 +1,4 @@
-{{ if and .Values.service.redis_session .Values.persistence.redis_session.enabled -}}
+{{ if and .Values.persistence.redis_session.enabled (.Values.service.redis_session | default .Values.docker.services.redis_session.enabled) -}}
 
 {{- with .Values.persistence.redis_session -}}
 

@@ -2,21 +2,9 @@ workspace('ci-symfony-sample-dynamic'):
   description: generated local workspace for ci-symfony-sample.
   harness: inviqa/symfony
 
-harness.repository.source('name'): ./harnesses.json
-
 attribute('aws.bucket'): null
 attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
-before('harness.install'): |
-  #!bash(workspace:/)|@
-  if [ ! -d web/ ]; then
-    mkdir web
-  fi
-  if [ ! -d vendor/ ]; then
-    mkdir vendor
-  fi
-  if [ ! -f web/index.php ]; then
-    echo "<?php echo('Hello, @('workspace.name')');" > web/index.php
-  fi
+attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")

@@ -1,6 +1,6 @@
 {% set blocks  = 'docker/image/varnish/root/etc/varnish/' %}
 {% verbatim %}
-{{ if .Values.service.varnish }}
+{{ if .Values.service.varnish | default .Values.docker.services.varnish.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

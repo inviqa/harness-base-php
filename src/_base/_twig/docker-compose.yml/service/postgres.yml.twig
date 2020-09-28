@@ -1,5 +1,5 @@
   postgres:
-    image: postgres:9.6
+    image: {{ @('services.postgres.image') }}
     labels:
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
