@@ -210,6 +210,14 @@ attributes.default:
     remote: ="s3://"~@("aws.bucket")~"/development"
     local: tools/assets/development
 
+  cron:
+    entrypoint:
+      steps: []
+
+  console:
+    entrypoint:
+      steps: []
+
   database:
     # possible platforms are mysql, postgres or ~ for none
     platform: mysql

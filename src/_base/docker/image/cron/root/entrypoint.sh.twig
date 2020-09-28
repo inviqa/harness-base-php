@@ -12,15 +12,31 @@ setup_app_networking()
     fi
 }
 
+run_steps()
+{
+    # run any command required to be executed at docker startup
+    {% for step in @('cron.entrypoint.steps') -%}
+    {{ step|raw }}
+    {% else -%}
+    :
+    {% endfor %}
+}
+
+dump_environment_variables()
+{
+    # this is used to load env vars in crontab commands
+    env > /app/env.sh
+}
+
 bootstrap()
 {
     setup_app_networking
+    run_steps
+    dump_environment_variables
 }
 
 bootstrap
 
-if [ "${1:-}" == "sleep" ]; then
-    exec /sbin/tini -- bash -c "$(printf "%q " "$@")"
-else
-    exec /sbin/tini -- "$@"
-fi
+# run
+crontab /crontab
+exec /sbin/tini -- cron -f -L 15

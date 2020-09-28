@@ -2,6 +2,7 @@
 confd('harness:/'):
   # base templates
   - { src: docker/image/console/Dockerfile }
+  - { src: docker/image/console/root/entrypoint.sh }
   - { src: docker/image/console/root/home/build/.my.cnf }
   - { src: docker/image/console/root/lib/task/database/import.sh }
   - { src: docker/image/console/root/lib/task/build/frontend.sh }
@@ -33,6 +34,7 @@ confd('harness:/'):
   - { src: docker/image/varnish/root/etc/varnish/default.vcl }
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
+  - { src: docker/image/cron/root/entrypoint.sh }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
