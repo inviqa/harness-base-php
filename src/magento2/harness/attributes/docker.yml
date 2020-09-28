@@ -9,7 +9,7 @@ attributes:
       image: "mariadb:10.4"
     redis:
       image: "redis:5"
-    redis-session:
+    redis_session:
       image: "redis:5"
     elasticsearch:
       image: "elasticsearch:7.8.1"
