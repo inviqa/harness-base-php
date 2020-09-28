@@ -85,6 +85,7 @@ attributes:
         # restore it after installation.
         - run rm -f /app/app/etc/env.php
         - run rm -f /app/app/etc/config.php
+        - task http:wait elasticsearch:9200
         - |
           passthru "magento setup:install \
             --key='${MAGENTO_CRYPT_KEY}' \
@@ -135,6 +136,7 @@ attributes:
     init:
       steps:
         - task rabbitmq:vhosts
+        - task http:wait elasticsearch:9200
         - run magento setup:upgrade --keep-generated
         - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
         - run magento config:set 'web/secure/base_url'         "https://${APP_HOST}/"
@@ -146,6 +148,7 @@ attributes:
           fi
     migrate:
       steps:
+        - task http:wait elasticsearch:9200
         - run magento setup:upgrade --keep-generated
         - run magento cache:clean
     cron:
