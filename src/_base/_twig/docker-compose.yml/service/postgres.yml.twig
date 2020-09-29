@@ -1,5 +1,5 @@
   postgres:
-    image: postgres:9.6
+    image: {{ @('services.postgres.image') }}
     labels:
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
@@ -8,5 +8,7 @@
       ]), 2, 6) | raw }}
     networks:
       - private
+{% if @('app.build') != 'static' and @('docker.port_forward.enabled') %}
     ports:
-        - 5432
+      - "127.0.0.1:{{ @('database.port_forward') ? @('database.port_forward') : '0' }}:5432"
+{% endif %}

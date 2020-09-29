@@ -1,8 +1,9 @@
+{% for store_code, zed_external_host in @('zed.external_hosts') %}
 server {
     listen 80;
     listen 443 ssl http2;
 
-    server_name ${ZED_HOST};
+    server_name ${ZED_HOST_{{ store_code }}};
 
     include snippets/certificate.conf;
     include snippets/ssl-params.conf;
@@ -39,5 +40,9 @@ server {
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;
         fastcgi_param SCRIPT_FILENAME  $document_root/index.php;
+
+        # Spryker variables
+        fastcgi_param APPLICATION_STORE {{ store_code }};
     }
 }
+{% endfor %}

@@ -24,6 +24,8 @@ attributes:
         APP_DATABASE_PASSWORD: = @('database.pass')
         APP_SECRET: = @('akeneo.secret')
     job-queue-consumer:
+      enabled: "= 'job-queue-consumer' in @('app.services')"
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-job-queue-consumer'
       publish: "= 'job-queue-consumer' in @('app.services')"
       environment:
         AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"

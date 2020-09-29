@@ -1,4 +1,4 @@
-{{ if and .Values.service.mysql .Values.persistence.mysql.enabled -}}
+{{ if and .Values.persistence.mysql.enabled (.Values.service.mysql | default .Values.docker.services.mysql.enabled) -}}
 
 {{- with .Values.persistence.mysql -}}
 

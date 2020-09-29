@@ -1,14 +1,5 @@
-
-# assumption is that in a production style environment these would be
-# managed services outside of the applications control
-
-service:
-  elasticsearch: false
-  memcached: false
-  mysql: false
-  postgres: false
-  redis: false
-  redis_session: false
+# deprecated, use docker.services.*.enabled instead
+service: {}
 
 {% if @('pipeline.production.services') %}
 docker:

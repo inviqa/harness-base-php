@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Inviqa">
-    <description>Inviqa Magento2 PSR2 codesniffer configuration</description>
+    <description>Inviqa Magento2 PSR12 codesniffer configuration</description>
 
-    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
 
     <file>./src</file>
 
-    <exclude-pattern>*/migrations/*</exclude-pattern>
-    <exclude-pattern>*/Setup/*</exclude-pattern>
     <exclude-pattern>*/Standards/*/Tests/*\.(inc|css|js)</exclude-pattern>
 
     <config name="installed_paths" value="vendor/slevomat/coding-standard" />
@@ -53,12 +51,18 @@
             <property name="forbiddenAnnotations" type="array">
                 <element value="@author" />
                 <element value="@package" />
-                <element value="@api" />
             </property>
         </properties>
     </rule>
 
     <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility" />
+
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="newlinesCountBetweenOpenTagAndDeclare" value="2"/>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
+        </properties>
+    </rule>
 
     <arg name="extensions" value="php" />
     <arg name="report" value="full" />

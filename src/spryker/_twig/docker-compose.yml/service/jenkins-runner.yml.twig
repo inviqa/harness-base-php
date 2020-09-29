@@ -9,7 +9,7 @@
       - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws/application:/home/build/application
 {% else %}
-    image: {{ @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner' }}
+    image: {{ @('services.jenkins-runner.image') }}
 {% endif %}
     depends_on:
       - console

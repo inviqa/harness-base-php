@@ -7,5 +7,7 @@ attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
+attribute('docker.port_forward.enabled'): false
+
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
 attribute('magento.crypt.key'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoilgJeTB/QoWsOaDu74sRFvXiIAsSAIfVRIjtpOjI7czo0ODoiHMe0ICA3OLQybUjQi1VCvd2vFnetM+hUEs9PzZ27Q7yOd0UFmHohTnLNqplJfbUnIjt9")

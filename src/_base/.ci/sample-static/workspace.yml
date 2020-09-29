@@ -14,6 +14,9 @@ attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
+attribute('php.cli.install_extensions'):
+  - sockets
+
 before('harness.install'): |
   #!bash(workspace:/)|@
   if [ ! -d public/ ]; then

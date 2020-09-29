@@ -4,7 +4,7 @@ pipeline {
         MY127WS_KEY = credentials('{{ @('jenkins.credentials.my127ws_key') }}')
         MY127WS_ENV = "pipeline"
     }
-    triggers { cron(env.BRANCH_NAME == '{{ @('git.main_branch') }}' ? 'H H(0-6) * * *' : '') }
+    triggers { cron(env.BRANCH_NAME == '{{ @('git.default_branch') }}' ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Build') {
             steps {
@@ -36,7 +36,22 @@ pipeline {
 {% endfor %}
             }
 {% endif %}
-            when { not { triggeredBy 'TimerTrigger' } }
+            when {
+                not { triggeredBy 'TimerTrigger' } 
+                anyOf {
+{% for branch in @('pipeline.publish.branches') %}
+                    branch '{{ branch }}'
+{% endfor %}
+{% if @('pipeline.qa.enabled') == 'yes' %}
+                    branch '{{ @('pipeline.qa.branch') }}'
+{% endif %}
+{% if @('pipeline.preview.enabled') == 'yes' %}
+{% for branch in @('pipeline.preview.target_branches') %}
+                    changeRequest target: '{{ branch }}'
+{% endfor %}
+{% endif %}
+                }
+            }
             steps {
                 milestone(50)
                 sh 'ws app publish'

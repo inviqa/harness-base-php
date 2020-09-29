@@ -1,0 +1,8 @@
+{% set blackfire = @('php.ext-blackfire') %}
+
+{% if blackfire.cli.enable == 'yes' %}
+  extension=blackfire.so
+  {% for key, value in blackfire.config -%}
+    blackfire.{{ key }}={{ value }}
+  {% endfor %}
+{% endif %}

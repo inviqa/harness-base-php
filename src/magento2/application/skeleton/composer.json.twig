@@ -3,8 +3,8 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">=7.2",
-        "magento/product-{{ @('magento.edition') }}-edition": "2.3.5-p2",
+        "php": ">=7.4",
+        "magento/product-{{ @('magento.edition') }}-edition": "2.4.0",
         "composer/composer": "@alpha"
     },
     "require-dev": {
@@ -27,7 +27,7 @@
         "bin-dir": "bin",
         "sort-packages": true,
         "platform": {
-            "php": "7.2.30"
+            "php": "7.4.10"
         }
     },
     "extra": {
@@ -75,7 +75,7 @@
             "@test-acceptance"
         ],
         "test-production-quality": [
-            "find src/ pub/ -type f \\( -name '*.phtml' -o -name '*.php' \\) | xargs -n 1 -P 8 -i php -l {} | grep -v 'No syntax errors detected' || echo 'OK'",
+            "bash -e -o pipefail -c \"find src/ pub/ -type f \\( -name '*.phtml' -o -name '*.php' \\) -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
             "app phpstan"
         ],
         "test-quality": [
@@ -92,6 +92,6 @@
         "fix-code": [
             "phpcbf -p"
         ],
-        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
     }
 }

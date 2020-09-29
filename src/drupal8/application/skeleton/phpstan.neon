@@ -7,3 +7,5 @@ parameters:
     level: max
     paths:
         - docroot/modules/custom
+    scanFiles:
+        - docroot/core/tests/Drupal/Tests/PhpunitCompatibilityTrait.php

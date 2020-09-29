@@ -6,3 +6,5 @@ attribute('aws.bucket'): null
 attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
+
+attribute('docker.port_forward.enabled'): false

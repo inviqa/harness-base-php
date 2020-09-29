@@ -22,7 +22,7 @@ attributes:
       - mysql
       - job-queue-consumer
       - cron
-    file_storage_directory: /app/app/file_storage
+    file_storage_directory: /app/var/file_storage
     uploads_directory: /app/var/uploads
     web_directory: /app/public
     src_resources_directory: /app/src/Resources
@@ -46,6 +46,7 @@ attributes:
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
         - passthru echo 'Reindexing Elasticsearch'
+        - task http:wait elasticsearch:9200
         - run bin/console akeneo:elasticsearch:reset-indexes -n
         - run bin/console pim:product:index --all
         - run bin/console pim:product-model:index --all
@@ -58,12 +59,14 @@ attributes:
         - task composer:install
     install:
       steps:
+        - task http:wait elasticsearch:9200
         - passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal
         - task overlay:apply
         - task assets:dump
     init:
       steps:
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - task http:wait elasticsearch:9200
         - run bin/console akeneo:elasticsearch:reset-indexes --no-interaction
         - run bin/console pim:product:index --all
         - run bin/console pim:product-model:index --all

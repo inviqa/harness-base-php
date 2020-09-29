@@ -38,6 +38,10 @@ attributes.default:
     publish:
       enabled: no
       services: = publishable_services(@('services'))
+      # branches that should publish (other than change requests and qa)
+      # * is deprecated and will be limited to one branch by default in a future release
+      branches:
+        - '*'
       # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
       # credential
       environment: {}
@@ -58,6 +62,8 @@ attributes.default:
           email: name@example.com
     preview:
       enabled: no
+      target_branches:
+        - = @('git.default_branch')
       environment: {}
       cluster:
         name: null
@@ -95,9 +101,10 @@ attributes.default:
     # in the values.yml in there now instead of project application repositories
     image_pull_config: = @('docker.config')
     image:
-      console: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch-console'
-      php-fpm: = 'my127/php:' ~ @('php.version') ~ '-fpm-stretch'
-
+      console: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
+      php-fpm: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
+    port_forward:
+      enabled: "= @('app.build') == 'dynamic'"
   composer:
     auth:
       basic: ~
@@ -144,6 +151,8 @@ attributes.default:
           fi
 
   git:
+    default_branch: = @('main_branch')
+    # potentially deprecated, unless it is repurposed
     main_branch: develop
 
   nginx:
@@ -168,10 +177,10 @@ attributes.default:
       ini:
         max_execution_time: 0
         memory_limit: -1
+      install_extensions: []
     fpm:
       ini:
         disable_functions: pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals
-        error_reporting: "E_ALL"
         expose_php: Off
         log_errors: On
         max_execution_time: 30
@@ -181,12 +190,32 @@ attributes.default:
         register_argc_argv: Off
         request_order: GP
         variables_order: GPCS
+      install_extensions: []
     ini:
       enable_dl: Off
+      error_reporting: "E_ALL"
       opcache.enable_cli: On
       realpath_cache_ttl: 600
       sendmail_path: = '\'/usr/local/bin/mhsendmail --smtp-addr="' ~ @('smtp.host') ~ ':' ~ @('smtp.port') ~ '"\''
       short_open_tag: Off
+    install_extensions:
+      - "= ('blackfire' in @('app.services') ? 'blackfire' : '')"
+      - "= ('tideways' in @('app.services') ? 'tideways' : '')"
+    ext-blackfire:
+      enable: no
+      cli:
+        enable: no
+      config:
+        agent_socket: "tcp://blackfire:8707"
+    ext-tideways:
+      enable: no
+      cli:
+        enable: no
+      config:
+        connection: "tcp://tideways:9135"
+        collect: tracing
+        sample_rate: 25
+        service: web
     ext-xdebug:
       enable: no
       cli:
@@ -202,10 +231,20 @@ attributes.default:
     remote: ="s3://"~@("aws.bucket")~"/development"
     local: tools/assets/development
 
+  cron:
+    entrypoint:
+      steps: []
+
+  console:
+    entrypoint:
+      steps: []
+
   database:
     # possible platforms are mysql, postgres or ~ for none
     platform: mysql
+    platform_version: 5.7
     host: mysql
+    port: 3306
     user: app
     pass: app
     name: app
@@ -237,8 +276,13 @@ attributes.default:
     timeout: 300
 
     sealed_secrets:
+      # location of the sealed-secret service to download the active certificate from
       controller_name: sealed-secrets
       controller_namespace: sealed-secrets
+      # Use local file (or fetch from http url) as the certificate
+      # Useful if developers don't have kubectl access or the controller isn't directly
+      # accessible. Only one cluster supported
+      certificate_file: ~
 
   php-fpm:
     pools:

@@ -1,7 +1,0 @@
-
-command('app build'): |
-  #!bash(workspace:/)|@
-  ws external-images pull
-
-  passthru docker-compose build console
-  passthru docker-compose build php-fpm nginx jenkins-runner

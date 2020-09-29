@@ -1,5 +1,5 @@
-{{- if .Values.service.jenkins_runner -}}
 {{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "jenkins-runner") (dict "environment" .Values.environment) -}}
+{{- if .Values.service.jenkins_runner | default $service.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,7 +35,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}jenkins-runner
         {{- end }}
-        image: {{ .Values.docker.image.jenkins_runner }}
+        image: {{ .Values.docker.image.jenkins_runner | default $service.image | quote }}
         imagePullPolicy: Always
         name: jenkins-runner
         resources:

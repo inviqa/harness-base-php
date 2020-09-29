@@ -1,5 +1,5 @@
   jenkins:
-    image: "jenkins:alpine"
+    image: {{ @('services.jenkins.image') }}
     environment:
       JAVA_OPTS: '-Djenkins.install.runSetupWizard=false'
     networks:

@@ -51,7 +51,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}nginx
         {{- end }}
-        image: {{ .Values.docker.image.nginx }}
+        image: {{ .Values.docker.image.nginx | default .Values.docker.services.nginx.image }}
         imagePullPolicy: Always
         ports:
         - name: http
@@ -88,7 +88,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}php-fpm
         {{- end }}
-        image: {{ .Values.docker.image.fpm }}
+        image: {{ .Values.docker.image.fpm | default $service_php_fpm.image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
@@ -109,7 +109,7 @@ spec:
         {{- else }} []
         {{- end }}
 
-      {{ if .Values.service.php_fpm_exporter }}
+      {{ if .Values.service.php_fpm_exporter | default (index .Values.docker.services "php-fpm-exporter" "enabled") }}
       - name: php-fpm-exporter
         env:
         {{- range $key, $value := index .Values.docker.services "php-fpm-exporter" "environment" }}
@@ -121,7 +121,7 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        image: hipages/php-fpm_exporter
+        image: {{ index .Values.docker.services "php-fpm-exporter" "image" | quote }}
         imagePullPolicy: Always
         ports:
         - name: php-fpm-metrics

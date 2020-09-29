@@ -1,4 +1,4 @@
-{{ if .Values.service.mysql }}
+{{ if .Values.service.mysql | default .Values.docker.services.mysql.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -10,6 +10,10 @@ spec:
   selector:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}mysql
+{{- if .Values.persistence.mysql.enabled }}
+  strategy:
+    type: Recreate
+{{- end }}
   template:
     metadata:
       labels:
@@ -26,7 +30,7 @@ spec:
           - secretRef:
               name: {{ .Values.resourcePrefix }}mysql
         {{- end }}
-        image: {{ .Values.docker.image.mysql }}
+        image: {{ .Values.docker.image.mysql | default .Values.docker.services.mysql.image | quote }}
         imagePullPolicy: Always
         name: mysql
         args:
