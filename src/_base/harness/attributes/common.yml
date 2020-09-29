@@ -198,7 +198,14 @@ attributes.default:
       sendmail_path: = '\'/usr/local/bin/mhsendmail --smtp-addr="' ~ @('smtp.host') ~ ':' ~ @('smtp.port') ~ '"\''
       short_open_tag: Off
     install_extensions:
+      - "= ('blackfire' in @('app.services') ? 'blackfire' : '')"
       - "= ('tideways' in @('app.services') ? 'tideways' : '')"
+    ext-blackfire:
+      enable: no
+      cli:
+        enable: no
+      config:
+        agent_socket: "tcp://blackfire:8707"
     ext-tideways:
       enable: no
       cli:

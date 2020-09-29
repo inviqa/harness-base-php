@@ -1,0 +1,10 @@
+  blackfire:
+    image: {{ @('services.blackfire.image') }}
+    labels:
+      - traefik.enable=false
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.blackfire.environment'),
+        @('services.blackfire.environment_secrets')
+      ]), 2, 6) | raw }}
+    networks:
+      - private
