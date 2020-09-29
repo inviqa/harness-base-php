@@ -16,8 +16,7 @@ pipeline {
                     stages {
                         stage('Prepare') {
                             steps {
-                                sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
-                                sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                                sh './delete_running_containers.sh'
                                 sh './build'
                             }
                         }
@@ -53,8 +52,7 @@ pipeline {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
                             sh 'ws destroy || true'
-                            sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
-                            sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                            sh './delete_running_containers.sh'
                             cleanWs()
                         }
                     }
@@ -101,8 +99,7 @@ pipeline {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
                             sh 'ws destroy || true'
-                            sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
-                            sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                            sh './delete_running_containers.sh'
                             cleanWs()
                         }
                     }
@@ -112,8 +109,7 @@ pipeline {
                     stages {
                         stage('Prepare') {
                             steps {
-                                sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
-                                sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                                sh './delete_running_containers.sh'
                                 sh './build'
                             }
                         }
@@ -140,8 +136,7 @@ pipeline {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
                             sh 'ws destroy || true'
-                            sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
-                            sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                            sh './delete_running_containers.sh'
                             cleanWs()
                         }
                     }
