@@ -11,6 +11,6 @@ attribute('docker.port_forward.enabled'): false
 
 attribute('hostname_aliases'):
   - test-one-ci-akeneo-sample-dynamic
-  - test-one-ci-akeneo-sample-dynamic
+  - test-two-ci-akeneo-sample-dynamic
 
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
