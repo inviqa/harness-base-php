@@ -17,8 +17,8 @@ Please follow the below steps to get started, if you encounter any issues instal
 ##### Docker
 
 - A working Docker setup
-  - On MacOS, use [Docker for Mac](https://docs.docker.com/docker-for-mac/install/).
-  - On Linux, add the official Docker repository and install the "docker-ce" package.
+  - On MacOS, use [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/install/).
+  - On Linux, add the official Docker repository described under the "Server" section on [Install Docker Engine](https://docs.docker.com/engine/install/) and install the "docker-ce" package.
     You will also need to have a recent [docker-compose](https://docs.docker.com/compose/install/) version - at least `1.26.0`.
 
 #### Setup
@@ -27,7 +27,38 @@ Please follow the below steps to get started, if you encounter any issues instal
 2. Copy the LastPass entry "{{ @('workspace.name') }}: Development Environment Key" to a new blank file named `workspace.override.yml` in the project root.
 3. Run `ws install`
 
+{% if not @('yves.external_hosts') -%}
 Once installed, the site should be available at [https://{{ @('hostname') }}](https://{{ @('hostname') }}).
+{% set additional_hostnames = @('hostname_aliases')|map(alias => "#{alias}." ~ @('domain')) %}
+{% if additional_hostnames %}
+
+**Additional sites**:
+{% for host in additional_hostnames -%}
+- [https://{{ host }}](https://{{ host }})
+{% endfor -%}
+{% endif -%}
+{% else -%}
+Once installed, the site should be available at the following URLs:
+
+**Yves**:
+{% for store, yves_external_host in @('yves.external_hosts') -%}
+- {{ store }} Store: [https://{{ yves_external_host }}](https://{{ yves_external_host }})
+{% endfor %}
+
+**Zed**:
+- Zed: [https://{{ @('zed.external_host') }}](https://{{ @('zed.external_host') }})
+{% endif %}
+
+{%- if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') %}
+
+**Additional services**:
+{% if 'rabbitmq' in @('app.services') -%}
+- RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
+{% endif -%}
+{% if 'jenkins' in @('app.services') -%}
+- Jenkins: [https://{{ @('jenkins.external_host') }}](https://{{ @('jenkins.external_host') }})
+{% endif %}
+{%- endif %}
 
 ### Development environment cleanup
 
@@ -180,6 +211,10 @@ As setup issues are encountered please detail with step by step fix instructions
 * If you get a error that the TLS certificate has expired for the development website in your browser:
   * Restart the my127 global traefik proxy with `ws global service proxy restart`.
     This will fetch new TLS certificates for `*.my127.site`.
+* If you use mutagen and operations such as `mutagen project pause` during `ws disable` are hanging:
+  * Head to Docker Desktop Preferences via the system tray icon
+  * Turn off "Enable cloud experience" under the Command Line area of Preferences
+  * Click the "Apply and restart" button
 * If you use docker-sync and notice that your changes aren't synchronising to the environment:
   * Check if your file exists with your changes in `ws console`
   * If your file in `ws console` has changed okay, check your project for any caching that
