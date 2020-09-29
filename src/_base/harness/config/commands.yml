@@ -190,6 +190,41 @@ command('set <attribute> <value>'):
     echo "Setting '${ATTR_KEY}' setting to '${ATTR_VAL}' in workspace.override.yml"
     echo "attribute('${ATTR_KEY}'): ${ATTR_VAL}" >> workspace.override.yml
 
+command('feature tideways (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-tideways.enable'
+    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up php-fpm with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature tideways cli (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-tideways.cli.enable'
+    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up console with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature tideways cli configure <server_key>'):
+  env:
+    TIDEWAYS_SERVERKEY: = input.argument('server_key')
+  exec: |
+    #!bash(workspace:/)|=
+    echo "Importing Provided Tideways CLI Key (from https://app.tideways.io/user/cli-import-settings)"
+    docker-compose exec -T -u build console tideways import "$TIDEWAYS_SERVERKEY"
+    echo "Imported Tideways CLI key"
+
 command('feature xdebug (on|off)'):
   env:
     ATTR_KEY: 'php.ext-xdebug.enable'

@@ -41,6 +41,10 @@ dynamic()
 
     ws external-images pull
 
+    # Bring up console to fix file permissions
+    passthru docker-compose up -d console
+
+    # Bring up all services apart from cron and job-queue-consumer
     passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | xargs docker-compose build"
     passthru docker-compose build cron job-queue-consumer
 

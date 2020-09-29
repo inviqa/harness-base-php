@@ -2,6 +2,7 @@
 confd('harness:/'):
   # base templates
   - { src: docker/image/console/Dockerfile }
+  - { src: docker/image/console/root/entrypoint.sh }
   - { src: docker/image/console/root/home/build/.my.cnf }
   - { src: docker/image/console/root/lib/task/database/import.sh }
   - { src: docker/image/console/root/lib/task/build/frontend.sh }
@@ -13,6 +14,7 @@ confd('harness:/'):
   - { src: docker/image/console/root/lib/task/rabbitmq/vhosts.sh }
   - { src: docker/image/console/root/lib/task/welcome.sh }
   - { src: docker/image/console/root/usr/local/etc/php/php.ini }
+  - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-tideways.ini }
   - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: docker/image/nginx/Dockerfile }
   - { src: docker/image/nginx/root/docker-entrypoint.d/config_render.sh }
@@ -24,6 +26,7 @@ confd('harness:/'):
   - { src: docker/image/php-fpm/root/entrypoint.sh }
   - { src: docker/image/php-fpm/root/fix_app_permissions.sh }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
+  - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-tideways.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php-fpm.d/pool.conf.template }
   - { src: docker/image/tls-offload/root/etc/nginx/conf.d/0-nginx.conf }
@@ -33,6 +36,7 @@ confd('harness:/'):
   - { src: docker/image/varnish/root/etc/varnish/default.vcl }
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
+  - { src: docker/image/cron/root/entrypoint.sh }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
