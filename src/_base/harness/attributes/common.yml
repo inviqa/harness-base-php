@@ -103,7 +103,8 @@ attributes.default:
     image:
       console: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
       php-fpm: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
-
+    port_forward:
+      enabled: "= @('app.build') == 'dynamic'"
   composer:
     auth:
       basic: ~
