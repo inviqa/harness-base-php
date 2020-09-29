@@ -91,10 +91,10 @@ attributes:
         RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
     redis:
       enabled: "= 'redis' in @('app.services')"
-      image: redis:4-alpine
+      image: redis:5-alpine
     redis_session:
       enabled: "= 'redis_session' in @('app.services')"
-      image: redis:4-alpine
+      image: redis:5-alpine
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       environment:
