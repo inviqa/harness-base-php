@@ -15,7 +15,11 @@ pipeline {
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
-                            steps { sh './build' }
+                            steps {
+                                sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
+                                sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                                sh './build'
+                            }
                         }
                         stage('PHP Static') {
                             steps { sh './test php static' }
@@ -49,6 +53,8 @@ pipeline {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
                             sh 'ws destroy || true'
+                            sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
+                            sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
                             cleanWs()
                         }
                     }
@@ -57,7 +63,11 @@ pipeline {
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
-                            steps { sh './build' }
+                            steps {
+                                sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
+                                sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                                sh './build'
+                            }
                         }
                         stage('Symfony Static') {
                             steps { sh './test symfony static' }
@@ -91,6 +101,8 @@ pipeline {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
                             sh 'ws destroy || true'
+                            sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
+                            sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
                             cleanWs()
                         }
                     }
@@ -99,7 +111,11 @@ pipeline {
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
-                            steps { sh './build' }
+                            steps {
+                                sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
+                                sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
+                                sh './build'
+                            }
                         }
                         stage('Wordpress Static') {
                             steps { sh './test wordpress static' }
@@ -124,6 +140,8 @@ pipeline {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
                             sh 'ws destroy || true'
+                            sh 'docker ps && docker ps -q | xargs --no-run-if-empty docker kill'
+                            sh 'docker ps -a && docker ps -a -q | xargs --no-run-if-empty docker rm -v'
                             cleanWs()
                         }
                     }
