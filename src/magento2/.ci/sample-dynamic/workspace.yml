@@ -16,6 +16,8 @@ attribute('app.services'):
   - varnish
   - elasticsearch
 
+attribute('docker.port_forward.enabled'): false
+
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
 attribute('magento.username'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi7yUH3P6aCmMBl2qwN7PdlRI1EiWoimdCIjtpOjI7czo0ODoiRPQOwTWonSKk4MysvUFMpCh+ooh/BFclduIOquzh2lW1JWA9mAocweHxe95WExrEIjt9")
 attribute('magento.password'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoixljx4kYiDfX50qPOtBcSYGh3mAEpPSdNIjtpOjI7czo0ODoipguEMh332EeO4FbNy915MBJl8P8Xa9mVGktL4toQFWPiOHYIwHp1c3CjBTyFhi5dIjt9")

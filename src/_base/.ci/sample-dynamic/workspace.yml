@@ -12,6 +12,8 @@ attribute('app.repository'): null
 attribute('aws.id'): null
 attribute('aws.key'): null
 
+attribute('docker.port_forward.enabled'): false
+
 before('harness.install'): |
   #!bash(workspace:/)|@
   if [ ! -d public/ ]; then
