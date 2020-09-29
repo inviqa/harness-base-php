@@ -56,7 +56,7 @@ $config[ApplicationConstants::YVES_SSL_ENABLED]
     = true;
 
 // ---------- Zed host
-$config[ApplicationConstants::HOST_ZED] = getenv('ZED_HOST');
+$config[ApplicationConstants::HOST_ZED] = getenv('ZED_HOST_' . $CURRENT_STORE);
 $config[ApplicationConstants::PORT_SSL_ZED] = '';
 $config[ApplicationConstants::BASE_URL_ZED] = sprintf(
     'http://%s%s',

@@ -23,9 +23,6 @@ attributes:
       publish: "= 'jenkins-runner' in @('app.services')"
       environment:
         RUNNER_NUM_EXECUTORS: 1
-    nginx:
-      environment:
-        ZED_HOST: = @('zed.external_host')
     rabbitmq:
       environment:
         RABBITMQ_DEFAULT_USER: spryker
@@ -47,7 +44,6 @@ attributes:
             DOCKER_IMAGE_FPM: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
             DOCKER_IMAGE_NGINX: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
             DOCKER_IMAGE_JENKINS_RUNNER: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner'
-            ZED_HOST: = @('pipeline.preview.zed.external_host')
         nginx:
           environment:
             ZED_HOST: = @('pipeline.preview.zed.external_host')
@@ -62,7 +58,3 @@ attributes:
           environment:
             JENKINS_EXTERNAL_HOST: = @('pipeline.qa.jenkins.external_host')
             SMTP_HOST: = @('pipeline.qa.smtp.host')
-            ZED_HOST: = @('pipeline.qa.zed.external_host')
-        nginx:
-          environment:
-            ZED_HOST: = @('pipeline.qa.zed.external_host')
