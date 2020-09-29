@@ -13,6 +13,12 @@ RUN chown -R build:build /home/build \
  && chmod +x /sbin/tini \
  && curl --fail --silent --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
  && chmod +x /usr/local/bin/mhsendmail
+{%- set install_extensions=@('php.install_extensions')|merge(@('php.cli.install_extensions'))|filter(v => v is not empty) %}
+{%- if install_extensions %} \
+ && cd /root/installer \
+ && ./enable.sh \
+    {{ install_extensions|join(" \\\n    ") }}
+{% endif %}
 
 ENV APP_MODE={{ @('app.mode') }} \
   APP_BUILD={{ @('app.build') }} \

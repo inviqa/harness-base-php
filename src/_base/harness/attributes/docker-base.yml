@@ -28,6 +28,7 @@ attributes:
       environment_secrets:
         DB_PASS: = @('database.pass')
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
+        TIDEWAYS_APIKEY: ""
     nginx:
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
       publish: true
@@ -94,6 +95,11 @@ attributes:
     redis_session:
       enabled: "= 'redis_session' in @('app.services')"
       image: redis:4-alpine
+    tideways:
+      enabled: "= 'tideways' in @('app.services')"
+      environment:
+        TIDEWAYS_HOSTNAME: = @('hostname')
+        TIDEWAYS_ENV: production
     varnish:
       enabled: "= 'varnish' in @('app.services')"
       image: varnish:6
