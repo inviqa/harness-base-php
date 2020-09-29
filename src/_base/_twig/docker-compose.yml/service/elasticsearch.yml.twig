@@ -7,6 +7,8 @@
       discovery.type: single-node
     networks:
       - private
+{% if @('app.build') != 'static' %}
     ports:
       - 9200
       - 9300
+{% endif %}

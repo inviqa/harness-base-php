@@ -8,5 +8,7 @@
       ]), 2, 6) | raw }}
     networks:
       - private
+{% if @('app.build') != 'static' %}
     ports:
         - 5432
+{% endif %}
