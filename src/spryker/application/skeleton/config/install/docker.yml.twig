@@ -220,7 +220,7 @@ sections:
 
     queue-worker:
         run:
-            command: "vendor/bin/console queue:worker:start -vvv"
+            command: "vendor/bin/console queue:worker:start --stop-when-empty -vvv"
             stores:
                 - DE
                 - AT
