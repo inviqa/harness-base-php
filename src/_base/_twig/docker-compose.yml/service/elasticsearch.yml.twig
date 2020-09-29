@@ -7,6 +7,8 @@
       discovery.type: single-node
     networks:
       - private
+{% if @('app.build') != 'static' and @('docker.port_forward.enabled') %}
     ports:
-      - 9200
-      - 9300
+      - "127.0.0.1:0:9200"
+      - "127.0.0.1:0:9300"
+{% endif %}
