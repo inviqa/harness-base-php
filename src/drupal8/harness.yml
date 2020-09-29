@@ -64,6 +64,9 @@ attributes:
         - run drupal update:entities
         - run drupal update:execute
         - run drupal cache:rebuild
+    cron:
+      jobs:
+        - = '*/5 * * * * /cron-run-with-env.sh /app/bin/drush --root="/app/' ~ @('drupal.docroot') ~ '" cron'
   docker:
     image:
       console: "= 'my127/drupal8:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
