@@ -13,7 +13,6 @@ use Spryker\Shared\Mail\MailConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\Propel\PropelConstants;
-use Spryker\Shared\PropelQueryBuilder\PropelQueryBuilderConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;
 use Spryker\Shared\Router\RouterConstants;
 use Spryker\Shared\Scheduler\SchedulerConstants;
@@ -34,12 +33,12 @@ $config[ApplicationConstants::PORT_SSL_YVES] = '';
 $config[ApplicationConstants::BASE_URL_YVES] = sprintf(
     'http://%s%s',
     $config[ApplicationConstants::HOST_YVES],
-    $config[ApplicationConstants::PORT_YVES]
+    ''
 );
 $config[ApplicationConstants::BASE_URL_SSL_YVES] = sprintf(
     'https://%s%s',
     $config[ApplicationConstants::HOST_YVES],
-    $config[ApplicationConstants::PORT_SSL_YVES]
+    ''
 );
 $config[ProductManagementConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
 $config[NewsletterConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
@@ -198,7 +197,6 @@ $config[KernelConstants::STRICT_DOMAIN_REDIRECT] = false;
 $config[KernelConstants::DOMAIN_WHITELIST] = [];
 
 // ---------- Namespaces
-$config[KernelConstants::PROJECT_NAMESPACE] = 'Inviqa';
 $config[KernelConstants::PROJECT_NAMESPACES] = [
     'Inviqa',
     'Pyz',
