@@ -46,7 +46,7 @@ sections:
             command: "vendor/bin/console cache:empty-all"
 
         remove-auto-completion:
-            command: "vendor/bin/console dev:ide-auto-completion:remove"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console dev:ide-auto-completion:remove; fi"
 
         remove-request-validation-cache:
             command: "vendor/bin/console rest-api:remove-validation-cache"
@@ -59,7 +59,7 @@ sections:
             command: "vendor/bin/console search:source-map:remove"
 
         remove-databuilder:
-            command: "vendor/bin/console transfer:databuilder:remove"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console transfer:databuilder:remove; fi"
 
         remove-entity-transfer:
             command: "vendor/bin/console transfer:entity:remove"
