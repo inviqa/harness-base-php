@@ -9,7 +9,6 @@
 - Redis 4 no longer supported [\#430](https://github.com/inviqa/harness-base-php/issues/430)
 - Add appropriate phpstan configuration to each harness [\#43](https://github.com/inviqa/harness-base-php/issues/43)
 - Add a 'migrate' task to facilitate continuous deployment [\#41](https://github.com/inviqa/harness-base-php/issues/41)
-- When a preview environment is created via Jenkins post the URL to the PR [\#40](https://github.com/inviqa/harness-base-php/issues/40)
 - Create an MVP helm chart for preview environments [\#37](https://github.com/inviqa/harness-base-php/issues/37)
 - Remove CI port forwarding [\#432](https://github.com/inviqa/harness-base-php/pull/432) ([kierenevans](https://github.com/kierenevans))
 - Switch to Redis 5 [\#431](https://github.com/inviqa/harness-base-php/pull/431) ([tkotosz](https://github.com/tkotosz))
