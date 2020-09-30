@@ -10,6 +10,17 @@ harness('inviqa/symfony'):
 ---
 attributes:
   app:
+    web_entrypoint:
+      # If false, /index.php/foo will 404.
+      # If true, it will be equivalent to accessing /foo
+      allow_in_url: false
+      # Used in rewrite to the front controller
+      # Allows configuring if app.php rather than index.php
+      main_file: index.php
+      # Determines the allowed php files in the webroot
+      # that are allowed to be executed
+      # Allows configuring to handle app.php, app_dev.php, etc.
+      regular_expression: index\.php
     web_owner: www-data
     web_group: www-data
     web_writable_dirs:
@@ -17,6 +28,23 @@ attributes:
     services:
       - chrome
       - mysql
+  backend:
+    build:
+      steps:
+        - task composer:install
+    install:
+      steps:
+        - "= (@('symfony.has_doctrine') ? 'run console doctrine:database:create --no-interaction --if-not-exists' : '')"
+        - task overlay:apply
+        - task assets:dump
+    init:
+      steps:
+        - "= (@('symfony.has_doctrine') ? 'passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration' : '')"
+    migrate:
+      steps:
+        - "= (@('symfony.has_doctrine') ? 'passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration' : '')"
+  symfony:
+    has_doctrine: false
 ---
 import:
   - harness/config/*.yml

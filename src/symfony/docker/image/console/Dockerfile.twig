@@ -1,0 +1,40 @@
+FROM {{ @('docker.image.console') }}
+# fix upstream signal
+STOPSIGNAL SIGTERM
+
+COPY .my127ws/docker/image/console/root /
+RUN chown -R build:build /home/build \
+ && curl --fail --silent --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+ && chmod +x /sbin/tini \
+ && curl --fail --silent --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+ && chmod +x /usr/local/bin/mhsendmail
+
+ENV APP_MODE={{ @('app.mode') }} \
+  APP_BUILD={{ @('app.build') }} \
+  ASSETS_DIR={{ @('assets.local') }} \
+  APP_ENV={{ (@('app.mode') == 'production') ? 'prod' : 'dev' }}
+
+{% if @('node.version') is not null %}
+USER build
+RUN . /home/build/.nvm/nvm.sh \
+ && nvm install {{ @('node.version') }} \
+ && nvm use {{ @('node.version') }} \
+ && nvm alias default {{ @('node.version') }} \
+ && npm install -g yarn
+USER root
+{% endif %}
+
+{% if @('app.build') == 'static' %}
+RUN chown build:build /app
+COPY --chown=build:build .my127ws/application  /home/build/application
+COPY --chown=build:build ./                    /app
+USER build
+RUN app build
+USER root
+{% else %}
+VOLUME /app
+VOLUME /home/build/application
+{% endif %}
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["sleep", "infinity"]

@@ -17,18 +17,20 @@ namespace Magento\NonComposerComponentRegistration;
 use Magento\Framework\App\State;
 use RuntimeException;
 
+require_once dirname(__DIR__) . '/autoload.php';
+
 /**
  * Include files from a list of glob patterns
  *
  * @throws RuntimeException
+ *
  * @return void
  */
-$find = function ()
-{
+$find = function () {
     $manifest = [];
     $globPatterns = require __DIR__ . '/registration_globlist.php';
     $globPatterns = array_merge($globPatterns, ['src/*/*/cli_commands.php', 'src/*/*/registration.php']);
-    $baseDir = dirname(dirname(__DIR__)) . '/';
+    $baseDir = BP . '/';
 
     foreach ($globPatterns as $globPattern) {
         // Sorting is disabled intentionally for performance improvement
@@ -39,6 +41,10 @@ $find = function ()
         $manifest = array_merge($manifest, $files);
     }
 
+    // Remove the base path from the manifest entries, so we return `src/...` instead of `/app/src/...`
+    $baseDirRegex = preg_quote($baseDir);
+    $manifest = preg_replace("#^$baseDirRegex#", '', $manifest);
+
     return $manifest;
 };
 
@@ -47,7 +53,7 @@ $cache = function ($find) {
         return $find();
     }
 
-    $moduleManifestPath = dirname(dirname(__DIR__)) . '/generated/module_manifest.php';
+    $moduleManifestPath = BP . '/generated/module_manifest.php';
 
     if (!file_exists($moduleManifestPath)) {
         file_put_contents($moduleManifestPath, "<?php\nreturn " . var_export($find(), true) . ";");
@@ -57,7 +63,9 @@ $cache = function ($find) {
 };
 
 $load = function ($files) {
-    array_map(function ($file) { require_once $file; }, $files);
+    array_map(function ($file) {
+        require_once BP . '/' . $file;
+    }, $files);
 };
 
 $load($cache($find));

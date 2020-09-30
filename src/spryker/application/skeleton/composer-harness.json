@@ -3,8 +3,6 @@
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
-    "spryker/web-profiler": "^1.6",
-    "spryker-shop/web-profiler-widget": "^1.4"
   },
   "require-dev": {
     "behat/behat": "^3.5",

@@ -38,6 +38,10 @@ attributes.default:
     publish:
       enabled: no
       services: = publishable_services(@('services'))
+      # branches that should publish (other than change requests and qa)
+      # * is deprecated and will be limited to one branch by default in a future release
+      branches:
+        - '*'
       # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
       # credential
       environment: {}
@@ -58,6 +62,8 @@ attributes.default:
           email: name@example.com
     preview:
       enabled: no
+      target_branches:
+        - = @('git.default_branch')
       environment: {}
       cluster:
         name: null
@@ -144,6 +150,8 @@ attributes.default:
           fi
 
   git:
+    default_branch: = @('main_branch')
+    # potentially deprecated, unless it is repurposed
     main_branch: develop
 
   nginx:
@@ -205,7 +213,9 @@ attributes.default:
   database:
     # possible platforms are mysql, postgres or ~ for none
     platform: mysql
+    platform_version: 5.7
     host: mysql
+    port: 3306
     user: app
     pass: app
     name: app
@@ -237,8 +247,13 @@ attributes.default:
     timeout: 300
 
     sealed_secrets:
+      # location of the sealed-secret service to download the active certificate from
       controller_name: sealed-secrets
       controller_namespace: sealed-secrets
+      # Use local file (or fetch from http url) as the certificate
+      # Useful if developers don't have kubectl access or the controller isn't directly
+      # accessible. Only one cluster supported
+      certificate_file: ~
 
   php-fpm:
     pools:

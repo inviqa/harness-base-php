@@ -9,26 +9,6 @@ RUN chown -R build:build /home/build \
  && curl --fail --silent --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
  && chmod +x /usr/local/bin/mhsendmail
 
-# gpg: key 5072E1F5: public key "MySQL Release Engineering <mysql-build@oss.oracle.com>" imported
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-  apt-transport-https \
-  dirmngr \
-  gnupg2 \
- && set -ex; \
-  key='A4A9406876FCBD3C456770C88C718D3B5072E1F5'; \
-  export GNUPGHOME="$(mktemp -d)"; \
-  gpg --batch --keyserver eu.pool.sks-keyservers.net --recv-keys "$key"; \
-  gpg --batch --export "$key" > /etc/apt/trusted.gpg.d/mysql.gpg; \
-  gpgconf --kill all; \
-  rm -rf "$GNUPGHOME"; \
-  apt-key list > /dev/null \
- && echo "deb https://repo.mysql.com/apt/debian/ stretch mysql-8.0" > /etc/apt/sources.list.d/mysql.list \
- && apt-get update \
- && apt-get install -y \
-  mysql-community-client \
- && rm -rf /var/lib/apt/lists/*
-
 ENV APP_MODE={{ @('app.mode') }} \
   APP_BUILD={{ @('app.build') }} \
   ASSETS_DIR={{ @('assets.local') }}

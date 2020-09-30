@@ -1,17 +1,27 @@
 # Drupal 8.x Harness for [Workspace]
 
-To use this harness:
 
-1. Install [Workspace]
-2. Run `ws create <projectName> inviqa/drupal8:v0.9.4`
-3. Fill in project-specific AWS and Github credentials, set as blank if you don't need them
-4. Change to the <projectName> directory: `cd <projectName>`
-5. Create an initial commit, ensuring that `workspace.override.yml` is not added to git:
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
-6. Store the `workspace.override.yml` contents in a suitable location (such as LastPass).
+## Pre-requisites 
+Install [Workspace] or ensure that you have the latest version. Follow the instructions in the project README. 
+
+
+## Install Guides
+* [New project](docs/install/new-project.md)
+* [Existing project](docs/install/existing-project.md)
+* [Multi-site project](docs/install/multi-site.md)
+
+
+## Customising the Workspace environment
+
+* [Override the defaults](docs/customise/overrides.md)
+* [Adding helper commands](docs/customise/commands.md)
+* [Advanced customisation](docs/customise/advanced.md)
+
+
+## Contributing back
+If there is any customisation required that is relevant to all Drupal 8 projects then ideally these changes should be made to the harness rather than being added as overrides on each project.
+
+See the [guide to contributing](docs/contribute.md)
+
 
 [Workspace]: https://github.com/my127/workspace
