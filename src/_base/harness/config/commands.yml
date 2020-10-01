@@ -143,7 +143,7 @@ command('frontend watch'):
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru docker-compose exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
+    docker-compose exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
 
 command('frontend console'):
   env:
