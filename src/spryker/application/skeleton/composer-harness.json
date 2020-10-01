@@ -1,8 +1,9 @@
 {
-  "name": "inviqa/spryker-startup",
+  "name": "{{ @('workspace.name')|lower }}/spryker",
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
+    "php": ">= 7.3"
   },
   "require-dev": {
     "behat/behat": "^3.5",
@@ -55,7 +56,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.2.30"
+      "php": "7.3.22"
     }
   }
 }

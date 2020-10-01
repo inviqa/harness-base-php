@@ -3,6 +3,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
+        "php": ">= 7.4"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -58,12 +59,12 @@
         "test-acceptance": [
             "behat"
         ],
-        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
     },
     "config": {
         "bin-dir": "bin",
         "platform": {
-            "php": "7.2.30"
+            "php": "7.4.10"
         }
     }
 }
