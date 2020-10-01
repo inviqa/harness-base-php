@@ -37,7 +37,6 @@ attributes:
     fpm:
       ini:
         max_execution_time: 18000
-    version: 7.4
   composer:
     auth:
       basic:

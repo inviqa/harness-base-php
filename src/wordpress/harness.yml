@@ -13,8 +13,6 @@ attributes:
     services:
       - chrome
       - mysql
-  php:
-    version: 7.2
   wordpress:
     install_directory: = @('app.web_directory')
     url: = 'https://' ~ @('hostname') ~ '/'
