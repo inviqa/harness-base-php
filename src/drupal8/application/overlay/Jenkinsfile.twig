@@ -37,7 +37,7 @@ pipeline {
             }
 {% endif %}
             when {
-                not { triggeredBy 'TimerTrigger' } 
+                not { triggeredBy 'TimerTrigger' }
                 anyOf {
 {% for branch in @('pipeline.publish.branches') %}
                     branch '{{ branch }}'
