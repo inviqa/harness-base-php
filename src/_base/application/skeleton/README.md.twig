@@ -46,7 +46,9 @@ Once installed, the site should be available at the following URLs:
 {% endfor %}
 
 **Zed**:
-- Zed: [https://{{ @('zed.external_host') }}](https://{{ @('zed.external_host') }})
+{% for store, zed_external_host in @('zed.external_hosts') -%}
+- {{ store }} Zed: [https://{{ zed_external_host }}](https://{{ zed_external_host }})
+{% endfor %}
 {% endif %}
 
 {%- if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') %}
