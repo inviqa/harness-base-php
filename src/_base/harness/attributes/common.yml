@@ -72,7 +72,7 @@ attributes.default:
       rabbitmq:
         external_host: = 'rabbitmq-' ~ @('pipeline.preview.hostname')
       smtp:
-        host: = @('smtp.host')
+        host: mailhog.mailhog.svc.cluster.local
         port: = @('smtp.port')
       persistence:
         redis_session:
@@ -90,7 +90,7 @@ attributes.default:
       rabbitmq:
         external_host: = 'rabbitmq-' ~ @('pipeline.qa.hostname')
       smtp:
-        host: = @('smtp.host')
+        host: mailhog.mailhog.svc.cluster.local
         port: = @('smtp.port')
 
   docker:
