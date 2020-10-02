@@ -4,8 +4,6 @@ attributes:
       environment:
         APPLICATION_ENV: = @('spryker.mode')
         REDIS_PROTOCOL: = @('redis.protocol')
-        SMTP_HOST: = @('smtp.host')
-        SMTP_PORT: = @('smtp.port')
         HAS_JENKINS_RUNNER: "= ('jenkins-runner' in @('app.services') ? 'true' : 'false')"
         JENKINS_HOST: = @('jenkins.host')
         JENKINS_PORT: = @('jenkins.port')
@@ -38,7 +36,6 @@ attributes:
         php-base:
           environment:
             JENKINS_EXTERNAL_HOST: = @('pipeline.preview.jenkins.external_host')
-            SMTP_HOST: = @('pipeline.preview.smtp.host')
             DOCKER_IMAGE_CONSOLE: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-console'
             DOCKER_IMAGE_FPM: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
             DOCKER_IMAGE_NGINX: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
@@ -53,4 +50,3 @@ attributes:
         php-base:
           environment:
             JENKINS_EXTERNAL_HOST: = @('pipeline.qa.jenkins.external_host')
-            SMTP_HOST: = @('pipeline.qa.smtp.host')

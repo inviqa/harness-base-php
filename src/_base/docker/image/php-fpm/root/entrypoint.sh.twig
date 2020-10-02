@@ -5,8 +5,11 @@ run_steps()
     {% for poolName, pool in @('php-fpm.pools') -%}
     FPM_NAME="{{ poolName }}" FPM_PORT="{{ pool.port }}" envsubst < /usr/local/etc/php-fpm.d/pool.conf.template > /usr/local/etc/php-fpm.d/{{ poolName }}.conf;
     {% endfor %}
-    
+
     # run any command required to be executed at docker startup
+    {% for step in @('php.entrypoint.steps') -%}
+    {{ step|raw }}
+    {% endfor %}
     {% for step in @('php-fpm.entrypoint.steps') -%}
     {{ step|raw }}
     {% endfor %}
