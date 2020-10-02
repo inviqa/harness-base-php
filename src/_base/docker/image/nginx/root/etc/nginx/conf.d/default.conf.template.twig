@@ -51,6 +51,9 @@ server {
     fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
     fastcgi_param PATH_INFO $fastcgi_path_info;
     fastcgi_param HTTP_PROXY "";
+
+    fastcgi_buffers {{ @('nginx.php_fpm.conf.fastcgi.buffers') }};
+    fastcgi_buffer_size {{ @('nginx.php_fpm.conf.fastcgi.buffer_size') }};
   }
 
   include snippets/bottom-*.conf;
