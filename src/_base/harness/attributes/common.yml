@@ -165,6 +165,8 @@ attributes.default:
     # used to limit what is copied into an Nginx static-built image
     copy_directories:
      - = @('app.web_directory')
+    php_fpm:
+      conf: []
 
   node:
     # only set this attribute if you wish to override the supplied node version, by default

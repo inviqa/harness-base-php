@@ -181,6 +181,10 @@ attributes:
       # additional endpoints we don't need by default
       #- /app/setup/pub
       #- /app/update/pub
+    php_fpm:
+      conf:
+        fastcgi_buffer_size: 128k
+
 ---
 command('redis-flush'): |
   #!bash

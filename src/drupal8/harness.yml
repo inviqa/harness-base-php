@@ -26,6 +26,11 @@ attributes:
   drupal:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     docroot: docroot
+  nginx:
+    php_fpm:
+      conf:
+        fastcgi_buffers: 1024 4k
+        fastcgi_buffer_size: 32k
   php:
     version: 7.2
   database:
