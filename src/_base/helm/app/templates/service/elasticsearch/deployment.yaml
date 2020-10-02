@@ -19,6 +19,8 @@ spec:
       labels:
         app.service: {{ .Values.resourcePrefix }}elasticsearch
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       - env:
         - name: ES_JAVA_OPTS
