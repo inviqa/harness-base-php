@@ -37,6 +37,16 @@ attributes:
     name: magento
   php:
     version: 7.2
+    entrypoint:
+      steps:
+        - |
+          if [ -f /app/.my127ws/application/overlay/public/app/etc/local.xml.template ]; then
+            envsubst < /app/.my127ws/application/overlay/public/app/etc/local.xml.template > /app/.my127ws/application/overlay/public/app/etc/local.xml
+          fi
+        - |
+          if [ -f /app/public/app/etc/local.xml.template ]; then
+            envsubst < /app/public/app/etc/local.xml.template > /app/public/app/etc/local.xml
+          fi
   magento:
     edition: enterprise
     version: 1.14.4.5
