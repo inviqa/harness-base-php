@@ -1,0 +1,11 @@
+{{ if .Values.docker.services.mailhog_relay.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.service: {{ .Values.resourcePrefix }}mailhog-relay
+  name: {{ .Values.resourcePrefix }}mailhog-relay
+spec:
+  type: ExternalName
+  externalName: {{ .Values.docker.services.mailhog_relay.target_fqdn }}
+{{- end }}

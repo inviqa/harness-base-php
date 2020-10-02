@@ -70,6 +70,9 @@ attributes:
     elasticsearch:
       enabled: "= 'elasticsearch' in @('app.services')"
       image: = @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag')
+    mailhog_relay:
+      enabled: false
+      target_fqdn: mailhog.mailhog.svc.cluster.local
     memcached:
       enabled: "= 'memcached' in @('app.services')"
       image: memcached:1-alpine
