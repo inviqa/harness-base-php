@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.10.1](https://github.com/inviqa/harness-base-php/tree/0.10.1) (2020-10-02)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.10.0...0.10.1)
+
+**Implemented enhancements:**
+
+- Fix rogue spaces in Jenkinsfile [\#437](https://github.com/inviqa/harness-base-php/pull/437) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- Fix elasticsearch mountpoint [\#443](https://github.com/inviqa/harness-base-php/pull/443) ([kierenevans](https://github.com/kierenevans))
+- Fix resource prefixed magento and akeneo [\#442](https://github.com/inviqa/harness-base-php/pull/442) ([kierenevans](https://github.com/kierenevans))
+- Fix zed readme/docker hosts [\#439](https://github.com/inviqa/harness-base-php/pull/439) ([kierenevans](https://github.com/kierenevans))
+- MISC Downgrade elastic search to the latest Adobe Commerce Cloud-supported version [\#435](https://github.com/inviqa/harness-base-php/pull/435) ([tkotosz](https://github.com/tkotosz))
+- Fix frontend watch command [\#434](https://github.com/inviqa/harness-base-php/pull/434) ([kierenevans](https://github.com/kierenevans))
+
+**Closed issues:**
+
+- \[k8s\] Elasticsearch does not boot with persistent storage enabled [\#441](https://github.com/inviqa/harness-base-php/issues/441)
+
 ## [0.10.0](https://github.com/inviqa/harness-base-php/tree/0.10.0) (2020-09-30)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.4...0.10.0)
