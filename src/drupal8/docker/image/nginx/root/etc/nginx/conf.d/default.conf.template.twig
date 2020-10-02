@@ -116,8 +116,10 @@ server {
     # PHP 7 socket location.
     fastcgi_pass ${FPM_HOST}:9000;
 
-    fastcgi_buffers {{ @('nginx.php_fpm.conf.fastcgi.buffers') }};
-    fastcgi_buffer_size {{ @('nginx.php_fpm.conf.fastcgi.buffer_size') }};
+    {% for name, value in @('nginx.php_fpm.conf') %}
+      {{- name }} {{ value }};
+    {% endfor %}
+
   }
 
   # Fighting with Styles? This little gem is amazing.

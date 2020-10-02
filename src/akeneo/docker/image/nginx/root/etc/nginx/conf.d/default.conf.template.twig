@@ -70,6 +70,11 @@ server {
 
     fastcgi_param QUERY_STRING $query_string;
     fastcgi_intercept_errors on;
+
+    {% for name, value in @('nginx.php_fpm.conf') %}
+      {{- name }} {{ value }};
+    {% endfor %}
+
   }
 
   include snippets/bottom-*.conf;
