@@ -1,0 +1,51 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#^Parameter \\#2 \\$value of method Elastica\\\\Query\\\\Term\\:\\:setTerm\\(\\) expects array|string, int given\\.$#"
+            count: 1
+            path: src/Pyz/Client/ExampleProductSalePage/Plugin/Elasticsearch/Query/SaleSearchQueryPlugin.php
+
+        -
+            message: "#^Parameter \\#2 \\$default of method Symfony\\\\Component\\\\HttpFoundation\\\\InputBag\\:\\:get\\(\\) expects string|null, array given\\.$#"
+            count: 1
+            path: src/Pyz/Yves/ProductSetWidget/Widget/ProductSetIdsWidget.php
+
+        -
+            message: "#^Parameter \\#1 \\$input of function array_filter expects array, string given\\.$#"
+            count: 1
+            path: src/Pyz/Yves/ProductSetWidget/Widget/ProductSetIdsWidget.php
+
+        -
+            message: "#^Parameter \\#1 \\$exampleStateMachineItems of method Pyz\\\\Zed\\\\ExampleStateMachine\\\\Business\\\\Model\\\\ExampleStateMachineItemReader\\:\\:hydrateTransferFromPersistence\\(\\) expects#"
+            count: 2
+            path: src/Pyz/Zed/ExampleStateMachine/Business/Model/ExampleStateMachineItemReader.php
+
+        -
+            message: "#^Parameter \\#1 \\$command of class Symfony\\\\Component\\\\Process\\\\Process constructor expects array, string given\\.$#"
+            count: 2
+            path: src/Pyz/Zed/Log/Communication/Plugin/FilebeatLogListenerPlugin.php
+
+        -
+            message: "#^Parameter \\#1 \\$productFacade of class Pyz\\\\Zed\\\\ProductUrlCartConnector\\\\Business\\\\Expander\\\\ProductUrlExpander constructor expects Spryker\\\\Zed\\\\Product\\\\Business\\\\ProductFacadeInterface, Spryker\\\\Zed\\\\ProductRelation\\\\Business\\\\ProductRelationFacadeInterface given\\.$#"
+            count: 1
+            path: src/Pyz/Zed/ProductUrlCartConnector/Business/ProductUrlCartConnectorBusinessFactory.php
+
+        -
+            message: "#^Parameter \\#2 \\$serverUniqueId of method Spryker\\\\Zed\\\\Queue\\\\Business\\\\Process\\\\ProcessManager\\:\\:__construct\\(\\) expects string, int given\\.$#"
+            count: 1
+            path: src/Pyz/Zed/Queue/Business/Process/ProcessManager.php
+
+        -
+            message: "#^Parameter \\#2 \\$serverUniqueId of class Pyz\\\\Zed\\\\Queue\\\\Business\\\\Process\\\\ProcessManager constructor expects int, string given\\.$#"
+            count: 1
+            path: src/Pyz/Zed/Queue/Business/QueueBusinessFactory.php
+
+        -
+            message: "#^Parameter \\#3 \\$queueConfig of class Pyz\\\\Zed\\\\Queue\\\\Business\\\\Process\\\\ProcessManager constructor expects Pyz\\\\Zed\\\\Queue\\\\QueueConfig, Spryker\\\\Zed\\\\Queue\\\\QueueConfig given\\.$#"
+            count: 1
+            path: src/Pyz/Zed/Queue/Business/QueueBusinessFactory.php
+
+        -
+            message: "#^Parameter \\#2 \\$entityId of method Spryker\\\\Zed\\\\DataImport\\\\Business\\\\Model\\\\DataImportStep\\\\PublishAwareStep\\:\\:addPublishEvents\\(\\) expects int, Orm\\\\Zed\\\\Product\\\\Persistence\\\\SpyProductAbstract given\\.$#"
+            count: 1
+            path: src/Pyz/Zed/DataImport/Business/Model/ProductOption/ProductOptionWriterStep.php
