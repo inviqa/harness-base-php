@@ -27,6 +27,8 @@ attributes:
         RABBITMQ_DEFAULT_USER: spryker
       environment_secrets:
         RABBITMQ_DEFAULT_PASS: spryker
+    redis:
+      image: redis:5-alpine
 
   pipeline:
     base:
