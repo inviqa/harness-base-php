@@ -5,6 +5,9 @@
 {% for store, glue_external_host in @('pipeline.qa.glue.external_hosts') %}
 {% set hosts_env = hosts_env|merge({('GLUE_HOST_' ~ store): glue_external_host}) %}
 {% endfor %}
+{% for store, zed_external_host in @('pipeline.qa.zed.external_hosts') %}
+{% set hosts_env = hosts_env|merge({('ZED_HOST_' ~ store): zed_external_host}) %}
+{% endfor %}
 {% if @('pipeline.qa.persistence') %}
   persistence: {{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) | raw }}
 {% endif %}

@@ -12,7 +12,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && mkdir -p /usr/share/man/man7 \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
-   openjdk-8-jre \
+   default-jre \
  # clean \
  && apt-get auto-remove -qq -y \
  && apt-get clean \

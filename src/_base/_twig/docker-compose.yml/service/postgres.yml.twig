@@ -8,5 +8,7 @@
       ]), 2, 6) | raw }}
     networks:
       - private
+{% if @('app.build') != 'static' and @('docker.port_forward.enabled') %}
     ports:
-        - 5432
+      - "127.0.0.1:{{ @('database.port_forward') ? @('database.port_forward') : '0' }}:5432"
+{% endif %}

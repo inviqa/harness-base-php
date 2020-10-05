@@ -26,6 +26,11 @@ attributes:
   drupal:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     docroot: docroot
+  nginx:
+    php_fpm:
+      conf:
+        fastcgi_buffers: 1024 4k
+        fastcgi_buffer_size: 32k
   php:
     version: 7.2
   database:
@@ -64,6 +69,9 @@ attributes:
         - run drupal update:entities
         - run drupal update:execute
         - run drupal cache:rebuild
+    cron:
+      jobs:
+        - = '*/5 * * * * /cron-run-with-env.sh /app/bin/drush --root="/app/' ~ @('drupal.docroot') ~ '" cron'
   docker:
     image:
       console: "= 'my127/drupal8:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"

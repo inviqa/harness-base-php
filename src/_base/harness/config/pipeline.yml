@@ -24,11 +24,15 @@ command('app build <service>'):
     #!bash(workspace:/)|@
     passthru docker-compose build "${SERVICE}"
 
-command('app publish'): |
-  #!bash(workspace:/)|@
-  echo '@('docker.registry.password')' | run docker login --username='@('docker.registry.username')' --password-stdin '@('docker.registry.url')'
-  passthru docker-compose push @('pipeline.publish.services')
-  run docker logout '@('docker.registry.url')'
+command('app publish'):
+  env:
+    COMPOSE_HTTP_TIMEOUT: 180
+    DOCKER_CLIENT_TIMEOUT: 180
+  exec: |
+    #!bash(workspace:/)|@
+    echo '@('docker.registry.password')' | run docker login --username='@('docker.registry.username')' --password-stdin '@('docker.registry.url')'
+    passthru docker-compose push @('pipeline.publish.services')
+    run docker logout '@('docker.registry.url')'
 
 command('app publish chart <release> <message>'):
   env:

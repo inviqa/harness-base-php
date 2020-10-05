@@ -49,6 +49,11 @@ server {
 {% if not @('app.web_entrypoint.allow_in_url') %}
     internal;
 {% endif %}
+
+    {% for name, value in @('nginx.php_fpm.conf') %}
+      {{- name }} {{ value }};
+    {% endfor %}
+
   }
 
   include snippets/bottom-*.conf;

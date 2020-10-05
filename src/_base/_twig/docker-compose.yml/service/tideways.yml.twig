@@ -1,0 +1,11 @@
+  tideways:
+    build:
+      context: .my127ws/docker/image/tideways/
+    labels:
+      - traefik.enable=false
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.tideways.environment'),
+        @('services.tideways.environment_secrets')
+      ]), 2, 6) | raw }}
+    networks:
+      - private

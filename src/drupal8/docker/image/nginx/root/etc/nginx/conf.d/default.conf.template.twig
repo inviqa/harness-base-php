@@ -115,6 +115,11 @@ server {
     #fastcgi_pass unix:/var/run/php5-fpm.sock;
     # PHP 7 socket location.
     fastcgi_pass ${FPM_HOST}:9000;
+
+    {% for name, value in @('nginx.php_fpm.conf') %}
+      {{- name }} {{ value }};
+    {% endfor %}
+
   }
 
   # Fighting with Styles? This little gem is amazing.

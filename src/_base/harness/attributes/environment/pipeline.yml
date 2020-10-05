@@ -7,10 +7,10 @@ attributes:
     version: =exec("git log -n 1 --pretty=format:'%H'")
     mode: production
   php:
-    ini:
-      opcache.validate_timestamps: Off
     fpm:
       ini:
         display_errors: Off
-        error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
         zend.assertions: -1
+    ini:
+      opcache.validate_timestamps: Off
+      error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"

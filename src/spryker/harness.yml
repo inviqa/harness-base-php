@@ -101,7 +101,10 @@ attributes:
       AT: = 'yves-at-' ~ @('hostname')
       US: = 'yves-us-' ~ @('hostname')
   zed:
-    external_host: = 'zed-' ~ @('hostname')
+    external_hosts:
+      DE: = 'zed-de-' ~ @('hostname')
+      AT: = 'zed-at-' ~ @('hostname')
+      US: = 'zed-us-' ~ @('hostname')
   glue:
     external_hosts:
       DE: = 'glue-de-' ~ @('hostname')
@@ -119,7 +122,10 @@ attributes:
           AT: = 'yves-at-' ~ @('pipeline.preview.hostname')
           US: = 'yves-us-' ~ @('pipeline.preview.hostname')
       zed:
-        external_host: = 'zed-' ~ @('pipeline.preview.hostname')
+        external_hosts:
+          DE: = 'zed-de-' ~ @('pipeline.preview.hostname')
+          AT: = 'zed-at-' ~ @('pipeline.preview.hostname')
+          US: = 'zed-us-' ~ @('pipeline.preview.hostname')
       glue:
         external_hosts:
           DE: = 'glue-de-' ~ @('pipeline.preview.hostname')
@@ -137,7 +143,10 @@ attributes:
           AT: = 'yves-at-' ~ @('pipeline.qa.hostname')
           US: = 'yves-us-' ~ @('pipeline.qa.hostname')
       zed:
-        external_host: = 'zed-' ~ @('pipeline.qa.hostname')
+        external_hosts:
+          DE: = 'zed-de-' ~ @('pipeline.qa.hostname')
+          AT: = 'zed-at-' ~ @('pipeline.qa.hostname')
+          US: = 'zed-us-' ~ @('pipeline.qa.hostname')
       glue:
         external_hosts:
           DE: = 'glue-de-' ~ @('pipeline.qa.hostname')

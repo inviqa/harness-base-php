@@ -1,5 +1,101 @@
 # Changelog
 
+## [0.10.1](https://github.com/inviqa/harness-base-php/tree/0.10.1) (2020-10-02)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.10.0...0.10.1)
+
+**Implemented enhancements:**
+
+- Fix rogue spaces in Jenkinsfile [\#437](https://github.com/inviqa/harness-base-php/pull/437) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- Fix elasticsearch mountpoint [\#443](https://github.com/inviqa/harness-base-php/pull/443) ([kierenevans](https://github.com/kierenevans))
+- Fix resource prefixed magento and akeneo [\#442](https://github.com/inviqa/harness-base-php/pull/442) ([kierenevans](https://github.com/kierenevans))
+- Fix zed readme/docker hosts [\#439](https://github.com/inviqa/harness-base-php/pull/439) ([kierenevans](https://github.com/kierenevans))
+- MISC Downgrade elastic search to the latest Adobe Commerce Cloud-supported version [\#435](https://github.com/inviqa/harness-base-php/pull/435) ([tkotosz](https://github.com/tkotosz))
+- Fix frontend watch command [\#434](https://github.com/inviqa/harness-base-php/pull/434) ([kierenevans](https://github.com/kierenevans))
+
+**Closed issues:**
+
+- \[k8s\] Elasticsearch does not boot with persistent storage enabled [\#441](https://github.com/inviqa/harness-base-php/issues/441)
+
+## [0.10.0](https://github.com/inviqa/harness-base-php/tree/0.10.0) (2020-09-30)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.4...0.10.0)
+
+**Implemented enhancements:**
+
+- Redis 4 no longer supported [\#430](https://github.com/inviqa/harness-base-php/issues/430)
+- Add appropriate phpstan configuration to each harness [\#43](https://github.com/inviqa/harness-base-php/issues/43)
+- Add a 'migrate' task to facilitate continuous deployment [\#41](https://github.com/inviqa/harness-base-php/issues/41)
+- Create an MVP helm chart for preview environments [\#37](https://github.com/inviqa/harness-base-php/issues/37)
+- Remove CI port forwarding [\#432](https://github.com/inviqa/harness-base-php/pull/432) ([kierenevans](https://github.com/kierenevans))
+- Switch to Redis 5 [\#431](https://github.com/inviqa/harness-base-php/pull/431) ([tkotosz](https://github.com/tkotosz))
+- Test using 3 Jenkins workers [\#428](https://github.com/inviqa/harness-base-php/pull/428) ([kierenevans](https://github.com/kierenevans))
+- Spryker - Do not wait 60 seconds if the queue is empty [\#427](https://github.com/inviqa/harness-base-php/pull/427) ([kierenevans](https://github.com/kierenevans))
+- Upgrade Magento to 2.4.0 [\#425](https://github.com/inviqa/harness-base-php/pull/425) ([tkotosz](https://github.com/tkotosz))
+- Bump minimum docker-compose version required [\#424](https://github.com/inviqa/harness-base-php/pull/424) ([kierenevans](https://github.com/kierenevans))
+- MISC Fix redis flush command name [\#423](https://github.com/inviqa/harness-base-php/pull/423) ([tkotosz](https://github.com/tkotosz))
+- Copy redis-cli from the first enabled redis service's image [\#420](https://github.com/inviqa/harness-base-php/pull/420) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use base OS appropriate Spryker jenkins runner java version [\#419](https://github.com/inviqa/harness-base-php/pull/419) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add drupal8 cron configuration [\#418](https://github.com/inviqa/harness-base-php/pull/418) ([kierenevans](https://github.com/kierenevans))
+- Move MySQL 8 CLI installation to docker image from harness [\#413](https://github.com/inviqa/harness-base-php/pull/413) ([kierenevans](https://github.com/kierenevans))
+- Add Blackfire Support [\#412](https://github.com/inviqa/harness-base-php/pull/412) ([kierenevans](https://github.com/kierenevans))
+- Add Tideways Support [\#411](https://github.com/inviqa/harness-base-php/pull/411) ([kierenevans](https://github.com/kierenevans))
+- Update skeleton README with more hostnames [\#409](https://github.com/inviqa/harness-base-php/pull/409) ([kierenevans](https://github.com/kierenevans))
+- Update phpmd ruleset for Magento 2 [\#407](https://github.com/inviqa/harness-base-php/pull/407) ([tkotosz](https://github.com/tkotosz))
+- Switch to PSR12 coding standard [\#406](https://github.com/inviqa/harness-base-php/pull/406) ([tkotosz](https://github.com/tkotosz))
+- Add phpstan-symfony extension [\#404](https://github.com/inviqa/harness-base-php/pull/404) ([kierenevans](https://github.com/kierenevans))
+- Configure symfony harness [\#394](https://github.com/inviqa/harness-base-php/pull/394) ([kierenevans](https://github.com/kierenevans))
+- Add alternative local/http sealed-secret seal certificate [\#393](https://github.com/inviqa/harness-base-php/pull/393) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- MISC Support base64 decoding in more OSes [\#392](https://github.com/inviqa/harness-base-php/pull/392) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- MISC Publish images and chart only when needed [\#391](https://github.com/inviqa/harness-base-php/pull/391) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Automatically choose buster based images if php 7.4 [\#390](https://github.com/inviqa/harness-base-php/pull/390) ([kierenevans](https://github.com/kierenevans))
+- Handle service enabled/image as services attributes [\#388](https://github.com/inviqa/harness-base-php/pull/388) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Support Docker Desktop Edge 2.3.5.0 which ships with grpcFUSE filesystem drivers [\#386](https://github.com/inviqa/harness-base-php/pull/386) ([kierenevans](https://github.com/kierenevans))
+- Add secrets into argo sync wave 1 [\#384](https://github.com/inviqa/harness-base-php/pull/384) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Run everything via entrypoint script [\#381](https://github.com/inviqa/harness-base-php/pull/381) ([kierenevans](https://github.com/kierenevans))
+- Allow custom console and cron startup commands [\#380](https://github.com/inviqa/harness-base-php/pull/380) ([kierenevans](https://github.com/kierenevans))
+- Magento 1.x crypt key is a secret [\#379](https://github.com/inviqa/harness-base-php/pull/379) ([kierenevans](https://github.com/kierenevans))
+- Allow easy publish environment settings in Jenkins [\#378](https://github.com/inviqa/harness-base-php/pull/378) ([kierenevans](https://github.com/kierenevans))
+- Make jenkins service optional for Spryker harness [\#377](https://github.com/inviqa/harness-base-php/pull/377) ([hgajjar](https://github.com/hgajjar))
+- Make the Spryker jenkins runner single executor, multi containers [\#373](https://github.com/inviqa/harness-base-php/pull/373) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Switch away from bad PID 1 processes to tini [\#371](https://github.com/inviqa/harness-base-php/pull/371) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Increase push timeout for docker-compose [\#370](https://github.com/inviqa/harness-base-php/pull/370) ([kierenevans](https://github.com/kierenevans))
+- Spryker version upgrade and other improvements [\#352](https://github.com/inviqa/harness-base-php/pull/352) ([hgajjar](https://github.com/hgajjar))
+- Adding documentation for setting up workspace on Drupal projects [\#281](https://github.com/inviqa/harness-base-php/pull/281) ([sawtell](https://github.com/sawtell))
+
+**Fixed bugs:**
+
+- Akeneo - fix random build failures [\#426](https://github.com/inviqa/harness-base-php/pull/426) ([kierenevans](https://github.com/kierenevans))
+- Fix varnish PURGE in development environment [\#422](https://github.com/inviqa/harness-base-php/pull/422) ([tkotosz](https://github.com/tkotosz))
+- Move php error reporting so it is available for both cli and fpm [\#417](https://github.com/inviqa/harness-base-php/pull/417) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Wait for elasticsearch before using it in akeneo [\#415](https://github.com/inviqa/harness-base-php/pull/415) ([kierenevans](https://github.com/kierenevans))
+- Fix Akeneo 4 file storage directory location [\#414](https://github.com/inviqa/harness-base-php/pull/414) ([kierenevans](https://github.com/kierenevans))
+- Fix drupal build to find a Trait the plugins couldn't find [\#410](https://github.com/inviqa/harness-base-php/pull/410) ([kierenevans](https://github.com/kierenevans))
+- Use original base64 -d for support in more linuxes [\#408](https://github.com/inviqa/harness-base-php/pull/408) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix bug in processing non-interactive sealed-secret input [\#403](https://github.com/inviqa/harness-base-php/pull/403) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix Spryker build by not updating spryker web-profiler dependencies [\#402](https://github.com/inviqa/harness-base-php/pull/402) ([kierenevans](https://github.com/kierenevans))
+- Use magento root directory for module manifest [\#400](https://github.com/inviqa/harness-base-php/pull/400) ([kierenevans](https://github.com/kierenevans))
+- Fix 'ws feature xdebug on/off' [\#396](https://github.com/inviqa/harness-base-php/pull/396) ([kierenevans](https://github.com/kierenevans))
+- Fix php syntax check not exiting with non-zero exit code on error [\#389](https://github.com/inviqa/harness-base-php/pull/389) ([kierenevans](https://github.com/kierenevans))
+- Updating phpcs rules to allow void return type. [\#387](https://github.com/inviqa/harness-base-php/pull/387) ([sawtell](https://github.com/sawtell))
+- Recreate services that use persistent volumes to avoid multi-node usage attempts [\#385](https://github.com/inviqa/harness-base-php/pull/385) ([kierenevans](https://github.com/kierenevans))
+- Image pull config must be present before app-init job [\#383](https://github.com/inviqa/harness-base-php/pull/383) ([kierenevans](https://github.com/kierenevans))
+- Pull external images first missing from akeneo and spryker [\#382](https://github.com/inviqa/harness-base-php/pull/382) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- No port for job queue consumer [\#376](https://github.com/inviqa/harness-base-php/pull/376) ([kierenevans](https://github.com/kierenevans))
+- Switch back to the default docker stop signal in cli images [\#375](https://github.com/inviqa/harness-base-php/pull/375) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix image pull config secret name [\#374](https://github.com/inviqa/harness-base-php/pull/374) ([kierenevans](https://github.com/kierenevans))
+- Run spryker jenkins runner agent foreground [\#372](https://github.com/inviqa/harness-base-php/pull/372) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix drush relative docroot fails [\#366](https://github.com/inviqa/harness-base-php/pull/366) ([kierenevans](https://github.com/kierenevans))
+- Replace global zed host with store specific hosts [\#359](https://github.com/inviqa/harness-base-php/pull/359) ([hgajjar](https://github.com/hgajjar))
+
+**Closed issues:**
+
+- Spryker build failing on 0.10.x [\#401](https://github.com/inviqa/harness-base-php/issues/401)
+- Update spryker harness after latest B2C release [\#143](https://github.com/inviqa/harness-base-php/issues/143)
+
 ## [0.9.4](https://github.com/inviqa/harness-base-php/tree/0.9.4) (2020-08-20)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.9.3...0.9.4)
@@ -68,7 +164,7 @@
 
 - varnish hostname needs to be set dynamically [\#332](https://github.com/inviqa/harness-base-php/issues/332)
 - Make chart git ssh\_private\_key backwards compatible deprecation [\#343](https://github.com/inviqa/harness-base-php/pull/343) ([andytson-inviqa](https://github.com/andytson-inviqa))
-- Remove spryker console dev image [\#340](https://github.com/inviqa/harness-base-php/pull/340) ([kierenevans](https://github.com/kierenevans))
+- Remove spryker console dev image when destroying ws environment [\#340](https://github.com/inviqa/harness-base-php/pull/340) ([kierenevans](https://github.com/kierenevans))
 - Set host volume options to cached and make a delegated-volumes flag [\#334](https://github.com/inviqa/harness-base-php/pull/334) ([andytson-inviqa](https://github.com/andytson-inviqa))
 - Fix varnish cache clearing for magento2 when using resource prefixes [\#333](https://github.com/inviqa/harness-base-php/pull/333) ([kierenevans](https://github.com/kierenevans))
 - Use the production DI for magento2 in phpspec/phpstan [\#330](https://github.com/inviqa/harness-base-php/pull/330) ([kierenevans](https://github.com/kierenevans))

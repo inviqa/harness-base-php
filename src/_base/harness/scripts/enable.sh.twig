@@ -50,6 +50,9 @@ dynamic()
         passthru docker-compose build jenkins-runner
     {% endif %}
 
+    # Bring up console to fix file permissions
+    passthru docker-compose up -d console
+
     # Bring up all services apart from cron and jenkins-runner
     passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose up -d"
 
