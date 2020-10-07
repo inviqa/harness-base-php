@@ -85,7 +85,10 @@ attributes:
         # restore it after installation.
         - run rm -f /app/app/etc/env.php
         - run rm -f /app/app/etc/config.php
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        - |
+          if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
+            task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+          fi
         - |
           passthru "magento setup:install \
             --key='${MAGENTO_CRYPT_KEY}' \
@@ -136,7 +139,10 @@ attributes:
     init:
       steps:
         - task rabbitmq:vhosts
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        - |
+          if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
+            task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+          fi
         - run magento setup:upgrade --keep-generated
         - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
         - run magento config:set 'web/secure/base_url'         "https://${APP_HOST}/"
@@ -148,7 +154,10 @@ attributes:
           fi
     migrate:
       steps:
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        - |
+          if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
+            task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+          fi
         - run magento setup:upgrade --keep-generated
         - run magento cache:clean
     cron:
