@@ -13,6 +13,9 @@ attributes:
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
+        SPRYKER_OAUTH_CLIENT_IDENTIFIER: "frontend"
+        SPRYKER_OAUTH_CLIENT_SECRET: ~ # not required for development env, must be set for remote (recommended size: 48)
+        SPRYKER_ZED_REQUEST_TOKEN: ~ # not required for development env, must be set for remote (recommended size: 80)
     jenkins:
       enabled: "= 'jenkins' in @('app.services')"
       image: jenkins:alpine

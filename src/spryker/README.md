@@ -26,4 +26,7 @@ attribute('app.services'):
   - jenkins-runner
 ``` 
 
+To generate and encrypt secrets for pipeline environments: 
+https://github.com/inviqa/k8s-project-cluster/blob/0.1.x-dev/docs/cluster-management/sealed-secrets/README.md
+
 [Workspace]: https://github.com/my127/workspace

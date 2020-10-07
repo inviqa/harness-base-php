@@ -203,12 +203,3 @@ $config[KernelConstants::PROJECT_NAMESPACES] = [
     'Inviqa',
     'Pyz',
 ];
-
-// ---------- OAUTH
-$config[OauthConstants::OAUTH_CLIENT_IDENTIFIER] = 'frontend';
-// todo: convert below credentials to environment variables with encrypted secrets
-$config[OauthConstants::PRIVATE_KEY_PATH] = 'file://' . APPLICATION_ROOT_DIR . '/config/Zed/dev_only_private.key';
-$config[OauthConstants::PUBLIC_KEY_PATH] = 'file://' . APPLICATION_ROOT_DIR . '/config/Zed/dev_only_public.key';
-$config[OauthConstants::ENCRYPTION_KEY] = '6Go9YRlbogOQyHpGDkydw8ejC0Z36FboKkFL7mybT0mxB3Oz';
-$config[OauthConstants::OAUTH_CLIENT_SECRET] = 'xN7uUeDzDpYtlp6oTrtC6aHGdA9Cy0gjF6hDaatiRkNyHEoc';
-$config[AuthConstants::AUTH_DEFAULT_CREDENTIALS]['yves_system']['token'] = 'VEOJWp1gsANquUEiGT7pUJdmmS0cnLLCZZKZoiRUAGRyZtUUhNVuTUSeJ8Zz1i5N7ddwv9shJXGTwVmB';
