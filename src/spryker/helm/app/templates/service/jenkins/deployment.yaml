@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.resourcePrefix }}jenkins
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app.service: {{ .Values.resourcePrefix }}jenkins
 spec:
