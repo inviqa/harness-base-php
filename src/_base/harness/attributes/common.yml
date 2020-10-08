@@ -151,7 +151,7 @@ attributes.default:
           fi
 
   git:
-    default_branch: = @('main_branch')
+    default_branch: = @('git.main_branch')
     # potentially deprecated, unless it is repurposed
     main_branch: develop
 
