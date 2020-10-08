@@ -67,12 +67,22 @@ static()
 {
     ws app build
 
+    {% if @('framework.name') == "spryker" %}
+        # Switch to development mode before starting CI env
+        ws set spryker.mode development
+        ws harness prepare
+    {% endif %}
+
     {% if ("cron" in @('app.services')) %}
         # Bring up all but cron
         passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
     {% else %}
         # Bring up all services
         passthru docker-compose up -d
+    {% endif %}
+
+    {% if @('framework.name') == "spryker" %}
+        ws exec app composer:development_dependencies
     {% endif %}
 
     passthru docker-compose exec -T -u build console app init

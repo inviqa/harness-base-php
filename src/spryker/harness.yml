@@ -185,6 +185,8 @@ attributes:
       jenkins_runner: "256Mi"
       jenkins: "1536Mi"
 
+  framework:
+    name: spryker
 ---
 command('frontend yves watch'):
   env:
