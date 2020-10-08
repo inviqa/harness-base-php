@@ -77,6 +77,7 @@ attributes:
     mysql:
       enabled: "= 'mysql' in @('app.services')"
       image: = @('mysql.image') ~ ':' ~ @('mysql.tag')
+      arguments: = @('database.var')
       environment:
         MYSQL_DATABASE: = @('database.name')
         MYSQL_USER: = @('database.user')
@@ -134,6 +135,8 @@ attributes:
             REDIS_SESSION_HOST: '{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
+        mysql:
+          arguments: = @('services.mysql.arguments')
         nginx:
           environment:
             FPM_HOST: localhost

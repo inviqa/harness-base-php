@@ -19,6 +19,15 @@ spec:
       labels:
         app.service: {{ .Values.resourcePrefix }}mysql
     spec:
+{{- if and (.Values.persistence.mysql.enabled) (not (index .Values.docker.services.mysql.arguments "ignore-db-dir")) }}
+      initContainers:
+      - name: "remove-lost-found"
+        image: "busybox:latest"
+        command:  ["rm", "-rf", "/var/lib/mysql/lost+found"]
+        volumeMounts:
+        - name: {{ .Values.resourcePrefix }}mysql-persistent-storage
+          mountPath: /var/lib/mysql
+{{- end }}
       containers:
       - env:
         {{- range $key, $value := .Values.docker.services.mysql.environment }}
@@ -33,9 +42,15 @@ spec:
         image: {{ .Values.docker.image.mysql | default .Values.docker.services.mysql.image | quote }}
         imagePullPolicy: Always
         name: mysql
+        {{- if .Values.docker.services.mysql.arguments }}
         args:
-        - --ignore-db-dir
-        - lost+found
+        {{- range $var, $value := .Values.docker.services.mysql.arguments }}
+        {{- if $value }}
+        - --{{ $var }}
+        - {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         ports:
         - containerPort: 3306
         resources:
