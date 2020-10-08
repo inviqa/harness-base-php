@@ -85,7 +85,6 @@ function('filter_local_services', [services]): |
     $filteredService = [];
     foreach ($service as $key => $value) {
       switch ($key) {
-        case 'arguments':
         case 'enabled':
         case 'environment':
         case 'image':
