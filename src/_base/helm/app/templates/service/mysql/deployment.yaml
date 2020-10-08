@@ -33,9 +33,15 @@ spec:
         image: {{ .Values.docker.image.mysql | default .Values.docker.services.mysql.image | quote }}
         imagePullPolicy: Always
         name: mysql
+        {{- if .Values.docker.services.mysql.argumentss }}
         args:
-        - --ignore-db-dir
-        - lost+found
+        {{- range $var, $value := .Values.docker.services.mysql.arguments }}
+        {{- if $value }}
+        - --{{ $var }}
+        - {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
         ports:
         - containerPort: 3306
         resources:

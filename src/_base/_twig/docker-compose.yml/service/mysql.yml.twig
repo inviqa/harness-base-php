@@ -1,5 +1,5 @@
 {% set command = [] %}
-{% for var,value in @('database.var') -%}
+{% for var, value in @('services.mysql.arguments')|filter(v => v is not empty) -%}
     {% set command = command|merge(['--' ~ var ~ '=' ~ value]) %}
 {% endfor %}
   mysql:
