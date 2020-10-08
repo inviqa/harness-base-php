@@ -143,9 +143,13 @@ attributes:
             REDIS_HOST: '{{ if .Values.service.redis | default .Values.docker.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
             REDIS_SESSION_HOST: '{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.enable') ? 'true' : 'false'"
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
         mysql:
           options: = @('services.mysql.options')
+        console:
+          environment:
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? 'true' : 'false'"
         nginx:
           environment:
             FPM_HOST: localhost
@@ -179,6 +183,12 @@ attributes:
           enabled: false
         mysql:
           enabled: false
+        php-base:
+          environment:
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.enable') ? 'true' : 'false'"
+        console:
+          environment:
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? 'true' : 'false'"
         postgres:
           enabled: false
         redis:
@@ -193,6 +203,10 @@ attributes:
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
             SMTP_HOST: = @('pipeline.qa.smtp.host')
             SMTP_PORT: = @('pipeline.qa.smtp.port')
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.enable') ? 'true' : 'false'"
+        console:
+          environment:
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? 'true' : 'false'"
         tideways:
           environment:
             TIDEWAYS_HOSTNAME: = @('pipeline.qa.hostname')
