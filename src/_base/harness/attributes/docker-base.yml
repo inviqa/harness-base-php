@@ -115,6 +115,7 @@ attributes:
       publish: false
     tideways:
       enabled: "= 'tideways' in @('app.services')"
+      image: quay.io/inviqa_images/tideways:latest
       environment:
         TIDEWAYS_HOSTNAME: = @('hostname')
         TIDEWAYS_ENV: production
