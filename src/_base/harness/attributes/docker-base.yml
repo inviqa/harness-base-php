@@ -40,6 +40,7 @@ attributes:
       publish: true
       environment:
         DB_ADMIN_USER: root
+        HAS_ELASTICSEARCH: "= ('elasticsearch' in @('app.services') ? 'true' : 'false')"
         HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
