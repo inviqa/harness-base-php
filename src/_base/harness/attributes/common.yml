@@ -290,7 +290,7 @@ attributes.default:
       namespace: ~
       # The scope under which a secret can be decrypted
       # Either cluster-wide, namespace-wide, or strict
-      scope: "= @('sealed_secrets.namespace') ? 'namespace-wide' : 'cluster-wide'"
+      scope: "= @('helm.sealed_secrets.namespace') ? 'namespace-wide' : 'cluster-wide'"
 
   php-fpm:
     pools:
