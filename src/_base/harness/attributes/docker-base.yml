@@ -136,7 +136,7 @@ attributes:
             PHP_IDE_CONFIG: = ''
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
           mysql:
-            arguments: = @('database.var')
+            arguments: = @('services.mysql.arguments')
         nginx:
           environment:
             FPM_HOST: localhost
