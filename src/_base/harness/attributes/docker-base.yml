@@ -161,6 +161,9 @@ attributes:
             - port: php-fpm-metrics
         relay:
           enabled: false
+        tideways:
+          environment:
+            TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
@@ -189,6 +192,9 @@ attributes:
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
             SMTP_HOST: = @('pipeline.qa.smtp.host')
             SMTP_PORT: = @('pipeline.qa.smtp.port')
+        tideways:
+          environment:
+            TIDEWAYS_HOSTNAME: = @('pipeline.qa.hostname')
     preview:
       resources:
         memory:
@@ -204,6 +210,8 @@ attributes:
           postgres: "512Mi"
           redis: "64Mi"
           redis_session: "64Mi"
+          tideways: "256Mi"
+          varnish: "1124Mi"
       services:
         console:
           enabled: false

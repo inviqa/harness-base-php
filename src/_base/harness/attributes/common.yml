@@ -359,6 +359,7 @@ attributes.default:
       rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
+      tideways: "256Mi"
       varnish: "1124Mi"
 
   replicas:

@@ -1,0 +1,17 @@
+{{ if .Values.service.tideways | default .Values.docker.services.tideways.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.service: {{ .Values.resourcePrefix }}tideways
+  name: {{ .Values.resourcePrefix }}tideways
+spec:
+  ports:
+  - name: "9135"
+    port: 9135
+    targetPort: 9135
+  selector:
+    app.service: {{ .Values.resourcePrefix }}tideways
+status:
+  loadBalancer: {}
+{{ end }}
