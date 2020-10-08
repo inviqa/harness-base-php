@@ -153,7 +153,7 @@ attributes:
         - run magento cache:clean
     cron:
       jobs:
-        - "= (@('app.mode') == 'production' ? '* * * * * /cron-run-with-env.sh /bin/bash -c \"/app/bin/magento cron:run & && wait\"' : '')"
+        - "= (@('app.mode') == 'production' ? '* * * * * /cron-run-with-env.sh \"/app/bin/magento cron:run & wait\"' : '')"
   docker:
     image:
       console: "= 'my127/magento2:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
