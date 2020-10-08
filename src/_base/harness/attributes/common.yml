@@ -282,9 +282,15 @@ attributes.default:
       controller_name: sealed-secrets
       controller_namespace: sealed-secrets
       # Use local file (or fetch from http url) as the certificate
-      # Useful if developers don't have kubectl access or the controller isn't directly
-      # accessible. Only one cluster supported
+      # If null, it will be fetched from the controller in the current kubectl context
       certificate_file: ~
+      # A namespace the secret should be only decryptable by
+      # Ignored if scope is cluster-wide.
+      # If null, it will be fetched from the current kubectl context
+      namespace: ~
+      # The scope under which a secret can be decrypted
+      # Either cluster-wide, namespace-wide, or strict
+      scope: "= @('helm.sealed_secrets.namespace') ? 'namespace-wide' : 'cluster-wide'"
 
   php-fpm:
     pools:

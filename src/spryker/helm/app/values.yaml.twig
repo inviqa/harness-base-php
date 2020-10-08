@@ -34,3 +34,8 @@ persistence: {{ to_nice_yaml(@('persistence'), 2, 2) | raw }}
 prometheus: {{ to_nice_yaml(@('pipeline.base.prometheus'), 2, 2) | raw }}
 
 resourcePrefix: {{ @('workspace.name') ~ '-' }}
+
+sealed_secrets:
+  scope: {{ @('helm.sealed_secrets.scope') | json_encode | raw }}
+
+istio: {{ to_nice_yaml(@('pipeline.base.istio'), 2, 2) | raw }}
