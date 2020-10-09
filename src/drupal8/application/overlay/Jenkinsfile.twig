@@ -22,9 +22,13 @@ pipeline {
         stage('Test')  {
             parallel {
                 stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
-                stage('unit')       { steps { sh 'ws test-unit'                     } }
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                sh 'ws test-unit'
             }
         }
 {% if @('pipeline.publish.enabled') == 'yes' %}
