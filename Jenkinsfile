@@ -116,10 +116,6 @@ pipeline {
                             steps { sh './test wordpress static' }
                         }
                         stage('Spryker Static') {
-                            environment {
-                                SPRYKER_OAUTH_CLIENT_SECRET = credentials('spryker-oauth-client-secret')
-                                SPRYKER_ZED_REQUEST_TOKEN = credentials('spryker-zed-request-token')
-                            }
                             steps { sh './test spryker static' }
                         }
                         stage('Wordpress Dynamic') {
