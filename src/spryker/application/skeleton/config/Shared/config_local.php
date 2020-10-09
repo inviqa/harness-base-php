@@ -3,7 +3,6 @@
 use Pyz\Shared\Queue\QueueConstants;
 use Pyz\Shared\Scheduler\SchedulerConfig;
 use Spryker\Shared\Application\ApplicationConstants;
-use Spryker\Shared\Auth\AuthConstants;
 use Spryker\Shared\Collector\CollectorConstants;
 use Spryker\Shared\Customer\CustomerConstants;
 use Spryker\Shared\GlueApplication\GlueApplicationConstants;
@@ -12,7 +11,6 @@ use Spryker\Shared\Kernel\KernelConstants;
 use Spryker\Shared\Kernel\Store;
 use Spryker\Shared\Mail\MailConstants;
 use Spryker\Shared\Newsletter\NewsletterConstants;
-use Spryker\Shared\Oauth\OauthConstants;
 use Spryker\Shared\ProductManagement\ProductManagementConstants;
 use Spryker\Shared\Propel\PropelConstants;
 use Spryker\Shared\RabbitMq\RabbitMqEnv;

@@ -28,6 +28,8 @@ attributes:
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
     demoshop-version: "202009.0"
     mode: development
+    oauth_client_secret: ~
+    zed_request_token: ~
   php:
     fpm:
       ini:
