@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Values.resourcePrefix }}varnish
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
   labels:
     app.service: {{ .Values.resourcePrefix }}varnish
 spec:
