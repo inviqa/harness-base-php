@@ -23,6 +23,8 @@ attributes:
         REDIS_PORT: = @('redis.port')
         REDIS_SESSION_HOST: = @('redis_session.host')
         REDIS_SESSION_PORT: = @('redis_session.port')
+        SMTP_HOST: = @('smtp.host')
+        SMTP_PORT: = @('smtp.port')
         PHP_IDE_CONFIG: "serverName=workspace"
         VARNISH_HOSTNAME_TEMPLATE: "varnish-%d.varnish-headless"
       environment_secrets:
@@ -177,6 +179,8 @@ attributes:
           environment:
             APP_HOST: = @('pipeline.qa.hostname')
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
+            SMTP_HOST: = @('pipeline.qa.smtp.host')
+            SMTP_PORT: = @('pipeline.qa.smtp.port')
     preview:
       resources:
         memory:
@@ -195,3 +199,7 @@ attributes:
       services:
         console:
           enabled: false
+          php-base:
+            environment:
+              SMTP_HOST: = @('pipeline.preview.smtp.host')
+              SMTP_PORT: = @('pipeline.preview.smtp.port')

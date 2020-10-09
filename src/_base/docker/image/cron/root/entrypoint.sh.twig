@@ -15,6 +15,11 @@ setup_app_networking()
 run_steps()
 {
     # run any command required to be executed at docker startup
+    {% for step in @('php.entrypoint.steps') -%}
+    {{ step|raw }}
+    {% else -%}
+    :
+    {% endfor %}
     {% for step in @('cron.entrypoint.steps') -%}
     {{ step|raw }}
     {% else -%}
