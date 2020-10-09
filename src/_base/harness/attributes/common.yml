@@ -126,7 +126,6 @@ attributes.default:
       jobs: []
 
   framework:
-    name: ~
     readme_blocks: []
 
   frontend:
