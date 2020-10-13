@@ -3,7 +3,7 @@
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
-    "php": ">= 7.3"
+    "php": ">= 7.4"
   },
   "require-dev": {
     "behat/behat": "^3.5",
@@ -52,11 +52,11 @@
     "test-acceptance": [
       "true"
     ],
-    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
+    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
   },
   "config": {
     "platform": {
-      "php": "7.3.22"
+      "php": "7.4.10"
     }
   }
 }
