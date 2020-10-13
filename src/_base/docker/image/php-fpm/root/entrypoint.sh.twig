@@ -13,6 +13,11 @@ run_steps()
     {% for step in @('php-fpm.entrypoint.steps') -%}
     {{ step|raw }}
     {% endfor %}
+
+    # Clean up Tideways module loading if it's meant to be turned off
+    if [ -n "$TIDEWAYS_ENABLED" ] && [ "$TIDEWAYS_ENABLED" = "false" ] && [ -f /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini ]; then
+        rm /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
+    fi
 }
 
 run_steps
