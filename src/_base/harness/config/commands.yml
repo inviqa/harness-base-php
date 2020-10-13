@@ -308,3 +308,22 @@ command('harness update fresh'):
     ws disable || true
     rm -rf .my127ws
     ws install
+
+command('generate token <length>'):
+  env:
+    LENGTH: = input.argument('length')
+  exec: |
+    #!php
+    $ascii_codes = range(48, 57) + range(97, 122) + range(65, 90);
+    $codes_length = (count($ascii_codes)-1);
+    shuffle($ascii_codes);
+    $string = '';
+    for($i = 1; $i <= $env['LENGTH']; $i++) {
+        $previous_char = $char ?? '';
+        $char = chr($ascii_codes[random_int(0, $codes_length)]);
+        while($char == $previous_char){
+            $char = chr($ascii_codes[random_int(0, $codes_length)]);
+        }
+        $string .= $char;
+    }
+    echo $string;

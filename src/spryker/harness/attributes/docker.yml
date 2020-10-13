@@ -11,6 +11,11 @@ attributes:
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
+        SPRYKER_OAUTH_CLIENT_IDENTIFIER: "frontend"
+        # not required for development env, must be set for remote (recommended size: 48)
+        SPRYKER_OAUTH_CLIENT_SECRET: = @('spryker.oauth_client_secret')
+        # not required for development env, must be set for remote (recommended size: 80)
+        SPRYKER_ZED_REQUEST_TOKEN: = @('spryker.zed_request_token')
     jenkins:
       enabled: "= 'jenkins' in @('app.services')"
       image: jenkins:alpine
@@ -25,6 +30,8 @@ attributes:
         RABBITMQ_DEFAULT_USER: spryker
       environment_secrets:
         RABBITMQ_DEFAULT_PASS: spryker
+    redis:
+      image: redis:5-alpine
 
   pipeline:
     base:
