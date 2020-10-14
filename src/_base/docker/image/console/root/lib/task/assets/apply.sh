@@ -3,12 +3,14 @@
 function task_assets_apply()
 {
     local ASSETS_DIR="${ASSETS_DIR:-tools/assets/development}"
-    local IMPORT_COMMAND=""
+    local IMPORT_COMMAND=()
+    local PRE_COMMAND=()
 
     if [ "${DB_PLATFORM}" == "mysql" ]; then
-        IMPORT_COMMAND="mysql -h $DB_HOST -u ${DB_ADMIN_USER:-$DB_USER} -p${DB_ROOT_PASS:-${DB_ADMIN_PASS:-$DB_PASS}} $DB_NAME"
+        IMPORT_COMMAND=(mysql -h "$DB_HOST" -u "${DB_ADMIN_USER:-$DB_USER}" "-p${DB_ROOT_PASS:-${DB_ADMIN_PASS:-$DB_PASS}}" "$DB_NAME")
     elif [ "${DB_PLATFORM}" == "postgres" ]; then
-        IMPORT_COMMAND="PGPASSWORD=$DB_PASS psql -h $DB_HOST -U $DB_USER $DB_NAME"
+        PRE_COMMAND=("PGPASSWORD=$DB_PASS")
+        IMPORT_COMMAND=(psql -h "$DB_HOST" -U "$DB_USER" "$DB_NAME")
     elif [ -n "${DB_PLATFORM}" ]; then
         (>&2 echo "invalid database type")
         exit 1
@@ -23,7 +25,7 @@ function task_assets_apply()
         fi
 
         if [ -f "$DATABASE_FILE" ]; then
-            passthru "pv --force $DATABASE_FILE | zcat - | $IMPORT_COMMAND"
+            "${PRE_COMMAND[@]}" passthru "pv --force '$DATABASE_FILE' | zcat - | $(printf ' %q' "${IMPORT_COMMAND[@]}")"
         else
             task install
         fi
