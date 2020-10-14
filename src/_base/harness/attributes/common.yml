@@ -180,7 +180,7 @@ attributes.default:
     version: null
 
   php:
-    version: 7.3
+    version: 7.4
     cli:
       ini:
         max_execution_time: 0

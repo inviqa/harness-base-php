@@ -1,8 +1,9 @@
 {
-  "name": "inviqa/spryker-startup",
+  "name": "{{ @('workspace.name')|lower }}/spryker",
   "description": "Startup template for Spryker projects.",
   "type": "project",
   "require": {
+    "php": ">= 7.4"
   },
   "require-dev": {
     "behat/behat": "^3.5",
@@ -12,6 +13,7 @@
     "ciaranmcnulty/behat-stepthroughextension": "^1.0",
     "dmore/behat-chrome-extension": "^1.3",
     "dmore/chrome-mink-driver": "^2.6",
+    "roave/better-reflection": "~3.5",
     "phpcompatibility/php-compatibility": "dev-master",
     "sensiolabs/behat-page-object-extension": "^2.3",
     "guzzlehttp/guzzle": "^6.3.0",
@@ -51,11 +53,11 @@
     "test-acceptance": [
       "true"
     ],
-    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.2-"
+    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
   },
   "config": {
     "platform": {
-      "php": "7.2.30"
+      "php": "7.4.10"
     }
   }
 }

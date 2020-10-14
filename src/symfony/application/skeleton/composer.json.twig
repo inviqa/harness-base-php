@@ -3,7 +3,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">=7.2.5",
+        "php": ">= 7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/console": "5.1.*",
@@ -34,7 +34,7 @@
         "bin-dir": "bin",
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.3.17"
+            "php": "7.4.10"
         },
         "preferred-install": {
             "*": "dist"
@@ -99,7 +99,7 @@
           "APP_DEBUG=1 bin/console cache:warmup --env=dev",
           "phpstan analyse"
       ],
-      "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.3-"
+      "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
     },
     "conflict": {
         "symfony/symfony": "*"
