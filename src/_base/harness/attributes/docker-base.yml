@@ -199,7 +199,7 @@ attributes:
       services:
         console:
           enabled: false
-          php-base:
-            environment:
-              SMTP_HOST: = @('pipeline.preview.smtp.host')
-              SMTP_PORT: = @('pipeline.preview.smtp.port')
+        php-base:
+          environment:
+            SMTP_HOST: = @('pipeline.preview.smtp.host')
+            SMTP_PORT: = @('pipeline.preview.smtp.port')
