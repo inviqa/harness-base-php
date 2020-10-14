@@ -1,14 +1,12 @@
-{% set command = [] %}
-{% for var, value in @('services.mysql.arguments')|filter(v => v is not empty) -%}
-    {% set command = command|merge(['--' ~ var ~ '=' ~ value]) %}
-{% endfor %}
+{% set command = @('services.mysql.options')
+  | filter(v => v is not empty)
+  | map((value, var) => '--' ~ var ~ '=' ~ value)
+  | reduce((carry, v) => carry|merge([v]), []) %}
   mysql:
     image: {{ @('services.mysql.image') }}
     labels:
       - traefik.enable=false
-{% if command|length %}
-    command: {{ command|join(' ') }}
-{% endif %}
+    command: {{ to_nice_yaml(command, 2, 6) }}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.mysql.environment'),
         @('services.mysql.environment_secrets')
