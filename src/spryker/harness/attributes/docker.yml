@@ -37,7 +37,8 @@ attributes:
     base:
       services:
         php-base:
-          JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
+          environment:
+            JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
     preview:
       services:
         php-base:
