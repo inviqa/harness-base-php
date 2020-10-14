@@ -39,6 +39,7 @@ attributes:
         php-base:
           environment:
             JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
+            JENKINS_URL: = 'http://{{ .Values.resourcePrefix  }}' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
     preview:
       services:
         php-base:
