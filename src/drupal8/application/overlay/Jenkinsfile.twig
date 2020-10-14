@@ -60,7 +60,7 @@ pipeline {
                 milestone(50)
                 sh 'ws app publish'
 {% if @('pipeline.publish.chart.enabled') %}
-                lock(resource: '{{ @('workspace.name') }}-publish-chart', inversePrecedence: true) {
+                lock(resource: '{{ @('pipeline.publish.chart.git.repository') }}', inversePrecedence: true) {
                     sh 'ws app publish chart "${GIT_BRANCH}" "{{ @('workspace.name') }} build artifact ${GIT_COMMIT}"'
                 }
 {% endif %}
