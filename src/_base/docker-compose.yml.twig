@@ -8,7 +8,7 @@
 version: '{{ @('docker.compose.file_version') }}'
 services:
 {% include blocks ~ 'application.yml.twig' %}
-{% for service in @('app.services') %}
+{% for service in @('app.services') | filter(v => v is not empty) %}
 {% include blocks ~ 'service/' ~ service ~ '.yml.twig' %}
 {% endfor %}
 networks:
