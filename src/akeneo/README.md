@@ -11,7 +11,7 @@ with Akeneo, or use the community edition which is open source.
   - For `akeneo.edition`, enter `community`
   - For `akeneo.enterprise.distribution.project_name`, press enter to submit a blank string
   - For `ssh.key.private`, press enter to submit a blank string
-  - For `ssh.key.public`, press enter to submit a blank string
+  - For `File to read for ssh.key.public`, press enter to submit a blank string
 4. Change to the <projectName> directory: `cd <projectName>`
 5. Create an initial commit, ensuring that `workspace.override.yml` is not added to git:
 ```bash

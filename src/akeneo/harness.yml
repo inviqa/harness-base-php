@@ -36,6 +36,10 @@ attributes:
     vendor_directory: /app/vendor
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
+    edition: ~
+    enterprise:
+      distribution:
+        project_name: ~
   php:
     version: 7.3
     ini:
