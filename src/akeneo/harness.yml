@@ -11,9 +11,9 @@ harness('inviqa/akeneo'):
       standard:
         - akeneo.edition
         - akeneo.enterprise.distribution.project_name
-      secret:
-        - ssh.key.private
         - ssh.key.public
+      secret_file:
+        - ssh.key.private
 ---
 attributes:
   app:

@@ -36,8 +36,8 @@ git commit -m "Initial commit"
 3. You will be asked a series of questions:
   - For `akeneo.edition`, enter `enterprise`
   - For `akeneo.enterprise.distribution.project_name`, enter the "Git repository" name listed on the Akeneo Portal
-  - For `ssh.key.private`, enter the output of `cat path/to/private/key | base64 -w0` for the private SSH key associated with the Akeneo Portal's dedicated user.
   - For `ssh.key.public`, enter the public SSH key associated with the Akeneo Portal's dedicated user.
+  - For `File path to read for ssh.key.private`, enter the path to a private SSH key associated with the Akeneo Portal's dedicated user.
 4. Change to the <projectName> directory: `cd <projectName>`
 5. Create an initial commit, ensuring that `workspace.override.yml` is not added to git:
 ```bash
