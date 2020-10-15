@@ -62,7 +62,7 @@ attributes:
     build:
       steps:
         - |
-          if [[ "@('akeneo.edition')" == "enterprise" ]]; then
+          if grep -q akeneo/pim-enterprise-dev composer.json; then
             run "ssh-keyscan github.com >> ~/.ssh/known_hosts"
             run "ssh-keyscan -p 443 distribution.akeneo.com >> ~/.ssh/known_hosts"
             run "chmod 0600 /home/build/.ssh/id_*"
