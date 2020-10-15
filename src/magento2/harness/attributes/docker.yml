@@ -18,5 +18,7 @@ attributes:
       persistence:
         enabled: true
         magento:
+          export:
+            storageClass: nfs
           media:
             storageClass: nfs
