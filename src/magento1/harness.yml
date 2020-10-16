@@ -23,6 +23,8 @@ attributes:
       - '/app/public/sitemaps'
       - '/app/public/staging'
       - '/app/public/var'
+      - '/app/public/var/log'
+      - '/app/public/var/report'
     services:
       - chrome
       - mysql
