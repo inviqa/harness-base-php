@@ -1,4 +1,4 @@
-{{- if .Values.prometheus.podMonitoring -}}
+{{- if and (index .Values.docker.services "php-fpm" "enabled") .Values.prometheus.podMonitoring -}}
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:

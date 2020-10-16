@@ -209,8 +209,8 @@ attributes.default:
       sendmail_path: /usr/local/bin/send_mail
       short_open_tag: Off
     install_extensions:
-      - "= ('blackfire' in @('app.services') ? 'blackfire' : '')"
-      - "= ('tideways' in @('app.services') ? 'tideways' : '')"
+      - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
+      - "= @('services.tideways.enabled') ? 'tideways' : ''"
     ext-blackfire:
       enable: no
       cli:

@@ -8,8 +8,15 @@
 version: '{{ @('docker.compose.file_version') }}'
 services:
 {% include blocks ~ 'application.yml.twig' %}
+{% for serviceName, service in @('services') %}
+{% if service['enabled'] %}
+{% include blocks ~ 'service/' ~ serviceName ~ '.yml.twig' %}
+{% endif %}
+{% endfor %}
 {% for service in @('app.services') %}
+{% if @('services')[service] is not defined or @('services')[service].enabled is not defined %}
 {% include blocks ~ 'service/' ~ service ~ '.yml.twig' %}
+{% endif %}
 {% endfor %}
 networks:
   private:

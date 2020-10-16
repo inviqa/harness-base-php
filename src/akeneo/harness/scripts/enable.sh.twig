@@ -62,7 +62,7 @@ static()
 {
     ws app build
 
-    {% if ("cron" in @('app.services')) %}
+    {% if @('services.cron.enabled') %}
         # Bring up all but cron and job-queue-consumer
         passthru "docker-compose config --services | grep -v cron | grep -v job-queue-consumer | xargs docker-compose up -d"
     {% else %}

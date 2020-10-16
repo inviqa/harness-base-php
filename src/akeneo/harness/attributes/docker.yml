@@ -26,7 +26,7 @@ attributes:
     job-queue-consumer:
       enabled: "= 'job-queue-consumer' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-job-queue-consumer'
-      publish: "= 'job-queue-consumer' in @('app.services')"
+      publish: = @('services.job-queue-consumer.enabled')
       environment:
         AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"
         AKENEO_JOB_QUEUE_CONSUMER_PROCESSES: 5

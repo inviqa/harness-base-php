@@ -32,6 +32,7 @@ attributes:
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
         TIDEWAYS_APIKEY: ""
     nginx:
+      enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
       publish: true
       environment:
@@ -42,15 +43,16 @@ attributes:
       publish: true
       environment:
         DB_ADMIN_USER: root
-        HAS_ELASTICSEARCH: "= ('elasticsearch' in @('app.services') ? 'true' : 'false')"
-        HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
+        HAS_ELASTICSEARCH: "= @('services.elasticsearch.enabled') ? 'true' : 'false'"
+        HAS_VARNISH: "= @('services.varnish.enabled') ? 'true' : 'false'"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
     cron:
       enabled: "= 'cron' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
-      publish: "= 'cron' in @('app.services')"
+      publish: "= @('services.cron.enabled')"
     php-fpm:
+      enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
       environment:
@@ -110,6 +112,9 @@ attributes:
     redis_session:
       enabled: "= 'redis_session' in @('app.services')"
       image: redis:5-alpine
+    relay:
+      enabled: true
+      publish: false
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       environment:
@@ -153,6 +158,8 @@ attributes:
           metricsEnabled: true
           metricsEndpoints:
             - port: php-fpm-metrics
+        relay:
+          enabled: false
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"

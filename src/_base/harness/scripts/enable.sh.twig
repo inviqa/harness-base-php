@@ -43,10 +43,10 @@ dynamic()
 
     passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose build"
 
-    {% if ("cron" in @('app.services')) %}
+    {% if @('services.cron.enabled') %}
         passthru docker-compose build cron
     {% endif %}
-    {% if ("jenkins-runner" in @('app.services')) %}
+    {% if @('services.jenkins-runner.enabled') %}
         passthru docker-compose build jenkins-runner
     {% endif %}
 
@@ -67,7 +67,7 @@ static()
 {
     ws app build
 
-    {% if ("cron" in @('app.services')) %}
+    {% if @('services.cron.enabled') %}
         # Bring up all but cron
         passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
     {% else %}
@@ -76,8 +76,10 @@ static()
     {% endif %}
 
     passthru docker-compose exec -T -u build console app init
-    # Bring up all services
-    passthru docker-compose up -d
+
+    {% if @('services.cron.enabled') %}
+    passthru docker-compose up -d cron
+    {% endif %}
 }
 
 main
