@@ -40,12 +40,12 @@ attributes:
     entrypoint:
       steps:
         - |
-          if [ -f /app/.my127ws/application/overlay/public/app/etc/local.xml.template ]; then
-            envsubst < /app/.my127ws/application/overlay/public/app/etc/local.xml.template > /app/.my127ws/application/overlay/public/app/etc/local.xml
+          if [ -f /home/build/application/overlay/public/app/etc/local.xml.harness.template ]; then
+            envsubst < /home/build/application/overlay/public/app/etc/local.xml.harness.template > /home/build/application/overlay/public/app/etc/local.xml
           fi
         - |
-          if [ -f /app/public/app/etc/local.xml.template ]; then
-            envsubst < /app/public/app/etc/local.xml.template > /app/public/app/etc/local.xml
+          if [ -f /app/public/app/etc/local.xml.harness.template ]; then
+            envsubst < /app/public/app/etc/local.xml.harness.template > /app/public/app/etc/local.xml
           fi
   magento:
     edition: enterprise
