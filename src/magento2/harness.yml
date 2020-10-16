@@ -22,6 +22,7 @@ attributes:
       - '/app/pub/media'
       - '/app/pub/static'
       - '/app/var'
+      - '/app/var/export'
       - '/app/pub/static/frontend'
       - "= (@('app.mode') !== 'production' ? '/app/generated' : '')"
     services:
@@ -79,6 +80,7 @@ attributes:
           else
             echo -n "$(date +%s)" > pub/static/deployed_version.txt
           fi
+        - run mkdir -p /app/var/export
     install:
       steps:
         # the magento installer will not work if the dpeloyment config is present so we remove and
