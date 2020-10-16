@@ -34,12 +34,7 @@ See the example `solr.yml.twig` service file below. Note the indentation, this i
 
 The `workspace.yml` file will also need to be updated to use the new service and define the new attributes used in `solr.yml.twig`:
 ```yaml
-attribute('app.services'):
-  - chrome
-  - mysql
-  - redis
-  - solr
-
+attribute('services.solr.enabled'): true
 attribute('services.solr.image'): "solr:6-slim"
 attribute('solr.config_dir'): = @('drupal.docroot') ~ '/modules/contrib/search_api_solr/solr-conf/6.x'
 ```
