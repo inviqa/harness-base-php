@@ -59,4 +59,5 @@ confd('harness:/'):
   - { src: application/overlay/app/etc/env.php }
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }
+  - { src: docker/image/console/root/lib/task/magento/static_content_deploy.sh }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/run-code-mapping.conf }
