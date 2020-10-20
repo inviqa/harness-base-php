@@ -1,4 +1,3 @@
-{{- $root := . -}}
 {{ if eq .Values.ingress.type "standard" }}
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -20,7 +19,7 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ $root.Values.resourcePrefix }}{{ $root.Values.ingress.target_service }}
+          serviceName: {{ $.Values.resourcePrefix }}{{ $.Values.ingress.target_service }}
           servicePort: 80
   {{- end }}
 status:
