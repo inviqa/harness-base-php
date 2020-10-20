@@ -1,4 +1,4 @@
-{{ if eq .Values.ingress.type "standard" }}
+{{ if and (index .Values.docker.services .Values.ingress.target_service "enabled") (eq .Values.ingress.type "standard") }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
