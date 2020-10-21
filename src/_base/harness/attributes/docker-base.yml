@@ -32,7 +32,6 @@ attributes:
         RABBITMQ_PASSWORD: = @('rabbitmq.password')
         TIDEWAYS_APIKEY: ""
     nginx:
-      enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
       publish: true
       environment:
@@ -52,7 +51,6 @@ attributes:
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
       publish: "= @('services.cron.enabled')"
     php-fpm:
-      enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
       environment:
@@ -125,6 +123,9 @@ attributes:
       image: varnish:6
       environment:
         VARNISH_SIZE: "1024M"
+    # webapp is by default two services combined, nginx and php-fpm
+    webapp:
+      enabled: true
   pipeline:
     base:
       prometheus:

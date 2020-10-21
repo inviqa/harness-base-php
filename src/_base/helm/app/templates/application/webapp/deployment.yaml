@@ -1,5 +1,5 @@
 {{- $service_php_fpm := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "php-fpm") (dict "environment" .Values.environment) -}}
-{{- if or $service_php_fpm.enabled .Values.docker.services.nginx.enabled -}}
+{{- if .Values.docker.services.webapp.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,7 +36,6 @@ spec:
         {{- end }}
       {{- end }}
       containers:
-      {{- if .Values.docker.services.nginx.enabled }}
       - name: nginx
         env:
         {{- range $key, $value := .Values.docker.services.nginx.environment }}
@@ -73,9 +72,7 @@ spec:
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
         {{- end }}
-      {{- end }}
 
-      {{- if $service_php_fpm.enabled }}
       - name: php-fpm
         env:
         {{- range $key, $value := $service_php_fpm.environment }}
@@ -112,7 +109,6 @@ spec:
         {{- include "application.volumeMounts.all" . | indent 8 }}
         {{- else }} []
         {{- end }}
-      {{- end }}
 
       {{- if .Values.service.php_fpm_exporter | default (index .Values.docker.services "php-fpm-exporter" "enabled") }}
       - name: php-fpm-exporter
