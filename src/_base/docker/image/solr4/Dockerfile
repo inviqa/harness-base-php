@@ -3,9 +3,6 @@ FROM solr:5-slim
 ARG SOLR_VERSION="4.10.4"
 ARG SOLR_SHA512="f7a83504e0f9a4c81b0acafdf452c0c05fcbdf185375f383450bef4fd478812b5259705b55203460d03da46add12cec2442d399ad3716e4e11c393a9a9a01b03"
 
-ARG SOLR_CORE_NAME="collection1"
-ENV SOLR_CORE_NAME="$SOLR_CORE_NAME"
-
 USER root
 
 # Install SOLR 4 over the top of SOLR 5 from instructions in

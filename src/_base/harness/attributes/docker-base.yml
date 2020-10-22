@@ -116,7 +116,10 @@ attributes:
     solr:
       enabled: "= 'solr' in @('app.services')"
       config_path: ""
-      image: solr:8-slim
+      environment:
+        SOLR_CORE_NAME: collection1
+      environment_secrets: {}
+      image: = 'solr:' ~ @('services.solr.major_version') ~ '-slim'
       major_version: 8
     tideways:
       enabled: "= 'tideways' in @('app.services')"
