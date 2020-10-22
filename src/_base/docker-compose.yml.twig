@@ -24,6 +24,7 @@ networks:
   shared:
     external:
       name: my127ws
+{% if syncvolume or @('services.solr.enabled') %}
 volumes:
 {% if syncvolume %}
 {% if @('mutagen') == 'yes' %}
@@ -38,4 +39,5 @@ volumes:
 {% endif %}
 {% if @('services.solr.enabled') %}
   solr_data:
+{% endif %}
 {% endif %}
