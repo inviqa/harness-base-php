@@ -113,6 +113,10 @@ attributes:
     relay:
       enabled: true
       publish: false
+    solr:
+      enabled: "= 'solr' in @('app.services')"
+      image: solr:8-slim
+      major_version: 8
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       environment:
