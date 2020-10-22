@@ -115,6 +115,7 @@ attributes:
       publish: false
     solr:
       enabled: "= 'solr' in @('app.services')"
+      config_path: ""
       image: solr:8-slim
       major_version: 8
     tideways:

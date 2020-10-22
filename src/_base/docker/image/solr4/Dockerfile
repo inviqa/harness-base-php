@@ -32,13 +32,6 @@ RUN rm -rf /opt/solr \
  # Clean the image \
  && apt-get autoremove -qq \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
- \
- # Set up solr core directories \
- && mkdir -p "/usr/local/share/solr/$SOLR_CORE_NAME/data/tlog" \
- && chown -R solr:solr "/usr/local/share/solr/$SOLR_CORE_NAME/data/" \
- && chown solr:solr "/usr/local/share/solr/$SOLR_CORE_NAME/"
-
-COPY ./root/ /
+ && rm -rf /var/lib/apt/lists/*
 
 USER $SOLR_USER

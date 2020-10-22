@@ -17,14 +17,14 @@
     command:
       - solr-precreate
       - collection1
+{% if @('services.solr.config_path') %}
       - /opt/solr/server/solr/configsets/collection1
-    volumes:
-{% if @('services.solr.major_version') == 4 %}
-      - .my127ws/docker/image/solr4/root/opt/solr/server/solr/configsets/:/opt/solr/server/solr/configsets/
-{% else %}
-      - .my127ws/docker/image/solr/root/opt/solr/server/solr/configsets/:/opt/solr/server/solr/configsets/
 {% endif %}
-      - solr_data:/usr/local/share/solr/collection1/data/
+    volumes:
+{% if @('services.solr.config_path') %}
+      - {{ @('services.solr.config_path')}}:/opt/solr/server/solr/configsets/collection1
+{% endif %}
+      - solr_data:/var/solr/collection1/data/
     networks:
       - private
       - shared
