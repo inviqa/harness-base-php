@@ -24,9 +24,21 @@ RUN rm -rf /opt/solr \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/solr /docker-entrypoint-initdb.d /opt/docker-solr \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/mysolrhome \
  \
+ # Install unzip to allow solr to start \
+ && apt-get -qq update \
+ && apt-get -qq -y --no-install-recommends install \
+    unzip \
+ \
+ # Clean the image \
+ && apt-get autoremove -qq \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* \
+ \
  # Set up solr core directories \
  && mkdir -p "/usr/local/share/solr/$SOLR_CORE_NAME/data/tlog" \
  && chown -R solr:solr "/usr/local/share/solr/$SOLR_CORE_NAME/data/" \
  && chown solr:solr "/usr/local/share/solr/$SOLR_CORE_NAME/"
 
 COPY ./root/ /
+
+USER $SOLR_USER
