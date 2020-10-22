@@ -1,26 +1,28 @@
-FROM makuk66/docker-solr:4.10.4
+FROM solr:5-slim
 
-ARG SOLR_CORE_NAME="maincore"
+ARG SOLR_VERSION="4.10.4"
+ARG SOLR_SHA512="f7a83504e0f9a4c81b0acafdf452c0c05fcbdf185375f383450bef4fd478812b5259705b55203460d03da46add12cec2442d399ad3716e4e11c393a9a9a01b03"
+
+ARG SOLR_CORE_NAME="collection1"
 ENV SOLR_CORE_NAME="$SOLR_CORE_NAME"
 
 USER root
 
-# Run security updates
-RUN echo "deb http://deb.debian.org/debian/ jessie main" > /etc/apt/sources.list \
- && echo "deb http://security.debian.org/ jessie/updates main" >> /etc/apt/sources.list \
- && echo "deb http://archive.debian.org/debian/ jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list \
- && echo "deb-src http://archive.debian.org/debian/ jessie-backports main" >> /etc/apt/sources.list.d/jessie-backports.list \
- && echo "Acquire::Check-Valid-Until false;" >> /etc/apt/apt.conf.d/10-nocheckvalid \
- && echo 'Package: *\nPin: origin "archive.debian.org"\nPin-Priority: 500' >> /etc/apt/preferences.d/10-archive-pin \
- && apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
-      grep -i securi | awk -F " " '{print $2}' | \
-      xargs apt-get -qq -y --no-install-recommends install \
- \
- # Clean the image \
- && apt-get autoremove -qq \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
+# Install SOLR 4 over the top of SOLR 5 from instructions in
+# https://github.com/docker-solr/docker-solr/blob/master/5.5/slim/Dockerfile
+RUN rm -rf /opt/solr \
+ && wget -t 10 --max-redirect 1 --retry-connrefused -nv "https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz" -O "/opt/solr-$SOLR_VERSION.tgz" \
+ && echo "$SOLR_SHA512 */opt/solr-$SOLR_VERSION.tgz" | sha512sum -c - \
+ && tar -C /opt --extract --file "/opt/solr-$SOLR_VERSION.tgz" \
+ && mv "/opt/solr-$SOLR_VERSION" /opt/solr \
+ && rm "/opt/solr-$SOLR_VERSION.tgz"* \
+ && rm -Rf /opt/solr/docs/ /opt/solr/dist/{solr-core-$SOLR_VERSION.jar,solr-solrj-$SOLR_VERSION.jar,solrj-lib,solr-test-framework-$SOLR_VERSION.jar,test-framework} \
+ && mkdir -p /opt/solr/server/solr/lib /opt/solr/server/solr/mycores /opt/solr/server/logs \
+ && sed -i -e "s/\"\$(whoami)\" == \"root\"/\$(id -u) == 0/" /opt/solr/bin/solr \
+ && sed -i -e 's/lsof -PniTCP:/lsof -t -PniTCP:/' /opt/solr/bin/solr \
+ && if [ -f "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter" ]; then chmod 0755 "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter"; fi \
+ && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/solr /docker-entrypoint-initdb.d /opt/docker-solr \
+ && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/mysolrhome \
  \
  # Set up solr core directories \
  && mkdir -p "/usr/local/share/solr/$SOLR_CORE_NAME/data/tlog" \
@@ -28,5 +30,3 @@ RUN echo "deb http://deb.debian.org/debian/ jessie main" > /etc/apt/sources.list
  && chown solr:solr "/usr/local/share/solr/$SOLR_CORE_NAME/"
 
 COPY ./root/ /
-
-CMD ["/bin/bash", "-c", "/usr/local/share/solr/startup.sh"]
