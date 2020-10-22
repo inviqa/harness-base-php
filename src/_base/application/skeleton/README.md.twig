@@ -61,7 +61,7 @@ Once installed, the site should be available at the following URLs:
 - RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
 {% endif -%}
 {% if @('services.solr.enabled') -%}
-- SOLR: [https://solr-{{ @('hostname') }}/solr/](https://solr-{{ @('hostname') }}/solr/)
+- Solr: [https://solr-{{ @('hostname') }}/solr/](https://solr-{{ @('hostname') }}/solr/)
 {% endif -%}
 {%- endif %}
 

@@ -21,7 +21,7 @@ function task_welcome()
     {% endif -%}
     {% if @('services.solr.enabled') -%}
     echo ""
-    echo "SOLR: https://solr-{{ @('hostname') }}/solr/"
+    echo "Solr: https://solr-{{ @('hostname') }}/solr/"
     {% endif -%}
     echo ""
 }
