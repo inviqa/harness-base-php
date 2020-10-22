@@ -37,6 +37,11 @@ supported version (see list of tags at [solr's docker hub page]):
 ```yaml
 attribute('services.solr.major_version'): 7
 ```
+This will cause the docker image chosen to be `solr:<major_version>-slim` - i.e. the latest minor version available.
+If you need a specific minor version you can overwrite the docker image attribute directly:
+```yaml
+attribute('services.solr.image'): solr:8.4-slim
+```
 
 This will automatically create a `collection1` solr core for use in the project. If you need a custom name for the
 core, you can set:
