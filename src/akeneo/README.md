@@ -28,8 +28,8 @@ git commit -m "Initial commit"
 - A valid subscription with Akeneo to gain access to the enterprise edition codebase.
 - A dedicated user in the Akeneo Portal for the purposes of installing the enterprise edition with composer.
   https://help.akeneo.com/portal/articles/get-akeneo-pim-enterprise-archive.html
-- A public and private SSH keypair generated specifically for the dedicated user in the Akeneo Portal, with the public
-  key associated with the dedicated user.
+- A public and private SSH keypair generated for the purposes of installing the codebase, with the public
+  key associated with the dedicated user in the Akeneo Portal.
 
 ### Installation
 
