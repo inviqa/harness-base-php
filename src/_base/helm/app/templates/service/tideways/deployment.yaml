@@ -19,7 +19,7 @@ spec:
         app.service: {{ .Values.resourcePrefix }}tideways
     spec:
       containers:
-        image: {{ .Values.docker.services.tideways.image | quote }}
+      - image: {{ .Values.docker.services.tideways.image | quote }}
         imagePullPolicy: Always
         name: tideways
         ports:
