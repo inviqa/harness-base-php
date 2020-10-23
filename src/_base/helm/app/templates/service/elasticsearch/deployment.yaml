@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       app.service: {{ $.Values.resourcePrefix }}elasticsearch
-{{- if .enabled }}
+{{- if $.Values.persistence.elasticsearch.enabled }}
   strategy:
     type: Recreate
 {{- end }}
@@ -58,4 +58,5 @@ spec:
         emptyDir: {}
 {{- end }}
 status: {}
+{{- end }}
 {{- end }}
