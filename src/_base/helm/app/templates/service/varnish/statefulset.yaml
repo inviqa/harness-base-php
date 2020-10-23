@@ -19,7 +19,7 @@ spec:
     metadata:
       creationTimestamp: null
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/service/varnish/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/service/varnish/configmap.yaml") $ | sha256sum }}
       labels:
         app.service: {{ $.Values.resourcePrefix }}varnish
     spec:
@@ -31,9 +31,9 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.varnish | .resources.memory }}
+            memory: {{ $.Values.resources.memory.varnish | default .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.varnish | .resources.memory }}
+            memory: {{ $.Values.resources.memory.varnish | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 80
