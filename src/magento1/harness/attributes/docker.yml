@@ -1,7 +1,10 @@
 attributes:
   services:
     php-base:
+      environment:
+        MAGENTO_ENVIRONMENT: = @('magento.environment')
       environment_secrets:
+        MAGENTO_ADMIN_PATH: = @('magento.admin.path')
         MAGENTO_CRYPT_KEY: = @('magento.crypt.key')
   pipeline:
     preview:

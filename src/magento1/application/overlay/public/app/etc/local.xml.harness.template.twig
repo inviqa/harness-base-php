@@ -6,12 +6,12 @@
 -->
 <config>
     <global>
-        <environment><![CDATA[{{ @('magento.environment') }}]]></environment>
+        <environment><![CDATA[$MAGENTO_ENVIRONMENT]]></environment>
         <install>
             <date><![CDATA[Fri, 11 Jan 2019 15:00:00 +0000]]></date>
         </install>
         <crypt>
-            <key><![CDATA[{{ @('magento.crypt.key') }}]]></key>
+            <key><![CDATA[$MAGENTO_CRYPT_KEY]]></key>
         </crypt>
         <disable_local_modules>false</disable_local_modules>
 
@@ -24,15 +24,15 @@
             </db>
             <default_setup>
                 <connection>
-                    <host><![CDATA[{{ @('database.host') }}]]></host>
-                    <dbname><![CDATA[{{ @('database.name') }}]]></dbname>
-                    <username><![CDATA[{{ @('database.user') }}]]></username>
+                    <host><![CDATA[$DB_HOST]]></host>
+                    <dbname><![CDATA[$DB_NAME]]></dbname>
+                    <username><![CDATA[$DB_USER]]></username>
                     <persistent><![CDATA[0]]></persistent>
                     <active><![CDATA[1]]></active>
                     <model><![CDATA[mysql4]]></model>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <type><![CDATA[pdo_mysql]]></type>
-                    <password><![CDATA[{{ @('database.pass') }}]]></password>
+                    <password><![CDATA[$DB_PASS]]></password>
                     {% if @('app.mode') == 'development' %}
                     <profiler><![CDATA[1]]></profiler>
                     {% endif %}
@@ -44,8 +44,8 @@
         <cache>
             <backend><![CDATA[Cm_Cache_Backend_Redis]]></backend><!-- apc / memcached / xcache / Cm_Cache_Backend_Redis empty=file -->
             <backend_options>
-                <server><![CDATA[{{ @('redis.host') }}]]></server> <!-- or absolute path to unix socket for better performance -->
-                <port><![CDATA[{{ @('redis.port') }}]]></port>
+                <server><![CDATA[$REDIS_HOST]]></server> <!-- or absolute path to unix socket for better performance -->
+                <port><![CDATA[$REDIS_PORT]]></port>
                 <database><![CDATA[0]]></database>
                 <force_standalone><![CDATA[1]]></force_standalone><!-- 0 for phpredis, 1 for standalone PHP -->
                 <automatic_cleaning_factor><![CDATA[0]]></automatic_cleaning_factor> <!-- Disabled by default -->
@@ -59,8 +59,8 @@
         <full_page_cache>
             <backend><![CDATA[Cm_Cache_Backend_Redis]]></backend><!-- apc / memcached / xcache / Cm_Cache_Backend_Redis empty=file -->
             <backend_options>
-                <server><![CDATA[{{ @('redis.host') }}]]></server> <!-- or absolute path to unix socket for better performance -->
-                <port><![CDATA[{{ @('redis.port') }}]]></port>
+                <server><![CDATA[$REDIS_HOST]]></server> <!-- or absolute path to unix socket for better performance -->
+                <port><![CDATA[$REDIS_PORT]]></port>
                 <database><![CDATA[1]]></database>
                 <force_standalone><![CDATA[1]]></force_standalone><!-- 0 for phpredis, 1 for standalone PHP -->
                 <automatic_cleaning_factor><![CDATA[0]]></automatic_cleaning_factor> <!-- Disabled by default -->
@@ -75,7 +75,7 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName><![CDATA[{{ @('magento.admin.path') ?: 'admin' }}]]></frontName>
+                    <frontName><![CDATA[$MAGENTO_ADMIN_PATH]]></frontName>
                 </args>
             </adminhtml>
         </routers>

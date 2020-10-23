@@ -23,6 +23,8 @@ attributes:
       - '/app/public/sitemaps'
       - '/app/public/staging'
       - '/app/public/var'
+      - '/app/public/var/log'
+      - '/app/public/var/report'
     services:
       - chrome
       - mysql
@@ -37,6 +39,16 @@ attributes:
     name: magento
   php:
     version: 7.2
+    entrypoint:
+      steps:
+        - |
+          if [ -f /home/build/application/overlay/public/app/etc/local.xml.harness.template ]; then
+            envsubst < /home/build/application/overlay/public/app/etc/local.xml.harness.template > /home/build/application/overlay/public/app/etc/local.xml
+          fi
+        - |
+          if [ -f /app/public/app/etc/local.xml.harness.template ]; then
+            envsubst < /app/public/app/etc/local.xml.harness.template > /app/public/app/etc/local.xml
+          fi
   magento:
     edition: enterprise
     version: 1.14.4.5

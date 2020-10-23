@@ -23,6 +23,7 @@
 /phpcs.xml
 /phpmd.xml
 /public/app/etc/local.xml
+/public/app/etc/local.xml.harness.template
 /public/errors/local.xml
 /workspace.override.yml
 

@@ -56,7 +56,7 @@ confd('harness:/'):
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
   # harness-magento1 templates
-  - { src: application/overlay/public/app/etc/local.xml }
+  - { src: application/overlay/public/app/etc/local.xml.harness.template }
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/run-code-mapping.conf }
