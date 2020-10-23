@@ -218,9 +218,9 @@ attributes.default:
       config:
         agent_socket: "tcp://blackfire:8707"
     ext-tideways:
-      enable: no
+      enable: "= @('services.tideways.enabled')"
       cli:
-        enable: no
+        enable: "= @('services.tideways.enabled')"
       config:
         connection: "tcp://tideways:9135"
         collect: tracing
@@ -359,6 +359,7 @@ attributes.default:
       rabbitmq: "1024Mi"
       redis: "256Mi"
       redis_session: "1024Mi"
+      tideways: "256Mi"
       varnish: "1124Mi"
 
   replicas:

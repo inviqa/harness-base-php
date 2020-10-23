@@ -25,6 +25,15 @@ run_steps()
     {% else -%}
     :
     {% endfor %}
+
+    # Clean up Tideways module loading if it's meant to be turned off
+    if [ -n "$TIDEWAYS_ENABLED" ] && [ -f /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini ]; then
+      if [ "$TIDEWAYS_ENABLED" = "true" ]; then
+          sed -i'' "s#tideways.connection=.*$#tideways.connection=tcp://$TIDEWAYS_HOST:9135#" /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
+      else
+          rm /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
+      fi
+    fi
 }
 
 bootstrap()

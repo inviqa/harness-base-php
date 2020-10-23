@@ -26,6 +26,7 @@ attributes:
         SMTP_HOST: = @('smtp.host')
         SMTP_PORT: = @('smtp.port')
         PHP_IDE_CONFIG: "serverName=workspace"
+        TIDEWAYS_HOST: tideways
         VARNISH_HOSTNAME_TEMPLATE: "varnish-%d.varnish-headless"
       environment_secrets:
         DB_PASS: = @('database.pass')
@@ -115,6 +116,7 @@ attributes:
       publish: false
     tideways:
       enabled: "= 'tideways' in @('app.services')"
+      image: quay.io/inviqa_images/tideways:latest
       environment:
         TIDEWAYS_HOSTNAME: = @('hostname')
         TIDEWAYS_ENV: production
@@ -142,9 +144,14 @@ attributes:
             REDIS_HOST: '{{ if .Values.service.redis | default .Values.docker.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
             REDIS_SESSION_HOST: '{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
+            TIDEWAYS_HOST: "{{ .Values.resourcePrefix  }}tideways"
+            TIDEWAYS_ENABLED: "{{ .Values.service.tideways | default .Values.docker.services.tideways.enabled }}"
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
         mysql:
           options: = @('services.mysql.options')
+        console:
+          environment:
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.service.tideways | default .Values.docker.services.tideways.enabled }}' : 'false'"
         nginx:
           environment:
             FPM_HOST: localhost
@@ -161,6 +168,9 @@ attributes:
             - port: php-fpm-metrics
         relay:
           enabled: false
+        tideways:
+          environment:
+            TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
@@ -189,6 +199,9 @@ attributes:
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.qa.rabbitmq.external_host')
             SMTP_HOST: = @('pipeline.qa.smtp.host')
             SMTP_PORT: = @('pipeline.qa.smtp.port')
+        tideways:
+          environment:
+            TIDEWAYS_HOSTNAME: = @('pipeline.qa.hostname')
     preview:
       resources:
         memory:
@@ -204,6 +217,8 @@ attributes:
           postgres: "512Mi"
           redis: "64Mi"
           redis_session: "64Mi"
+          tideways: "256Mi"
+          varnish: "1124Mi"
       services:
         console:
           enabled: false
