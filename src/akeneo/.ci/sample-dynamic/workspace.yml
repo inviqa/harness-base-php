@@ -9,6 +9,11 @@ attribute('aws.key'): null
 
 attribute('docker.port_forward.enabled'): false
 
+attribute('akeneo.edition'): community
+attribute('akeneo.enterprise.distribution.project_name'): ''
+attribute('ssh.key.public'): ''
+attribute('ssh.key.private'): ''
+
 attribute('hostname_aliases'):
   - test-one-ci-akeneo-sample-dynamic
   - test-two-ci-akeneo-sample-dynamic

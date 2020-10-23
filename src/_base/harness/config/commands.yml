@@ -6,7 +6,7 @@ command('enable'):
     APP_BUILD:            = @('app.build')
     APP_MODE:             = @('app.mode')
     NAMESPACE:            = @('namespace')
-    HAS_ASSETS:           = @('aws.bucket') !== null ? 'yes':'no'
+    HAS_ASSETS:           = @('aws.bucket') !== null and @('aws.bucket') !== '' ? 'yes':'no'
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)

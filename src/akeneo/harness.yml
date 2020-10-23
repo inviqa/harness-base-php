@@ -1,12 +1,19 @@
 ---
 harness('inviqa/akeneo'):
-  description: A docker based development environment for akeneo
+  description: A docker based development environment for akeneo 4.x
   require:
     services:
       - proxy
       - mail
     confd:
       - harness:/
+    attributes:
+      standard:
+        - akeneo.edition
+        - akeneo.enterprise.distribution.project_name
+        - ssh.key.public
+      secret_file:
+        - ssh.key.private
 ---
 attributes:
   app:
@@ -29,7 +36,10 @@ attributes:
     vendor_directory: /app/vendor
   akeneo:
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
-    edition: community
+    edition: ~
+    enterprise:
+      distribution:
+        project_name: ~
   php:
     version: 7.3
     ini:
@@ -55,6 +65,12 @@ attributes:
   backend:
     build:
       steps:
+        - |
+          if grep -q akeneo/pim-enterprise-dev composer.json; then
+            run "ssh-keyscan github.com >> ~/.ssh/known_hosts"
+            run "ssh-keyscan -p 443 distribution.akeneo.com >> ~/.ssh/known_hosts"
+            run "chmod 0600 /home/build/.ssh/id_*"
+          fi
         - task composer:install
     install:
       steps:

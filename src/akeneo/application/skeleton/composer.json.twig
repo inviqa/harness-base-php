@@ -10,8 +10,10 @@
       "Pim\\Upgrade\\": "upgrades/"
     },
     "exclude-from-classmap": [
-      "vendor/akeneo/pim-community-dev/src/Kernel.php"{% if @('akeneo.edition') == 'enterprise' %},
-      "vendor/akeneo/pim-enterprise-dev/src/Kernel.php"{% endif %}
+      "vendor/akeneo/pim-community-dev/src/Kernel.php"
+{%- if @('akeneo.edition') == 'enterprise' %},
+      "vendor/akeneo/pim-enterprise-dev/src/Kernel.php"
+{%- endif %}
     ]
   },
   "autoload-dev": {
@@ -19,6 +21,15 @@
       "Inviqa\\Acceptance\\": "features/bootstrap"
     }
   },
+{%- if @('akeneo.edition') == 'enterprise' %}
+  "repositories": {
+    "akeneo": {
+      "type": "vcs",
+      "url": "ssh://git@distribution.akeneo.com:443/{{ @('akeneo.enterprise.distribution.project_name') }}.git",
+      "no-api": true
+    }
+  },
+{%- endif %}
   "require": {
     "php": ">= 7.3",
     "akeneo/pim-{{ @('akeneo.edition') }}-dev": "^4.0.0"
