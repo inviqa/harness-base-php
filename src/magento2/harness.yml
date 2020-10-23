@@ -22,6 +22,7 @@ attributes:
       - '/app/pub/media'
       - '/app/pub/static'
       - '/app/var'
+      - '/app/var/export'
       - '/app/pub/static/frontend'
       - "= (@('app.mode') !== 'production' ? '/app/generated' : '')"
     services:
@@ -32,6 +33,7 @@ attributes:
       - redis-session
       - elasticsearch
     web_directory: /app/pub
+    export_directory: /app/var/export
     media_directory: = @('app.web_directory') ~ '/media'
   php:
     fpm:
@@ -78,6 +80,7 @@ attributes:
           else
             echo -n "$(date +%s)" > pub/static/deployed_version.txt
           fi
+        - run mkdir -p /app/var/export
     install:
       steps:
         # the magento installer will not work if the dpeloyment config is present so we remove and
@@ -175,6 +178,13 @@ attributes:
   persistence:
     enabled: false
     magento:
+      export:
+        claimName: magento-export-pvc
+        mountPath: = @('app.export_directory')
+        accessMode: ReadWriteMany # the requirement if persistence is enabled
+        #storageClass: "..." most clusters need a custom storageclass
+        #hostPath: "..." alternatively for single node testing
+        size: 512Mi
       media:
         claimName: magento-media-pvc
         mountPath: = @('app.media_directory')

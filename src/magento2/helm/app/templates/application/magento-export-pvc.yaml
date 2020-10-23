@@ -1,0 +1,45 @@
+{{- if .Values.persistence.enabled -}}
+{{- with .Values.persistence.magento.export -}}
+{{- if .hostPath }}
+---
+kind: PersistentVolume
+metadata:
+  name: magento-export
+spec:
+  capacity: {{ .size | quote }}
+  accessModes:
+    - {{ .accessMode | quote }}
+  hostPath:
+    path: {{ .hostPath | quote }}
+  storageClassName: host-magento-export
+...
+{{- end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ tpl .claimName $ | quote }}
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .hostPath }}
+      storageClassName: host-magento-export
+{{- else }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+...
+{{- end -}}
+{{- end -}}
