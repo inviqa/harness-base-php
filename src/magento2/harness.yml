@@ -60,6 +60,13 @@ attributes:
     run:
       code: []
       type: []
+    static_content:
+      backend:
+        languages: []
+        themes: []
+      frontend:
+        languages: []
+        themes: []
   backend:
     build:
       steps:
@@ -75,7 +82,7 @@ attributes:
         - |
           if [ "$APP_BUILD" == "static" ] && validate-magento-config ; then
             run mv app/etc/env.php app/etc/env-backup.php
-            passthru bin/magento setup:static-content:deploy -f
+            task magento:static_content_deploy
             run mv app/etc/env-backup.php app/etc/env.php
           else
             echo -n "$(date +%s)" > pub/static/deployed_version.txt

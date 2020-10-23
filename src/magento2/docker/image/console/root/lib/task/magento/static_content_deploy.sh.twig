@@ -1,0 +1,16 @@
+#!/bin/bash
+{% macro themes(deploy_themes) -%}
+{{ deploy_themes ? ' --theme ' ~ deploy_themes|join(' --theme ') : '' }}
+{%- endmacro %}
+{% macro languages(deploy_languages) -%}
+{{ deploy_languages ? ' --language ' ~ deploy_languages|join(' --language ') : '' }}
+{%- endmacro %}
+function task_magento_static_content_deploy()
+{
+{% if @('magento.static_content.backend') == @('magento.static_content.frontend') %}
+    passthru bin/magento setup:static-content:deploy --jobs 8 --symlink-locale --no-interaction --ansi{{  _self.themes(@('magento.static_content.backend.themes'))}}{{  _self.languages(@('magento.static_content.backend.languages')) }}
+{% else %}
+    passthru bin/magento setup:static-content:deploy --jobs 8 --symlink-locale --no-interaction --ansi --area backend{{  _self.themes(@('magento.static_content.backend.themes'))}}{{  _self.languages(@('magento.static_content.backend.languages')) }}
+    passthru bin/magento setup:static-content:deploy --jobs 8 --symlink-locale --no-interaction --ansi --area frontend{{  _self.themes(@('magento.static_content.frontend.themes'))}}{{  _self.languages(@('magento.static_content.frontend.languages')) }}
+{% endif %}
+}
