@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       app.service: {{ $.Values.resourcePrefix }}jenkins
-{{- if $.Values.persistence.postgres.enabled }}
+{{- if $.Values.persistence.jenkins.enabled }}
   strategy:
     type: Recreate
 {{- end }}
