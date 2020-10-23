@@ -1,5 +1,5 @@
   tideways:
-    image: {{ @('service.tideways.image') }}
+    image: {{ @('services.tideways.image') }}
     labels:
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
