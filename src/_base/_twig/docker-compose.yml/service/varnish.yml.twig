@@ -1,4 +1,4 @@
-{% if 'varnish' in @('app.services') %}
+{% if @('services.varnish.enabled') %}
 {% set hostnames = [@('hostname')] %}
 {% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
   varnish:

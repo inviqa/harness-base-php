@@ -1,0 +1,42 @@
+{% set blocks  = '_twig/docker-compose.yml/' %}
+{% set syncvolume = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set syncvolume = true %}
+{% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% set syncvolume = true %}
+{% endif %}
+
+  nginx:
+    build: .my127ws/docker/image/nginx
+{% if @('app.build') == 'dynamic' %}
+    volumes:
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
+{% else %}
+    image: {{ @('services.nginx.image') }}
+{% endif %}
+    labels:
+      - traefik.backend={{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:{{ @('yves.external_hosts')|join(',') }},{{ @('glue.external_hosts')|join(',') }},{{ @('zed.external_hosts')|join(',') }}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+    links:
+      - php-fpm:php-fpm
+    environment:
+{% if @('services.nginx.environment') %}
+{{ to_nice_yaml(@('services.nginx.environment'), 2, 6) | raw }}
+{% endif %}
+{% include blocks ~ 'nginx_environment.yml.twig' %}
+    networks:
+      private:
+        aliases:
+          - {{ @('hostname') }}
+{% for yves_external_host in @('yves.external_hosts') %}
+          - {{ yves_external_host }}
+{% endfor %}
+{% for glue_external_host in @('glue.external_hosts') %}
+          - {{ glue_external_host }}
+{% endfor %}
+{% for zed_external_host in @('zed.external_hosts') %}
+          - {{ zed_external_host }}
+{% endfor %}
+      shared: {}

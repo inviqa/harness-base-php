@@ -51,13 +51,13 @@ Once installed, the site should be available at the following URLs:
 {% endfor %}
 {% endif %}
 
-{%- if 'rabbitmq' in @('app.services') or 'jenkins' in @('app.services') %}
+{%- if @('services.rabbitmq.enabled') or @('services.jenkins.enabled') %}
 
 **Additional services**:
-{% if 'rabbitmq' in @('app.services') -%}
+{% if @('services.rabbitmq.enabled') -%}
 - RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
 {% endif -%}
-{% if 'jenkins' in @('app.services') -%}
+{% if @('services.jenkins.enabled') -%}
 - Jenkins: [https://{{ @('jenkins.external_host') }}](https://{{ @('jenkins.external_host') }})
 {% endif %}
 {%- endif %}
@@ -98,7 +98,7 @@ ws harness update fresh
 {% include blocks ~ readme_block ~ '.md.twig' %}
 {% endfor %}
 
-{% if "mysql" in @('app.services') -%}
+{% if @('services.mysql.enabled') -%}
 ### MySQL Access
 
 MySQL can be used either via command line tools via `ws db console` or via GUI tools.

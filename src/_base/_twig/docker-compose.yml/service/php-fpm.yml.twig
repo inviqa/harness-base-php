@@ -1,0 +1,35 @@
+{% set blocks  = '_twig/docker-compose.yml/' %}
+{% set syncvolume = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set syncvolume = true %}
+{% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% set syncvolume = true %}
+{% endif %}
+
+  php-fpm:
+    build: .my127ws/docker/image/php-fpm
+{% if @('app.build') == 'dynamic' %}
+{% if @('services.cron.enabled') %}
+    image: {{ @('workspace.name') ~ '-php-fpm:dev' }}
+{% endif %}
+    volumes:
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
+      - ./.my127ws:/.my127ws
+{% else %}
+    image: {{ @('services.php-fpm.image') }}
+{% endif %}
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.php-base.environment'),
+        @('services.php-fpm.environment'),
+        @('services.php-base.environment_secrets'),
+        @('services.php-fpm.environment_secrets')
+      ]), 2, 6) | raw }}
+{% include blocks ~ 'environment.yml.twig' %}
+    expose:
+{% for pool in @('php-fpm.pools') %}
+      - {{ pool.port }}
+{% endfor %}

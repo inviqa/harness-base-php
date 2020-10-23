@@ -1,3 +1,4 @@
+{{- if index .Values.docker.services .Values.ingress.target_service "enabled" -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,3 +14,4 @@ spec:
     app.service: {{ .Values.resourcePrefix }}webapp
 status:
   loadBalancer: {}
+{{- end }}

@@ -14,18 +14,6 @@ git commit -m "Initial commit"
 ```
 6. Store the `workspace.override.yml` contents in a suitable location (such as LastPass).
 
-To enable jenkins service for running Spryker's background jobs, set following config in workspace.yml:
-```yaml
-attribute('app.services'):
-  - chrome
-  - postgres
-  - redis
-  - elasticsearch
-  - rabbitmq
-  - jenkins
-  - jenkins-runner
-``` 
-
 To generate and encrypt secrets for pipeline environments: 
 https://github.com/inviqa/k8s-project-cluster/blob/0.1.x-dev/docs/cluster-management/sealed-secrets/README.md
 

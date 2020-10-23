@@ -4,7 +4,7 @@ attributes:
       environment:
         APPLICATION_ENV: = @('spryker.mode')
         REDIS_PROTOCOL: = @('redis.protocol')
-        HAS_JENKINS_RUNNER: "= ('jenkins-runner' in @('app.services') ? 'true' : 'false')"
+        HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
         JENKINS_HOST: = @('jenkins.host')
         JENKINS_PORT: = @('jenkins.port')
         JENKINS_URL: = 'http://' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
@@ -22,7 +22,7 @@ attributes:
     jenkins-runner:
       enabled: "= 'jenkins-runner' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner'
-      publish: "= 'jenkins-runner' in @('app.services')"
+      publish: = @('services.jenkins-runner.enabled')
       environment:
         RUNNER_NUM_EXECUTORS: 1
     rabbitmq:

@@ -1,8 +1,8 @@
 
 command('app build'):
   env:
-    HAS_CRON: "= ('cron' in @('app.services') ? 'true' : 'false')"
-    HAS_JENKINS_RUNNER: "= ('jenkins-runner' in @('app.services') ? 'true' : 'false')"
+    HAS_CRON: "= @('services.cron.enabled') ? 'true' : 'false'"
+    HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
   exec: |
     #!bash(workspace:/)|@
     ws external-images pull

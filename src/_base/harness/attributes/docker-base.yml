@@ -42,14 +42,14 @@ attributes:
       publish: true
       environment:
         DB_ADMIN_USER: root
-        HAS_ELASTICSEARCH: "= ('elasticsearch' in @('app.services') ? 'true' : 'false')"
-        HAS_VARNISH: "= ('varnish' in @('app.services') ? 'true' : 'false')"
+        HAS_ELASTICSEARCH: "= @('services.elasticsearch.enabled') ? 'true' : 'false'"
+        HAS_VARNISH: "= @('services.varnish.enabled') ? 'true' : 'false'"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
     cron:
       enabled: "= 'cron' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
-      publish: "= 'cron' in @('app.services')"
+      publish: "= @('services.cron.enabled')"
     php-fpm:
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
@@ -110,6 +110,9 @@ attributes:
     redis_session:
       enabled: "= 'redis_session' in @('app.services')"
       image: redis:5-alpine
+    relay:
+      enabled: true
+      publish: false
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       environment:
@@ -120,6 +123,9 @@ attributes:
       image: varnish:6
       environment:
         VARNISH_SIZE: "1024M"
+    # webapp is by default two services combined, nginx and php-fpm
+    webapp:
+      enabled: true
   pipeline:
     base:
       prometheus:
@@ -153,6 +159,8 @@ attributes:
           metricsEnabled: true
           metricsEndpoints:
             - port: php-fpm-metrics
+        relay:
+          enabled: false
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"

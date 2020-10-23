@@ -1,0 +1,43 @@
+{% set syncvolume = false %}
+{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
+{% set syncvolume = true %}
+{% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% set syncvolume = true %}
+{% endif %}
+{% set hostnames = [@('hostname')] %}
+{% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
+
+  nginx:
+    build: .my127ws/docker/image/nginx
+{% if @('app.build') == 'dynamic' %}
+    volumes:
+      - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options'))  }}
+{% else %}
+    image: {{ @('services.nginx.image') }}
+{% endif %}
+    labels:
+{% if @('services.varnish.enabled') %}
+      - traefik.enable=false
+{% else %}
+      - traefik.backend={{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
+      - traefik.docker.network=my127ws
+      - traefik.port=80
+{% endif %}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.nginx.environment'),
+        @('services.nginx.environment_secrets')
+      ]), 2, 6) | raw }}
+    links:
+      - php-fpm:php-fpm
+    networks:
+{% if @('services.varnish.enabled') %}
+      private: {}
+{% else %}
+      private:
+        aliases:
+{% for alias in hostnames %}
+          - {{ alias }}
+{% endfor %}
+{% endif %}
+      shared: {}

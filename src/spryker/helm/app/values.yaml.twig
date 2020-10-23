@@ -9,7 +9,7 @@ environment:
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
 ingress:
-  target_service: {{ ("varnish" in @('app.services') ? 'varnish' : 'webapp') }}
+  target_service: {{ @('services.varnish.enabled') ? 'varnish' : 'webapp' }}
   type: "standard" # standard or istio
 
 docker:

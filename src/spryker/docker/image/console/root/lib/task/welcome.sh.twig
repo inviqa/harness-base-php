@@ -16,11 +16,11 @@ function task_welcome()
     {% for store, glue_external_host in @('glue.external_hosts') %}
     echo "Glue API {{ store }}: https://${GLUE_HOST_{{ store }}}"
     {% endfor %}
-    {% if 'jenkins' in @('app.services') -%}
+    {% if @('services.jenkins.enabled') -%}
     echo ""
     echo "Jenkins: https://{{ @('jenkins.external_host') }}"
     {% endif -%}
-    {% if 'rabbitmq' in @('app.services') -%}
+    {% if @('services.rabbitmq.enabled') -%}
     echo ""
     echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"
     echo "  Username: {{ @('rabbitmq.user') }}"

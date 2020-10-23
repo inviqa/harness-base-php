@@ -1,4 +1,5 @@
 {{- $service_php_fpm := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "php-fpm") (dict "environment" .Values.environment) -}}
+{{- if .Values.docker.services.webapp.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,7 +19,7 @@ spec:
       labels:
         app.service: {{ .Values.resourcePrefix }}webapp
     spec:
-      {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
+      {{- if and $service_php_fpm.enabled (not (eq "" (include "application.volumes.wwwDataPaths" .))) }}
       initContainers:
       - name: webapp-volume-permissions
         image: busybox
@@ -109,7 +110,7 @@ spec:
         {{- else }} []
         {{- end }}
 
-      {{ if .Values.service.php_fpm_exporter | default (index .Values.docker.services "php-fpm-exporter" "enabled") }}
+      {{- if .Values.service.php_fpm_exporter | default (index .Values.docker.services "php-fpm-exporter" "enabled") }}
       - name: php-fpm-exporter
         env:
         {{- range $key, $value := index .Values.docker.services "php-fpm-exporter" "environment" }}
@@ -136,7 +137,7 @@ spec:
             port: 9253
           initialDelaySeconds: 5
           periodSeconds: 10
-      {{ end }}
+      {{- end }}
 {{- if .Values.docker.image_pull_config }}
       imagePullSecrets:
       - name: {{ .Values.resourcePrefix }}image-pull-config
@@ -150,3 +151,4 @@ spec:
       {{- else }} []
       {{- end }}
 status: {}
+{{- end }}
