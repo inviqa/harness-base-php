@@ -40,9 +40,9 @@ spec:
         name: console
         resources:
           limits:
-            memory: {{ .Values.resources.memory.console }}
+            memory: {{ .Values.resources.memory.console | default $service.resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.console }}
+            memory: {{ .Values.resources.memory.console | default $service.resources.memory }}
         readinessProbe:
           exec:
             command:

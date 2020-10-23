@@ -2,9 +2,6 @@ attributes:
   akeneo:
     app:
       mode: dev # dev or prod
-  resources:
-    memory:
-      job_queue_consumer: "1024Mi"
   services:
     php-base:
       environment:
@@ -30,6 +27,8 @@ attributes:
       environment:
         AUTOSTART_AKENEO_JOB_QUEUE_CONSUMER: "true"
         AKENEO_JOB_QUEUE_CONSUMER_PROCESSES: 5
+      resources:
+        memory: "1024Mi"
   pipeline:
     base:
       services:

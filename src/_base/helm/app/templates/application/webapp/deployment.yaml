@@ -59,9 +59,9 @@ spec:
           containerPort: 80
         resources:
           limits:
-            memory: {{ .Values.resources.memory.nginx }}
+            memory: {{ .Values.resources.memory.nginx | default $service_php_fpm.resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.nginx }}
+            memory: {{ .Values.resources.memory.nginx | default $service_php_fpm.resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 80

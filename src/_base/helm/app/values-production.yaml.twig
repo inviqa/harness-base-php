@@ -9,6 +9,6 @@ docker:
 persistence: {{ to_nice_yaml(@('pipeline.production.persistence'), 2, 2) | raw }}
 {% endif %}
 
- {% if @('pipeline.production.resources') %}
+{% if @('pipeline.production.resources') %}
 resources: {{ to_nice_yaml(@('pipeline.production.resources'), 2, 2) | raw }}
 {% endif %}

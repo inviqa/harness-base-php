@@ -56,9 +56,9 @@ spec:
         imagePullPolicy: Always
         resources:
           limits:
-            memory: {{ .Values.resources.memory.job_queue_consumer }}
+            memory: {{ .Values.resources.memory.job_queue_consumer | default $service.resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.job_queue_consumer }}
+            memory: {{ .Values.resources.memory.job_queue_consumer | default $service.resources.memory }}
         volumeMounts:
         {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
         {{- include "application.volumeMounts.backend" . | indent 8 }}
