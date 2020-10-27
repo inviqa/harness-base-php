@@ -25,6 +25,25 @@ Each framework will fully override a base harness file if differing behaviour is
 * Pipeline docker-compose environment for use in Jenkins or other tools to run tests
 * Helm chart for deploying QA, UAT and Production environments to Kubernetes clusters
 
+## Harness Upgrade Instructions
+
+A developer for a project can follow these steps to upgrade their harness version:
+
+1. Update the `workspace.yml` harness version (usually line 2 or 3).
+2. Perform a recursive diff between the new release and any "overlay" directories such as `tools/workspace/`.
+    1. Remove any files from the project that are now the same as the harness.
+    2. Port over any changes from the harness to override files that must stay.
+3. Recursive diff between the new release's application/skeleton/ folder to the project root.
+    1. If a skeleton file is missing, copy it to the project
+    2. If a project file is missing some changes from the skeleton, try applying the change from the skeleton.
+    3. Port over new features such as new standard dev tooling in composer.json.
+4. Compare the overrides for attributes in the project's `workspace.yml` to the harness's `harness.yml` and `harness/attributes/*.yml`.
+    1. Port over any additional build, init or migrate steps.
+    2. Remove any attribute overrides from workspace.yml that are now the same as the harness.
+5. Test with `ws harness update existing`
+6. Open a pull request with the project and ensure CI checks (such as Jenkins) pass.
+7. Ask for someone else to test the pull request.
+
 ## Helm charts
 
 Each harness deploys:
