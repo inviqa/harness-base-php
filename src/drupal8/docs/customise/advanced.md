@@ -6,39 +6,61 @@ There may be times when you need to customise the Workspace environment beyond w
 
 
 ## Adding a new service
+
 If you need a service that isn't already provided (see [available base services](https://github.com/inviqa/harness-base-php/blob/0.11.x/src/_base/_twig/docker-compose.yml/service)) then you can register a new service following the [docker-compose](https://docs.docker.com/compose/compose-file/) notation.
 
 Create your new service file in the `tools/workspace/_twig/docker-compose.yml/service/` directory.  
 
-See the example `solr.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker-compose errors.
+See the example `example.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker-compose errors.
 ```yaml
-  solr:
-    image: {{ @('services.solr.image') }}
-    labels:
-      - traefik.backend=solr{{ @('workspace.name') }}
-      - traefik.frontend.rule=Host:solr-{{ @('hostname') }}
-      - traefik.docker.network=my127ws
-      - traefik.port=8983
-    volumes:
-      - ./{{ @('solr.config_dir') }}:/solr-config/conf
-    command:
-      - solr-precreate
-      - d8
-      - /solr-config
+  example:
+    image: {{ @('services.example.image') }}
     networks:
       - private
-      - shared
-    ports:
-      - 8900
 ```
 
-The `workspace.yml` file will also need to be updated to use the new service and define the new attributes used in `solr.yml.twig`:
+The `workspace.yml` file will also need to be updated to use the new service and define the new attributes used in `example.yml.twig`:
+```yaml
+attribute('services.example.enabled'): true
+attribute('services.example.image'): "my127/example:tag"
+```
+
+## Adding Solr
+
+Opt in to using solr with the following in your workspace.yml:
 ```yaml
 attribute('services.solr.enabled'): true
-attribute('services.solr.image'): "solr:6-slim"
-attribute('solr.config_dir'): = @('drupal.docroot') ~ '/modules/contrib/search_api_solr/solr-conf/6.x'
 ```
 
+If you need to use an older version than v8, set the major version like so. It is recommended to use an officially
+supported version (see list of tags at [solr's docker hub page]):
+```yaml
+attribute('services.solr.major_version'): 7
+```
+This will cause the docker image chosen to be `solr:<major_version>-slim` - i.e. the latest minor version available.
+If you need a specific minor version you can overwrite the docker image attribute directly:
+```yaml
+attribute('services.solr.image'): solr:8.4-slim
+```
+
+This will automatically create a `collection1` solr core for use in the project. If you need a custom name for the
+core, you can set:
+```yaml
+attribute('services.solr.environment.SOLR_CORE_NAME'): example_core_name
+```
+
+If you have a pre-existing configuration that should be applied when creating this core, you can configure it like so,
+with a path relative to the project root:
+```yaml
+attribute('services.solr.config_path'): path/to/config/directory/
+```
+
+There is a special case if the version required is v4, which is not present on the officially supported versions list.
+It's not recommended to use this version as it is unmaintained, but there are some large cloud providers that do not
+support newer versions.
+
+To support v4, we build a custom docker image based on the official v5 image, and overwrite the solr installation with
+the unsupported version.
 
 ## Use twig temples
 When overriding harness files or adding application overlay files using twig templates can be valuable for providing access to Workspace attributes. Not only this but you will have the power of [twig] at your fingertips.
@@ -94,3 +116,4 @@ confd('harness:/'):
 
 [contributing guide]: ../contribute.md
 [twig]: https://twig.symfony.com/doc/3.x/
+[solr's docker hub page]: https://hub.docker.com/_/solr

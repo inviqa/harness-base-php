@@ -26,5 +26,9 @@ function task_welcome()
     echo "  Username: {{ @('rabbitmq.user') }}"
     echo "  Password: {{ @('rabbitmq.password') }}"
     {% endif -%}
+    {% if @('services.solr.enabled') -%}
+    echo ""
+    echo "Solr: https://solr-{{ @('hostname') }}/solr/"
+    {% endif -%}
     echo ""
 }

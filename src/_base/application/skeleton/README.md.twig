@@ -51,15 +51,18 @@ Once installed, the site should be available at the following URLs:
 {% endfor %}
 {% endif %}
 
-{%- if @('services.rabbitmq.enabled') or @('services.jenkins.enabled') %}
+{%- if @('services.jenkins.enabled') or @('services.rabbitmq.enabled') or @('services.solr.enabled') %}
 
 **Additional services**:
-{% if @('services.rabbitmq.enabled') -%}
-- RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
-{% endif -%}
 {% if @('services.jenkins.enabled') -%}
 - Jenkins: [https://{{ @('jenkins.external_host') }}](https://{{ @('jenkins.external_host') }})
 {% endif %}
+{% if @('services.rabbitmq.enabled') -%}
+- RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
+{% endif -%}
+{% if @('services.solr.enabled') -%}
+- Solr: [https://solr-{{ @('hostname') }}/solr/](https://solr-{{ @('hostname') }}/solr/)
+{% endif -%}
 {%- endif %}
 
 ### Development environment cleanup

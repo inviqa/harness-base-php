@@ -1,0 +1,32 @@
+  solr:
+{% if @('services.solr.major_version') == 4 %}
+    build:
+      context: .my127ws/docker/image/solr4/
+{% else %}
+    image: {{ @('services.solr.image') }}
+{% endif %}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.solr.environment'),
+        @('services.solr.environment_secrets')
+      ]), 2, 6) | raw }}
+    labels:
+      - traefik.backend=solr-{{ @('workspace.name') }}
+      - traefik.frontend.rule=Host:solr-{{ @('hostname') }}
+      - traefik.docker.network=my127ws
+      - traefik.port=8983
+    command:
+      - solr-precreate
+      - {{ @('services.solr.environment.SOLR_CORE_NAME') }}
+{% if @('services.solr.config_path') %}
+      - /opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
+{% elseif @('services.solr.major_version') == 4 %}
+      - /opt/solr/example/example-schemaless/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/conf
+{% endif %}
+    volumes:
+{% if @('services.solr.config_path') %}
+      - {{ @('services.solr.config_path')}}:/opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
+{% endif %}
+      - solr_data:/var/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/data/
+    networks:
+      - private
+      - shared
