@@ -51,16 +51,14 @@ Once installed, the site should be available at the following URLs:
 {% endfor %}
 {% endif %}
 
-{%- if @('services.rabbitmq.enabled') or @('services.jenkins.enabled') %}
-
 **Additional services**:
+- Mailhog: [https://mail.my127.site](https://mail.my127.site)
 {% if @('services.rabbitmq.enabled') -%}
 - RabbitMQ: [https://{{ @('rabbitmq.external_host') }}](https://{{ @('rabbitmq.external_host') }})
 {% endif -%}
 {% if @('services.jenkins.enabled') -%}
 - Jenkins: [https://{{ @('jenkins.external_host') }}](https://{{ @('jenkins.external_host') }})
 {% endif %}
-{%- endif %}
 
 ### Development environment cleanup
 
