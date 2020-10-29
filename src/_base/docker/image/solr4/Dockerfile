@@ -17,6 +17,7 @@ RUN rm -rf /opt/solr \
  && mkdir -p /opt/solr/server/solr/lib /opt/solr/server/solr/mycores /opt/solr/server/logs \
  && sed -i -e "s/\"\$(whoami)\" == \"root\"/\$(id -u) == 0/" /opt/solr/bin/solr \
  && sed -i -e 's/lsof -PniTCP:/lsof -t -PniTCP:/' /opt/solr/bin/solr \
+ && sed -i 's#! -d \$coredir #! -d "$coredir/conf/" #' /opt/docker-solr/scripts/precreate-core \
  && if [ -f "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter" ]; then chmod 0755 "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter"; fi \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/solr /docker-entrypoint-initdb.d /opt/docker-solr \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/mysolrhome /opt/solr/example/solr \
