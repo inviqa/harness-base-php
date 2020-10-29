@@ -23,6 +23,8 @@ attributes:
         REDIS_PORT: = @('redis.port')
         REDIS_SESSION_HOST: = @('redis_session.host')
         REDIS_SESSION_PORT: = @('redis_session.port')
+        SOLR_HOST: = @('services.solr.host')
+        SOLR_PORT: = @('services.solr.port')
         SMTP_HOST: = @('smtp.host')
         SMTP_PORT: = @('smtp.port')
         PHP_IDE_CONFIG: "serverName=workspace"
@@ -120,8 +122,10 @@ attributes:
       environment:
         SOLR_CORE_NAME: collection1
       environment_secrets: {}
+      host: solr
       image: = 'solr:' ~ @('services.solr.major_version') ~ '-slim'
       major_version: 8
+      port: 8983
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       image: quay.io/inviqa_images/tideways:latest

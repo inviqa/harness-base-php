@@ -26,7 +26,13 @@
 {% if @('services.solr.config_path') %}
       - {{ @('services.solr.config_path')}}:/opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
 {% endif %}
-      - solr_data:/var/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/data/
+{% if @('services.solr.major_version') == 4 %}
+      - solr_data:/opt/solr/example/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/data/
+{% elseif @('services.solr.major_version') < 8 %}
+      - solr_data:/opt/solr/server/solr/mycores/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/data/
+{% else %}
+      - solr_data:/var/solr/data/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
+{% endif %}
     networks:
       - private
       - shared
