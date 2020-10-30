@@ -12,9 +12,14 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 {{ if .Values.feature.sealed_secrets }}
     sealedsecrets.bitnami.com/cluster-wide: "true"
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
 spec:
   template:
     type: kubernetes.io/dockerconfigjson
+    metadata:
+      labels:
+        {{- include "chart.labels" $ | nindent 8 }}
   encryptedData:
     .dockerconfigjson: {{ .Values.docker.image_pull_config }}
 {{ else }}

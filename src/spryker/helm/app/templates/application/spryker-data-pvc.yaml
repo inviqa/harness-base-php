@@ -5,6 +5,8 @@
 kind: PersistentVolume
 metadata:
   name: spryker-data
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
 spec:
   capacity: {{ .size | quote }}
   accessModes:
@@ -19,6 +21,8 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ tpl .claimName $ | quote }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
 spec:
   accessModes:
     - {{ .accessMode | quote }}

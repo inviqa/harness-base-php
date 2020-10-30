@@ -9,8 +9,15 @@ metadata:
     argocd.argoproj.io/hook: "Sync"
     argocd.argoproj.io/hook-delete-policy: "BeforeHookCreation"
     argocd.argoproj.io/sync-wave: "10"
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: app-migrate
 spec:
   template:
+    metadata:
+      labels:
+        {{- include "chart.labels" $ | nindent 8 }}
+        app.kubernetes.io/component: app-migrate
     spec:
       containers:
       - env:

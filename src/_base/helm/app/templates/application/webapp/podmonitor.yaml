@@ -4,6 +4,8 @@ kind: PodMonitor
 metadata:
   name: {{ .Values.resourcePrefix }}webapp
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: webapp
     app.service: {{ .Values.resourcePrefix }}webapp
 spec:
   selector:
