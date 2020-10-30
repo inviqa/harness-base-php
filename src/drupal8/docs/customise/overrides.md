@@ -62,7 +62,7 @@ You can find even more in [common.yml], e.g. `frontend.build.steps`.
 
 When you see `steps`, there will more than likely be a `task` that defines how and when these steps are executed.
 
-To understand more, take a look at the tasks in the `console` docker image [here](https://github.com/inviqa/harness-base-php/blob/0.11.x/src/_base/docker/image/console/root/lib/task)
+To understand more, take a look at the tasks in the `console` docker image [here](https://github.com/inviqa/harness-base-php/blob/0.12.x/src/_base/docker/image/console/root/lib/task)
 
 [harness.yml]: ../../harness.yml
-[common.yml]: https://github.com/inviqa/harness-base-php/blob/0.11.x/src/_base/harness/attributes/common.yml
+[common.yml]: https://github.com/inviqa/harness-base-php/blob/0.12.x/src/_base/harness/attributes/common.yml
