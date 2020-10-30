@@ -59,6 +59,9 @@ Once installed, the site should be available at the following URLs:
 {% if @('services.jenkins.enabled') -%}
 - Jenkins: [https://{{ @('jenkins.external_host') }}](https://{{ @('jenkins.external_host') }})
 {% endif %}
+{% if @('services.solr.enabled') -%}
+- Solr: [https://solr-{{ @('hostname') }}/solr/](https://solr-{{ @('hostname') }}/solr/)
+{% endif -%}
 
 ### Development environment cleanup
 

@@ -13,4 +13,7 @@ attribute('hostname_aliases'):
   - test-one-ci-drupal8-sample-dynamic
   - test-two-ci-drupal8-sample-dynamic
 
+attribute('services.solr.enabled'): true
+attribute('services.solr.major_version'): 4
+
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")

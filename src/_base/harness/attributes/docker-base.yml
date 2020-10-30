@@ -114,6 +114,14 @@ attributes:
     relay:
       enabled: true
       publish: false
+    solr:
+      enabled: "= 'solr' in @('app.services')"
+      config_path: ""
+      environment:
+        SOLR_CORE_NAME: collection1
+      environment_secrets: {}
+      image: = 'solr:' ~ @('services.solr.major_version') ~ '-slim'
+      major_version: 8
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       image: quay.io/inviqa_images/tideways:latest
