@@ -1,6 +1,6 @@
 {
   "name": "{{ @('workspace.name')|lower }}/spryker",
-  "description": "Startup template for Spryker projects.",
+  "description": "Spryker site for {{ @('workspace.name')|lower }}",
   "type": "project",
   "require": {
     "php": ">= 7.4"
@@ -41,7 +41,8 @@
       "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion"
     ],
     "test-production-quality": [
-      "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\""
+      "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
+      "composer validate --no-check-publish"
     ],
     "test-quality": [
       "@generate",

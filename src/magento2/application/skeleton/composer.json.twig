@@ -1,5 +1,6 @@
 {
     "name": "{{ @('workspace.name')|lower }}/magento2",
+    "description": "Magento site for {{ @('workspace.name')|lower }}",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -76,6 +77,7 @@
         ],
         "test-production-quality": [
             "bash -e -o pipefail -c \"find src/ pub/ -type f \\( -name '*.phtml' -o -name '*.php' \\) -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
+            "composer validate --no-check-publish",
             "app phpstan"
         ],
         "test-quality": [

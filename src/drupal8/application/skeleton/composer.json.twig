@@ -1,6 +1,6 @@
 {
   "name": "{{ @('workspace.name')|lower }}/drupal",
-  "description": "Startup template for Drupal 8 projects.",
+  "description": "Drupal site for {{ @('workspace.name')|lower }}",
   "type": "project",
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
@@ -66,7 +66,8 @@
       "@test-acceptance"
     ],
     "test-production-quality": [
-      "bash -e -o pipefail -c \"find docroot/ -type f ! -path 'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php' \\( -name '*.inc' -o -name '*.install' -o -name '*.module' -o -name '*.php' -o -name '*.profile' -o -name '*.test' -o -name '*.theme' \\)  -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\""
+      "bash -e -o pipefail -c \"find docroot/ -type f ! -path 'docroot/core/lib/Drupal/Component/Assertion/global_namespace_php5.php' \\( -name '*.inc' -o -name '*.install' -o -name '*.module' -o -name '*.php' -o -name '*.profile' -o -name '*.test' -o -name '*.theme' \\)  -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
+      "composer validate --no-check-publish"
     ],
     "test-quality": [
       "phpcs -p",

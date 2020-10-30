@@ -56,6 +56,7 @@ confd('harness:/'):
   - { src: helm/qa/values.yaml }
   - { src: helm/qa/Chart.yaml }
   # harness-spryker templates
+  - { src: application/skeleton/composer-harness.json }
   - { src: application/skeleton/config/install/docker.yml }
   - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/lib/task/spryker/build.sh }
