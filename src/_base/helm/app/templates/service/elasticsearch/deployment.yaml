@@ -1,25 +1,26 @@
-{{ if .Values.service.elasticsearch | default .Values.docker.services.elasticsearch.enabled }}
+{{- with .Values.docker.services.elasticsearch -}}
+{{- if $.Values.service.elasticsearch | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}elasticsearch
+  name: {{ $.Values.resourcePrefix }}elasticsearch
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}elasticsearch
+    app.service: {{ $.Values.resourcePrefix }}elasticsearch
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}elasticsearch
-{{- if .Values.persistence.elasticsearch.enabled }}
+      app.service: {{ $.Values.resourcePrefix }}elasticsearch
+{{- if $.Values.persistence.elasticsearch.enabled }}
   strategy:
     type: Recreate
 {{- end }}
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}elasticsearch
+        app.service: {{ $.Values.resourcePrefix }}elasticsearch
     spec:
       securityContext:
         fsGroup: 1000
@@ -29,32 +30,33 @@ spec:
           value: -Xmx512m -Xms512m
         - name: discovery.type
           value: single-node
-        image: {{ .Values.docker.image.elasticsearch | default .Values.docker.services.elasticsearch.image | quote }}
+        image: {{ $.Values.docker.image.elasticsearch | default .image | quote }}
         imagePullPolicy: Always
         name: elasticsearch
         ports:
         - containerPort: 9200
         resources:
           limits:
-            memory: {{ .Values.resources.memory.elasticsearch }}
+            memory: {{ $.Values.resources.memory.elasticsearch | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.elasticsearch }}
+            memory: {{ $.Values.resources.memory.elasticsearch | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9200
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}elasticsearch-persistent-storage
+        - name: {{ $.Values.resourcePrefix }}elasticsearch-persistent-storage
           mountPath: /usr/share/elasticsearch/data
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}elasticsearch-persistent-storage
-{{- if .Values.persistence.elasticsearch.enabled }}
+      - name: {{ $.Values.resourcePrefix }}elasticsearch-persistent-storage
+{{- if $.Values.persistence.elasticsearch.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.resourcePrefix }}elasticsearch-pv-claim
+          claimName: {{ $.Values.resourcePrefix }}elasticsearch-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

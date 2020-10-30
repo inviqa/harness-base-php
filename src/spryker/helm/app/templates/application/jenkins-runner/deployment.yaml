@@ -1,11 +1,11 @@
-{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "jenkins-runner") (dict "environment" .Values.environment) -}}
-{{- if .Values.service.jenkins_runner | default $service.enabled -}}
+{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "jenkins-runner") (dict "environment" .Values.environment) -}}
+{{- if $.Values.service.jenkins_runner | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}jenkins-runner
+  name: {{ $.Values.resourcePrefix }}jenkins-runner
   labels:
-    app.service: {{ .Values.resourcePrefix }}jenkins-runner
+    app.service: {{ $.Values.resourcePrefix }}jenkins-runner
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
@@ -13,15 +13,15 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}jenkins-runner
+      app.service: {{ $.Values.resourcePrefix }}jenkins-runner
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}jenkins-runner
+        app.service: {{ $.Values.resourcePrefix }}jenkins-runner
     spec:
       containers:
       - env:
-        {{- range $key, $value := $service.environment }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -30,19 +30,19 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- if $service.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}jenkins-runner
+              name: {{ $.Values.resourcePrefix }}jenkins-runner
         {{- end }}
-        image: {{ .Values.docker.image.jenkins_runner | default $service.image | quote }}
+        image: {{ $.Values.docker.image.jenkins_runner | default .image | quote }}
         imagePullPolicy: Always
         name: jenkins-runner
         resources:
           limits:
-            memory: {{ .Values.resources.memory.jenkins_runner }}
+            memory: {{ $.Values.resources.memory.jenkins_runner | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.jenkins_runner }}
+            memory: {{ $.Values.resources.memory.jenkins_runner | default .resources.memory }}
         readinessProbe:
           exec:
             command:
@@ -51,22 +51,23 @@ spec:
           initialDelaySeconds: 20
           periodSeconds: 10
         volumeMounts:
-        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
-        {{- include "application.volumeMounts.backend" . | indent 8 }}
-        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" $)) (eq "" (include "application.volumeMounts.all" $)) ) }}
+        {{- include "application.volumeMounts.backend" $ | indent 8 }}
+        {{- include "application.volumeMounts.all" $ | indent 8 }}
         {{- else }} []
         {{- end }}
-{{- if .Values.docker.image_pull_config }}
+{{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Values.resourcePrefix }}image-pull-config
 {{- end }}
       restartPolicy: Always
       enableServiceLinks: false
       volumes:
-      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
-      {{- include "application.volumes.backend" . | indent 6 }}
-      {{- include "application.volumes.all" . | indent 6 }}
+      {{- if not (and (eq "" (include "application.volumes.backend" $)) (eq "" (include "application.volumes.all" $)) ) }}
+      {{- include "application.volumes.backend" $ | indent 6 }}
+      {{- include "application.volumes.all" $ | indent 6 }}
       {{- else }} []
       {{- end }}
 status: {}
+{{- end }}
 {{- end }}

@@ -1,43 +1,44 @@
-{{ if .Values.service.mysql | default .Values.docker.services.mysql.enabled }}
+{{- with .Values.docker.services.mysql -}}
+{{- if $.Values.service.mysql | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}mysql
+  name: {{ $.Values.resourcePrefix }}mysql
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}mysql
+    app.service: {{ $.Values.resourcePrefix }}mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}mysql
-{{- if .Values.persistence.mysql.enabled }}
+      app.service: {{ $.Values.resourcePrefix }}mysql
+{{- if $.Values.persistence.mysql.enabled }}
   strategy:
     type: Recreate
 {{- end }}
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}mysql
+        app.service: {{ $.Values.resourcePrefix }}mysql
     spec:
       containers:
       - env:
-        {{- range $key, $value := .Values.docker.services.mysql.environment }}
+        {{- range $key, $value := .environment }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        {{- if .Values.docker.services.mysql.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}mysql
+              name: {{ $.Values.resourcePrefix }}mysql
         {{- end }}
-        image: {{ .Values.docker.image.mysql | default .Values.docker.services.mysql.image | quote }}
+        image: {{ $.Values.docker.image.mysql | default .image | quote }}
         imagePullPolicy: Always
         name: mysql
-        {{- if .Values.docker.services.mysql.options }}
+        {{- if .options }}
         args:
-        {{- range $var, $value := .Values.docker.services.mysql.options }}
+        {{- range $var, $value := .options }}
         {{- if $value }}
         - {{ print "--" $var "=" $value | quote }}
         {{- end }}
@@ -47,25 +48,26 @@ spec:
         - containerPort: 3306
         resources:
           limits:
-            memory: {{ .Values.resources.memory.mysql }}
+            memory: {{ $.Values.resources.memory.mysql | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.mysql }}
+            memory: {{ $.Values.resources.memory.mysql | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 3306
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}mysql-persistent-storage
+        - name: {{ $.Values.resourcePrefix }}mysql-persistent-storage
           mountPath: /var/lib/mysql
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}mysql-persistent-storage
-{{- if .Values.persistence.mysql.enabled }}
+      - name: {{ $.Values.resourcePrefix }}mysql-persistent-storage
+{{- if $.Values.persistence.mysql.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.resourcePrefix }}mysql-pv-claim
+          claimName: {{ $.Values.resourcePrefix }}mysql-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

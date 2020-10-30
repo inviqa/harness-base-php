@@ -1,18 +1,19 @@
-{{ if .Values.service.redis | default .Values.docker.services.redis.enabled }}
+{{- with .Values.docker.services.redis -}}
+{{- if $.Values.service.redis | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}redis
+  name: {{ $.Values.resourcePrefix }}redis
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}redis
+    app.service: {{ $.Values.resourcePrefix }}redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}redis
-{{- if .Values.persistence.redis.enabled }}
+      app.service: {{ $.Values.resourcePrefix }}redis
+{{- if $.Values.persistence.redis.enabled }}
   strategy:
     type: Recreate
 {{- end }}
@@ -20,7 +21,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app.service: {{ .Values.resourcePrefix }}redis
+        app.service: {{ $.Values.resourcePrefix }}redis
     spec:
       containers:
       - args:
@@ -38,32 +39,33 @@ spec:
         - --save
         - "60"
         - "10000"
-        image: {{ .Values.docker.services.redis.image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         name: redis
         ports:
         - containerPort: 6379
         resources:
           limits:
-            memory: {{ .Values.resources.memory.redis }}
+            memory: {{ $.Values.resources.memory.redis | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.redis }}
+            memory: {{ $.Values.resources.memory.redis | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}redis-persistent-storage
+        - name: {{ $.Values.resourcePrefix }}redis-persistent-storage
           mountPath: /data
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}redis-persistent-storage
-{{- if .Values.persistence.redis.enabled }}
+      - name: {{ $.Values.resourcePrefix }}redis-persistent-storage
+{{- if $.Values.persistence.redis.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.resourcePrefix }}redis-pv-claim
+          claimName: {{ $.Values.resourcePrefix }}redis-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

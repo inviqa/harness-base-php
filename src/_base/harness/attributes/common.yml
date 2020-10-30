@@ -348,19 +348,6 @@ attributes.default:
     memory:
       app_init: "1024Mi"
       app_migrate: "1024Mi"
-      console: "2048Mi"
-      cron: "1024Mi"
-      elasticsearch: "1024Mi"
-      mysql: "512Mi"
-      nginx: "100Mi"
-      php_fpm: "1024Mi"
-      php_fpm_exporter: "100Mi"
-      postgres: "512Mi"
-      rabbitmq: "1024Mi"
-      redis: "256Mi"
-      redis_session: "1024Mi"
-      tideways: "256Mi"
-      varnish: "1124Mi"
 
   replicas:
     varnish: 1

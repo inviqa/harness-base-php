@@ -1,11 +1,11 @@
-{{- if .Values.docker.services.console.enabled -}}
-{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
+{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}console
+  name: {{ $.Values.resourcePrefix }}console
   labels:
-    app.service: {{ .Values.resourcePrefix }}console
+    app.service: {{ $.Values.resourcePrefix }}console
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
@@ -13,15 +13,15 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}console
+      app.service: {{ $.Values.resourcePrefix }}console
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}console
+        app.service: {{ $.Values.resourcePrefix }}console
     spec:
       containers:
       - env:
-        {{- range $key, $value := $service.environment }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -30,19 +30,19 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- if $service.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}console
+              name: {{ $.Values.resourcePrefix }}console
         {{- end }}
-        image: {{ .Values.docker.image.console | default $service.image }}
+        image: {{ $.Values.docker.image.console | default .image }}
         imagePullPolicy: Always
         name: console
         resources:
           limits:
-            memory: {{ .Values.resources.memory.console }}
+            memory: {{ $.Values.resources.memory.console | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.console }}
+            memory: {{ $.Values.resources.memory.console | default .resources.memory }}
         readinessProbe:
           exec:
             command:
@@ -51,20 +51,21 @@ spec:
           initialDelaySeconds: 20
           periodSeconds: 10
         volumeMounts:
-        {{- if not (eq "" (include "application.volumeMounts.console" .)) }}
-        {{- include "application.volumeMounts.console" . | indent 8 }}
+        {{- if not (eq "" (include "application.volumeMounts.console" $)) }}
+        {{- include "application.volumeMounts.console" $ | indent 8 }}
         {{- else }} []
         {{- end }}
-{{- if .Values.docker.image_pull_config }}
+{{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Values.resourcePrefix }}image-pull-config
 {{- end }}
       restartPolicy: Always
       enableServiceLinks: false
       volumes:
-      {{- if not (eq "" (include "application.volumes.console" .)) }}
-      {{- include "application.volumes.console" . | indent 6 }}
+      {{- if not (eq "" (include "application.volumes.console" $)) }}
+      {{- include "application.volumes.console" $ | indent 6 }}
       {{- else }} []
       {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

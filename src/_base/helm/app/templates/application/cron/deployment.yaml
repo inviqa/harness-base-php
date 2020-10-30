@@ -1,11 +1,11 @@
-{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "cron") (dict "environment" .Values.environment) -}}
-{{- if .Values.service.cron | default $service.enabled -}}
+{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "cron") (dict "environment" .Values.environment) -}}
+{{- if $.Values.service.cron | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}cron
+  name: {{ $.Values.resourcePrefix }}cron
   labels:
-    app.service: {{ .Values.resourcePrefix }}cron
+    app.service: {{ $.Values.resourcePrefix }}cron
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
@@ -13,13 +13,13 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}cron
+      app.service: {{ $.Values.resourcePrefix }}cron
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}cron
+        app.service: {{ $.Values.resourcePrefix }}cron
     spec:
-      {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
+      {{- if not (eq "" (include "application.volumes.wwwDataPaths" $)) }}
       initContainers:
       - name: cron-volume-permissions
         image: busybox
@@ -27,18 +27,18 @@ spec:
         - "/bin/chown"
         - "-R"
         - "www-data"
-        {{- include "application.volumes.wwwDataPaths" . | indent 8 }}
+        {{- include "application.volumes.wwwDataPaths" $ | indent 8 }}
         volumeMounts:
-        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
-        {{- include "application.volumeMounts.backend" . | indent 8 }}
-        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" $)) (eq "" (include "application.volumeMounts.all" $)) ) }}
+        {{- include "application.volumeMounts.backend" $ | indent 8 }}
+        {{- include "application.volumeMounts.all" $ | indent 8 }}
         {{- else }} []
         {{- end }}
       {{- end }}
       containers:
       - name: cron
         env:
-        {{- range $key, $value := $service.environment }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -47,35 +47,36 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- if $service.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}cron
+              name: {{ $.Values.resourcePrefix }}cron
         {{- end }}
-        image: {{ .Values.docker.image.cron | default $service.image }}
+        image: {{ $.Values.docker.image.cron | default .image }}
         imagePullPolicy: Always
         resources:
           limits:
-            memory: {{ .Values.resources.memory.cron }}
+            memory: {{ $.Values.resources.memory.cron | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.cron }}
+            memory: {{ $.Values.resources.memory.cron | default .resources.memory }}
         volumeMounts:
-        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
-        {{- include "application.volumeMounts.backend" . | indent 8 }}
-        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" $)) (eq "" (include "application.volumeMounts.all" $)) ) }}
+        {{- include "application.volumeMounts.backend" $ | indent 8 }}
+        {{- include "application.volumeMounts.all" $ | indent 8 }}
         {{- else }} []
         {{- end }}
-{{- if .Values.docker.image_pull_config }}
+{{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Values.resourcePrefix }}image-pull-config
 {{- end }}
       restartPolicy: Always
       enableServiceLinks: false
       volumes:
-      {{- if not (and (eq "" (include "application.volumes.backend" .)) (eq "" (include "application.volumes.all" .)) ) }}
-      {{- include "application.volumes.backend" . | indent 6 }}
-      {{- include "application.volumes.all" . | indent 6 }}
+      {{- if not (and (eq "" (include "application.volumes.backend" $)) (eq "" (include "application.volumes.all" $)) ) }}
+      {{- include "application.volumes.backend" $ | indent 6 }}
+      {{- include "application.volumes.all" $ | indent 6 }}
       {{- else }} []
       {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

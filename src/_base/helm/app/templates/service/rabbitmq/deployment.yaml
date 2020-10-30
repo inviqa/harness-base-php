@@ -1,38 +1,39 @@
-{{ if .Values.service.rabbitmq | default .Values.docker.services.rabbitmq.enabled }}
+{{- with .Values.docker.services.rabbitmq -}}
+{{- if $.Values.service.rabbitmq | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}rabbitmq
+  name: {{ $.Values.resourcePrefix }}rabbitmq
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}rabbitmq
+    app.service: {{ $.Values.resourcePrefix }}rabbitmq
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}rabbitmq
-{{- if .Values.persistence.rabbitmq.enabled }}
+      app.service: {{ $.Values.resourcePrefix }}rabbitmq
+{{- if $.Values.persistence.rabbitmq.enabled }}
   strategy:
     type: Recreate
 {{- end }}
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}rabbitmq
+        app.service: {{ $.Values.resourcePrefix }}rabbitmq
     spec:
       containers:
       - env:
-        {{- range $key, $value := .Values.docker.services.rabbitmq.environment }}
+        {{- range $key, $value := .environment }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        {{- if .Values.docker.services.rabbitmq.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}rabbitmq
+              name: {{ $.Values.resourcePrefix }}rabbitmq
         {{- end }}
-        image: {{ .Values.docker.image.rabbitmq | default .Values.docker.services.rabbitmq.image | quote }}
+        image: {{ $.Values.docker.image.rabbitmq | default .image | quote }}
         imagePullPolicy: Always
         name: rabbitmq
         ports:
@@ -40,25 +41,26 @@ spec:
         - containerPort: 15672
         resources:
           limits:
-            memory: {{ .Values.resources.memory.rabbitmq }}
+            memory: {{ $.Values.resources.memory.rabbitmq | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.rabbitmq }}
+            memory: {{ $.Values.resources.memory.rabbitmq | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 5672
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}rabbitmq-persistent-storage
+        - name: {{ $.Values.resourcePrefix }}rabbitmq-persistent-storage
           mountPath: /var/lib/rabbitmq
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}rabbitmq-persistent-storage
-{{- if .Values.persistence.rabbitmq.enabled }}
+      - name: {{ $.Values.resourcePrefix }}rabbitmq-persistent-storage
+{{- if $.Values.persistence.rabbitmq.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.resourcePrefix }}rabbitmq-pv-claim
+          claimName: {{ $.Values.resourcePrefix }}rabbitmq-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

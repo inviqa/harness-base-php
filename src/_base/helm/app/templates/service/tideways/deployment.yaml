@@ -1,34 +1,35 @@
-{{ if .Values.service.tideways | default .Values.docker.services.tideways.enabled }}
+{{- with .Values.docker.services.tideways -}}
+{{- if $.Values.service.tideways | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}tideways
+  name: {{ $.Values.resourcePrefix }}tideways
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}tideways
+    app.service: {{ $.Values.resourcePrefix }}tideways
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}tideways
+      app.service: {{ $.Values.resourcePrefix }}tideways
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app.service: {{ .Values.resourcePrefix }}tideways
+        app.service: {{ $.Values.resourcePrefix }}tideways
     spec:
       containers:
-      - image: {{ .Values.docker.services.tideways.image | quote }}
+      - image: {{ .image | quote }}
         imagePullPolicy: Always
         name: tideways
         ports:
         - containerPort: 9135
         resources:
           limits:
-            memory: {{ .Values.resources.memory.tideways }}
+            memory: {{ $.Values.resources.memory.tideways | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.tideways }}
+            memory: {{ $.Values.resources.memory.tideways | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9135
@@ -36,4 +37,5 @@ spec:
           periodSeconds: 10
       restartPolicy: Always
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

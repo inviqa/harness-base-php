@@ -1,8 +1,8 @@
-{{- $service := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
+{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.resourcePrefix }}app-init
+  name: {{ $.Values.resourcePrefix }}app-init
   annotations:
     helm.sh/hook: "post-install"
     helm.sh/hook-delete-policy: "before-hook-creation"
@@ -16,7 +16,7 @@ spec:
       restartPolicy: Never
       containers:
       - env:
-        {{- range $key, $value := $service.environment }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -25,15 +25,15 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- if $service.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}console
+              name: {{ $.Values.resourcePrefix }}console
         {{- end }}
-        image: {{ .Values.docker.image.console | default $service.image | quote }}
+        image: {{ $.Values.docker.image.console | default .image | quote }}
         imagePullPolicy: Always
         name: app-init
-{{ if eq .Values.ingress.type "istio" }}
+{{ if eq $.Values.ingress.type "istio" }}
         command: ["/bin/sh"]
         args: ["-c", "/entrypoint.sh app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
 {{ else }}
@@ -42,22 +42,23 @@ spec:
 {{ end }}
         resources:
           limits:
-            memory: {{ .Values.resources.memory.app_init }}
+            memory: {{ $.Values.resources.memory.app_init }}
           requests:
-            memory: {{ .Values.resources.memory.app_init }}
+            memory: {{ $.Values.resources.memory.app_init }}
         volumeMounts:
-        {{- if not (eq "" (include "application.volumeMounts.console" .)) }}
-        {{- include "application.volumeMounts.console" . | indent 8 }}
+        {{- if not (eq "" (include "application.volumeMounts.console" $)) }}
+        {{- include "application.volumeMounts.console" $ | indent 8 }}
         {{- else }} []
         {{- end }}
-{{- if .Values.docker.image_pull_config }}
+{{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Values.resourcePrefix }}image-pull-config
 {{- end }}
       restartPolicy: Never
       enableServiceLinks: false
       volumes:
-      {{- if not (eq "" (include "application.volumes.console" .)) }}
-      {{- include "application.volumes.console" . | indent 6 }}
+      {{- if not (eq "" (include "application.volumes.console" $)) }}
+      {{- include "application.volumes.console" $ | indent 6 }}
       {{- else }} []
       {{- end }}
+{{- end }}

@@ -19,12 +19,16 @@ attributes:
     jenkins:
       enabled: "= 'jenkins' in @('app.services')"
       image: jenkins:alpine
+      resources:
+        memory: "1536Mi"
     jenkins-runner:
       enabled: "= 'jenkins-runner' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner'
       publish: = @('services.jenkins-runner.enabled')
       environment:
         RUNNER_NUM_EXECUTORS: 1
+      resources:
+        memory: "256Mi"
     rabbitmq:
       environment:
         RABBITMQ_DEFAULT_USER: spryker

@@ -36,9 +36,10 @@ spec:
         {{- end }}
       {{- end }}
       containers:
+      {{- with .Values.docker.services.nginx }}
       - name: nginx
         env:
-        {{- range $key, $value := .Values.docker.services.nginx.environment }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -47,35 +48,37 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- if .Values.docker.services.nginx.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}nginx
+              name: {{ $.Values.resourcePrefix }}nginx
         {{- end }}
-        image: {{ .Values.docker.image.nginx | default .Values.docker.services.nginx.image }}
+        image: {{ $.Values.docker.image.nginx | default .image }}
         imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 80
         resources:
           limits:
-            memory: {{ .Values.resources.memory.nginx }}
+            memory: {{ $.Values.resources.memory.nginx | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.nginx }}
+            memory: {{ $.Values.resources.memory.nginx | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        {{- if not (eq "" (include "application.volumeMounts.all" .)) }}
-        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- if not (eq "" (include "application.volumeMounts.all" $)) }}
+        {{- include "application.volumeMounts.all" $ | indent 8 }}
         {{- else }} []
         {{- end }}
+      {{- end }}
 
+      {{- with $service_php_fpm }}
       - name: php-fpm
         env:
-        {{- range $key, $value := $service_php_fpm.environment }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -84,36 +87,38 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        {{- if $service_php_fpm.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}php-fpm
+              name: {{ $.Values.resourcePrefix }}php-fpm
         {{- end }}
-        image: {{ .Values.docker.image.fpm | default $service_php_fpm.image | quote }}
+        image: {{ $.Values.docker.image.fpm | default .image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
         resources:
           limits:
-            memory: {{ .Values.resources.memory.php_fpm }}
+            memory: {{ $.Values.resources.memory.php_fpm | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.php_fpm }}
+            memory: {{ $.Values.resources.memory.php_fpm | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9000
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        {{- if not (and (eq "" (include "application.volumeMounts.backend" .)) (eq "" (include "application.volumeMounts.all" .)) ) }}
-        {{- include "application.volumeMounts.backend" . | indent 8 }}
-        {{- include "application.volumeMounts.all" . | indent 8 }}
+        {{- if not (and (eq "" (include "application.volumeMounts.backend" $)) (eq "" (include "application.volumeMounts.all" $)) ) }}
+        {{- include "application.volumeMounts.backend" $ | indent 8 }}
+        {{- include "application.volumeMounts.all" $ | indent 8 }}
         {{- else }} []
         {{- end }}
+      {{- end }}
 
-      {{- if .Values.service.php_fpm_exporter | default (index .Values.docker.services "php-fpm-exporter" "enabled") }}
+      {{- with index .Values.docker.services "php-fpm-exporter" }}
+      {{- if $.Values.service.php_fpm_exporter | default .enabled }}
       - name: php-fpm-exporter
         env:
-        {{- range $key, $value := index .Values.docker.services "php-fpm-exporter" "environment" }}
+        {{- range $key, $value := .environment }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -122,21 +127,22 @@ spec:
           value: {{ $value | quote }}
         {{- end }}
         {{- end }}
-        image: {{ index .Values.docker.services "php-fpm-exporter" "image" | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         ports:
         - name: php-fpm-metrics
           containerPort: 9253
         resources:
           limits:
-            memory: {{ .Values.resources.memory.php_fpm_exporter }}
+            memory: {{ $.Values.resources.memory.php_fpm_exporter | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.php_fpm_exporter }}
+            memory: {{ $.Values.resources.memory.php_fpm_exporter | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9253
           initialDelaySeconds: 5
           periodSeconds: 10
+      {{- end }}
       {{- end }}
 {{- if .Values.docker.image_pull_config }}
       imagePullSecrets:

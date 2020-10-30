@@ -1,63 +1,65 @@
-{{ if .Values.service.postgres | default .Values.docker.services.postgres.enabled }}
+{{- with .Values.docker.services.postgres -}}
+{{- if $.Values.service.postgres | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}postgres
+  name: {{ $.Values.resourcePrefix }}postgres
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}postgres
+    app.service: {{ $.Values.resourcePrefix }}postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}postgres
-{{- if .Values.persistence.postgres.enabled }}
+      app.service: {{ $.Values.resourcePrefix }}postgres
+{{- if $.Values.persistence.postgres.enabled }}
   strategy:
     type: Recreate
 {{- end }}
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}postgres
+        app.service: {{ $.Values.resourcePrefix }}postgres
     spec:
       containers:
       - env:
-        {{- range $key, $value := .Values.docker.services.postgres.environment }}
+        {{- range $key, $value := .environment }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
-        {{- if .Values.docker.services.postgres.environment_secrets }}
+        {{- if .environment_secrets }}
         envFrom:
           - secretRef:
-              name: {{ .Values.resourcePrefix }}postgres
+              name: {{ $.Values.resourcePrefix }}postgres
         {{- end }}
-        image: {{ .Values.docker.services.postgres.image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         name: postgres
         ports:
         - containerPort: 5432
         resources:
           limits:
-            memory: {{ .Values.resources.memory.postgres }}
+            memory: {{ $.Values.resources.memory.postgres | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.postgres }}
+            memory: {{ $.Values.resources.memory.postgres | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 5432
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}postgres-persistent-storage
+        - name: {{ $.Values.resourcePrefix }}postgres-persistent-storage
           mountPath: /var/lib/postgresql/data
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}postgres-persistent-storage
-{{- if .Values.persistence.postgres.enabled }}
+      - name: {{ $.Values.resourcePrefix }}postgres-persistent-storage
+{{- if $.Values.persistence.postgres.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.resourcePrefix }}postgres-pv-claim
+          claimName: {{ $.Values.resourcePrefix }}postgres-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

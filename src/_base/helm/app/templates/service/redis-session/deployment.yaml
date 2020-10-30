@@ -1,25 +1,26 @@
-{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}
+{{- with .Values.docker.services.redis_session -}}
+{{- if $.Values.service.redis_session | default .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}redis-session
+  name: {{ $.Values.resourcePrefix }}redis-session
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}redis-session
+    app.service: {{ $.Values.resourcePrefix }}redis-session
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}redis-session
-{{- if .Values.persistence.redis_session.enabled }}
+      app.service: {{ $.Values.resourcePrefix }}redis-session
+{{- if $.Values.persistence.redis_session.enabled }}
   strategy:
     type: Recreate
 {{- end }}
   template:
     metadata:
       labels:
-        app.service: {{ .Values.resourcePrefix }}redis-session
+        app.service: {{ $.Values.resourcePrefix }}redis-session
     spec:
       containers:
       - args:
@@ -37,32 +38,33 @@ spec:
         - --save
         - "60"
         - "10000"
-        image: {{ .Values.docker.services.redis_session.image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         name: redis-session
         ports:
         - containerPort: 6379
         resources:
           limits:
-            memory: {{ .Values.resources.memory.redis_session }}
+            memory: {{ $.Values.resources.memory.redis_session | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.redis_session }}
+            memory: {{ $.Values.resources.memory.redis_session | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 6379
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}redis-session-persistent-storage
+        - name: {{ $.Values.resourcePrefix }}redis-session-persistent-storage
           mountPath: /data
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}redis-session-persistent-storage
-{{- if .Values.persistence.redis_session.enabled }}
+      - name: {{ $.Values.resourcePrefix }}redis-session-persistent-storage
+{{- if $.Values.persistence.redis_session.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.resourcePrefix }}redis-session-pv-claim
+          claimName: {{ $.Values.resourcePrefix }}redis-session-pv-claim
 {{- else }}
         emptyDir: {}
 {{- end }}
 status: {}
-{{ end }}
+{{- end }}
+{{- end }}

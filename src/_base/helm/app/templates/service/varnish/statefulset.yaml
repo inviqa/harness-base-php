@@ -1,54 +1,56 @@
-{{ if .Values.service.varnish | default .Values.docker.services.varnish.enabled }}
+{{- with .Values.docker.services.varnish -}}
+{{- if $.Values.service.varnish | default .enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Values.resourcePrefix }}varnish
+  name: {{ $.Values.resourcePrefix }}varnish
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
-    app.service: {{ .Values.resourcePrefix }}varnish
+    app.service: {{ $.Values.resourcePrefix }}varnish
 spec:
-  replicas: {{ .Values.replicas.varnish }}
+  replicas: {{ $.Values.replicas.varnish }}
   podManagementPolicy: Parallel
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}varnish
-  serviceName: {{ .Values.resourcePrefix }}varnish-headless
+      app.service: {{ $.Values.resourcePrefix }}varnish
+  serviceName: {{ $.Values.resourcePrefix }}varnish-headless
   template:
     metadata:
       creationTimestamp: null
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/service/varnish/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/service/varnish/configmap.yaml") $ | sha256sum }}
       labels:
-        app.service: {{ .Values.resourcePrefix }}varnish
+        app.service: {{ $.Values.resourcePrefix }}varnish
     spec:
       containers:
       - name: varnish
-        image: {{ .Values.docker.services.varnish.image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
         resources:
           limits:
-            memory: {{ .Values.resources.memory.varnish }}
+            memory: {{ $.Values.resources.memory.varnish | default .resources.memory }}
           requests:
-            memory: {{ .Values.resources.memory.varnish }}
+            memory: {{ $.Values.resources.memory.varnish | default .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: {{ .Values.resourcePrefix }}varnish-configuration
+        - name: {{ $.Values.resourcePrefix }}varnish-configuration
           mountPath: /etc/varnish/
-        - name: {{ .Values.resourcePrefix }}varnish-cache
+        - name: {{ $.Values.resourcePrefix }}varnish-cache
           mountPath: /var/lib/varnish
       restartPolicy: Always
       volumes:
-      - name: {{ .Values.resourcePrefix }}varnish-configuration
+      - name: {{ $.Values.resourcePrefix }}varnish-configuration
         configMap:
-          name: {{ .Values.resourcePrefix }}varnish-configuration
-      - name: {{ .Values.resourcePrefix }}varnish-cache
+          name: {{ $.Values.resourcePrefix }}varnish-configuration
+      - name: {{ $.Values.resourcePrefix }}varnish-cache
         emptyDir:
           medium: Memory
-{{ end }}
+{{- end }}
+{{- end }}

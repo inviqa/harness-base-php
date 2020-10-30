@@ -39,6 +39,8 @@ attributes:
       publish: true
       environment:
         FPM_HOST: php-fpm
+      resources:
+        memory: "100Mi"
     console:
       enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-console'
@@ -49,19 +51,27 @@ attributes:
         HAS_VARNISH: "= @('services.varnish.enabled') ? 'true' : 'false'"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
+      resources:
+        memory: "2048Mi"
     cron:
       enabled: "= 'cron' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
       publish: "= @('services.cron.enabled')"
+      resources:
+        memory: "1024Mi"
     php-fpm:
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
       environment:
         AUTOSTART_PHP_FPM: "true"
+      resources:
+        memory: "1024Mi"
     php-fpm-exporter:
       image: hipages/php-fpm_exporter
       environment:
         PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('php-fpm', @('php-fpm.pools'))
+      resources:
+        memory: "100Mi"
     blackfire:
       enabled: "= 'blackfire' in @('app.services')"
       image: blackfire/blackfire:latest
@@ -76,6 +86,8 @@ attributes:
     elasticsearch:
       enabled: "= 'elasticsearch' in @('app.services')"
       image: = @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag')
+      resources:
+        memory: "1024Mi"
     memcached:
       enabled: "= 'memcached' in @('app.services')"
       image: memcached:1-alpine
@@ -89,6 +101,8 @@ attributes:
       environment_secrets:
         MYSQL_PASSWORD: = @('database.pass')
         MYSQL_ROOT_PASSWORD: = @('database.root_pass')
+      resources:
+        memory: "512Mi"
     postgres:
       enabled: "= 'postgres' in @('app.services')"
       image: postgres:9.6
@@ -98,6 +112,8 @@ attributes:
         PGDATA: /var/lib/postgresql/data/pgdata
       environment_secrets:
         POSTGRES_PASSWORD: = @('database.pass')
+      resources:
+        memory: "512Mi"
     rabbitmq:
       enabled: "= 'rabbitmq' in @('app.services')"
       image: = @('rabbitmq.image') ~ ':' ~ @('rabbitmq.tag')
@@ -107,12 +123,18 @@ attributes:
       environment_secrets:
         RABBITMQ_DEFAULT_PASS: = @('rabbitmq.password')
         RABBITMQ_ERLANG_COOKIE: = @('rabbitmq.erlang_cookie')
+      resources:
+        memory: "1024Mi"
     redis:
       enabled: "= 'redis' in @('app.services')"
       image: redis:5-alpine
+      resources:
+        memory: "256Mi"
     redis_session:
       enabled: "= 'redis_session' in @('app.services')"
       image: redis:5-alpine
+      resources:
+        memory: "1024Mi"
     relay:
       enabled: true
       publish: false
@@ -132,11 +154,15 @@ attributes:
       environment:
         TIDEWAYS_HOSTNAME: = @('hostname')
         TIDEWAYS_ENV: production
+      resources:
+        memory: "256Mi"
     varnish:
       enabled: "= 'varnish' in @('app.services')"
       image: varnish:6
       environment:
         VARNISH_SIZE: "1024M"
+      resources:
+        memory: "1124Mi"
     # webapp is by default two services combined, nginx and php-fpm
     webapp:
       enabled: true
@@ -219,22 +245,42 @@ attributes:
         memory:
           app_init: "1024Mi"
           app_migrate: "1024Mi"
-          console: "1024Mi"
-          cron: "1024Mi"
-          elasticsearch: "1024Mi"
-          mysql: "512Mi"
-          nginx: "64Mi"
-          php_fpm: "1024Mi"
-          php_fpm_exporter: "32Mi"
-          postgres: "512Mi"
-          redis: "64Mi"
-          redis_session: "64Mi"
-          tideways: "256Mi"
-          varnish: "1124Mi"
       services:
         console:
           enabled: false
+          resources:
+            memory: "1024Mi"
+        cron:
+          resources:
+            memory: "1024Mi"
+        elasticsearch:
+          resources:
+            memory: "1024Mi"
+        mysql:
+          resources:
+            memory: "512Mi"
+        nginx:
+          resources:
+            memory: "64Mi"
         php-base:
           environment:
             SMTP_HOST: = @('pipeline.preview.smtp.host')
             SMTP_PORT: = @('pipeline.preview.smtp.port')
+        php-fpm:
+          resources:
+            memory: "1024Mi"
+        php-fpm-exporter:
+          resources:
+            memory: "32Mi"
+        postgres:
+          resources:
+            memory: "512Mi"
+        redis:
+          resources:
+            memory: "64Mi"
+        redis_session:
+          resources:
+            memory: "64Mi"
+        tideways:
+          resources:
+            memory: "256Mi"
