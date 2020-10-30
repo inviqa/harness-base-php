@@ -1,6 +1,6 @@
 {
   "name": "{{ @('workspace.name')|lower }}/spryker",
-  "description": "Startup template for Spryker projects.",
+  "description": "Spryker site for {{ @('workspace.name')|lower }}",
   "type": "project",
   "require": {
     "php": ">= 7.4"

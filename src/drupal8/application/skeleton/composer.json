@@ -1,6 +1,6 @@
 {
   "name": "{{ @('workspace.name')|lower }}/drupal",
-  "description": "Startup template for Drupal 8 projects.",
+  "description": "Drupal site for {{ @('workspace.name')|lower }}",
   "type": "project",
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
