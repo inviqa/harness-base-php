@@ -33,7 +33,9 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 {{ if .Values.feature.sealed_secrets }}
-    sealedsecrets.bitnami.com/cluster-wide: "true"
+{{ if ne .Values.sealed_secrets.scope "strict" }}
+    sealedsecrets.bitnami.com/{{ .Values.sealed_secrets.scope }}: "true"
+{{ end }}
 spec:
   encryptedData:
 {{ index .service.environment_secrets | toYaml | nindent 4 -}}
