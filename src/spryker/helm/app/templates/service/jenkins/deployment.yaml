@@ -13,11 +13,17 @@ spec:
   selector:
     matchLabels:
       app.service: {{ $.Values.resourcePrefix }}jenkins
+{{- if $.Values.persistence.jenkins.enabled }}
+  strategy:
+    type: Recreate
+{{- end }}
   template:
     metadata:
       labels:
         app.service: {{ $.Values.resourcePrefix }}jenkins
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       - env:
         - name: JAVA_OPTS
@@ -37,7 +43,18 @@ spec:
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
+        volumeMounts:
+        - name: home
+          mountPath: /var/jenkins_home
       restartPolicy: Always
+      volumes:
+      - name: home
+{{- if $.Values.persistence.jenkins.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ $.Values.resourcePrefix }}jenkins-home
+{{- else }}
+        emptyDir: {}
+{{- end }}
 status: {}
 {{- end }}
 {{- end }}

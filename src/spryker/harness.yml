@@ -181,6 +181,10 @@ attributes:
         size: 1Gi
     redis:
       enabled: true
+    jenkins:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
 
 ---
 command('frontend yves watch'):

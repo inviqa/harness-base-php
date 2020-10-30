@@ -1,0 +1,30 @@
+{{ if and (.Values.service.jenkins | default .Values.docker.services.jenkins.enabled) .Values.persistence.jenkins.enabled -}}
+{{- with .Values.persistence.jenkins -}}
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $.Values.resourcePrefix }}jenkins-home
+  labels:
+    app.service: {{ $.Values.resourcePrefix }}jenkins
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+
+{{- end }}
+
+{{- end }}
