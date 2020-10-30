@@ -162,7 +162,7 @@ If the next release does not make sense to be in the current 0.11.x branch:
 
 1. Create a new branch:
   ```bash
-  git checkout -b 0.11.x
+  git checkout -b 0.12.x
   ```
 2. Adjust references from 0.11.x to 0.12.x:
   ```bash
@@ -183,7 +183,7 @@ If the next release does not make sense to be in the current 0.11.x branch:
   git push origin -u HEAD
   ```
 5. Change the default branch in GitHub settings and re-target any open PRs against the new default branch.
-6. Run a deployment of the 0.11.x branch so the branches now exist in the downstream repositories:
+6. Run a deployment of the 0.12.x branch so the branches now exist in the downstream repositories:
   ```bash
   ./deploy
   ```

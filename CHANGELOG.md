@@ -1,5 +1,63 @@
 # Changelog
 
+## [0.11.0](https://github.com/inviqa/harness-base-php/tree/0.11.0) (2020-10-30)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.10.1...0.11.0)
+
+**Implemented enhancements:**
+
+- \[magento2\] Allow customising the languages to build static assets for [\#421](https://github.com/inviqa/harness-base-php/issues/421)
+- Add LICENSE [\#137](https://github.com/inviqa/harness-base-php/issues/137)
+- Add option for varnish container as the entrypoint to the site in Magento 1.x harness [\#13](https://github.com/inviqa/harness-base-php/issues/13)
+- Use Magento 2.2+ pipeline deploy steps to avoid needing to init the environment in static build [\#12](https://github.com/inviqa/harness-base-php/issues/12)
+- Add composer validate as a quality check [\#480](https://github.com/inviqa/harness-base-php/pull/480) ([kierenevans](https://github.com/kierenevans))
+- Document how to upgrade harness versions [\#477](https://github.com/inviqa/harness-base-php/pull/477) ([kierenevans](https://github.com/kierenevans))
+- Document mailhog URL [\#476](https://github.com/inviqa/harness-base-php/pull/476) ([kierenevans](https://github.com/kierenevans))
+- Add persistence for Spryker jenkins home [\#475](https://github.com/inviqa/harness-base-php/pull/475) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Define service resources from within services.{service}.resources values [\#474](https://github.com/inviqa/harness-base-php/pull/474) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add Solr for local environment [\#473](https://github.com/inviqa/harness-base-php/pull/473) ([kierenevans](https://github.com/kierenevans))
+- Customisable static asset language and theme deployments [\#472](https://github.com/inviqa/harness-base-php/pull/472) ([kierenevans](https://github.com/kierenevans))
+- MISC replace unnecessary $root with $ in helm chart [\#471](https://github.com/inviqa/harness-base-php/pull/471) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Make services.\*.enabled able to disable all services \(including webapp\) [\#470](https://github.com/inviqa/harness-base-php/pull/470) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add License [\#469](https://github.com/inviqa/harness-base-php/pull/469) ([kierenevans](https://github.com/kierenevans))
+- Add Magento 2 var/export PersistentVolumeClaim [\#468](https://github.com/inviqa/harness-base-php/pull/468) ([kierenevans](https://github.com/kierenevans))
+- Upgrade to NGINX 1.19 [\#466](https://github.com/inviqa/harness-base-php/pull/466) ([kierenevans](https://github.com/kierenevans))
+- Rewrite local.xml on container startup [\#465](https://github.com/inviqa/harness-base-php/pull/465) ([kierenevans](https://github.com/kierenevans))
+- Prompt for the community or enterprise edition for Akeneo when creating a project [\#464](https://github.com/inviqa/harness-base-php/pull/464) ([kierenevans](https://github.com/kierenevans))
+- Push the helm chart to the default branch of the cluster repository [\#459](https://github.com/inviqa/harness-base-php/pull/459) ([kierenevans](https://github.com/kierenevans))
+- Remove the lost+found removal and improve handling [\#457](https://github.com/inviqa/harness-base-php/pull/457) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Deployable tideways daemon [\#456](https://github.com/inviqa/harness-base-php/pull/456) ([kierenevans](https://github.com/kierenevans))
+- Add support for MySQL 8 [\#454](https://github.com/inviqa/harness-base-php/pull/454) ([kierenevans](https://github.com/kierenevans))
+- Varnish - Add checksum of configmap to the pods [\#453](https://github.com/inviqa/harness-base-php/pull/453) ([kierenevans](https://github.com/kierenevans))
+- Allow specifying cert, namespace and scope for sealed-secrets [\#451](https://github.com/inviqa/harness-base-php/pull/451) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Upgrade Magento to 2.4.1 [\#450](https://github.com/inviqa/harness-base-php/pull/450) ([tkotosz](https://github.com/tkotosz))
+- Configure pipeline environments to talk to mailhog for sendmail [\#444](https://github.com/inviqa/harness-base-php/pull/444) ([kierenevans](https://github.com/kierenevans))
+- Adding attributes for fastcgi buffers and buffer size. [\#440](https://github.com/inviqa/harness-base-php/pull/440) ([sawtell](https://github.com/sawtell))
+- Use PHP 7.4 where we can [\#436](https://github.com/inviqa/harness-base-php/pull/436) ([kierenevans](https://github.com/kierenevans))
+- Support Spryker 202009 release [\#398](https://github.com/inviqa/harness-base-php/pull/398) ([hgajjar](https://github.com/hgajjar))
+- Test all harnesses against pre-release workspace [\#365](https://github.com/inviqa/harness-base-php/pull/365) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Fixed bugs:**
+
+- Add missing sealed-secret scope header change [\#479](https://github.com/inviqa/harness-base-php/pull/479) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix solr data path [\#478](https://github.com/inviqa/harness-base-php/pull/478) ([kierenevans](https://github.com/kierenevans))
+- Fix Magento 1 app init not running migrations [\#467](https://github.com/inviqa/harness-base-php/pull/467) ([kierenevans](https://github.com/kierenevans))
+- Fix JENKINS\_HOST environment variable not being overridden in helm chart [\#461](https://github.com/inviqa/harness-base-php/pull/461) ([kierenevans](https://github.com/kierenevans))
+- Fix wrong indentation level for mailhog in preview environments [\#460](https://github.com/inviqa/harness-base-php/pull/460) ([kierenevans](https://github.com/kierenevans))
+- Use proper escaping for database credentials in assets apply/dump [\#458](https://github.com/inviqa/harness-base-php/pull/458) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix git.default\_branch not using git.main\_branch [\#455](https://github.com/inviqa/harness-base-php/pull/455) ([kierenevans](https://github.com/kierenevans))
+- Deploy supporting services in wave 4 [\#452](https://github.com/inviqa/harness-base-php/pull/452) ([kierenevans](https://github.com/kierenevans))
+- Magento 2 cron needs zombies to exist [\#449](https://github.com/inviqa/harness-base-php/pull/449) ([kierenevans](https://github.com/kierenevans))
+- Fix Magento 2 steps if not using elasticsearch [\#448](https://github.com/inviqa/harness-base-php/pull/448) ([kierenevans](https://github.com/kierenevans))
+- Lock the git push for chart publishing [\#447](https://github.com/inviqa/harness-base-php/pull/447) ([kierenevans](https://github.com/kierenevans))
+- Fix behat reliability on drupal8 by moving phpunit to be after it [\#445](https://github.com/inviqa/harness-base-php/pull/445) ([kierenevans](https://github.com/kierenevans))
+
+**Closed issues:**
+
+- NGINX 1.17 no longer supported [\#429](https://github.com/inviqa/harness-base-php/issues/429)
+- Update Spryker version to 202009.0 and php version to 7.4 [\#397](https://github.com/inviqa/harness-base-php/issues/397)
+- Add Solr to the Drupal 8 harness [\#395](https://github.com/inviqa/harness-base-php/issues/395)
+
 ## [0.10.1](https://github.com/inviqa/harness-base-php/tree/0.10.1) (2020-10-02)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.10.0...0.10.1)
