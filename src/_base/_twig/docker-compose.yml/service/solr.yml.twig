@@ -20,13 +20,19 @@
 {% if @('services.solr.config_path') %}
       - /opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
 {% elseif @('services.solr.major_version') == 4 %}
-      - /opt/solr/example/example-schemaless/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/conf
+      - /opt/solr/example/example-schemaless/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
 {% endif %}
     volumes:
 {% if @('services.solr.config_path') %}
-      - {{ @('services.solr.config_path')}}:/opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}
+      - {{ @('services.solr.config_path')}}:/opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/conf
 {% endif %}
-      - solr_data:/var/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/data/
+{% if @('services.solr.major_version') == 4 %}
+      - solr_data:/opt/solr/example/solr
+{% elseif @('services.solr.major_version') < 8 %}
+      - solr_data:/opt/solr/server/solr/mycores
+{% else %}
+      - solr_data:/var/solr
+{% endif %}
     networks:
       - private
       - shared

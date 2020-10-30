@@ -13,13 +13,14 @@ RUN rm -rf /opt/solr \
  && tar -C /opt --extract --file "/opt/solr-$SOLR_VERSION.tgz" \
  && mv "/opt/solr-$SOLR_VERSION" /opt/solr \
  && rm "/opt/solr-$SOLR_VERSION.tgz"* \
- && rm -Rf /opt/solr/docs/ /opt/solr/dist/{solr-core-$SOLR_VERSION.jar,solr-solrj-$SOLR_VERSION.jar,solrj-lib,solr-test-framework-$SOLR_VERSION.jar,test-framework} \
+ && rm -Rf /opt/solr/docs/ /opt/solr/dist/{solr-core-$SOLR_VERSION.jar,solr-solrj-$SOLR_VERSION.jar,solrj-lib,solr-test-framework-$SOLR_VERSION.jar,test-framework} /opt/solr/example/solr/collection1 \
  && mkdir -p /opt/solr/server/solr/lib /opt/solr/server/solr/mycores /opt/solr/server/logs \
  && sed -i -e "s/\"\$(whoami)\" == \"root\"/\$(id -u) == 0/" /opt/solr/bin/solr \
  && sed -i -e 's/lsof -PniTCP:/lsof -t -PniTCP:/' /opt/solr/bin/solr \
+ && sed -i 's#! -d \$coredir #! -d "$coredir/conf/" #' /opt/docker-solr/scripts/precreate-core \
  && if [ -f "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter" ]; then chmod 0755 "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter"; fi \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/solr /docker-entrypoint-initdb.d /opt/docker-solr \
- && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/mysolrhome \
+ && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/mysolrhome /opt/solr/example/solr \
  \
  # Install unzip to allow solr to start \
  && apt-get -qq update \
@@ -30,5 +31,7 @@ RUN rm -rf /opt/solr \
  && apt-get autoremove -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+ENV SOLR_HOME=/opt/solr/example/solr
 
 USER $SOLR_USER
