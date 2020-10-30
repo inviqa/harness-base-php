@@ -182,11 +182,6 @@ attributes:
     redis:
       enabled: true
 
-  resources:
-    memory:
-      jenkins_runner: "256Mi"
-      jenkins: "1536Mi"
-
 ---
 command('frontend yves watch'):
   env:
