@@ -91,6 +91,14 @@ attributes:
     memcached:
       enabled: "= 'memcached' in @('app.services')"
       image: memcached:1-alpine
+    mongodb:
+      image: mongo:4.4
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+      environment_secrets:
+        MONGO_INITDB_ROOT_PASSWORD: password
+      resources:
+        memory: "512Mi"
     mysql:
       enabled: "= 'mysql' in @('app.services')"
       image: = @('mysql.image') ~ ':' ~ @('mysql.tag')
