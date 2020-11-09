@@ -22,7 +22,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "chart.labels" $ | nindent 8 }}
+        {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: elasticsearch
         app.service: {{ $.Values.resourcePrefix }}elasticsearch
     spec:

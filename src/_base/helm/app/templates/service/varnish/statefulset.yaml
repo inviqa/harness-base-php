@@ -23,7 +23,7 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/service/varnish/configmap.yaml") $ | sha256sum }}
       labels:
-        {{- include "chart.labels" $ | nindent 8 }}
+        {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: varnish
         app.service: {{ $.Values.resourcePrefix }}varnish
     spec:

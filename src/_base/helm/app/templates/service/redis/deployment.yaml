@@ -23,7 +23,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        {{- include "chart.labels" $ | nindent 8 }}
+        {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: redis
         app.service: {{ $.Values.resourcePrefix }}redis
     spec:
