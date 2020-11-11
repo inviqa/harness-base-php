@@ -43,4 +43,4 @@ command('external-images pull'): |
     CONF_ARGS+=(--skip-exists)
   fi
 
-  passthru "ws external-images config $(printf '%q ' "${CONF_ARGS}") | docker-compose -f - pull"
+  passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | docker-compose -f - pull"
