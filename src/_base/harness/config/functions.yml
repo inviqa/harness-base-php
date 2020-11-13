@@ -121,10 +121,14 @@ function('docker_service_images'): |
   $images = [];
 
   foreach ($config['services'] as $serviceName => $service) {
-    $image = [
+    $imageSpec = [
       'image' => $service['image'] ?? null,
       'upstream' => [],
     ];
+
+    if ($imageSpec['image'] && strpos($imageSpec['image'], ':') === false) {
+      $imageSpec['image'] .= ':latest';
+    }
 
     if (isset($service['build'])) {
       $context = rtrim($service['build']['context'], '/');
@@ -133,9 +137,15 @@ function('docker_service_images'): |
       if (preg_match_all('/^FROM\s+([^\s]*)/m', file_get_contents($context.'/'.$dockerfile), $matches) === false) {
         continue;
       }
-      $image['upstream'] = $matches[1];
+
+      foreach ($matches[1] as $image) {
+        if (strpos($image, ':') === false) {
+          $image .= ':latest';
+        }
+        $imageSpec['upstream'][] = $image;
+      }
     }
-    $images[$serviceName] = $image;
+    $images[$serviceName] = $imageSpec;
   }
 
   = $images;
