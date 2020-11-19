@@ -10,8 +10,11 @@ command('app build'):
 
     # dependency ordered build
     passthru docker-compose build console
+    if [[ "${HAS_WEBAPP}" == "true" ]] || [[ "${HAS_CRON}" == "true" ]]; then
+      passthru docker-compose build php-fpm
+    fi
     if [[ "${HAS_WEBAPP}" == "true" ]]; then
-      passthru docker-compose build php-fpm nginx
+      passthru docker-compose build nginx
     fi
     if [[ "${HAS_CRON}" == "true" ]]; then
       passthru docker-compose build cron
