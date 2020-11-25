@@ -19,20 +19,28 @@ function('external_images', [services]): |
   = join(' ', $externalImages);
 
 
-command('external-images config'):
+command('external-images config --skip-exists'):
   env:
     IMAGES: = external_images(docker_service_images())
+    SKIP_EXISTS: "= input.option('skip-exists') ? 1 : 0"
   exec: |
     #!php
+    $exclude = [];
+    if ($env['SKIP_EXISTS']) {
+      $exclude = explode("\n", shell_exec('docker images -a --format \'{{ print .Repository ":" .Tag }}\''));
+    }
+    $include = explode(' ', $env['IMAGES']);
     $compose = ['version' => '3', 'services' => []];
-    foreach (explode(' ', $env['IMAGES']) as $image) {
+    foreach (array_diff($include, $exclude) as $image) {
       $compose['services'][str_replace(['/', ':'], '_', $image)] = ['image' => $image];
     }
     echo \Symfony\Component\Yaml\Yaml::dump($compose, 100, 2);
 
-command('external-images pull'):
-  env:
-    BASE_IMAGES: = external_images(docker_service_images())
-  exec: |
-    #!bash(workspace:/)|@
-    passthru 'ws external-images config | docker-compose -f - pull'
+command('external-images pull'): |
+  #!bash(workspace:/)|@
+  CONF_ARGS=()
+  if [ -n "${CI:-}" ] || [ -n "${BUILD_ID:-}" ]; then
+    CONF_ARGS+=(--skip-exists)
+  fi
+
+  passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | docker-compose -f - pull"
