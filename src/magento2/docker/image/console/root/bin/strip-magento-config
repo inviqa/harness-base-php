@@ -6,6 +6,33 @@
  * used with static content deploy.
  */
 
-$config = include "/app/app/etc/config.php";
-unset($config['system']);
+$config = include '/app/app/etc/config.php';
+if (isset($config['system'])) {
+    $newSystem = [];
+    $system = isset($config['system']['default']) ? $config['system']['default'] : [];
+
+    if (isset($system['general']['locale']['code'])) {
+        $newSystem['default']['general']['locale']['code'] = $system['general']['locale']['code'];
+    }
+    if (isset($system['dev']['js']['minify_files'])) {
+        $newSystem['default']['dev']['js']['minify_files'] = $system['dev']['js']['minify_files'];
+    }
+    if (isset($system['dev']['js']['minify_exclude'])) {
+        $newSystem['default']['dev']['js']['minify_exclude'] = $system['dev']['js']['minify_exclude'];
+    }
+    if (isset($system['dev']['css']['minify_files'])) {
+        $newSystem['default']['dev']['css']['minify_files'] = $system['dev']['css']['minify_files'];
+    }
+    if (isset($system['dev']['css']['minify_exclude'])) {
+        $newSystem['default']['dev']['css']['minify_exclude'] = $system['dev']['css']['minify_exclude'];
+    }
+    if (isset($system['dev']['static']['sign'])) {
+        $newSystem['default']['dev']['static']['sign'] = $system['dev']['static']['sign'];
+    }
+    if ($newSystem) {
+        $config['system'] = $newSystem;
+    } else {
+        unset($config['system']);
+    }
+}
 file_put_contents("/app/app/etc/config.php", "<?php \n return ".var_export($config, true).";\n");
