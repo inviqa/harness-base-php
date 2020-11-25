@@ -19,7 +19,7 @@ function('external_images', [services]): |
   = join(' ', $externalImages);
 
 
-command('external-images config --skip-exists'):
+command('external-images config [--skip-exists]'):
   env:
     IMAGES: = external_images(docker_service_images())
     SKIP_EXISTS: "= input.option('skip-exists') ? 1 : 0"
