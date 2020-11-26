@@ -37,6 +37,7 @@ attributes:
     version: 7.4
     ini:
       opcache.max_accelerated_files: 65407
+      opcache.memory_consumption: 512
   database:
     platform: postgres
     host: postgres
