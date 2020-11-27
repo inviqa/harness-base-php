@@ -186,6 +186,8 @@ attributes.default:
         max_execution_time: 0
         memory_limit: -1
       install_extensions: []
+    cron:
+      ini: = @('php.cli.ini')
     entrypoint:
       steps: []
     fpm:

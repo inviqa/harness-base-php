@@ -2,6 +2,9 @@ attributes:
   akeneo:
     app:
       mode: dev # dev or prod
+  php:
+    job_queue_consumer:
+      ini: = @('php.cli.ini')
   services:
     php-base:
       environment:

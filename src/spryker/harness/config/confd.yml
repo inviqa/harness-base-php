@@ -39,6 +39,7 @@ confd('harness:/'):
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
   - { src: docker/image/cron/root/entrypoint.sh }
+  - { src: docker/image/cron/root/usr/local/etc/php/php.ini }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
@@ -64,5 +65,6 @@ confd('harness:/'):
   - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf.template }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf.template }
   - { src: docker/image/jenkins-runner/Dockerfile }
+  - { src: docker/image/jenkins-runner/root/usr/local/etc/php/php.ini }
   - { src: helm/preview/requirements.yaml }
   - { src: helm/preview/values.yaml }
