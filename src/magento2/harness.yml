@@ -81,7 +81,7 @@ attributes:
             run mv app/etc/env.php app/etc/env-backup.php
             run composer dump-autoload --optimize
             passthru bin/magento setup:di:compile
-            run composer dump-autoload --optimize --classmap-authoritative
+            task composer:autoload
             run mv app/etc/env-backup.php app/etc/env.php
           fi
         - |

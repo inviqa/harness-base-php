@@ -2,14 +2,11 @@
 
 function task_composer_install()
 {
-    {% if @('app.mode') == 'development' and @('app.build') == 'static' %}
-        passthru composer install --no-interaction --optimize-autoloader
-        passthru composer dump-autoload --optimize --classmap-authoritative
-    {% elseif @('app.mode') == 'development' %}
+    {% if @('app.mode') == 'development' and @('app.build') != 'static' %}
         passthru composer install --no-interaction
     {% else %}
-        passthru composer install --no-interaction --no-dev --optimize-autoloader
-        passthru composer dump-autoload --optimize --classmap-authoritative
+        passthru php -d opcache.file_cache_only=0 /usr/bin/composer install --no-interaction{% if @('app.mode') != 'development' %} --no-dev{% endif %} --optimize-autoloader
+        task composer:autoload
     {% endif %}
 
     {% if @('app.build') == 'static' %}
