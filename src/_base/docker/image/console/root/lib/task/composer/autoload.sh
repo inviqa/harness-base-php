@@ -1,4 +1,5 @@
 #!/bin/bash
+
 function task_composer_autoload()
 {
     passthru composer dump-autoload --optimize --classmap-authoritative
