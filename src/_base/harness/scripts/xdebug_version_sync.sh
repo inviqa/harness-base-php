@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+PREPARE_CONFIG=0
+RESTART_FPM=0
+
 xdebug_version_sync()
 {
   INSTALLED_VERSION=$(docker-compose exec -T -u root "$1" pecl info xdebug 2>&1 | grep "Release Version" | awk '{print $3}')
@@ -24,7 +27,22 @@ xdebug_version_sync()
 
   run docker-compose exec -T -u root "$1" pecl uninstall xdebug
   run docker-compose exec -T -u root "$1" pecl install "$INSTALL_CANDIDATE"
+
+  PREPARE_CONFIG=1
+
+  if [ "$1" == "php-fpm" ]; then
+    RESTART_FPM=1
+  fi
 }
 
 xdebug_version_sync 'console'
 xdebug_version_sync 'php-fpm'
+
+if [ "$PREPARE_CONFIG" == 1 ]; then
+  run ws install --step=prepare
+fi
+
+if [ "$RESTART_FPM" == 1 ]; then
+  run ws service php-fpm restart
+fi
+

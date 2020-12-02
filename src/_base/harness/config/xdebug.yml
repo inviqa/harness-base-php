@@ -1,12 +1,10 @@
 command('feature xdebug version-sync'):
   env:
     XDEBUG_VERSION: = @('php.ext-xdebug.version')
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)
     source .my127ws/harness/scripts/xdebug_version_sync.sh
-    run ws install --step=prepare
-    run ws service php-fpm restart
-    echo 'Done'
 
 command('feature xdebug (on|off)'):
   env:
@@ -34,6 +32,11 @@ command('feature xdebug cli (on|off)'):
     run ws service php-fpm restart
     echo 'Done'
 
-after('harness.install'): |
-  #!bash
-  ws feature xdebug version-sync
+after('harness.install'):
+  env:
+    APP_BUILD: = @('app.build')
+  exec: |
+    #!bash(workspace:/)|@
+    if [[ "$APP_BUILD" != "static" ]]; then
+      ws feature xdebug version-sync
+    fi
