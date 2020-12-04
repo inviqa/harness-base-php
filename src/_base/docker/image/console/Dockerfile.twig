@@ -25,6 +25,12 @@ RUN chown -R build:build /home/build \
 ENV APP_MODE={{ @('app.mode') }} \
   APP_BUILD={{ @('app.build') }} \
   ASSETS_DIR={{ @('assets.local') }}
+{%- set extra_environment_variables=@('services.console.build.environment')|filter(v => v is not empty) %}
+{%- if extra_environment_variables %}
+{%- for name, value in extra_environment_variables %} \
+  {{ name }}="{{ value }}"
+{% endfor %}
+{% endif %}
 
 {% if @('node.version') is not null %}
 USER build
