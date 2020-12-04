@@ -38,8 +38,7 @@ attributes:
     pass: magento
     name: magento
   php:
-    composer:
-      major_version: 2
+    version: 7.2
     entrypoint:
       steps:
         - |
@@ -50,7 +49,6 @@ attributes:
           if [ -f /app/public/app/etc/local.xml.harness.template ]; then
             envsubst < /app/public/app/etc/local.xml.harness.template > /app/public/app/etc/local.xml
           fi
-    version: 7.2
   magento:
     edition: enterprise
     version: 1.14.4.5
