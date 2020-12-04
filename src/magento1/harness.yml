@@ -52,6 +52,11 @@ attributes:
     ini:
       opcache.max_accelerated_files: 32531
       opcache.memory_consumption: 320
+    install_extensions:
+      - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
+      - "= @('services.tideways.enabled') ? 'tideways' : ''"
+      - memcached
+      - redis
   magento:
     edition: enterprise
     version: 1.14.4.5
@@ -110,10 +115,6 @@ attributes:
         - run n98-magerun.phar sys:setup:incremental -n
         - run n98-magerun.phar index:reindex:all
         - run n98-magerun.phar cache:clean
-  docker:
-    image:
-      console: "= 'my127/magento1:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
-      php-fpm: "= 'my127/magento1:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   persistence:
     enabled: false
     magento:
