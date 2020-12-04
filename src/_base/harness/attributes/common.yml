@@ -186,6 +186,8 @@ attributes.default:
         max_execution_time: 0
         memory_limit: -1
       install_extensions: []
+    composer:
+      major_version: 2
     entrypoint:
       steps: []
     fpm:
