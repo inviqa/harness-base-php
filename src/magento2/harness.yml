@@ -36,6 +36,8 @@ attributes:
     export_directory: /app/var/export
     media_directory: = @('app.web_directory') ~ '/media'
   php:
+    composer:
+      major_version: 1
     fpm:
       ini:
         max_execution_time: 18000
