@@ -63,6 +63,7 @@ attributes:
       - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
       - mysqli
+    version: 7.4
 ---
 import:
   - harness/config/*.yml
