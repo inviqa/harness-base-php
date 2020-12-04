@@ -212,8 +212,8 @@ attributes.default:
       # Use PHP 8+ Just In Time (JIT) optimisations
       # 1255 means a tracing JIT optimiser that analyses code for hot paths on the fly for whole scripts.
       # One step up from the default of "tracing" which is 1254 which uses callgraph
-      opcache.jit: "= (@('php.version') >= 8.0 ? '1255' : ~)"
-      opcache.jit_buffer_size: "= (@('php.version') >= 8.0 ? '100M' : ~)"
+      opcache.jit: "= (@('php.version') >= 8.0 ? '1255' : null)"
+      opcache.jit_buffer_size: "= (@('php.version') >= 8.0 ? '100M' : null)"
       realpath_cache_ttl: 600
       sendmail_path: /usr/local/bin/send_mail
       short_open_tag: Off
