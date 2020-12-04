@@ -3,6 +3,10 @@ attributes:
     app:
       mode: dev # dev or prod
   services:
+    console:
+      build:
+        environment:
+          PATH: "$PATH:/app/bin:/app/vendor/bin"
     php-base:
       environment:
         APP_DEBUG: "0"
