@@ -38,8 +38,6 @@ attributes:
     pass: magento
     name: magento
   php:
-    composer:
-      major_version: 2
     entrypoint:
       steps:
         - |
