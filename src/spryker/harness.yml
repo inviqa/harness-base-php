@@ -31,6 +31,8 @@ attributes:
     oauth_client_secret: ~
     zed_request_token: ~
   php:
+    composer:
+      major_version: 1
     fpm:
       ini:
         max_execution_time: 600
