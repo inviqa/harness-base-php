@@ -72,7 +72,7 @@ command('switch (cached-volumes|delegated-volumes|mutagen|docker-sync)'):
   exec: |
     #!bash(workspace:/)|=
     run ws disable
-    if [[ "$SYNC = "delegated-volumes" ]]; then
+    if [[ "$SYNC" = "delegated-volumes" ]]; then
       ws set delegated-volumes yes
       ws set mutagen no
       ws set docker-sync no
