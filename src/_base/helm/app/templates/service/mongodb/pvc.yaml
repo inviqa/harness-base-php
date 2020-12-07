@@ -1,0 +1,32 @@
+{{ if and .Values.docker.services.mongodb.enabled .Values.persistence.mongodb.enabled -}}
+{{- with .Values.persistence.mongodb -}}
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $.Values.resourcePrefix }}mongodb
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: mongodb
+    app.service: {{ $.Values.resourcePrefix }}mongodb
+spec:
+  accessModes:
+    - {{ .accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .size | quote }}
+{{- if .storageClass }}
+{{- if (eq "-" .storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: {{ .storageClass | quote }}
+{{- end }}
+{{- end }}
+{{- if .selector }}
+  selector:
+  {{- .selector | toYaml | nindent 4 }}
+{{- end }}
+
+{{- end }}
+
+{{- end }}
