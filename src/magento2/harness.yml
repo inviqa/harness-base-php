@@ -43,6 +43,11 @@ attributes:
       opcache.interned_strings_buffer: 64
       opcache.max_accelerated_files: 65407
       opcache.memory_consumption: 512
+    install_extensions:
+      - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
+      - "= @('services.tideways.enabled') ? 'tideways' : ''"
+      - redis
+      - sockets
   composer:
     auth:
       basic:
@@ -177,10 +182,6 @@ attributes:
     cron:
       jobs:
         - "= (@('app.mode') == 'production' ? '* * * * * /cron-run-with-env.sh \"/app/bin/magento cron:run & wait\"' : '')"
-  docker:
-    image:
-      console: "= 'my127/magento2:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
-      php-fpm: "= 'my127/magento2:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   framework:
     readme_blocks:
       - xml_urn_generation
