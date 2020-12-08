@@ -44,6 +44,7 @@
     "drupal/token": "1.5",
     "drupal/ultimate_cron": "2.x-dev",
     "drush/drush": "^8",
+    "fenetikm/autoload-drupal": "^0.2",
     "oomphinc/composer-installers-extender": "^1.1"
   },
   "require-dev": {
@@ -58,6 +59,14 @@
     "phpcompatibility/php-compatibility": "dev-master",
     "phpstan/phpstan": "^0.12",
     "phpstan/phpstan-deprecation-rules": "^0.12"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\KernelTests\\": "docroot/core/tests/Drupal/KernelTests",
+      "Drupal\\Tests\\": "docroot/core/tests/Drupal/Tests",
+      "Drupal\\TestTools\\": "docroot/core/tests/Drupal/TestTools",
+      "Drupal\\views\\": "docroot/core/modules/views/src/"
+    }
   },
   "scripts": {
     "test": [
@@ -83,6 +92,13 @@
     "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
   },
   "extra": {
+    "autoload-drupal": {
+      "modules": [
+        "docroot/core/modules/",
+        "docroot/modules/contrib/",
+        "docroot/modules/custom/"
+      ]
+    },
     "drupal-scaffold": {
       "locations": {
         "web-root": "docroot"

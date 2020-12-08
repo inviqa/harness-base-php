@@ -4,13 +4,15 @@ function task_composer_install()
 {
     {% if @('app.mode') == 'development' and @('app.build') == 'static' %}
         passthru composer install --no-interaction --optimize-autoloader
+        passthru composer dump-autoload --optimize --classmap-authoritative
     {% elseif @('app.mode') == 'development' %}
         passthru composer install --no-interaction
     {% else %}
         passthru composer install --no-interaction --no-dev --optimize-autoloader
+        passthru composer dump-autoload --optimize --classmap-authoritative
     {% endif %}
 
     {% if @('app.build') == 'static' %}
-        run "composer clear-cache"
+        run composer clear-cache
     {% endif %}
 }

@@ -79,8 +79,9 @@ attributes:
         - |
           if [ "$APP_BUILD" == "static" ] ; then
             run mv app/etc/env.php app/etc/env-backup.php
-            passthru bin/magento setup:di:compile
             run composer dump-autoload --optimize
+            passthru bin/magento setup:di:compile
+            run composer dump-autoload --optimize --classmap-authoritative
             run mv app/etc/env-backup.php app/etc/env.php
           fi
         - |
