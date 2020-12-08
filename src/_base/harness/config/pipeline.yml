@@ -2,6 +2,7 @@
 command('app build'):
   env:
     HAS_CRON: "= @('services.cron.enabled') ? 'true' : 'false'"
+    HAS_WEBAPP: "= @('services.webapp.enabled') ? 'true' : 'false'"
     HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
   exec: |
     #!bash(workspace:/)|@
@@ -9,7 +10,12 @@ command('app build'):
 
     # dependency ordered build
     passthru docker-compose build console
-    passthru docker-compose build php-fpm nginx
+    if [[ "${HAS_WEBAPP}" == "true" ]] || [[ "${HAS_CRON}" == "true" ]]; then
+      passthru docker-compose build php-fpm
+    fi
+    if [[ "${HAS_WEBAPP}" == "true" ]]; then
+      passthru docker-compose build nginx
+    fi
     if [[ "${HAS_CRON}" == "true" ]]; then
       passthru docker-compose build cron
     fi
