@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: elasticsearch
     app.service: {{ .Values.resourcePrefix }}elasticsearch
   name: {{ .Values.resourcePrefix }}elasticsearch
 spec:

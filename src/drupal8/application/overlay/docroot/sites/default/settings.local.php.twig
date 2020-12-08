@@ -17,6 +17,8 @@ $databases['default']['default'] = array (
   'driver'    => 'mysql',
 );
 
+$settings['trusted_host_patterns'][] = '^' . preg_quote(getenv('APP_HOST')) . '$';
+
 {% if @('app.build') == 'static' %}
 // TODO: come up with an approach which allows asset aggregation
 // to also work in static docker images where nginx and php-fpm

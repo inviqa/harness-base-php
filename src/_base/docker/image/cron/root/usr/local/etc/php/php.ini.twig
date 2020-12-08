@@ -1,0 +1,10 @@
+{% for name, value in @('php.ini') %}
+{{ name }} = {{ value }}
+{% endfor %}
+{% for name, value in @('php.cron.ini') %}
+{{ name }} = {{ value }}
+{% endfor %}
+
+; UTC for consistent logging that doesn't vary for Daylight Savings
+; If you need to change it, configure your application to display dates offset from UTC.
+date.timezone = UTC

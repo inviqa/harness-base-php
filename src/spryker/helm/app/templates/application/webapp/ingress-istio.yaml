@@ -4,8 +4,10 @@ kind: VirtualService
 metadata:
  name: {{ .Release.Namespace }}-{{ .Values.resourcePrefix }}webapp-virtualservice
  labels:
-   app: {{ .Values.resourcePrefix }}webapp
-   app.service: {{ .Values.resourcePrefix }}webapp
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: webapp
+    app: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ .Values.resourcePrefix }}webapp
 spec:
  hosts:
 {{- range $key, $value := .Values.docker.services.nginx.environment }}

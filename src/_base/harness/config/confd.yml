@@ -39,6 +39,7 @@ confd('harness:/'):
   - { src: docker/image/cron/Dockerfile }
   - { src: docker/image/cron/root/crontab }
   - { src: docker/image/cron/root/entrypoint.sh }
+  - { src: docker/image/cron/root/usr/local/etc/php/php.ini }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }

@@ -7,6 +7,8 @@ apiVersion: v1
 metadata:
   name: {{ $.Values.resourcePrefix }}elasticsearch-pv-claim
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: elasticsearch
     app.service: {{ $.Values.resourcePrefix }}elasticsearch
 spec:
   accessModes:

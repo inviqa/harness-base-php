@@ -7,6 +7,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: tideways
     app.service: {{ $.Values.resourcePrefix }}tideways
 spec:
   replicas: 1
@@ -17,6 +19,8 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
+        {{- include "chart.selectors" $ | nindent 8 }}
+        app.kubernetes.io/component: tideways
         app.service: {{ $.Values.resourcePrefix }}tideways
     spec:
       containers:

@@ -7,6 +7,9 @@ FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
 WORKDIR /app
 COPY .my127ws/docker/image/job-queue-consumer/root /
 
+RUN mkdir -p /tmp/php-file-cache \
+ && chown -R www-data:www-data /tmp/php-file-cache
+
 {% if @('app.build') == 'static' %}
 RUN bash /fix_app_permissions.sh
 {% else %}

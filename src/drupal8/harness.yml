@@ -76,6 +76,9 @@ attributes:
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
       - memcached
       - redis
+    cli:
+      ini:
+        opcache.file_cache_only: '0'
   persistence:
     enabled: false
     drupal:

@@ -1,5 +1,7 @@
 {% set blocks  = 'helm/app/_twig/values.yaml/' %}
 
+appVersion: {{ @('app.version') | json_encode | raw }}
+
 console:
   enabled: true
 

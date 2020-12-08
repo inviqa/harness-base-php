@@ -5,6 +5,8 @@ kind: Deployment
 metadata:
   name: {{ .Values.resourcePrefix }}webapp
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: webapp
     app.service: {{ .Values.resourcePrefix }}webapp
   annotations:
     argocd.argoproj.io/sync-wave: "15"
@@ -17,6 +19,8 @@ spec:
   template:
     metadata:
       labels:
+        {{- include "chart.selectors" $ | nindent 8 }}
+        app.kubernetes.io/component: webapp
         app.service: {{ .Values.resourcePrefix }}webapp
     spec:
       {{- if and $service_php_fpm.enabled (not (eq "" (include "application.volumes.wwwDataPaths" .))) }}

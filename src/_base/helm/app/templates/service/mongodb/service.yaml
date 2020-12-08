@@ -1,0 +1,21 @@
+{{ if .Values.docker.services.mongodb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: mongodb
+    app.service: {{ $.Values.resourcePrefix }}mongodb
+  name: {{ .Values.resourcePrefix }}mongodb
+spec:
+  ports:
+  - name: wire
+    port: 27017
+    targetPort: 27017
+  selector:
+    {{- include "chart.selectors" $ | nindent 4 }}
+    app.kubernetes.io/component: mongodb
+    app.service: {{ $.Values.resourcePrefix }}mongodb
+status:
+  loadBalancer: {}
+{{ end }}

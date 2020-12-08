@@ -7,6 +7,8 @@ apiVersion: v1
 metadata:
   name: {{ $.Values.resourcePrefix }}rabbitmq-pv-claim
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: rabbitmq
     app.service: {{ $.Values.resourcePrefix }}rabbitmq
 spec:
   accessModes:
