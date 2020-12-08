@@ -101,6 +101,9 @@ function('filter_local_services', [services]): |
 function('get_docker_external_networks'): |
   #!php
   $configRaw = shell_exec('docker-compose config');
+  if ($configRaw === null) {
+    exit(1);
+  }
   $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
   $externalNetworks = [];
   if (isset($config['networks'])) {
@@ -119,6 +122,9 @@ function('get_docker_external_networks'): |
 function('docker_service_images'): |
   #!php
   $configRaw = shell_exec('docker-compose config');
+  if ($configRaw === null) {
+    exit(1);
+  }
   $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
   $images = [];
 
