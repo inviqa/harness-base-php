@@ -5,6 +5,8 @@ kind: Deployment
 metadata:
   name: {{ $.Values.resourcePrefix }}console
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: console
     app.service: {{ $.Values.resourcePrefix }}console
   annotations:
     argocd.argoproj.io/sync-wave: "15"
@@ -17,6 +19,8 @@ spec:
   template:
     metadata:
       labels:
+        {{- include "chart.selectors" $ | nindent 8 }}
+        app.kubernetes.io/component: console
         app.service: {{ $.Values.resourcePrefix }}console
     spec:
       containers:

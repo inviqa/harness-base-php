@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: {{ .Values.resourcePrefix }}jenkins
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: jenkins
     app.service: {{ .Values.resourcePrefix }}jenkins
 spec:
   ports:

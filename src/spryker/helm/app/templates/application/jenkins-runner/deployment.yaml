@@ -5,6 +5,8 @@ kind: Deployment
 metadata:
   name: {{ $.Values.resourcePrefix }}jenkins-runner
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: jenkins-runner
     app.service: {{ $.Values.resourcePrefix }}jenkins-runner
   annotations:
     argocd.argoproj.io/sync-wave: "15"
@@ -17,6 +19,8 @@ spec:
   template:
     metadata:
       labels:
+        {{- include "chart.selectors" $ | nindent 8 }}
+        app.kubernetes.io/component: jenkins-runner
         app.service: {{ $.Values.resourcePrefix }}jenkins-runner
     spec:
       containers:

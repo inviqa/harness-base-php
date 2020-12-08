@@ -1,15 +1,14 @@
-{{ if and .Values.persistence.rabbitmq.enabled (.Values.service.rabbitmq | default .Values.docker.services.rabbitmq.enabled) -}}
-
-{{- with .Values.persistence.rabbitmq -}}
+{{ if and .Values.docker.services.mongodb.enabled .Values.persistence.mongodb.enabled -}}
+{{- with .Values.persistence.mongodb -}}
 
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ $.Values.resourcePrefix }}rabbitmq-pv-claim
+  name: {{ $.Values.resourcePrefix }}mongodb
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
-    app.kubernetes.io/component: rabbitmq
-    app.service: {{ $.Values.resourcePrefix }}rabbitmq
+    app.kubernetes.io/component: mongodb
+    app.service: {{ $.Values.resourcePrefix }}mongodb
 spec:
   accessModes:
     - {{ .accessMode | quote }}

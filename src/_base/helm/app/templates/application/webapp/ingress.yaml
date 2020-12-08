@@ -10,6 +10,8 @@ metadata:
 {{- end }}
   creationTimestamp: null
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: webapp
     app.service: {{ .Values.resourcePrefix }}webapp
   name: {{ .Values.resourcePrefix }}webapp
 spec:

@@ -1,0 +1,14 @@
+  mongodb:
+    image: {{ @('services.mongodb.image') }}
+    environment: {{ to_nice_yaml(deep_merge([
+        @('services.mongodb.environment'),
+        @('services.mongodb.environment_secrets')
+      ]), 2, 6) | raw }}
+    labels:
+      - traefik.enable=false
+    networks:
+      - private
+    expose:
+      - 27017
+    volumes:
+      - /data/db

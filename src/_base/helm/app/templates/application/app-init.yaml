@@ -9,9 +9,16 @@ metadata:
     argocd.argoproj.io/hook: "Sync"
     argocd.argoproj.io/hook-delete-policy: "BeforeHookCreation"
     argocd.argoproj.io/sync-wave: "5"
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: app-init
 spec:
   backoffLimit: 0
   template:
+    metadata:
+      labels:
+        {{- include "chart.labels" $ | nindent 8 }}
+        app.kubernetes.io/component: app-init
     spec:
       restartPolicy: Never
       containers:

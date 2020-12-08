@@ -7,6 +7,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
   labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: varnish
     app.service: {{ $.Values.resourcePrefix }}varnish
 spec:
   replicas: {{ $.Values.replicas.varnish }}
@@ -21,6 +23,8 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/service/varnish/configmap.yaml") $ | sha256sum }}
       labels:
+        {{- include "chart.selectors" $ | nindent 8 }}
+        app.kubernetes.io/component: varnish
         app.service: {{ $.Values.resourcePrefix }}varnish
     spec:
       containers:
