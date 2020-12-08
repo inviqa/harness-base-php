@@ -39,6 +39,10 @@ attributes:
     fpm:
       ini:
         max_execution_time: 18000
+    ini:
+      opcache.interned_strings_buffer: 64
+      opcache.max_accelerated_files: 65407
+      opcache.memory_consumption: 512
   composer:
     auth:
       basic:

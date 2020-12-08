@@ -49,6 +49,9 @@ attributes:
           if [ -f /app/public/app/etc/local.xml.harness.template ]; then
             envsubst < /app/public/app/etc/local.xml.harness.template > /app/public/app/etc/local.xml
           fi
+    ini:
+      opcache.max_accelerated_files: 32531
+      opcache.memory_consumption: 320
   magento:
     edition: enterprise
     version: 1.14.4.5
