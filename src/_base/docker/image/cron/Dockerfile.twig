@@ -14,7 +14,9 @@ RUN apt-get update -qq \
  # clean \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && mkdir -p /tmp/php-file-cache \
+ && chown -R www-data:www-data /tmp/php-file-cache
 
 WORKDIR /app
 COPY .my127ws/docker/image/cron/root /

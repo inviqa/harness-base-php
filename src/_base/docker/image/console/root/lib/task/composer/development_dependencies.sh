@@ -2,5 +2,6 @@
 
 function task_composer_development_dependencies()
 {
-    passthru composer install --no-interaction --optimize-autoloader
+    passthru php -d opcache.file_cache_only=0 /usr/bin/composer install --no-interaction --optimize-autoloader
+    task composer:autoload
 }

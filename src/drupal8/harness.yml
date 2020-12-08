@@ -74,6 +74,10 @@ attributes:
     image:
       console: "= 'my127/drupal8:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
       php-fpm: "= 'my127/drupal8:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
+  php:
+    cli:
+      ini:
+        opcache.file_cache_only: '0'
   persistence:
     enabled: false
     drupal:

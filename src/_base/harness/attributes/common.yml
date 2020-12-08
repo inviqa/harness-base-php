@@ -1,7 +1,4 @@
-
-
 attributes.default:
-
   app:
     # build - static|dynamic
     #   dynamic - volumes are mounted and the build step is run once the containers have started
@@ -185,7 +182,12 @@ attributes.default:
       ini:
         max_execution_time: 0
         memory_limit: -1
+        opcache.file_cache: "= (@('app.build') == 'static' ? '/tmp/php-file-cache' : '')"
+        opcache.file_cache_only: "= (@('app.build') == 'static' ? '1' : '0')"
+        opcache.file_cache_consistency_checks: "= (@('app.build') == 'static' ? '1' : '0')"
       install_extensions: []
+    cron:
+      ini: = @('php.cli.ini')
     entrypoint:
       steps: []
     fpm:
