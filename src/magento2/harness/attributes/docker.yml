@@ -1,5 +1,9 @@
 attributes:
   services:
+    console:
+      build:
+        environment:
+          MAGE_MODE: "= (@('app.mode') == 'production' ? 'production' : 'developer')"
     php-base:
       environment:
         MAGE_MODE: "= (@('app.mode') == 'production' ? 'production' : 'developer')"

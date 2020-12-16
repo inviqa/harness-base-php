@@ -1,5 +1,9 @@
 attributes:
   services:
+    console:
+      build:
+        environment:
+          APP_ENV: "= (@('app.mode') == 'development' ? 'dev' : 'prod')"
     php-base:
       environment:
         APP_DEBUG: "0"

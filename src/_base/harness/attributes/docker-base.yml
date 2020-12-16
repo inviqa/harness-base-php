@@ -45,6 +45,8 @@ attributes:
       enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-console'
       publish: true
+      build:
+        environment: {}
       environment:
         DB_ADMIN_USER: root
         HAS_ELASTICSEARCH: "= @('services.elasticsearch.enabled') ? 'true' : 'false'"

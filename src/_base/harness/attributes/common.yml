@@ -186,6 +186,8 @@ attributes.default:
         opcache.file_cache_only: "= (@('app.build') == 'static' ? '1' : '0')"
         opcache.file_cache_consistency_checks: "= (@('app.build') == 'static' ? '1' : '0')"
       install_extensions: []
+    composer:
+      major_version: 2
     cron:
       ini: = @('php.cli.ini')
     entrypoint:

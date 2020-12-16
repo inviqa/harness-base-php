@@ -6,6 +6,10 @@ attributes:
     job_queue_consumer:
       ini: = @('php.cli.ini')
   services:
+    console:
+      build:
+        environment:
+          PATH: "$PATH:/app/bin:/app/vendor/bin"
     php-base:
       environment:
         APP_DEBUG: "0"
