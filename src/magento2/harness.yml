@@ -144,7 +144,9 @@ attributes:
             \
             --search-engine=elasticsearch7 \
             --elasticsearch-host='${ELASTICSEARCH_HOST}' \
-            --elasticsearch-port='${ELASTICSEARCH_PORT}'"
+            --elasticsearch-port='${ELASTICSEARCH_PORT}' \
+            \
+            --language=en_GB"
           # magento doesn't respond with an exit code when it fails so we check
           # if the install succeeded or not here.
           if [ ! -f /app/app/etc/env.php ]; then
