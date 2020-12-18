@@ -96,6 +96,7 @@ $config[ApplicationConstants::BASE_URL_SSL_STATIC_MEDIA] = $config[ApplicationCo
 
 // ---------- Session
 $config[SessionConstants::ZED_SESSION_COOKIE_NAME] = $config[ApplicationConstants::HOST_ZED];
+$config[SessionConstants::ZED_SESSION_COOKIE_DOMAIN] = $config[ApplicationConstants::HOST_ZED];
 
 // ---------- Database credentials
 $config[PropelConstants::ZED_DB_USERNAME] = getenv('DB_USER');
