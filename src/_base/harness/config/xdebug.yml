@@ -31,12 +31,3 @@ command('feature xdebug cli (on|off)'):
     echo 'Bringing up console with the new setting'
     run ws service php-fpm restart
     echo 'Done'
-
-after('harness.install'):
-  env:
-    APP_BUILD: = @('app.build')
-  exec: |
-    #!bash(workspace:/)|@
-    if [[ "$APP_BUILD" != "static" ]]; then
-      ws feature xdebug version-sync
-    fi

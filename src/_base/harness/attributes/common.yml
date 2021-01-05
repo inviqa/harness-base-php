@@ -231,7 +231,7 @@ attributes.default:
         sample_rate: 25
         service: web
     ext-xdebug:
-      version: 2
+      version: "= (@('php.version') >= 8.0 ? '3' : '2')"
       enable: no
       cli:
         enable: no
