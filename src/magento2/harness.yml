@@ -50,6 +50,7 @@ attributes:
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
       - redis
       - sockets
+    version: 7.4
   composer:
     auth:
       basic:

@@ -177,7 +177,7 @@ attributes.default:
     version: null
 
   php:
-    version: 7.4
+    version: "8.0"
     cli:
       ini:
         max_execution_time: 0
@@ -209,6 +209,11 @@ attributes.default:
       enable_dl: Off
       error_reporting: "E_ALL"
       opcache.enable_cli: On
+      # Use PHP 8+ Just In Time (JIT) optimisations
+      # 1255 means a tracing JIT optimiser that analyses code for hot paths on the fly for whole scripts.
+      # One step up from the default of "tracing" which is 1254 which uses callgraph
+      opcache.jit: "= (version_compare(@('php.version'), '8.0', '>=') ? '1255' : null)"
+      opcache.jit_buffer_size: "= (version_compare(@('php.version'), '8.0', '>=') ? '100M' : null)"
       realpath_cache_ttl: 600
       sendmail_path: /usr/local/bin/send_mail
       short_open_tag: Off
