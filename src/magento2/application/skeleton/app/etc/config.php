@@ -504,6 +504,38 @@ return [
             'code' => 'Magento/luma'
         ]
     ],
+    'system' => [
+        'default' => [
+            'general' => [
+                'locale' => [
+                    'code' => 'en_GB'
+                ]
+            ],
+            'dev' => [
+                'js' => [
+                    'merge_files' => '0',
+                    'minify_files' => '0',
+                    'minify_exclude' => [
+                        'tiny_mce' => '/tiny_mce/',
+                        'cardinal_commerce' => '/v1/songbird'
+                    ]
+                ],
+                'css' => [
+                    'minify_files' => '0',
+                    'minify_exclude' => [
+                        'tiny_mce' => '/tiny_mce/'
+                    ],
+                    'use_css_critical_path' => '0'
+                ],
+                'static' => [
+                    'sign' => '1'
+                ],
+                'template' => [
+                    'minify_html' => '0'
+                ]
+            ]
+        ]
+    ],
     'i18n' => [
 
     ]
