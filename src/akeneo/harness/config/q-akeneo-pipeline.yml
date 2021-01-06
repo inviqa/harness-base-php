@@ -1,8 +1,0 @@
-
-command('app build'): |
-  #!bash(workspace:/)|@
-  ws external-images pull
-
-  passthru docker-compose build console
-  passthru docker-compose build php-fpm nginx
-  passthru docker-compose build job-queue-consumer cron
