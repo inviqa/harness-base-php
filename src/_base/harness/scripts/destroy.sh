@@ -11,8 +11,12 @@ elif [[ "$USE_MUTAGEN" = "yes" ]]; then
 fi
 
 if [[ "$APP_BUILD" = "static" ]]; then
-    run "docker images --filter=since='${DOCKER_REPOSITORY}:${APP_VERSION}-console' -q | xargs --no-run-if-empty docker image rm --force"
-    run "docker images --filter=reference='${DOCKER_REPOSITORY}:${APP_VERSION}-*' -q | xargs --no-run-if-empty docker image rm --force"
+    DOCKER_IMAGE_REFERENCE="${DOCKER_REPOSITORY}:${APP_VERSION}"
+    if [[ "$DOCKER_REPOSITORY" =~ ':' ]]; then
+      DOCKER_IMAGE_REFERENCE="${DOCKER_REPOSITORY}${APP_VERSION}"
+    fi
+    run "docker images --filter=since='${DOCKER_IMAGE_REFERENCE}-console' -q | xargs --no-run-if-empty docker image rm --force"
+    run "docker images --filter=reference='${DOCKER_IMAGE_REFERENCE}-*' -q | xargs --no-run-if-empty docker image rm --force"
 fi
 run "docker images --filter=since='${NAMESPACE}-*:dev' -q | xargs --no-run-if-empty docker image rm --force"
 run "docker images --filter=reference='${NAMESPACE}-*:dev' -q | xargs --no-run-if-empty docker image rm --force"
