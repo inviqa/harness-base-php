@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-run docker-compose down --rmi local --volumes --remove-orphans
+run docker-compose down --rmi local --volumes --remove-orphans --timeout 120
 
 if [[ "$USE_DOCKER_SYNC" = "yes" ]] && [ -f docker-sync.yml ]; then
   run ws docker-sync clean
