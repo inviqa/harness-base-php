@@ -9,7 +9,7 @@ main()
         HAS_FLAG=yes
         IS_BUILT=yes
         # If no lines for `docker-compose ps`, the containers no longer exist so we need to rebuild them
-        if [ "$(docker-compose ps -q | wc -l)" = "0" ]; then
+        if [ "$(docker-compose ps --quiet | wc -l | awk '{ print $1 }')" = "0" ]; then
             IS_BUILT=no
         fi
     fi
