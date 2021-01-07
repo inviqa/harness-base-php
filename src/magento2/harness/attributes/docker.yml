@@ -13,6 +13,8 @@ attributes:
       image: "mariadb:10.4"
     redis:
       image: "redis:5"
+    redis-session:
+      image: = @('services.redis_session.image')
     redis_session:
       image: "redis:5"
     elasticsearch:

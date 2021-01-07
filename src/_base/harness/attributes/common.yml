@@ -71,6 +71,8 @@ attributes.default:
         host: mailhog.mailhog.svc.cluster.local
         port: = @('smtp.port')
       persistence:
+        redis-session:
+          enabled: = @('pipeline.preview.persistence.redis_session.enabled')
         redis_session:
           enabled: false
     qa:
@@ -349,6 +351,10 @@ attributes.default:
     host: redis
     port: 6379
 
+  redis-session:
+    host: = @('redis_session.host')
+    port: = @('redis_session.port')
+
   redis_session:
     host: redis-session
     port: 6379
@@ -399,6 +405,10 @@ attributes.default:
       enabled: false
       accessMode: ReadWriteOnce
       size: 2Gi
+    redis-session:
+      enabled: = @('persistence.redis_session.enabled')
+      accessMode: = @('persistence.redis_session.accessMode')
+      size: = @('persistence.redis_session.size')
     redis_session:
       enabled: true
       accessMode: ReadWriteOnce

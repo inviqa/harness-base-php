@@ -2,7 +2,7 @@ FROM {{ @('docker.image.console') }}
 # fix upstream signal
 STOPSIGNAL SIGTERM
 
-{% for service in [@('services.redis'), @('services.redis_session')] | filter(v => v.enabled) | slice(0, 1) %}
+{% for service in [@('services.redis'), @('services.redis-session')] | filter(v => v.enabled) | slice(0, 1) %}
 # copy the redis-cli from the first enabled redis service image
 COPY --from={{ service.image }} /usr/local/bin/redis-cli /usr/local/bin/redis-cli
 {% endfor %}

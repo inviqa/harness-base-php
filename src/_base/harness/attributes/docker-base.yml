@@ -21,8 +21,8 @@ attributes:
         RABBITMQ_VHOST: = @('rabbitmq.vhosts.default')
         REDIS_HOST: = @('redis.host')
         REDIS_PORT: = @('redis.port')
-        REDIS_SESSION_HOST: = @('redis_session.host')
-        REDIS_SESSION_PORT: = @('redis_session.port')
+        REDIS_SESSION_HOST: = @('redis-session.host')
+        REDIS_SESSION_PORT: = @('redis-session.port')
         SOLR_HOST: = @('services.solr.host')
         SOLR_PORT: = @('services.solr.port')
         SMTP_HOST: = @('smtp.host')
@@ -140,8 +140,13 @@ attributes:
       image: redis:5-alpine
       resources:
         memory: "256Mi"
+    redis-session:
+      enabled: "= 'redis-session' in @('app.services')"
+      image: = @('services.redis_session.image')
+      resources:
+        memory: = @('services.redis_session.resources.memory')
     redis_session:
-      enabled: "= 'redis_session' in @('app.services')"
+      enabled: "= 'redis-session' in @('app.services')"
       image: redis:5-alpine
       resources:
         memory: "1024Mi"
@@ -237,6 +242,8 @@ attributes:
           enabled: false
         redis:
           enabled: false
+        redis-session:
+          enabled: = @('pipeline.production.services.redis_session.enabled')
         redis_session:
           enabled: false
     qa:
@@ -288,6 +295,9 @@ attributes:
         redis:
           resources:
             memory: "64Mi"
+        redis-session:
+          resources:
+            memory: = @('pipeline.preview.services.redis_session.resources.memory')
         redis_session:
           resources:
             memory: "64Mi"
