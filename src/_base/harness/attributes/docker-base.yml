@@ -195,7 +195,7 @@ attributes:
             RABBITMQ_HOST: '{{ if .Values.service.rabbitmq | default .Values.docker.services.rabbitmq.enabled }}{{ .Values.resourcePrefix  }}rabbitmq{{ end }}'
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             REDIS_HOST: '{{ if .Values.service.redis | default .Values.docker.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
-            REDIS_SESSION_HOST: '{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
+            REDIS_SESSION_HOST: '{{ if .Values.service.redis_session | default index .Values.docker.services "redis-session" "enabled" }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
             TIDEWAYS_HOST: "{{ .Values.resourcePrefix  }}tideways"
             TIDEWAYS_ENABLED: "{{ .Values.service.tideways | default .Values.docker.services.tideways.enabled }}"
