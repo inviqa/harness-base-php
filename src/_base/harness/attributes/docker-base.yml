@@ -146,7 +146,7 @@ attributes:
       resources:
         memory: = @('services.redis_session.resources.memory')
     redis_session:
-      enabled: "= 'redis-session' in @('app.services')"
+      enabled: "= 'redis_session' in @('app.services')"
       image: redis:5-alpine
       resources:
         memory: "1024Mi"
