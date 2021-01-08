@@ -159,14 +159,14 @@ function wait_for_vendor_directory()
 function teardown()
 (
     cd "${path_test}"
-    ws destroy || (docker ps -a && return 1)
+    ws destroy || (docker ps -a && docker network ls | grep "_private " | cut -d" " -f1 | xargs --no-run-if-empty docker network inspect && return 1)
     rm -rf .my127ws
 )
 
 function clean()
 {
     if [ -d "$path_test" ]; then
-        (cd "$path_test" && ws destroy) || (docker ps -a && return 1)
+        (cd "$path_test" && ws destroy) || (docker ps -a && docker network ls | grep "_private " | cut -d" " -f1 | xargs --no-run-if-empty docker network inspect && return 1)
         rm -rf "$path_test"
     fi
 }

@@ -1,7 +1,6 @@
   jenkins:
     image: {{ @('services.jenkins.image') }}
-    environment:
-      JAVA_OPTS: '-Djenkins.install.runSetupWizard=false'
+    environment: {{ to_nice_yaml(@('services.jenkins.environment'), 2, 6) | raw }}
     networks:
       - private
       - shared

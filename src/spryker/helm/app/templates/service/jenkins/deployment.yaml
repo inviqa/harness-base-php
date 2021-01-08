@@ -30,8 +30,10 @@ spec:
         fsGroup: 1000
       containers:
       - env:
-        - name: JAVA_OPTS
-          value: -Djenkins.install.runSetupWizard=false
+        {{- range $key, $value := .environment }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
         image: {{ .image | quote }}
         imagePullPolicy: Always
         name: jenkins
