@@ -142,11 +142,6 @@ attributes:
         memory: "256Mi"
     redis-session:
       enabled: "= 'redis-session' in @('app.services')"
-      image: = @('services.redis_session.image')
-      resources:
-        memory: = @('services.redis_session.resources.memory')
-    redis_session:
-      enabled: "= 'redis_session' in @('app.services')"
       image: redis:5-alpine
       resources:
         memory: "1024Mi"
@@ -243,8 +238,6 @@ attributes:
         redis:
           enabled: false
         redis-session:
-          enabled: = @('pipeline.production.services.redis_session.enabled')
-        redis_session:
           enabled: false
     qa:
       services:
@@ -296,9 +289,6 @@ attributes:
           resources:
             memory: "64Mi"
         redis-session:
-          resources:
-            memory: = @('pipeline.preview.services.redis_session.resources.memory')
-        redis_session:
           resources:
             memory: "64Mi"
         tideways:
