@@ -2,9 +2,6 @@
 
 appVersion: {{ @('app.version') | json_encode | raw }}
 
-environment:
-{% include blocks ~ 'environment.yml.twig' %}
-
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
 ingress:

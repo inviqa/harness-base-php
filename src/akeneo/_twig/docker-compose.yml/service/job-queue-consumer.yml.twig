@@ -15,7 +15,6 @@
         @('services.php-base.environment_secrets'),
         @('services.job-queue-consumer.environment_secrets')
       ]), 2, 6) | raw }}
-{% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private
     labels:
