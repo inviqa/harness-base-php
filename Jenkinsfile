@@ -13,12 +13,7 @@ pipeline {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {
                     agent {
-                        docker {
-                            label 'my127ws'
-                            alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                        }
+                        label 'my127ws'
                     }
                     stages {
                         stage('Prepare') {
@@ -66,12 +61,7 @@ pipeline {
                 }
                 stage('2. Symfony, Magento 2, Magento 1') {
                     agent {
-                        docker {
-                            label 'my127ws'
-                            alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                        }
+                        label 'my127ws'
                     }
                     stages {
                         stage('Prepare') {
@@ -119,12 +109,7 @@ pipeline {
                 }
                 stage('3. Wordpress, Spryker') {
                     agent {
-                        docker {
-                            label 'my127ws'
-                            alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                        }
+                        label 'my127ws'
                     }
                     stages {
                         stage('Prepare') {

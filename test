@@ -5,8 +5,11 @@ set -x
 
 export path_test="./tmp-test"
 
+PATH="$(pwd)/bin/:$PATH"
+
 function main()
 {
+    latestWorkspace
     test "$1" "$2" "${3:-}"
 }
 
@@ -169,6 +172,11 @@ function clean()
         (cd "$path_test" && ws destroy) || (docker ps -a && docker network ls | grep "_private " | cut -d" " -f1 | xargs --no-run-if-empty docker network inspect && return 1)
         rm -rf "$path_test"
     fi
+}
+
+function latestWorkspace()
+{
+    docker run --volume "$(pwd)/bin/:/app" --rm --entrypoint="" quay.io/inviqa_images/workspace:latest cp /usr/local/bin/ws /app/ws
 }
 
 trap 'clean' EXIT
