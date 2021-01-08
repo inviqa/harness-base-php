@@ -49,9 +49,9 @@ spec:
 {{ end }}
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.app_init }}
+            memory: {{ .resources.init_memory }}
           requests:
-            memory: {{ $.Values.resources.memory.app_init }}
+            memory: {{ .resources.init_memory }}
         volumeMounts:
         {{- if not (eq "" (include "application.volumeMounts.console" $)) }}
         {{- include "application.volumeMounts.console" $ | indent 8 }}

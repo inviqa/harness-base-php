@@ -346,14 +346,6 @@ attributes.default:
   varnish:
     target_service: nginx
 
-  resources:
-    cpu:
-      requests: []
-      limits: []
-    memory:
-      app_init: "1024Mi"
-      app_migrate: "1024Mi"
-
   replicas:
     varnish: 1
 

@@ -47,9 +47,9 @@ spec:
 {{ end }}
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.app_migrate }}
+            memory: {{ .resources.migrate_memory }}
           requests:
-            memory: {{ $.Values.resources.memory.app_migrate }}
+            memory: {{ .resources.migrate_memory }}
         volumeMounts:
         {{- if not (eq "" (include "application.volumeMounts.console" $)) }}
         {{- include "application.volumeMounts.console" $ | indent 8 }}

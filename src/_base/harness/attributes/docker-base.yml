@@ -55,6 +55,8 @@ attributes:
         DB_ADMIN_PASS: = @('database.root_pass')
       resources:
         memory: "2048Mi"
+        init_memory: "1024Mi"
+        migrate_memory: "1024Mi"
     cron:
       enabled: "= 'cron' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
