@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
+{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -35,7 +35,7 @@ spec:
           - secretRef:
               name: {{ $.Values.resourcePrefix }}console
         {{- end }}
-        image: {{ $.Values.docker.image.console | default .image }}
+        image: {{ .image }}
         imagePullPolicy: Always
         name: app-migrate
 {{ if eq $.Values.ingress.type "istio" }}
