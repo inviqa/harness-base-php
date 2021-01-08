@@ -1,24 +1,27 @@
 #!/usr/bin/env bash
 
-PREPARE_CONFIG=0
-RESTART_FPM=0
+set -e -o pipefail
+
+UPDATE_CONTAINERS=0
 
 xdebug_version_sync()
 {
-  INSTALLED_VERSION=$(docker-compose exec -T -u root "$1" pecl info xdebug 2>&1 | grep "Release Version" | awk '{print $3}')
-  INSTALLED_MAJOR_VERSION=$(echo "$INSTALLED_VERSION" | cut -d '.' -f1)
+  local INSTALLED_VERSION
+  INSTALLED_VERSION="$(docker-compose exec -T -u root "$1" pecl info xdebug 2>&1 | grep "Release Version" | awk '{print $3}')"
+  local INSTALLED_MAJOR_VERSION
+  INSTALLED_MAJOR_VERSION="$(echo "$INSTALLED_VERSION" | cut -d '.' -f1)"
 
-  if [ "$INSTALLED_MAJOR_VERSION" == "$XDEBUG_VERSION" ]; then
+  if [[ "$INSTALLED_MAJOR_VERSION" == "$XDEBUG_VERSION" ]]; then
     echo "Xdebug in $1 is already on the desired major version $XDEBUG_VERSION (found installed version $INSTALLED_VERSION)"
     return 0
   fi
 
   case $XDEBUG_VERSION in
     "3")
-      INSTALL_CANDIDATE="xdebug"
+      local INSTALL_CANDIDATE="xdebug"
       ;;
     "2")
-      INSTALL_CANDIDATE="xdebug-2.9.8"
+      local INSTALL_CANDIDATE="xdebug-2.9.8"
       ;;
     *)
       echo "Invalid Xdebug version provided - please check the 'php.ext-xdebug.version' attribute is '2' or  '3'."
@@ -28,21 +31,12 @@ xdebug_version_sync()
   run docker-compose exec -T -u root "$1" pecl uninstall xdebug
   run docker-compose exec -T -u root "$1" pecl install "$INSTALL_CANDIDATE"
 
-  PREPARE_CONFIG=1
-
-  if [ "$1" == "php-fpm" ]; then
-    RESTART_FPM=1
-  fi
+  UPDATE_CONTAINERS=1
 }
 
 xdebug_version_sync 'console'
 xdebug_version_sync 'php-fpm'
 
-if [ "$PREPARE_CONFIG" == 1 ]; then
-  run ws install --step=prepare
-fi
-
-if [ "$RESTART_FPM" == 1 ]; then
+if [[ "$UPDATE_CONTAINERS" == 1 ]]; then
   run ws service php-fpm restart
 fi
-
