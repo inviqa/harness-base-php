@@ -253,10 +253,6 @@ attributes:
           environment:
             TIDEWAYS_HOSTNAME: = @('pipeline.qa.hostname')
     preview:
-      resources:
-        memory:
-          app_init: "1024Mi"
-          app_migrate: "1024Mi"
       services:
         console:
           enabled: false
