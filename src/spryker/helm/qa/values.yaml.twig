@@ -20,7 +20,6 @@
   }
 } %}
 {{ @('workspace.name') }}:
-  docker:
-    services: {{ to_nice_yaml(deep_merge([@('pipeline.qa.services'), additional_services]), 2, 6) | raw }}
+  services: {{ to_nice_yaml(deep_merge([@('pipeline.qa.services'), additional_services]), 2, 4) | raw }}
 
   resourcePrefix: ""

@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.elasticsearch -}}
+{{- with .Values.services.elasticsearch -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

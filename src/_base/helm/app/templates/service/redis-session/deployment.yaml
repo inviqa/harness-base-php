@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.redis_session -}}
+{{- with .Values.services.redis_session -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

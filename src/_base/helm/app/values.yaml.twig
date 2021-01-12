@@ -8,10 +8,11 @@ ingress:
 
 docker:
   image_pull_config: {{ @('docker.image_pull_config') | raw }}
-  services: {{ to_nice_yaml(deep_merge([
-      filter_local_services(@('services')),
-      @('pipeline.base.services')
-    ]), 2, 4) | raw }}
+
+services: {{ to_nice_yaml(deep_merge([
+    filter_local_services(@('services')),
+    @('pipeline.base.services')
+  ]), 2, 2) | raw }}
 
 replicas: {{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 

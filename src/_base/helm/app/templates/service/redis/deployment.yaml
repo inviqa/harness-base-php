@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.redis -}}
+{{- with .Values.services.redis -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.jenkins -}}
+{{- with .Values.services.jenkins -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

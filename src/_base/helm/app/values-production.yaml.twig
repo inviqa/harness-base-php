@@ -1,6 +1,5 @@
 {% if @('pipeline.production.services') %}
-docker:
-  services: {{ to_nice_yaml(@('pipeline.production.services'), 2, 4) | raw }}  
+services: {{ to_nice_yaml(@('pipeline.production.services'), 2, 2) | raw }}  
 {% endif %}
 {% if @('pipeline.production.persistence') %}
 persistence: {{ to_nice_yaml(@('pipeline.production.persistence'), 2, 2) | raw }}
