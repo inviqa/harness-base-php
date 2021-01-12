@@ -1,0 +1,23 @@
+FROM yukinying/chrome-headless-browser:latest
+
+USER root
+
+RUN apt update
+RUN apt install -y npm
+RUN npm install -g n
+# upgrade nodejs to latest version for lighthouse
+RUN n latest 
+RUN npm install -g lighthouse
+
+{% if @('app.build') == 'static' %}
+COPY root  /
+RUN chown headless /app/run.sh
+RUN chmod u+x /app/run.sh
+{% else %}
+VOLUME /app
+{% endif %}
+
+USER headless
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/app/run.sh"]
