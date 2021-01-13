@@ -186,6 +186,14 @@ function('publishable_services', [services]): |
   );
   = join(' ', array_filter($pushServices));
 
+function('template_key_value', [template, key_value]): |
+  #!php
+  $output = [];
+  foreach ($key_value as $key => $value) {
+    $output[str_replace('{{key}}', $key, $template)] = $value;
+  }
+  = $output;
+
 function('version_compare', [version1, version2, operator]): |
   #!php
   $count1 = substr_count($version1, '.');

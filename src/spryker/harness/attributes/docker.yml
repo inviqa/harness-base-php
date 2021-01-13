@@ -9,6 +9,12 @@ attributes:
         JENKINS_PORT: = @('jenkins.port')
         JENKINS_URL: = 'http://' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
+      environment_dynamic: "= deep_merge([
+          template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
+          template_key_value('RABBITMQ_VHOST_{{key}}', @('rabbitmq.vhosts')),
+          template_key_value('YVES_HOST_{{key}}', @('yves.external_hosts')),
+          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts'))
+        ])"
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
         SPRYKER_OAUTH_CLIENT_IDENTIFIER: "frontend"
@@ -31,6 +37,12 @@ attributes:
         RUNNER_NUM_EXECUTORS: 1
       resources:
         memory: "256Mi"
+    nginx:
+      environment_dynamic: "= deep_merge([
+          template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
+          template_key_value('YVES_HOST_{{key}}', @('yves.external_hosts')),
+          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts'))
+        ])"
     rabbitmq:
       environment:
         RABBITMQ_DEFAULT_USER: spryker
