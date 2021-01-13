@@ -11,7 +11,9 @@
 {% endif %}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.php-base.environment'),
+        @('services.php-base.environment_dynamic'),
         @('services.cron.environment'),
+        @('services.cron.environment_dynamic'),
         @('services.php-base.environment_secrets'),
         @('services.cron.environment_secrets')
       ]), 2, 6) | raw }}
