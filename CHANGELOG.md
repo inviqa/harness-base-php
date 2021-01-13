@@ -1,5 +1,54 @@
 # Changelog
 
+## [0.12.0](https://github.com/inviqa/harness-base-php/tree/0.12.0) (2021-01-13)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.11.0...0.12.0)
+
+**Implemented enhancements:**
+
+- Consolidate docker images used [\#502](https://github.com/inviqa/harness-base-php/issues/502)
+- Add PHP 8.0 support [\#496](https://github.com/inviqa/harness-base-php/issues/496)
+- Use a file based opcache for CLI tasks in production mode [\#495](https://github.com/inviqa/harness-base-php/issues/495)
+- Add composer 2.0 support [\#492](https://github.com/inviqa/harness-base-php/issues/492)
+- Enable opcache for CLI in console [\#16](https://github.com/inviqa/harness-base-php/issues/16)
+- Configure php-fpm's opcache settings [\#15](https://github.com/inviqa/harness-base-php/issues/15)
+- Use PHP 8.0 for no-framework and symfony [\#506](https://github.com/inviqa/harness-base-php/pull/506) ([kierenevans](https://github.com/kierenevans))
+- Add Composer 2.0 Support [\#505](https://github.com/inviqa/harness-base-php/pull/505) ([kierenevans](https://github.com/kierenevans))
+- Consolidate docker images used [\#503](https://github.com/inviqa/harness-base-php/pull/503) ([kierenevans](https://github.com/kierenevans))
+- Improve instructions for harness upgrades [\#501](https://github.com/inviqa/harness-base-php/pull/501) ([kierenevans](https://github.com/kierenevans))
+- Configure file based opcache for cli [\#499](https://github.com/inviqa/harness-base-php/pull/499) ([kierenevans](https://github.com/kierenevans))
+- Use authoritative classmap for composer [\#497](https://github.com/inviqa/harness-base-php/pull/497) ([kierenevans](https://github.com/kierenevans))
+- Raise opcache settings for Magento 1, Magento 2 and Spryker [\#494](https://github.com/inviqa/harness-base-php/pull/494) ([kierenevans](https://github.com/kierenevans))
+- Fix magento2 strip config [\#490](https://github.com/inviqa/harness-base-php/pull/490) ([kierenevans](https://github.com/kierenevans))
+- Change application.yml.dist deprecation to twig comment [\#486](https://github.com/inviqa/harness-base-php/pull/486) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Clean exit if there is a failure to parse docker-compose config [\#485](https://github.com/inviqa/harness-base-php/pull/485) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update external-images CI pull to skip pulling images locally existing [\#483](https://github.com/inviqa/harness-base-php/pull/483) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Trust workspace or pipeline host for drupal [\#482](https://github.com/inviqa/harness-base-php/pull/482) ([kierenevans](https://github.com/kierenevans))
+- Add standard k8s/helm labels [\#481](https://github.com/inviqa/harness-base-php/pull/481) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Fixed bugs:**
+
+- Use correct distribution for akeneo db fixtures. [\#522](https://github.com/inviqa/harness-base-php/pull/522) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Increase shutdown timeout to 2 minutes from 10 seconds [\#516](https://github.com/inviqa/harness-base-php/pull/516) ([kierenevans](https://github.com/kierenevans))
+- Make Jenkins env vars configurable and disable CSRF [\#514](https://github.com/inviqa/harness-base-php/pull/514) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Override zed session cookie domain from zed.de.suite.local [\#511](https://github.com/inviqa/harness-base-php/pull/511) ([kierenevans](https://github.com/kierenevans))
+- Fix static content deploy for admin theme [\#510](https://github.com/inviqa/harness-base-php/pull/510) ([kierenevans](https://github.com/kierenevans))
+- Fix setup:static-content:deploy before 2.4.1 [\#507](https://github.com/inviqa/harness-base-php/pull/507) ([kierenevans](https://github.com/kierenevans))
+- Fix 'ws switch docker-sync' [\#504](https://github.com/inviqa/harness-base-php/pull/504) ([kierenevans](https://github.com/kierenevans))
+- Fix drupal8 site:install command [\#498](https://github.com/inviqa/harness-base-php/pull/498) ([kierenevans](https://github.com/kierenevans))
+- Fix external-images pull locally [\#489](https://github.com/inviqa/harness-base-php/pull/489) ([kierenevans](https://github.com/kierenevans))
+- Fix akeneo build [\#488](https://github.com/inviqa/harness-base-php/pull/488) ([kierenevans](https://github.com/kierenevans))
+- Skip php-fpm \(unless cron enabled\) and nginx being built in CI if webapp disabled [\#487](https://github.com/inviqa/harness-base-php/pull/487) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Security fixes:**
+
+- Update Jenkins docker image to supported latest lts [\#509](https://github.com/inviqa/harness-base-php/pull/509) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Closed issues:**
+
+- Convert Spryker secrets to sealed secrets [\#446](https://github.com/inviqa/harness-base-php/issues/446)
+- \[magento2\] strip-magento-config removes minification settings [\#270](https://github.com/inviqa/harness-base-php/issues/270)
+
 ## [0.11.0](https://github.com/inviqa/harness-base-php/tree/0.11.0) (2020-10-30)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.10.1...0.11.0)
