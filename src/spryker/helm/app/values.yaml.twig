@@ -1,12 +1,4 @@
-{% set blocks  = 'helm/app/_twig/values.yaml/' %}
-
 appVersion: {{ @('app.version') | json_encode | raw }}
-
-console:
-  enabled: true
-
-environment:
-{% include blocks ~ 'environment.yml.twig' %}
 
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
@@ -24,11 +16,11 @@ services: {{ to_nice_yaml(deep_merge([
 
 replicas: {{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
 
-persistence: {{ to_nice_yaml(@('persistence'), 2, 2) | raw }}
+persistence: {{ to_nice_yaml(@('pipeline.base.persistence'), 2, 2) | raw }}
 
 prometheus: {{ to_nice_yaml(@('pipeline.base.prometheus'), 2, 2) | raw }}
 
-resourcePrefix: {{ @('workspace.name') ~ '-' }}
+resourcePrefix: {{ @('pipeline.base.resourcePrefix') | json_encode | raw }}
 
 sealed_secrets:
   scope: {{ @('helm.sealed_secrets.scope') | json_encode | raw }}
