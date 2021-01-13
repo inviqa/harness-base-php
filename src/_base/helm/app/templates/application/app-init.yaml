@@ -23,7 +23,7 @@ spec:
       restartPolicy: Never
       containers:
       - env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}

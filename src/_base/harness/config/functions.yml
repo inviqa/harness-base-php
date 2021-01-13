@@ -56,6 +56,7 @@ function('filter_local_services', [services]): |
       switch ($key) {
         case 'enabled':
         case 'environment':
+        case 'environment_dynamic':
         case 'image':
         case 'resources':
           $filteredService[$key] = $value;
@@ -144,7 +145,7 @@ function('docker_config', [registryConfig]): |
       ]
     ]
   ];
-  
+
   = json_encode($config);
 
 function('branch'): |
