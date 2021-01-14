@@ -49,6 +49,11 @@ Once installed, the site should be available at the following URLs:
 {% for store, zed_external_host in @('zed.external_hosts') -%}
 - {{ store }} Zed: [https://{{ zed_external_host }}](https://{{ zed_external_host }})
 {% endfor %}
+
+**Glue**:
+{% for store, glue_external_host in @('glue.external_hosts') -%}
+- {{ store }} Glue: [https://{{ glue_external_host }}](https://{{ glue_external_host }})
+{% endfor %}
 {% endif %}
 
 **Additional services**:
