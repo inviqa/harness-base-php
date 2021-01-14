@@ -14,9 +14,11 @@ spec:
   - {{ $value | quote }}
 {{- end }}
   gateways:
-  - istio-system/{{ .Release.Namespace }}-gateway
+{{- range $key, $value := .Values.istio.gateways }}
+  - {{ tpl $value $ | quote }}
+{{- end }}
 {{- range $key, $value := .Values.istio.additionalGateways }}
- - {{ $value | quote }}
+  - {{ $value | quote }}
 {{- end }}
   http:
   - route:
