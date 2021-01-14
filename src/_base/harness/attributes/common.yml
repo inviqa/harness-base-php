@@ -157,6 +157,10 @@ attributes.default:
     default_branch: = @('git.main_branch')
     # potentially deprecated, unless it is repurposed
     main_branch: develop
+  
+  lighthouse:
+    target:
+      url: = @('hostname')
 
   nginx:
     # used to set site specific configurations under server directive

@@ -301,3 +301,8 @@ command('generate token <length>'):
         $string .= $char;
     }
     echo $string;
+
+command('lighthouse'):
+  exec: |
+    #!bash(workspace:/)|@
+    passthru docker-compose run --rm lighthouse
