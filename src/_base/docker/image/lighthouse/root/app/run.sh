@@ -7,5 +7,5 @@ mkdir -p "${reportDir}"
 
 lighthouse --no-enable-error-reporting \
            --chrome-flags="--headless --no-sandbox=true" \
-           --output-path=/home/headless/results/lighthouse-results.html \
+           --output-path="${reportDir}/lighthouse-results.html" \
            "${TARGET_URL}"
