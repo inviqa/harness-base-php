@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.mongodb -}}
+{{- with .Values.services.mongodb -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

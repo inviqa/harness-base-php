@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.mysql -}}
+{{- with .Values.services.mysql -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

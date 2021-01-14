@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") -}}
+{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "console") -}}
 apiVersion: batch/v1
 kind: Job
 metadata:

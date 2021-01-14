@@ -1,4 +1,4 @@
-{{- with .Values.docker.services.postgres -}}
+{{- with .Values.services.postgres -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
