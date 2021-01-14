@@ -1,0 +1,33 @@
+command('feature xdebug version-sync'):
+  env:
+    XDEBUG_VERSION: = @('php.ext-xdebug.version')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    source .my127ws/harness/scripts/xdebug_version_sync.sh
+
+command('feature xdebug (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-xdebug.enable'
+    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up php-fpm with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature xdebug cli (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-xdebug.cli.enable'
+    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up console with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'

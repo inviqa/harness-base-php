@@ -19,6 +19,10 @@ RUN curl --fail --silent --location --output /sbin/tini https://github.com/krall
     {{ install_extensions|join(" \\\n    ") }}
 {% endif %}
 
+{% if version_compare(@('php.ext-xdebug.version'), '3', '>=') and version_compare(@('php.version'), '7', '>=') and version_compare(@('php.version'), '8', '<') %}
+RUN pecl -q upgrade xdebug
+{% endif %}
+
 {% if @('app.build') == 'static' %}
 COPY --from=console --chown=root:root /app /app
 RUN bash /fix_app_permissions.sh

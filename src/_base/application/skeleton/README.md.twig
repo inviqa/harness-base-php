@@ -134,7 +134,7 @@ To enable, run `ws feature xdebug on`. To turn off again, `ws feature xdebug off
 
 To enable on CLI in `ws console`, run `ws feature xdebug cli on`. To turn off again, `ws feature xdebug cli off`.
 
-Xdebug is set up to listen to your computer's 9000 port once enabled, so all you would need to do in your IDE is:
+Xdebug is set up to listen to your computer's 9000 (or 9003 for Xdebug v3) port once enabled, so all you would need to do in your IDE is:
 1. Create a mapping from the project root to `/app` for name `workspace`, hostname `localhost` and port 80.
 2. Depending on the IDE, you may have to configure the settings for the IDE to have idekey being `workspace`.
    Some IDEs also need to restart after changing this. Not required for PhpStorm.
@@ -150,6 +150,32 @@ Xdebug is set up to listen to your computer's 9000 port once enabled, so all you
 If you have trouble with triggered requests not starting connections to your IDE, check that
 `sudo lsof -i :9000 | grep LISTEN` on your host shows process from your IDE.
 If it doesn't, stop the indicated process (e.g. `php-fpm`) and toggle the Xdebug listen button off and on again in PhpStorm.
+
+#### Xdebug 3
+
+To upgrade to Xdebug 3, add the following to your `workspace.override.yml`:
+
+```yml
+attribute('php.ext-xdebug.version'): 3
+```
+
+then run `ws feature xdebug version-sync` which will upgrade the Xdebug version to the latest stable version.
+
+Xdebug 3 listens on port 9003, so you may need to update your IDE settings to match. PHPStorm 2020.3 and later has support for
+listening to both port 9000 and 9003 simultaneously.
+
+If you encounter issues on Xdebug 3, remove the above entry and re-run `ws feature xdebug version-sync` to downgrade.
+
+#### Xdebug 3 Modes
+
+Xdebug 3 now has the ability to run in different modes, such as step debugging or profiling. The default for Workspace is `debug` to
+enable step debugging, but this can be changed (or multiple modes enabled) by adding the following to your `workspace.override.yml`:
+
+```yml
+attribute('php.ext-xdebug.config.v3.mode'): debug,profile
+```
+
+then enable Xdebug using either `ws feature xdebug on` or `ws feature xdebug cli on`.
 
 ### Performance on macOS
 

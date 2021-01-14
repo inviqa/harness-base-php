@@ -61,6 +61,10 @@ VOLUME /home/build/application
 
 USER root
 
+{% if version_compare(@('php.ext-xdebug.version'), '3', '>=') and version_compare(@('php.version'), '7', '>=') and version_compare(@('php.version'), '8', '<') %}
+RUN pecl -q upgrade xdebug
+{% endif %}
+
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["sleep", "infinity"]

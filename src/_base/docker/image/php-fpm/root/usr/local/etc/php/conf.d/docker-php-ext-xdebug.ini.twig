@@ -2,7 +2,7 @@
 
 {% if xdebug.enable == 'yes' %}
   zend_extension=xdebug.so
-  {% for key, value in xdebug.config -%}
+  {% for key, value in xdebug.config['v' ~ xdebug.version] -%}
     xdebug.{{ key }}={{ value }}
   {% endfor %}
 {% endif %}

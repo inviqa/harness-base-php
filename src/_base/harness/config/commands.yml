@@ -250,32 +250,6 @@ command('feature tideways cli configure <server_key>'):
     docker-compose exec -T -u build console tideways import "$TIDEWAYS_SERVERKEY"
     echo "Imported Tideways CLI key"
 
-command('feature xdebug (on|off)'):
-  env:
-    ATTR_KEY: 'php.ext-xdebug.enable'
-    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
-  exec: |
-    #!bash(workspace:/)|=
-    ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up php-fpm with the new setting'
-    run ws service php-fpm restart
-    echo 'Done'
-
-command('feature xdebug cli (on|off)'):
-  env:
-    ATTR_KEY: 'php.ext-xdebug.cli.enable'
-    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
-  exec: |
-    #!bash(workspace:/)|=
-    ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up console with the new setting'
-    run ws service php-fpm restart
-    echo 'Done'
-
 command('db import <database_file>'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')

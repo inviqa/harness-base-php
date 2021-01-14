@@ -236,15 +236,22 @@ attributes.default:
         sample_rate: 25
         service: web
     ext-xdebug:
+      version: "= (version_compare(@('php.version'), '8.0', '>=') ? '3' : '2')"
       enable: no
       cli:
         enable: no
       config:
-        remote_enable: 1
-        remote_autostart: 1
-        remote_port: 9000
-        remote_host: host.docker.internal
-        idekey: workspace
+        v2:
+          remote_enable: 1
+          remote_autostart: 1
+          remote_port: 9000
+          remote_host: host.docker.internal
+          idekey: workspace
+        v3:
+          mode: debug
+          start_with_request: yes
+          client_port: 9003
+          client_host: host.docker.internal
 
   assets:
     remote: ="s3://"~@("aws.bucket")~"/development"
