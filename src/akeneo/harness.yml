@@ -75,7 +75,7 @@ attributes:
     install:
       steps:
         - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
-        - passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal
+        - = 'passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-' ~ @('akeneo.edition') ~ '-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal'
         - task overlay:apply
         - task assets:dump
     init:
