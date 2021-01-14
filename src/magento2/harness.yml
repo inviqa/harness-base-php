@@ -73,7 +73,7 @@ attributes:
       code: []
       type: []
     static_content:
-      backend:
+      adminhtml:
         languages: []
         themes: []
       frontend:
