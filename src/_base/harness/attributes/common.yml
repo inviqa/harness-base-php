@@ -160,7 +160,7 @@ attributes.default:
   
   lighthouse:
     target:
-      url: ~
+      url: @('hostname')
 
   nginx:
     # used to set site specific configurations under server directive
