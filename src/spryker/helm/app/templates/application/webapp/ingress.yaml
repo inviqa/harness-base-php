@@ -17,8 +17,8 @@ metadata:
   name: {{ $.Values.resourcePrefix }}webapp
 spec:
   rules:
-  {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic }}
-  {{- if $key contains '_HOST_' }}
+  {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
+  {{- if contains $key "_HOST_" }}
   - host: {{ $value | quote }}
     http:
       paths:

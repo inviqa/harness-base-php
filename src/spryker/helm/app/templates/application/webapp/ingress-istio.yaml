@@ -10,8 +10,8 @@ metadata:
     app.service: {{ .Values.resourcePrefix }}webapp
 spec:
   hosts:
-{{- range $key, $value := (mergeOverwrite (dict) .Values.services.nginx.environment .Values.services.nginx.environment_dynamic }}
-{{- if $key contains '_HOST_' }}
+{{- range $key, $value := (mergeOverwrite (dict) .Values.services.nginx.environment .Values.services.nginx.environment_dynamic) }}
+{{- if contains $key "_HOST_" }}
   - {{ $value | quote }}
 {{- end }}
 {{- end }}
