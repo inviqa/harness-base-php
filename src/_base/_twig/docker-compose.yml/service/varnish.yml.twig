@@ -10,6 +10,7 @@
       - traefik.port=80
     environment: {{ to_nice_yaml(deep_merge([
       @('services.varnish.environment'),
+      @('services.varnish.environment_dynamic'),
       @('services.varnish.environment_secrets')
       ]), 2, 6) | raw }}
     links:
