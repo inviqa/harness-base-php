@@ -1,10 +1,11 @@
 {{ if and (index .Values.services .Values.ingress.target_service "enabled") (eq .Values.ingress.type "standard") }}
+{{- with .Values.services.nginx -}}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-{{- if .Values.services.nginx.ingress.annotations }}
+{{- if .ingress.annotations }}
   annotations:
-  {{- range $key, $value := .Values.services.nginx.ingress.annotations }}
+  {{- range $key, $value := .ingress.annotations }}
     {{ $key }}: {{ $value | quote }}
   {{- end }}
 {{- end }}
@@ -12,16 +13,17 @@ metadata:
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: webapp
-    app.service: {{ .Values.resourcePrefix }}webapp
-  name: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ $.Values.resourcePrefix }}webapp
+  name: {{ $.Values.resourcePrefix }}webapp
 spec:
   rules:
-  - host: {{ index .Values.services "php-base" "environment" "APP_HOST" }}
+  - host: {{ index $.Values.services "php-base" "environment" "APP_HOST" }}
     http:
       paths:
       - backend:
-          serviceName: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
+          serviceName: {{ $.Values.resourcePrefix }}{{ $.Values.ingress.target_service }}
           servicePort: 80
 status:
   loadBalancer: {}
-{{ end }}
+{{- end }}
+{{- end }}
