@@ -66,6 +66,11 @@ function('filter_local_services', [services]): |
       $filteredServices[$serviceName] = $filteredService;
     }
   }
+  foreach ($filteredServices as $serviceName => $service) {
+    if (!isset($service['environment_dynamic'])) {
+      $filteredServices[$serviceName]['environment_dynamic'] = [];
+    }
+  }
   = $filteredServices;
 
 function('get_docker_external_networks'): |
