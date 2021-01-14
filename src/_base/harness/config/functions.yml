@@ -191,6 +191,10 @@ function('publishable_services', [services]): |
   );
   = join(' ', array_filter($pushServices));
 
+function('replace', [haystack, needle, replacement]): |
+  #!php
+  = str_replace($haystack, $needle, $replacement)
+
 function('template_key_value', [template, key_value]): |
   #!php
   $output = [];
