@@ -193,7 +193,7 @@ function('publishable_services', [services]): |
 
 function('replace', [haystack, needle, replacement]): |
   #!php
-  = str_replace($haystack, $needle, $replacement)
+  = str_replace($haystack, $needle, $replacement);
 
 function('template_key_value', [template, key_value]): |
   #!php
