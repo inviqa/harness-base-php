@@ -16,6 +16,10 @@ attributes:
         SPRYKER_OAUTH_CLIENT_SECRET: = @('spryker.oauth_client_secret')
         # not required for development env, must be set for remote (recommended size: 80)
         SPRYKER_ZED_REQUEST_TOKEN: = @('spryker.zed_request_token')
+    console:
+      build:
+        environment:
+          APPLICATION_ENV: = @('spryker.mode')
     jenkins:
       enabled: "= 'jenkins' in @('app.services')"
       image: jenkins/jenkins:2.263.1-lts-alpine
