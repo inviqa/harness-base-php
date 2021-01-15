@@ -20,7 +20,7 @@ attribute('aws.id'): null
 attribute('aws.key'): null
 
 attribute('magento.static_content'):
-  backend:
+  adminhtml:
     languages:
       - en_GB
       - en_US
