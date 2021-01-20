@@ -1,6 +1,6 @@
 <?php
 
-namespace Inviqa\Acceptance\Context;
+namespace App\Acceptance\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;

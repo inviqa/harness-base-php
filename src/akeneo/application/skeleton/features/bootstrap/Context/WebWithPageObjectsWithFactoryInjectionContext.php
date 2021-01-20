@@ -1,9 +1,9 @@
 <?php
 
-namespace Inviqa\Acceptance\Context;
+namespace App\Acceptance\Context;
 
-use Inviqa\Acceptance\Page\HomePage;
-use Inviqa\Acceptance\Page\LoginPage;
+use App\Acceptance\Page\HomePage;
+use App\Acceptance\Page\LoginPage;
 use PHPUnit\Framework\Assert;
 use SensioLabs\Behat\PageObjectExtension\Context\PageObjectContext;
 
