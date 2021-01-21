@@ -1,6 +1,6 @@
 <?php
 
-namespace Inviqa\Acceptance\Page;
+namespace App\Acceptance\Page;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
