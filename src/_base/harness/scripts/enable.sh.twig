@@ -19,22 +19,16 @@ main()
         passthru docker-compose exec -T -u build console app welcome
     fi
 
-    if [[ "$APP_BUILD" = "dynamic" && "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru ws docker-sync start
-    elif [[ "$APP_BUILD" = "dynamic" && "$USE_MUTAGEN" = "yes" ]]; then
+    if [[ "$APP_BUILD" = "dynamic" && "$USE_MUTAGEN" = "yes" ]]; then
         passthru ws mutagen resume
     fi
 }
 
 dynamic()
 {
-    # we synchronise then stop docker-sync as leaving it running during the build
-    # will often cause it to crash.
+    # we synchronise then stop mutagen to avoid impacting CPU usage during the build
 
-    if [[ "$USE_DOCKER_SYNC" = "yes" ]]; then
-        passthru ws docker-sync start
-        passthru ws docker-sync stop
-    elif [[ "$USE_MUTAGEN" = "yes" ]]; then
+    if [[ "$USE_MUTAGEN" = "yes" ]]; then
         passthru ws mutagen start
         passthru ws mutagen pause
     fi

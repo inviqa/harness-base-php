@@ -179,35 +179,25 @@ then enable Xdebug using either `ws feature xdebug on` or `ws feature xdebug cli
 
 ### Performance on macOS
 
-Page load times with Docker for Mac can vary considerably due to the sharing of files from the macOS disk to the small
+Page load times with Docker Desktop for Mac can vary considerably due to the sharing of files from the macOS disk to the small
 virtual machine that docker is running inside.
 This is especially so when there is a large quantity of small files, such as with a large composer node_modules or
 vendor folder.
 
-[Mutagen](https://mutagen.io/documentation/transports/docker) and
-[docker-sync](https://github.com/EugenMayer/docker-sync/) are tools to synchronise files between host machine and
+[Mutagen](https://mutagen.io/documentation/transports/docker) is a tool to synchronise files between host machine and
 docker containers.
-They both enable production-like performance at the cost of having to synchronise files with an intermediate
+It enables production-like performance at the cost of having to synchronise files with an intermediate
 "data" container.
 
 {% if @('mutagen') == 'yes' %}
 Mutagen is enabled on the development environment.
-You can switch to docker-sync if you wish with `ws switch docker-sync`.
-{% elseif @('docker-sync') == 'yes'  %}
-docker-sync is enabled on the development environment.
-You can switch to mutagen if you wish with `ws switch mutagen`.
 {% else %}
-If it takes over 2 seconds to load a page, you should consider enabling mutagen or docker-sync by adding the following
+If it takes over 2 seconds to load a page, you should consider enabling mutagen by adding the following
 to `workspace.override.yml` in the project root, or after testing it and the whole team would like to use it,
 `workspace.yml` in the project root:
 
 ```yaml
-# for mutagen:
-attribute('docker-sync'): 'no'
 attribute('mutagen'): 'yes'
-# or for docker-sync:
-attribute('docker-sync'): 'yes'
-attribute('mutagen'): 'no'
 ```
 
 Then running `ws harness prepare && ws disable && ws enable`.
@@ -224,14 +214,6 @@ mutagen monitor
 # To debug a sync error
 mutagen list
 ```
-{% if @('docker-sync') == 'yes'  %}
-
-Useful commands for docker-sync:
-```bash
-# Check the logs
-docker-sync logs -f
-```
-{% endif %}
 
 ### Common Issues
 
@@ -244,14 +226,6 @@ As setup issues are encountered please detail with step by step fix instructions
   * Head to Docker Desktop Preferences via the system tray icon
   * Turn off "Enable cloud experience" under the Command Line area of Preferences
   * Click the "Apply and restart" button
-* If you use docker-sync and notice that your changes aren't synchronising to the environment:
-  * Check if your file exists with your changes in `ws console`
-  * If your file in `ws console` has changed okay, check your project for any caching that
-    would prevent changes to source code appearing immediately.
-  * If the file changes do not appear in `ws console` reasonably quickly, it might be that
-    Docker for Mac is overwhelmed with file change events.
-  * Restarting Docker for Mac using the system tray icon's menu and then running `ws enable` again
-    will fix it.
 
 # License
 
