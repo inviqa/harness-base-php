@@ -6,8 +6,8 @@ attribute('app.build'): static
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null
-attribute('aws.id'): null
-attribute('aws.key'): null
+attribute('aws.access_key_id'): null
+attribute('aws.secret_access_key'): null
 
 attribute('services.solr.enabled'): true
 attribute('services.solr.major_version'): 8

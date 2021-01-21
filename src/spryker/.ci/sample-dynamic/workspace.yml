@@ -4,7 +4,7 @@ workspace('ci-spryker-sample-dynamic'):
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null
-attribute('aws.id'): null
-attribute('aws.key'): null
+attribute('aws.access_key_id'): null
+attribute('aws.secret_access_key'): null
 
 attribute('docker.port_forward.enabled'): false

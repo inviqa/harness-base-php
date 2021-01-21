@@ -11,8 +11,8 @@ attribute('app.services'):
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null
-attribute('aws.id'): null
-attribute('aws.key'): null
+attribute('aws.access_key_id'): null
+attribute('aws.secret_access_key'): null
 
 attribute('mysql.tag'): 8
 attribute('database.platform_version'): 8.0

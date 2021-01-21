@@ -6,8 +6,8 @@ attribute('app.build'): static
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null
-attribute('aws.id'): null
-attribute('aws.key'): null
+attribute('aws.access_key_id'): null
+attribute('aws.secret_access_key'): null
 
 attribute('spryker.oauth_client_secret'): '= decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi/ZxjAtTonBTdHCfPRmh3rlDOOTPZ8oaVIjtpOjI7czo2NDoiXHkN92FXiuuj/PVZKwzJEKtsQzRtAEvdPSYT/6mEA2GVtk+98N4ch+y+MVbg6REiwTAFXOZSb7lEyqZOJMEY+iI7fQ==")'
 attribute('spryker.zed_request_token'): '= decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi5TNpTpnAi3Yjlstw46A63Pvn1nnGoE1VIjtpOjI7czo5NjoiFHj6M4K5I2pUBD5t2nnjzhR6jixzGOtQl/HSBWWyrD9TFmg+Qw82CLZlqBYgQXaCDiOB1GV9tVKAuvvr9ntHZ0KWeZLu5spfhdaqcVsJVm2kxNX6A1YKb5mw/g4V4NvAIjt9")'
