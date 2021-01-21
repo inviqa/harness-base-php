@@ -1,8 +1,6 @@
 {% set blocks  = '_twig/docker-compose.yml/' %}
 {% set syncvolume = false %}
-{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
-{% set syncvolume = true %}
-{% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% if @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
 {% set syncvolume = true %}
 {% endif %}
 

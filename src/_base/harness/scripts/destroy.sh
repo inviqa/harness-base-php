@@ -2,10 +2,7 @@
 
 run docker-compose down --rmi local --volumes --remove-orphans --timeout 120
 
-if [[ "$USE_DOCKER_SYNC" = "yes" ]] && [ -f docker-sync.yml ]; then
-  run ws docker-sync clean
-  run docker volume rm "${NAMESPACE}-sync"
-elif [[ "$USE_MUTAGEN" = "yes" ]]; then
+if [[ "$USE_MUTAGEN" = "yes" ]]; then
   run ws mutagen stop
   passthru ws mutagen rm
 fi

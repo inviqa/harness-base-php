@@ -1,7 +1,6 @@
 
 command('enable'):
   env:
-    USE_DOCKER_SYNC:      = @('host.os') == 'darwin' and @('docker-sync') == 'yes' ? 'yes':'no'
     USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
     APP_BUILD:            = @('app.build')
     APP_MODE:             = @('app.mode')
@@ -14,7 +13,6 @@ command('enable'):
 
 command('disable'):
   env:
-    USE_DOCKER_SYNC:      = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
     USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
     NAMESPACE:            = @('namespace')
     COMPOSE_PROJECT_NAME: = @('namespace')
@@ -28,7 +26,6 @@ command('destroy'):
     APP_BUILD:            = @('app.build')
     APP_VERSION:          = @('app.version')
     DOCKER_REPOSITORY:    = @('docker.repository')
-    USE_DOCKER_SYNC:      = (@('host.os') == 'darwin' and @('docker-sync') == 'yes') ? 'yes':'no'
     USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
@@ -109,26 +106,6 @@ command('assets upload'):
   exec: |
     #!bash(workspace:/)|@
     passthru ws.aws s3 sync '@('assets.local')' '@('assets.remote')'
-
-command('feature docker-sync (on|off)'):
-  env:
-    ATTR_KEY: 'docker-sync'
-    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
-  exec: |
-    #!bash(workspace:/)|=
-    ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating docker-compose.yml'
-    run ws install --step=prepare
-    echo 'Bringing up the environment with the new setting'
-    if [[ "$ATTR_VAL" = "yes" ]]; then
-      passthru ws docker-sync start
-    fi
-    passthru ws enable
-    if [[ "$ATTR_VAL" = "no" ]]; then
-      passthru ws docker-sync stop
-      passthru ws docker-sync clean
-    fi
-    echo 'Done'
 
 command('frontend build'):
   env:
