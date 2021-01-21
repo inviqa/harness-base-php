@@ -16,4 +16,5 @@ command('cleanup built-images'):
     IMAGES: = built_images(docker_service_images())
   exec: |
     #!bash
-    docker image rm --force $IMAGES
+    IMAGES=($IMAGES)
+    docker image rm --force -- "${IMAGES[@]}"
