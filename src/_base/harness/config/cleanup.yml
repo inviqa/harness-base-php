@@ -18,5 +18,7 @@ command('cleanup built-images'):
   exec: |
     #!bash
     IMAGES=($IMAGES)
-    run docker image rm --force -- "${IMAGES[@]}"
+    if [ "${#IMAGES[@]}" -gt 0 ]; then
+      run docker image rm --force -- "${IMAGES[@]}"
+    fi
     run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs --no-run-if-empty docker image rm --force"
