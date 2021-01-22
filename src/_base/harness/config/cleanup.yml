@@ -1,0 +1,24 @@
+function('built_images', [services]): |
+  #!php
+  $builtImages = [];
+
+  foreach ($services as $service) {
+    if ($service['image'] && count($service['upstream']) > 0) {
+      $builtImages[] = $service['image'];
+    }
+  }
+
+  # workspace commands don't allow non-string types
+  = join(' ', $builtImages);
+
+command('cleanup built-images'):
+  env:
+    IMAGES: = built_images(docker_service_images())
+    BUILD_LABEL: = @('workspace.name') ~ ':' ~ @('app.version')
+  exec: |
+    #!bash
+    IMAGES=($IMAGES)
+    if [ "${#IMAGES[@]}" -gt 0 ]; then
+      run docker image rm --force -- "${IMAGES[@]}"
+    fi
+    run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs --no-run-if-empty docker image rm --force"
