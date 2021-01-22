@@ -1,5 +1,5 @@
-{{- with .Values.docker.services.varnish -}}
-{{- if $.Values.service.varnish | default .enabled -}}
+{{- with .Values.services.varnish -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -35,9 +35,9 @@ spec:
         - containerPort: 80
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.varnish | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.varnish | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 80

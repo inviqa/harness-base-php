@@ -1,5 +1,5 @@
-{{- with .Values.docker.services.jenkins -}}
-{{- if $.Values.service.jenkins | default .enabled -}}
+{{- with .Values.services.jenkins -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,7 @@ spec:
         fsGroup: 1000
       containers:
       - env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         - name: {{ $key | quote }}
           value: {{ $value | quote }}
         {{- end }}
@@ -41,9 +41,9 @@ spec:
         - containerPort: 8080
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.jenkins | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.jenkins | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 8080

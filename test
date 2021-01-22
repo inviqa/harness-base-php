@@ -22,7 +22,7 @@ function test()
 
     # Test default mode of static or dynamic harnesses
     # For dynamic this means a mountpoint for the application code
-    # or mutagen, or docker-sync
+    # or mutagen
     setup "$harness" "$mode"
     if [[ "$sync" == "" ]]; then
       setup_dynamic_mountpoint
@@ -119,19 +119,10 @@ function setup_dynamic_mountpoint()
     echo "attribute('host.os'): linux" > workspace.override.yml
 )
 
-function setup_dynamic_docker_sync()
-(
-    cd "${path_test}"
-    echo "attribute('host.os'): darwin" > workspace.override.yml
-    echo "attribute('docker-sync'): yes" >> workspace.override.yml
-    echo "attribute('mutagen'): no" >> workspace.override.yml
-)
-
 function setup_dynamic_mutagen()
 (
     cd "${path_test}"
     echo "attribute('host.os'): darwin" > workspace.override.yml
-    echo "attribute('docker-sync'): no" >> workspace.override.yml
     echo "attribute('mutagen'): yes" >> workspace.override.yml
 )
 

@@ -1,4 +1,4 @@
-{{ if and (index .Values.docker.services .Values.ingress.target_service "enabled") (eq .Values.ingress.type "istio") }}
+{{ if and (index .Values.services .Values.ingress.target_service "enabled") (eq .Values.ingress.type "istio") }}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -10,7 +10,7 @@ metadata:
     app.service: {{ .Values.resourcePrefix }}webapp
 spec:
  hosts:
-{{- range $key, $value := .Values.docker.services.nginx.environment }}
+{{- range $key, $value := .Values.services.nginx.environment }}
  - {{ $value | quote }}
 {{- end }}
  gateways:

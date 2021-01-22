@@ -220,6 +220,8 @@ attributes:
     php_fpm:
       conf:
         fastcgi_buffer_size: 128k
+        # fastcgi_buffer_size (128k) + fastcgi_buffers's size (16k)
+        fastcgi_busy_buffers_size: 144k
 
 ---
 command('redis-flush'): |

@@ -1,5 +1,5 @@
-{{- with .Values.docker.services.elasticsearch -}}
-{{- if $.Values.service.elasticsearch | default .enabled -}}
+{{- with .Values.services.elasticsearch -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -34,16 +34,16 @@ spec:
           value: -Xmx512m -Xms512m
         - name: discovery.type
           value: single-node
-        image: {{ $.Values.docker.image.elasticsearch | default .image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         name: elasticsearch
         ports:
         - containerPort: 9200
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.elasticsearch | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.elasticsearch | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9200

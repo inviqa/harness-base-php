@@ -65,7 +65,7 @@ command('mutagen rm'):
      CONTAINER_NAMES=($CONTAINER_NAMES)
      passthru docker volume rm "${CONTAINER_NAMES[@]}"
 
-command('switch (cached-volumes|delegated-volumes|mutagen|docker-sync)'):
+command('switch (cached-volumes|delegated-volumes|mutagen)'):
   env:
     SYNC: = input.command(2)
     CONTAINER_NAMES: = get_mutagen_volume_containers()
@@ -75,26 +75,16 @@ command('switch (cached-volumes|delegated-volumes|mutagen|docker-sync)'):
     if [[ "$SYNC" = "delegated-volumes" ]]; then
       ws set delegated-volumes yes
       ws set mutagen no
-      ws set docker-sync no
     elif [[ "$SYNC" = "mutagen" ]]; then
       ws set delegated-volumes no
       ws set mutagen yes
-      ws set docker-sync no
-    elif [[ "$SYNC" = "docker-sync" ]]; then
-      ws set delegated-volumes no
-      ws set mutagen no
-      ws set docker-sync yes
     else
       ws set delegated-volumes no
       ws set mutagen no
-      ws set docker-sync no
     fi
     run ws harness prepare
     echo 'Bringing up the environment with the new setting'
     if [[ "$SYNC" = "mutagen" ]]; then
-      if command -v docker-sync >/dev/null 2>&1 && [ -f docker-sync.yml ]; then
-        passthru ws docker-sync clean
-      fi
       passthru ws mutagen start
     else
       passthru ws mutagen stop

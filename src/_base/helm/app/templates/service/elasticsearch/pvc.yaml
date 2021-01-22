@@ -1,4 +1,4 @@
-{{ if and .Values.persistence.elasticsearch.enabled (.Values.service.elasticsearch | default .Values.docker.services.elasticsearch.enabled) -}}
+{{ if and .Values.persistence.elasticsearch.enabled .Values.services.elasticsearch.enabled -}}
 
 {{- with .Values.persistence.elasticsearch -}}
 

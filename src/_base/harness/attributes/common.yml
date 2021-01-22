@@ -20,7 +20,6 @@ attributes.default:
     vendor_directory: /app/vendor
 
   delegated-volumes: no
-  docker-sync: no
   mutagen: yes
 
   jenkins:
@@ -47,7 +46,6 @@ attributes.default:
       chart:
         enabled: no
         git:
-          key: ~ # deprecated, use ssh_private_key
           # private key with write access to the repository
           ssh_private_key: = @('pipeline.publish.chart.git.key')
           # eg. git@github.com:organisation/project.git
@@ -72,7 +70,7 @@ attributes.default:
         host: mailhog.mailhog.svc.cluster.local
         port: = @('smtp.port')
       persistence:
-        redis_session:
+        redis-session:
           enabled: false
     qa:
       enabled: no
@@ -99,7 +97,6 @@ attributes.default:
     compose:
       file_version: '3.7'
       host_volume_options: "= ':' ~ (@('delegated-volumes') ? 'delegated' : 'cached')"
-    config: null # deprecated
     # If using gitops helm chart repositories, it's recommended to put this configuration
     # in the values.yml in there now instead of project application repositories
     image_pull_config: = @('docker.config')
@@ -154,10 +151,8 @@ attributes.default:
           fi
 
   git:
-    default_branch: = @('git.main_branch')
-    # potentially deprecated, unless it is repurposed
-    main_branch: develop
-  
+    default_branch: develop
+
   lighthouse:
     target:
       url: = @('hostname')
@@ -350,7 +345,7 @@ attributes.default:
     host: redis
     port: 6379
 
-  redis_session:
+  redis-session:
     host: redis-session
     port: 6379
 
@@ -360,14 +355,6 @@ attributes.default:
 
   varnish:
     target_service: nginx
-
-  resources:
-    cpu:
-      requests: []
-      limits: []
-    memory:
-      app_init: "1024Mi"
-      app_migrate: "1024Mi"
 
   replicas:
     varnish: 1
@@ -400,7 +387,7 @@ attributes.default:
       enabled: false
       accessMode: ReadWriteOnce
       size: 2Gi
-    redis_session:
+    redis-session:
       enabled: true
       accessMode: ReadWriteOnce
       size: 2Gi

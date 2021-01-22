@@ -1,12 +1,14 @@
 #
 # This is a magento VCL file for Varnish from
-# https://github.com/magento/magento2/blob/2.3.5/app/code/Magento/PageCache/etc/varnish6.vcl
+# https://github.com/magento/magento2/blob/2.4.1/app/code/Magento/PageCache/etc/varnish6.vcl
 #
 # See the VCL chapters in the Users Guide for a comprehensive documentation
 # at https://www.varnish-cache.org/docs/.
 
 # Marker to tell the VCL compiler that this VCL has been written with the
 # 4.0 or 4.1 syntax.
+#
+# VCL version 5.0 is not supported so it should be 4.0 even though actually used Varnish version is 6
 vcl 4.0;
 
 import std;
@@ -32,6 +34,10 @@ sub vcl_recv {
     #
     # Typically you clean up the request here, removing cookies you don't need,
     # rewriting the request, etc.
+
+    if (req.restarts > 0) {
+        set req.hash_always_miss = true;
+    }
 
     if (req.method == "PURGE") {
         if (client.ip !~ purge) {
@@ -78,10 +84,6 @@ sub vcl_recv {
         return (pass);
     }
 
-    if (req.restarts > 0) {
-        set req.hash_always_miss = true;
-    }
-
     # Set initial grace period usage status
     set req.http.grace = "none";
 
@@ -121,6 +123,11 @@ sub vcl_recv {
         #unset req.http.Https;
         #unset req.http.X-Forwarded-Proto;
         #unset req.http.Cookie;
+    }
+
+    # Authenticated GraphQL requests should not be cached by default
+    if (req.url ~ "/graphql" && req.http.Authorization ~ "^Bearer") {
+        return (pass);
     }
 
     return (hash);

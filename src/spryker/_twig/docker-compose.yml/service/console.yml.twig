@@ -1,8 +1,5 @@
-{% set blocks  = '_twig/docker-compose.yml/' %}
 {% set syncvolume = false %}
-{% if @('host.os') == 'darwin' and @('docker-sync') == 'yes' %}
-{% set syncvolume = true %}
-{% elseif @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% if @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
 {% set syncvolume = true %}
 {% endif %}
 
@@ -26,10 +23,11 @@
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
         @('services.php-base.environment'),
+        @('services.php-base.environment_dynamic'),
         @('services.console.environment'),
+        @('services.console.environment_dynamic'),
         @('services.php-base.environment_secrets'),
         @('services.console.environment_secrets')
       ]), 2, 6) | raw }}
-{% include blocks ~ 'environment.yml.twig' %}
     networks:
       - private

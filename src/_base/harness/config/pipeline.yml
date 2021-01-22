@@ -2,15 +2,16 @@
 command('app build'):
   env:
     HAS_CRON: "= @('services.cron.enabled') ? 'true' : 'false'"
-    HAS_WEBAPP: "= @('services.webapp.enabled') ? 'true' : 'false'"
     HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
+    HAS_JOB_QUEUE_CONSUMER: "= @('services.job-queue-consumer.enabled') ? 'true' : 'false'"
+    HAS_WEBAPP: "= @('services.webapp.enabled') ? 'true' : 'false'"
   exec: |
     #!bash(workspace:/)|@
     ws external-images pull
 
     # dependency ordered build
     passthru docker-compose build console
-    if [[ "${HAS_WEBAPP}" == "true" ]] || [[ "${HAS_CRON}" == "true" ]]; then
+    if [[ "${HAS_WEBAPP}" == "true" ]] || [[ "${HAS_CRON}" == "true" ]] || [ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]; then
       passthru docker-compose build php-fpm
     fi
     if [[ "${HAS_WEBAPP}" == "true" ]]; then
@@ -21,6 +22,9 @@ command('app build'):
     fi
     if [[ "${HAS_JENKINS_RUNNER}" == "true" ]]; then
       passthru docker-compose build jenkins-runner
+    fi
+    if [[ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]]; then
+      passthru docker-compose build job-queue-consumer
     fi
 
 command('app build <service>'):

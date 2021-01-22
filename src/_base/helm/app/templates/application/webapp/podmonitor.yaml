@@ -1,4 +1,4 @@
-{{- if and .Values.docker.services.webapp.enabled .Values.prometheus.podMonitoring -}}
+{{- if and .Values.services.webapp.enabled .Values.prometheus.podMonitoring -}}
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
@@ -12,10 +12,10 @@ spec:
     matchLabels:
       app.service: {{ .Values.resourcePrefix }}webapp
   podMetricsEndpoints:
-{{- if .Values.docker.services.nginx.metricsEnabled -}}
-{{ .Values.docker.services.nginx.metricsEndpoints | toYaml | nindent 6 -}}
+{{- if .Values.services.nginx.metricsEnabled -}}
+{{ .Values.services.nginx.metricsEndpoints | toYaml | nindent 6 -}}
 {{- end -}}
-{{- if and (.Values.service.php_fpm_exporter | default (index .Values.docker.services "php-fpm-exporter" "enabled")) (index .Values.docker.services "php-fpm-exporter" "metricsEnabled") -}}
-{{ index .Values.docker.services "php-fpm-exporter" "metricsEndpoints" | toYaml | nindent 6 -}}
+{{- if and (index .Values.services "php-fpm-exporter" "enabled") (index .Values.services "php-fpm-exporter" "metricsEnabled") -}}
+{{ index .Values.services "php-fpm-exporter" "metricsEndpoints" | toYaml | nindent 6 -}}
 {{- end -}}
 {{- end -}}

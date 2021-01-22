@@ -1,4 +1,4 @@
-{{- if index .Values.docker.services .Values.ingress.target_service "enabled" -}}
+{{- if index .Values.services .Values.ingress.target_service "enabled" -}}
 apiVersion: v1
 kind: Service
 metadata:

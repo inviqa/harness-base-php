@@ -1,4 +1,4 @@
-{{ if .Values.service.tideways | default .Values.docker.services.tideways.enabled }}
+{{ if .Values.services.tideways.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
