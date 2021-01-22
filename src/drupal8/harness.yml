@@ -42,31 +42,23 @@ attributes:
     install:
       steps:
         - |
-          passthru drupal site:install standard \
-              --langcode=en \
-              \
-              --db-type=mysql \
-              "--db-host=${DB_HOST}" \
-              "--db-name=${DB_NAME}" \
-              "--db-user=${DB_USER}" \
-              "--db-pass=${DB_PASS}" \
-              "--db-port=3306" \
-              \
+          passthru drush site:install standard \
+              --locale=en \
               --site-name=Drupal \
               --site-mail=admin@example.com \
               \
               --account-name=admin \
               --account-mail=admin@example.com \
-              --account-pass=admin123
+              --account-pass=admin123 \
+              --yes
         - run chmod 755 /app/docroot/sites/default
         - task overlay:apply
         - task assets:dump
     migrate:
       steps:
-        - run drupal cache:rebuild
-        - run drupal update:entities
-        - run drupal update:execute
-        - run drupal cache:rebuild
+        - run drush cache:rebuild
+        - run drush updatedb
+        - run drush cache:rebuild
     cron:
       jobs:
         - = '*/5 * * * * /cron-run-with-env.sh /app/bin/drush --root="/app/' ~ @('drupal.docroot') ~ '" cron'
