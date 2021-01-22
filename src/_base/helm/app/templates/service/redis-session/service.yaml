@@ -1,4 +1,4 @@
-{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}
+{{ if .Values.services.redis_session.enabled }}
 apiVersion: v1
 kind: Service
 metadata:

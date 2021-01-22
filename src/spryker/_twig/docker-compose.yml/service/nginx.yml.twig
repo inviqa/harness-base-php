@@ -1,4 +1,3 @@
-{% set blocks  = '_twig/docker-compose.yml/' %}
 {% set syncvolume = false %}
 {% if @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
 {% set syncvolume = true %}
@@ -21,9 +20,11 @@
       - php-fpm:php-fpm
     environment:
 {% if @('services.nginx.environment') %}
-{{ to_nice_yaml(@('services.nginx.environment'), 2, 6) | raw }}
+{{ to_nice_yaml(deep_merge([
+  @('services.nginx.environment'),
+  @('services.nginx.environment_dynamic')
+]), 2, 6) | raw }}
 {% endif %}
-{% include blocks ~ 'nginx_environment.yml.twig' %}
     networks:
       private:
         aliases:

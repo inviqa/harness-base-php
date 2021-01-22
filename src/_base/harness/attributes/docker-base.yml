@@ -55,6 +55,8 @@ attributes:
         DB_ADMIN_PASS: = @('database.root_pass')
       resources:
         memory: "2048Mi"
+        init_memory: "1024Mi"
+        migrate_memory: "1024Mi"
     cron:
       enabled: "= 'cron' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-cron'
@@ -185,21 +187,21 @@ attributes:
           environment:
             APP_HOST: = @('pipeline.base.hostname')
             DB_HOST: = '{{ .Values.resourcePrefix }}' ~ @('database.host')
-            ELASTICSEARCH_HOST: '{{ if .Values.service.elasticsearch | default .Values.docker.services.elasticsearch.enabled }}{{ .Values.resourcePrefix  }}elasticsearch{{ end }}'
-            ES_HOST: '{{ if .Values.service.elasticsearch | default .Values.docker.services.elasticsearch.enabled }}{{ .Values.resourcePrefix }}elasticsearch:9200{{ end }}'
-            RABBITMQ_HOST: '{{ if .Values.service.rabbitmq | default .Values.docker.services.rabbitmq.enabled }}{{ .Values.resourcePrefix  }}rabbitmq{{ end }}'
+            ELASTICSEARCH_HOST: '{{ if .Values.services.elasticsearch.enabled }}{{ .Values.resourcePrefix  }}elasticsearch{{ end }}'
+            ES_HOST: '{{ if .Values.services.elasticsearch.enabled }}{{ .Values.resourcePrefix }}elasticsearch:9200{{ end }}'
+            RABBITMQ_HOST: '{{ if .Values.services.rabbitmq.enabled }}{{ .Values.resourcePrefix  }}rabbitmq{{ end }}'
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
-            REDIS_HOST: '{{ if .Values.service.redis | default .Values.docker.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
-            REDIS_SESSION_HOST: '{{ if .Values.service.redis_session | default .Values.docker.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
+            REDIS_HOST: '{{ if .Values.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
+            REDIS_SESSION_HOST: '{{ if .Values.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
             TIDEWAYS_HOST: "{{ .Values.resourcePrefix  }}tideways"
-            TIDEWAYS_ENABLED: "{{ .Values.service.tideways | default .Values.docker.services.tideways.enabled }}"
+            TIDEWAYS_ENABLED: "{{ .Values.services.tideways.enabled }}"
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
         mysql:
           options: = @('services.mysql.options')
         console:
           environment:
-            TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.service.tideways | default .Values.docker.services.tideways.enabled }}' : 'false'"
+            TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.services.tideways.enabled }}' : 'false'"
         nginx:
           environment:
             FPM_HOST: localhost
@@ -251,10 +253,6 @@ attributes:
           environment:
             TIDEWAYS_HOSTNAME: = @('pipeline.qa.hostname')
     preview:
-      resources:
-        memory:
-          app_init: "1024Mi"
-          app_migrate: "1024Mi"
       services:
         console:
           enabled: false

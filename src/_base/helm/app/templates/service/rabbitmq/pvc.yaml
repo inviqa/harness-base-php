@@ -1,4 +1,4 @@
-{{ if and .Values.persistence.rabbitmq.enabled (.Values.service.rabbitmq | default .Values.docker.services.rabbitmq.enabled) -}}
+{{ if and .Values.persistence.rabbitmq.enabled .Values.services.rabbitmq.enabled -}}
 
 {{- with .Values.persistence.rabbitmq -}}
 

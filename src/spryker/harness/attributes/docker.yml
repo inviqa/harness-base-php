@@ -9,6 +9,12 @@ attributes:
         JENKINS_PORT: = @('jenkins.port')
         JENKINS_URL: = 'http://' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
         JENKINS_EXTERNAL_HOST: = @('jenkins.external_host')
+      environment_dynamic: "= deep_merge([
+          template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
+          template_key_value('RABBITMQ_VHOST_{{key}}', @('rabbitmq.vhosts')),
+          template_key_value('YVES_HOST_{{key}}', @('yves.external_hosts')),
+          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts'))
+        ])"
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
         SPRYKER_OAUTH_CLIENT_IDENTIFIER: "frontend"
@@ -35,6 +41,12 @@ attributes:
         RUNNER_NUM_EXECUTORS: 1
       resources:
         memory: "256Mi"
+    nginx:
+      environment_dynamic: "= deep_merge([
+          template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
+          template_key_value('YVES_HOST_{{key}}', @('yves.external_hosts')),
+          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts'))
+        ])"
     rabbitmq:
       environment:
         RABBITMQ_DEFAULT_USER: spryker
@@ -59,6 +71,17 @@ attributes:
             DOCKER_IMAGE_FPM: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
             DOCKER_IMAGE_NGINX: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-nginx'
             DOCKER_IMAGE_JENKINS_RUNNER: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner'
+          environment_dynamic: "= deep_merge([
+              template_key_value('GLUE_HOST_{{key}}', @('pipeline.preview.glue.external_hosts')),
+              template_key_value('YVES_HOST_{{key}}', @('pipeline.preview.yves.external_hosts')),
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.preview.zed.external_hosts'))
+            ])"
+        nginx:
+          environment_dynamic: "= deep_merge([
+              template_key_value('GLUE_HOST_{{key}}', @('pipeline.preview.glue.external_hosts')),
+              template_key_value('YVES_HOST_{{key}}', @('pipeline.preview.yves.external_hosts')),
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.preview.zed.external_hosts'))
+            ])"
       persistence:
         enabled: true
         spryker:
@@ -69,3 +92,14 @@ attributes:
         php-base:
           environment:
             JENKINS_EXTERNAL_HOST: = @('pipeline.qa.jenkins.external_host')
+          environment_dynamic: "= deep_merge([
+              template_key_value('GLUE_HOST_{{key}}', @('pipeline.qa.glue.external_hosts')),
+              template_key_value('YVES_HOST_{{key}}', @('pipeline.qa.yves.external_hosts')),
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.qa.zed.external_hosts'))
+            ])"
+        nginx:
+          environment_dynamic: "= deep_merge([
+              template_key_value('GLUE_HOST_{{key}}', @('pipeline.qa.glue.external_hosts')),
+              template_key_value('YVES_HOST_{{key}}', @('pipeline.qa.yves.external_hosts')),
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.qa.zed.external_hosts'))
+            ])"

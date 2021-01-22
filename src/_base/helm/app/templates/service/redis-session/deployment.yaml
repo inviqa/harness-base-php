@@ -1,5 +1,5 @@
-{{- with .Values.docker.services.redis_session -}}
-{{- if $.Values.service.redis_session | default .enabled -}}
+{{- with .Values.services.redis_session -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,9 +49,9 @@ spec:
         - containerPort: 6379
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.redis_session | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.redis_session | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 6379

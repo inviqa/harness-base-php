@@ -1,9 +1,4 @@
-{% set blocks  = 'helm/app/_twig/values.yaml/' %}
-
 appVersion: {{ @('app.version') | json_encode | raw }}
-
-environment:
-{% include blocks ~ 'environment.yml.twig' %}
 
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
@@ -13,20 +8,13 @@ ingress:
 
 docker:
   image_pull_config: {{ @('docker.image_pull_config') | raw }}
-  # deprecated, use docker.services.*.image instead
-  image: {}
-  services: {{ to_nice_yaml(deep_merge([
-      filter_local_services(@('services')),
-      @('pipeline.base.services')
-    ]), 2, 4) | raw }}
 
-# deprecated, use docker.services.*.enabled instead
-service: {}
+services: {{ to_nice_yaml(deep_merge([
+    filter_local_services(@('services')),
+    @('pipeline.base.services')
+  ]), 2, 2) | raw }}
 
 replicas: {{ to_nice_yaml(@('replicas'), 2, 2) | raw }}
-
-resources:
-{% include blocks ~ 'resources.yml.twig' %}
 
 persistence: {{ to_nice_yaml(@('pipeline.base.persistence'), 2, 2) | raw }}
 

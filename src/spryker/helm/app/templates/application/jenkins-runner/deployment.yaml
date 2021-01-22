@@ -1,5 +1,5 @@
-{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "jenkins-runner") (dict "environment" .Values.environment) -}}
-{{- if $.Values.service.jenkins_runner | default .enabled -}}
+{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "jenkins-runner") -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -39,14 +39,14 @@ spec:
           - secretRef:
               name: {{ $.Values.resourcePrefix }}jenkins-runner
         {{- end }}
-        image: {{ $.Values.docker.image.jenkins_runner | default .image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         name: jenkins-runner
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.jenkins_runner | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.jenkins_runner | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           exec:
             command:

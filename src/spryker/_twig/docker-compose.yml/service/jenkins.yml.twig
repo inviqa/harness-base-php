@@ -1,6 +1,9 @@
   jenkins:
     image: {{ @('services.jenkins.image') }}
-    environment: {{ to_nice_yaml(@('services.jenkins.environment'), 2, 6) | raw }}
+    environment: {{ to_nice_yaml(deep_merge([
+      @('services.jenkins.environment'),
+      @('services.jenkins.environment_dynamic'),
+    ]), 2, 6) | raw }}
     networks:
       - private
       - shared
