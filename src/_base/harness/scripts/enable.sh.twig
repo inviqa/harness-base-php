@@ -48,6 +48,8 @@ dynamic()
 
     ws external-images pull
 
+    find .my127ws/docker/image/ -type d ! -perm u+rwx,go+rx,o-w -exec chmod u+rwx,go+rx,o-w {} +
+
     passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | grep -v job-queue-consumer | xargs docker-compose build"
 
     {% if @('services.cron.enabled') %}
