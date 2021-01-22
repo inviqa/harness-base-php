@@ -27,7 +27,6 @@
     "composer/installers": "^1.0",
     "cweagans/composer-patches": "^1.5.0",
     "drupal/admin_toolbar": "^1.0",
-    "drupal/console": "^1.0, != 1.9.5",
     "drupal/core-composer-scaffold": "~8.9",
     "drupal/core-recommended": "~8.9",
     "drupal/ctools": "^3.0",
@@ -111,9 +110,6 @@
     "enable-patching": true,
     "composer-exit-on-patch-failure": true,
     "patches": {
-      "drupal/console": {
-        "Fix drupal site:install using extension.list.module": "https://patch-diff.githubusercontent.com/raw/hechoendrupal/drupal-console/pull/4277.patch"
-      }
     },
     "installer-paths": {
       "docroot/core": [
