@@ -1,6 +1,5 @@
-{{ if and .Values.persistence.redis_session.enabled .Values.services.redis_session.enabled -}}
-
-{{- with .Values.persistence.redis_session -}}
+{{- with index .Values.persistence "redis-session" -}}
+{{ if and .enabled (index $.Values.services "redis-session" "enabled") -}}
 
 kind: PersistentVolumeClaim
 apiVersion: v1

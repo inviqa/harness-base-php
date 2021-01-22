@@ -21,8 +21,8 @@ attributes:
         RABBITMQ_VHOST: = @('rabbitmq.vhosts.default')
         REDIS_HOST: = @('redis.host')
         REDIS_PORT: = @('redis.port')
-        REDIS_SESSION_HOST: = @('redis_session.host')
-        REDIS_SESSION_PORT: = @('redis_session.port')
+        REDIS_SESSION_HOST: = @('redis-session.host')
+        REDIS_SESSION_PORT: = @('redis-session.port')
         SOLR_HOST: = @('services.solr.host')
         SOLR_PORT: = @('services.solr.port')
         SMTP_HOST: = @('smtp.host')
@@ -142,8 +142,8 @@ attributes:
       image: redis:5-alpine
       resources:
         memory: "256Mi"
-    redis_session:
-      enabled: "= 'redis_session' in @('app.services')"
+    redis-session:
+      enabled: "= 'redis-session' in @('app.services')"
       image: redis:5-alpine
       resources:
         memory: "1024Mi"
@@ -192,7 +192,7 @@ attributes:
             RABBITMQ_HOST: '{{ if .Values.services.rabbitmq.enabled }}{{ .Values.resourcePrefix  }}rabbitmq{{ end }}'
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             REDIS_HOST: '{{ if .Values.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
-            REDIS_SESSION_HOST: '{{ if .Values.services.redis_session.enabled }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
+            REDIS_SESSION_HOST: '{{ if (index .Values.services "redis-session" "enabled") }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
             PHP_IDE_CONFIG: = ''
             TIDEWAYS_HOST: "{{ .Values.resourcePrefix  }}tideways"
             TIDEWAYS_ENABLED: "{{ .Values.services.tideways.enabled }}"
@@ -239,7 +239,7 @@ attributes:
           enabled: false
         redis:
           enabled: false
-        redis_session:
+        redis-session:
           enabled: false
     qa:
       services:
@@ -286,7 +286,7 @@ attributes:
         redis:
           resources:
             memory: "64Mi"
-        redis_session:
+        redis-session:
           resources:
             memory: "64Mi"
         tideways:

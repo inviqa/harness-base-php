@@ -1,19 +1,21 @@
-{{ if .Values.services.redis_session.enabled }}
+{{ with index .Values.services "redis-session" }}
+{{ if .enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: redis-session
-    app.service: {{ .Values.resourcePrefix }}redis-session
-  name: {{ .Values.resourcePrefix }}redis-session
+    app.service: {{ $.Values.resourcePrefix }}redis-session
+  name: {{ $.Values.resourcePrefix }}redis-session
 spec:
   ports:
   - name: "6379"
     port: 6379
     targetPort: 6379
   selector:
-    app.service: {{ .Values.resourcePrefix }}redis-session
+    app.service: {{ $.Values.resourcePrefix }}redis-session
 status:
   loadBalancer: {}
+{{ end }}
 {{ end }}

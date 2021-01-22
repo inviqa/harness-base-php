@@ -1,4 +1,4 @@
-{{- with .Values.services.redis_session -}}
+{{- with index .Values.services "redis-session" -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -15,7 +15,7 @@ spec:
   selector:
     matchLabels:
       app.service: {{ $.Values.resourcePrefix }}redis-session
-{{- if $.Values.persistence.redis_session.enabled }}
+{{- if index $.Values.persistence "redis-session" "enabled" }}
   strategy:
     type: Recreate
 {{- end }}
@@ -63,7 +63,7 @@ spec:
       restartPolicy: Always
       volumes:
       - name: {{ $.Values.resourcePrefix }}redis-session-persistent-storage
-{{- if $.Values.persistence.redis_session.enabled }}
+{{- if index $.Values.persistence "redis-session" "enabled" }}
         persistentVolumeClaim:
           claimName: {{ $.Values.resourcePrefix }}redis-session-pv-claim
 {{- else }}
