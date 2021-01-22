@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
+{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "console") -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -39,14 +39,14 @@ spec:
           - secretRef:
               name: {{ $.Values.resourcePrefix }}console
         {{- end }}
-        image: {{ $.Values.docker.image.console | default .image }}
+        image: {{ .image }}
         imagePullPolicy: Always
         name: console
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.console | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.console | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           exec:
             command:

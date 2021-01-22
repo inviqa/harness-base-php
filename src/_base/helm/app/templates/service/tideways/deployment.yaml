@@ -1,5 +1,5 @@
-{{- with .Values.docker.services.tideways -}}
-{{- if $.Values.service.tideways | default .enabled -}}
+{{- with .Values.services.tideways -}}
+{{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,9 +31,9 @@ spec:
         - containerPort: 9135
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.tideways | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.tideways | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9135

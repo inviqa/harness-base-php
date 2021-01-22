@@ -5,7 +5,6 @@
 {% endif %}
 version: '{{ @('docker.compose.file_version') }}'
 services:
-{% include blocks ~ 'application.yml.twig' %}
 {% for serviceName, service in @('services') %}
 {% if service['enabled'] %}
 {% include blocks ~ 'service/' ~ serviceName ~ '.yml.twig' %}

@@ -1,5 +1,5 @@
-{{- $service_php_fpm := mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "php-fpm") (dict "environment" .Values.environment) -}}
-{{- if .Values.docker.services.webapp.enabled -}}
+{{- $service_php_fpm := mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "php-fpm") -}}
+{{- if .Values.services.webapp.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,10 +40,10 @@ spec:
         {{- end }}
       {{- end }}
       containers:
-      {{- with .Values.docker.services.nginx }}
+      {{- with .Values.services.nginx }}
       - name: nginx
         env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -57,16 +57,16 @@ spec:
           - secretRef:
               name: {{ $.Values.resourcePrefix }}nginx
         {{- end }}
-        image: {{ $.Values.docker.image.nginx | default .image }}
+        image: {{ .image }}
         imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 80
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.nginx | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.nginx | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 80
@@ -82,7 +82,7 @@ spec:
       {{- with $service_php_fpm }}
       - name: php-fpm
         env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -96,15 +96,15 @@ spec:
           - secretRef:
               name: {{ $.Values.resourcePrefix }}php-fpm
         {{- end }}
-        image: {{ $.Values.docker.image.fpm | default .image | quote }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.php_fpm | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.php_fpm | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9000
@@ -118,11 +118,11 @@ spec:
         {{- end }}
       {{- end }}
 
-      {{- with index .Values.docker.services "php-fpm-exporter" }}
-      {{- if $.Values.service.php_fpm_exporter | default .enabled }}
+      {{- with index .Values.services "php-fpm-exporter" }}
+      {{- if .enabled }}
       - name: php-fpm-exporter
         env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -138,9 +138,9 @@ spec:
           containerPort: 9253
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.php_fpm_exporter | default .resources.memory }}
+            memory: {{ .resources.memory }}
           requests:
-            memory: {{ $.Values.resources.memory.php_fpm_exporter | default .resources.memory }}
+            memory: {{ .resources.memory }}
         readinessProbe:
           tcpSocket:
             port: 9253

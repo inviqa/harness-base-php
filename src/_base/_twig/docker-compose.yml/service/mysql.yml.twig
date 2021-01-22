@@ -9,6 +9,7 @@
     command: {{ to_nice_yaml(command, 2, 6) }}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.mysql.environment'),
+        @('services.mysql.environment_dynamic'),
         @('services.mysql.environment_secrets')
       ]), 2, 6) | raw }}
     networks:

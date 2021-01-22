@@ -1,4 +1,4 @@
-{{ if and .Values.docker.services.mongodb.enabled .Values.persistence.mongodb.enabled -}}
+{{ if and .Values.services.mongodb.enabled .Values.persistence.mongodb.enabled -}}
 {{- with .Values.persistence.mongodb -}}
 
 kind: PersistentVolumeClaim

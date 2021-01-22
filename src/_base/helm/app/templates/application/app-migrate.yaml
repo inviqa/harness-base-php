@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.docker.services "php-base") (index .Values.docker.services "console") (dict "environment" .Values.environment) -}}
+{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "console") -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - env:
-        {{- range $key, $value := .environment }}
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
         {{- $tp := typeOf $value }}
         - name: {{ $key | quote }}
         {{- if eq $tp "string" }}
@@ -35,7 +35,7 @@ spec:
           - secretRef:
               name: {{ $.Values.resourcePrefix }}console
         {{- end }}
-        image: {{ $.Values.docker.image.console | default .image }}
+        image: {{ .image }}
         imagePullPolicy: Always
         name: app-migrate
 {{ if eq $.Values.ingress.type "istio" }}
@@ -47,9 +47,9 @@ spec:
 {{ end }}
         resources:
           limits:
-            memory: {{ $.Values.resources.memory.app_migrate }}
+            memory: {{ .resources.migrate_memory }}
           requests:
-            memory: {{ $.Values.resources.memory.app_migrate }}
+            memory: {{ .resources.migrate_memory }}
         volumeMounts:
         {{- if not (eq "" (include "application.volumeMounts.console" $)) }}
         {{- include "application.volumeMounts.console" $ | indent 8 }}

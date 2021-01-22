@@ -1,5 +1,0 @@
-# environment: is deprecated, this has moved to harness/attributes/docker*.yml
-# however it is hard to do dynamic attributes there until a bugfix is forced in ws tool
-{% for store, vhost in @('rabbitmq.vhosts') %}
-  RABBITMQ_VHOST_{{ store }}: {{ vhost }}
-{% endfor %}

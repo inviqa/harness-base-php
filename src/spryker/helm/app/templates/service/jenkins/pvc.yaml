@@ -1,4 +1,4 @@
-{{ if and (.Values.service.jenkins | default .Values.docker.services.jenkins.enabled) .Values.persistence.jenkins.enabled -}}
+{{ if and .Values.services.jenkins.enabled .Values.persistence.jenkins.enabled -}}
 {{- with .Values.persistence.jenkins -}}
 
 kind: PersistentVolumeClaim
