@@ -3,11 +3,9 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ .Release.Namespace }}-{{ .Values.resourcePrefix }}webapp-virtualservice
-{{- if .Values.ingress.annotations }}
+{{- with .Values.ingress.annotations }}
   annotations:
-  {{- range $key, $value := .Values.ingress.annotations }}
-    {{ $key }}: {{ $value | quote }}
-  {{- end }}
+    {{- . | toYaml | nindent 4 }}
 {{- end }}
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
