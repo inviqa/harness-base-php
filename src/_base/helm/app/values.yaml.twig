@@ -3,8 +3,9 @@ appVersion: {{ @('app.version') | json_encode | raw }}
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
 ingress:
+  annotations: {{ @('services.istio.enabled') ? @('services.istio.ingress.annotations') : @('services.nginx.ingress.annotations') }}
   target_service: {{ @('services.varnish.enabled') ? 'varnish' : 'webapp' }}
-  type: "standard" # standard or istio
+  type: {{ @('services.istio.enabled') ? 'istio' : 'standard' }}
 
 docker:
   image_pull_config: {{ @('docker.image_pull_config') | raw }}

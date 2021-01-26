@@ -222,9 +222,12 @@ attributes:
           environment:
             TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
       istio:
+        enabled: false
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
         additionalGateways: []
+        ingress:
+          annotations: {}
     production:
       # assumption is that in a production style environment these would be
       # managed services outside of the applications control
