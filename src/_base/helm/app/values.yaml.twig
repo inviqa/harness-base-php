@@ -3,9 +3,7 @@ appVersion: {{ @('app.version') | json_encode | raw }}
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
 ingress:
-  annotations: {{ to_nice_yaml(
-    (@('pipeline.base.istio.enabled') ? @('pipeline.base.istio.ingress.annotations') : @('pipeline.base.services.nginx.ingress.annotations')),
-    2, 4) | raw }}
+  annotations: {{ to_nice_yaml(@('pipeline.base.ingress.annotations'), 2, 4) | raw }}
   target_service: {{ @('services.varnish.enabled') ? 'varnish' : 'webapp' }}
   type: {{ @('pipeline.base.istio.enabled') ? 'istio' : 'standard' }}
 
