@@ -2,10 +2,7 @@ appVersion: {{ @('app.version') | json_encode | raw }}
 
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
-ingress:
-  annotations: {{ to_nice_yaml(@('pipeline.base.ingress.annotations'), 2, 4) | raw }}
-  target_service: {{ @('services.varnish.enabled') ? 'varnish' : 'webapp' }}
-  type: {{ @('pipeline.base.ingress.type') }}
+ingress: {{ to_nice_yaml(@('pipeline.base.ingress'), 2, 2) | raw }}
 
 docker:
   image_pull_config: {{ @('docker.image_pull_config') | raw }}

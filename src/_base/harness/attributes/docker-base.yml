@@ -221,7 +221,9 @@ attributes:
             TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
       ingress:
         annotations: {}
-        type: standard # standard or istio
+        target_service: "= @('services.varnish.enabled') ? 'varnish' : 'webapp'"
+        # standard or istio
+        type: standard
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
