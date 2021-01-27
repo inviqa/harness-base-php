@@ -73,6 +73,11 @@ function('filter_local_services', [services]): |
   }
   = $filteredServices;
 
+function('flatten', [array_input]): |
+  #!php
+  $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($array_input));
+  = iterator_to_array($iterator, false);
+
 function('get_docker_external_networks'): |
   #!php
   $configRaw = shell_exec('docker-compose config');
@@ -190,6 +195,10 @@ function('publishable_services', [services]): |
     $services
   );
   = join(' ', array_filter($pushServices));
+
+function('replace', [haystack, needle, replacement]): |
+  #!php
+  = str_replace($needle, $replacement, $haystack);
 
 function('template_key_value', [template, key_value]): |
   #!php

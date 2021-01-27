@@ -2,26 +2,30 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
- name: {{ .Release.Namespace }}-{{ .Values.resourcePrefix }}webapp-virtualservice
- labels:
-   {{- include "chart.labels" $ | nindent 4 }}
-   app.kubernetes.io/component: webapp
-   app: {{ .Values.resourcePrefix }}webapp
-   app.service: {{ .Values.resourcePrefix }}webapp
+  name: {{ .Release.Namespace }}-{{ .Values.resourcePrefix }}webapp-virtualservice
+{{- with .Values.ingress.annotations }}
+  annotations:
+    {{- . | toYaml | nindent 4 }}
+{{- end }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: webapp
+    app: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ .Values.resourcePrefix }}webapp
 spec:
- hosts:
- - {{ index .Values.services "php-base" "environment" "APP_HOST" }}
- gateways:
+  hosts:
+  - {{ index .Values.services "php-base" "environment" "APP_HOST" }}
+  gateways:
 {{- range $key, $value := .Values.istio.gateways }}
- - {{ tpl $value $ | quote }}
+  - {{ tpl $value $ | quote }}
 {{- end }}
 {{- range $key, $value := .Values.istio.additionalGateways }}
- - {{ $value | quote }}
+  - {{ $value | quote }}
 {{- end }}
- http:
- - route:
-   - destination:
-       host: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
-       port:
-         number: 80
+  http:
+  - route:
+    - destination:
+        host: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
+        port:
+          number: 80
 {{ end }}

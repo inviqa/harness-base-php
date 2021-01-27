@@ -86,6 +86,11 @@ attributes:
   elasticsearch:
     image: elasticsearch
     tag: 6.8.12
+  hostname_aliases: "= replace(flatten([
+      @('glue.external_hosts'),
+      @('yves.external_hosts'),
+      @('zed.external_hosts')
+    ]), @('hostname'), @('namespace'))"
   redis:
     protocol: redis
   rabbitmq:

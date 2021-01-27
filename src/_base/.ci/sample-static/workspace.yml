@@ -19,6 +19,9 @@ attribute('database.platform_version'): 8.0
 attribute('php.cli.install_extensions'):
   - sockets
 
+attribute('pipeline.base.istio.enabled'): true
+attribute('pipeline.base.ingress.annotations.example_istio'): test
+
 before('harness.install'): |
   #!bash(workspace:/)|@
   if [ ! -d public/ ]; then
