@@ -221,8 +221,8 @@ attributes:
             TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
       ingress:
         annotations: {}
+        type: standard # standard or istio
       istio:
-        enabled: false
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"
         additionalGateways: []

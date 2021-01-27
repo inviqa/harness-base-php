@@ -5,7 +5,7 @@ feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 ingress:
   annotations: {{ to_nice_yaml(@('pipeline.base.ingress.annotations'), 2, 4) | raw }}
   target_service: {{ @('services.varnish.enabled') ? 'varnish' : 'webapp' }}
-  type: {{ @('pipeline.base.istio.enabled') ? 'istio' : 'standard' }}
+  type: {{ @('pipeline.base.ingress.type') }}
 
 docker:
   image_pull_config: {{ @('docker.image_pull_config') | raw }}
