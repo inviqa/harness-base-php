@@ -205,8 +205,6 @@ attributes:
         nginx:
           environment:
             FPM_HOST: localhost
-          ingress:
-            annotations: {}
           metricsEnabled: false
           metricsEndpoints:
             - port: http
@@ -221,6 +219,11 @@ attributes:
         tideways:
           environment:
             TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
+      ingress:
+        annotations: {}
+        target_service: "= @('services.varnish.enabled') ? 'varnish' : 'webapp'"
+        # standard or istio
+        type: standard
       istio:
         gateways:
           - "istio-system/{{ .Release.Namespace }}-gateway"

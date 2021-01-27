@@ -3,11 +3,9 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-{{- if .ingress.annotations }}
+{{- with $.Values.ingress.annotations }}
   annotations:
-  {{- range $key, $value := .ingress.annotations }}
-    {{ $key }}: {{ $value | quote }}
-  {{- end }}
+    {{- . | toYaml | nindent 4 }}
 {{- end }}
   creationTimestamp: null
   labels:

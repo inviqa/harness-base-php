@@ -3,6 +3,10 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ .Release.Namespace }}-{{ .Values.resourcePrefix }}webapp-virtualservice
+{{- with .Values.ingress.annotations }}
+  annotations:
+    {{- . | toYaml | nindent 4 }}
+{{- end }}
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: webapp
