@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.0.0](https://github.com/inviqa/harness-base-php/tree/1.0.0) (2021-01-28)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.12.0...1.0.0)
+
+**Breaking changes:**
+
+- Rename AWS Credentials [\#533](https://github.com/inviqa/harness-base-php/pull/533) ([kierenevans](https://github.com/kierenevans))
+- Remove docker-sync support [\#530](https://github.com/inviqa/harness-base-php/pull/530) ([kierenevans](https://github.com/kierenevans))
+- Rename magento.static\_content.backend to magento.static\_content.adminhtml [\#526](https://github.com/inviqa/harness-base-php/pull/526) ([kierenevans](https://github.com/kierenevans))
+- Remove deprecations [\#519](https://github.com/inviqa/harness-base-php/pull/519) ([kierenevans](https://github.com/kierenevans))
+- Fix redis-session not enabled on kubernetes [\#518](https://github.com/inviqa/harness-base-php/pull/518) ([kierenevans](https://github.com/kierenevans))
+
+**Implemented enhancements:**
+
+- Upgrade xdebug version to 3.0 [\#491](https://github.com/inviqa/harness-base-php/issues/491)
+- Rename aws.id and aws.key and env vars to match aws's standard env var naming [\#100](https://github.com/inviqa/harness-base-php/issues/100)
+- Join lighthouse to the private network [\#537](https://github.com/inviqa/harness-base-php/pull/537) ([kierenevans](https://github.com/kierenevans))
+- \#508 Use drush [\#536](https://github.com/inviqa/harness-base-php/pull/536) ([kierenevans](https://github.com/kierenevans))
+- Update ingress api version [\#535](https://github.com/inviqa/harness-base-php/pull/535) ([kierenevans](https://github.com/kierenevans))
+- Add a command hook to cleanup built images [\#534](https://github.com/inviqa/harness-base-php/pull/534) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update magento2 NGINX config to 2.4.1 [\#532](https://github.com/inviqa/harness-base-php/pull/532) ([kierenevans](https://github.com/kierenevans))
+- Update magento2 VCL to 2.4.1 [\#531](https://github.com/inviqa/harness-base-php/pull/531) ([kierenevans](https://github.com/kierenevans))
+- Use App namespace for akeneo behat bootstrap [\#529](https://github.com/inviqa/harness-base-php/pull/529) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix lib folder not being readable [\#528](https://github.com/inviqa/harness-base-php/pull/528) ([kierenevans](https://github.com/kierenevans))
+- Adjust spryker to use hostname\_aliases for nginx [\#527](https://github.com/inviqa/harness-base-php/pull/527) ([kierenevans](https://github.com/kierenevans))
+- DEVOPS-1181 lighthouse integration [\#521](https://github.com/inviqa/harness-base-php/pull/521) ([g-foster2](https://github.com/g-foster2))
+- \#67 Detect if containers exist during `ws enable` [\#517](https://github.com/inviqa/harness-base-php/pull/517) ([kierenevans](https://github.com/kierenevans))
+- Xdebug 3 opt-in & config support [\#500](https://github.com/inviqa/harness-base-php/pull/500) ([Persata](https://github.com/Persata))
+
+**Fixed bugs:**
+
+- Use the runtime environment APPLICATION\_ENV for spryker install [\#525](https://github.com/inviqa/harness-base-php/pull/525) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Remove Apache License v2 from readme skeleton [\#523](https://github.com/inviqa/harness-base-php/pull/523) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Closed issues:**
+
+- Standardise on Drush [\#508](https://github.com/inviqa/harness-base-php/issues/508)
+- Detect if containers have been deleted without deleting .flag-built [\#67](https://github.com/inviqa/harness-base-php/issues/67)
+
 ## [0.12.0](https://github.com/inviqa/harness-base-php/tree/0.12.0) (2021-01-13)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.11.0...0.12.0)
