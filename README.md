@@ -126,7 +126,7 @@ The [deploy script](./deploy) does a similar thing but the end result is output 
 committed as a publish commit to a temporary build branch.
 
 A "subtree-split" is then performed which outputs a directory for each folder into a "publish" folder, where it is then
-force pushed to the individual harness repositories' `1.0.x` branch.
+force pushed to the individual harness repositories' `1.1.x` branch.
 
 ## Release
 
@@ -134,19 +134,19 @@ force pushed to the individual harness repositories' `1.0.x` branch.
 
 We are keeping a changelog, powered by [GitHub Changelog Generator].
 
-When ready to tag a release, make a new branch from the `1.0.x` branch for the changelog entries:
+When ready to tag a release, make a new branch from the `1.1.x` branch for the changelog entries:
 1. Generate a `repo` scope token for use with the changelog generator: https://github.com/settings/tokens/new?description=GitHub%20Changelog%20Generator%20token
 2. Export it in your environment: `export CHANGELOG_GITHUB_TOKEN=...`
-3. Run the following docker command to generate the changelog, replacing `1.0.0` with the version number as needed:
+3. Run the following docker command to generate the changelog, replacing `1.1.0` with the version number as needed:
   ```bash
-  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app -v "$(pwd)/github-changelog-http-cache":/tmp/github-changelog-http-cache ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --release-branch 1.0.x --future-release 1.0.0
+  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app -v "$(pwd)/github-changelog-http-cache":/tmp/github-changelog-http-cache ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --release-branch 1.1.x --future-release 1.1.0
   ```
 4. Examine the generated CHANGELOG.md. For every entry in the `Merged pull requests` section, examine the Pull Requests
    and assign each pull request either a `enhancement` label for a new feature, `bug` for a bugfix or `deprecated` for
    a deprecation.
 5. For each Pull Request in the release, assign an appropriate `harness-*` label.
 6. Re-generate the changelog using step 3 as needed.
-7. Adjust the version for each framework's README.md: `sed -i '' s/v0\.12\.0/v1.0.0/ src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
+7. Adjust the version for each framework's README.md: `sed -i '' s/v1\.0\.0/v1.1.0/ src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
 8. Commit the resulting changes, push and raise a pull request.
 9. Once merged, continue with the release process below.
 
@@ -154,41 +154,41 @@ When ready to tag a release, make a new branch from the `1.0.x` branch for the c
 
 Once the CHANGELOG.markdown is in the branch you wish to release:
 
-1. Tag the release version with `git tag 1.0.0 -m "v1.0.0"`
-2. Push the tag to the repository: `git push origin 1.0.0`
+1. Tag the release version with `git tag 1.1.0 -m "v1.1.0"`
+2. Push the tag to the repository: `git push origin 1.1.0`
 3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
 4. Run the deploy script: `./deploy`
 5. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 6. Create a "Github Release" for this repository and downstream repositories, pasting in the changelog for the release:
-   - https://github.com/inviqa/harness-base-php/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-php/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-magento1/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-magento2/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-spryker/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-symfony/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
-   - https://github.com/inviqa/harness-wordpress/releases/new?tag=1.0.0&title=1.0.0&target=1.0.x
+   - https://github.com/inviqa/harness-base-php/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-php/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-magento1/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-magento2/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-spryker/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-symfony/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
+   - https://github.com/inviqa/harness-wordpress/releases/new?tag=1.1.0&title=1.1.0&target=1.1.x
 
 ### Post-release actions
 
-If the next release does not make sense to be in the current 1.0.x branch:
+If the next release does not make sense to be in the current 1.1.x branch:
 
 1. Create a new branch:
   ```bash
-  git checkout -b 1.1.x
+  git checkout -b 1.2.x
   ```
-2. Adjust references from 1.0.x to 1.1.x:
+2. Adjust references from 1.1.x to 1.2.x:
   ```bash
+  grep -FR '1.2.x' . | grep -v dist/
   grep -FR '1.1.x' . | grep -v dist/
-  grep -FR '1.0.x' . | grep -v dist/
   # Edit resulting files
   ```
-3. Adjust references in this file from 1.0.0 to 1.1.0:
+3. Adjust references in this file from 1.1.0 to 1.2.0:
   ```bash
+  grep -FR '1.2.0' README.md
   grep -FR '1.1.0' README.md
-  grep -FR '1.0.0' README.md
   # Edit resulting files
   ```
 4. Commit the resulting files and push:
@@ -198,7 +198,7 @@ If the next release does not make sense to be in the current 1.0.x branch:
   git push origin -u HEAD
   ```
 5. Change the default branch in GitHub settings and re-target any open PRs against the new default branch.
-6. Run a deployment of the 1.0.x branch so the branches now exist in the downstream repositories:
+6. Run a deployment of the 1.1.x branch so the branches now exist in the downstream repositories:
   ```bash
   ./deploy
   ```
