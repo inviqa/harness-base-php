@@ -56,7 +56,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 {{ if .root.Values.feature.sealed_secrets }}
 {{ if ne .root.Values.sealed_secrets.scope "strict" }}
-    sealedsecrets.bitnami.com/{{ .Values.sealed_secrets.scope }}: "true"
+    sealedsecrets.bitnami.com/{{ .root.Values.sealed_secrets.scope }}: "true"
 {{ end }}
 spec:
   encryptedData:
