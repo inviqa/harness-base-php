@@ -15,6 +15,7 @@ function fetch_demoshop()
     run "shopt -s dotglob && mv /tmp/spryker/* /app"
     run rm -rf /tmp/spryker
     run rm -rf /app/.git
+    run mv /app/LICENSE /app/demoshop.LICENSE
 }
 
 # Merge core composer.json with composer-harness.json
