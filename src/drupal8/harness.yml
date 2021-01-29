@@ -57,7 +57,7 @@ attributes:
     migrate:
       steps:
         - run drush cache:rebuild
-        - run drush updatedb
+        - passthru drush updatedb --yes
         - run drush cache:rebuild
     cron:
       jobs:
