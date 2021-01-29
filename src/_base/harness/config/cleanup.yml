@@ -13,12 +13,14 @@ function('built_images', [services]): |
 
 command('cleanup built-images'):
   env:
-    IMAGES: = built_images(docker_service_images())
     BUILD_LABEL: = @('workspace.name') ~ ':' ~ @('app.version')
+    IMAGES: = built_images(docker_service_images())
   exec: |
     #!bash
     IMAGES=($IMAGES)
     if [ "${#IMAGES[@]}" -gt 0 ]; then
       run docker image rm --force -- "${IMAGES[@]}"
     fi
-    run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs --no-run-if-empty docker image rm --force"
+    if docker images --filter=label=build="$BUILD_LABEL" -q | grep '^.*$'; then
+      run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs docker image rm --force"
+    fi
