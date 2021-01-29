@@ -33,7 +33,7 @@ A developer for a project can follow these steps to upgrade their harness versio
 ```bash
 git clone git@github.com:inviqa/harness-php.git
 cd harness-php
-git checkout 0.11.0
+git checkout 0.12.0
 pwd # Use this path for the diff in step 3
 ```
 2. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
