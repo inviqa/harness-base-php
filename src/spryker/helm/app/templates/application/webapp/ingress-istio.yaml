@@ -15,7 +15,7 @@ metadata:
 spec:
   hosts:
 {{- range $key, $value := (mergeOverwrite (dict) .Values.services.nginx.environment .Values.services.nginx.environment_dynamic) }}
-{{- if contains $key "_HOST_" }}
+{{- if contains "_HOST_" $key }}
   - {{ $value | quote }}
 {{- end }}
 {{- end }}
