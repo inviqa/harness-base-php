@@ -33,7 +33,7 @@ A developer for a project can follow these steps to upgrade their harness versio
 ```bash
 git clone git@github.com:inviqa/harness-php.git
 cd harness-php
-git checkout 0.11.0
+git checkout 0.12.0
 pwd # Use this path for the diff in step 3
 ```
 2. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
@@ -137,16 +137,16 @@ We are keeping a changelog, powered by [GitHub Changelog Generator].
 When ready to tag a release, make a new branch from the `0.12.x` branch for the changelog entries:
 1. Generate a `repo` scope token for use with the changelog generator: https://github.com/settings/tokens/new?description=GitHub%20Changelog%20Generator%20token
 2. Export it in your environment: `export CHANGELOG_GITHUB_TOKEN=...`
-3. Run the following docker command to generate the changelog, replacing `0.12.0` with the version number as needed:
+3. Run the following docker command to generate the changelog, replacing `0.12.1` with the version number as needed:
   ```bash
-  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app -v "$(pwd)/github-changelog-http-cache":/tmp/github-changelog-http-cache ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --release-branch 0.12.x --future-release 0.12.0
+  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app -v "$(pwd)/github-changelog-http-cache":/tmp/github-changelog-http-cache ferrarimarco/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --release-branch 0.12.x --future-release 0.12.1
   ```
 4. Examine the generated CHANGELOG.md. For every entry in the `Merged pull requests` section, examine the Pull Requests
    and assign each pull request either a `enhancement` label for a new feature, `bug` for a bugfix or `deprecated` for
    a deprecation.
 5. For each Pull Request in the release, assign an appropriate `harness-*` label.
 6. Re-generate the changelog using step 3 as needed.
-7. Adjust the version for each framework's README.md: `sed -i '' s/v0\.11\.0/v0.12.0/ src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
+7. Adjust the version for each framework's README.md: `sed -i '' s/v0\.12\.0/v0.12.1/ src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
 8. Commit the resulting changes, push and raise a pull request.
 9. Once merged, continue with the release process below.
 
@@ -154,22 +154,22 @@ When ready to tag a release, make a new branch from the `0.12.x` branch for the 
 
 Once the CHANGELOG.markdown is in the branch you wish to release:
 
-1. Tag the release version with `git tag 0.12.0 -m "v0.12.0"`
-2. Push the tag to the repository: `git push origin 0.12.0`
+1. Tag the release version with `git tag 0.12.1 -m "v0.12.1"`
+2. Push the tag to the repository: `git push origin 0.12.1`
 3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
 4. Run the deploy script: `./deploy`
 5. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 6. Create a "Github Release" for this repository and downstream repositories, pasting in the changelog for the release:
-   - https://github.com/inviqa/harness-base-php/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-php/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-akeneo/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-drupal8/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-magento1/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-magento2/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-spryker/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-symfony/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
-   - https://github.com/inviqa/harness-wordpress/releases/new?tag=0.12.0&title=0.12.0&target=0.12.x
+   - https://github.com/inviqa/harness-base-php/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-php/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-akeneo/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-drupal8/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-magento1/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-magento2/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-spryker/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-symfony/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
+   - https://github.com/inviqa/harness-wordpress/releases/new?tag=0.12.1&title=0.12.1&target=0.12.x
 
 ### Post-release actions
 
@@ -185,10 +185,10 @@ If the next release does not make sense to be in the current 0.12.x branch:
   grep -FR '0.12.x' . | grep -v dist/
   # Edit resulting files
   ```
-3. Adjust references in this file from 0.12.0 to 0.13.0:
+3. Adjust references in this file from 0.12.1 to 0.13.0:
   ```bash
   grep -FR '0.13.0' README.md
-  grep -FR '0.12.0' README.md
+  grep -FR '0.12.1' README.md
   # Edit resulting files
   ```
 4. Commit the resulting files and push:
