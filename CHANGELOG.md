@@ -2,7 +2,7 @@
 
 ## [0.12.1](https://github.com/inviqa/harness-base-php/tree/0.12.1) (2021-01-29)
 
-[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.0...0.12.1)
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.12.0...0.12.1)
 
 **Fixed bugs:**
 
