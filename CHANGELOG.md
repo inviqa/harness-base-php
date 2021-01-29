@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/inviqa/harness-base-php/tree/1.0.3) (2021-01-29)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.2...1.0.3)
+
+**Merged pull requests:**
+
+- Fix spryker ingress not having any rules [\#544](https://github.com/inviqa/harness-base-php/pull/544) ([kierenevans](https://github.com/kierenevans))
+
 ## [1.0.2](https://github.com/inviqa/harness-base-php/tree/1.0.2) (2021-01-29)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.1...1.0.2)
