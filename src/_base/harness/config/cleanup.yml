@@ -21,8 +21,6 @@ command('cleanup built-images'):
     if [ "${#IMAGES[@]}" -gt 0 ]; then
       run docker image rm --force -- "${IMAGES[@]}"
     fi
-    XARGS_OPTIONS=()
-    if xargs --help 2>&1 | grep -q no-run-if-empty; then
-      XARGS_OPTIONS+=(--no-run-if-empty)
+    if docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | grep '^.*$'; then
+      run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs docker image rm --force"
     fi
-    run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs "${XARGS_OPTIONS[@]}" docker image rm --force"
