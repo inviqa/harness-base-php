@@ -146,7 +146,7 @@ When ready to tag a release, make a new branch from the `1.1.x` branch for the c
    a deprecation.
 5. For each Pull Request in the release, assign an appropriate `harness-*` label.
 6. Re-generate the changelog using step 3 as needed.
-7. Adjust the version for each framework's README.md: `sed -i '' s/v1\.0\.1/v1.1.0/ src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
+7. Adjust the version for each framework's README.md: `sed -i '' s/1\.0\.1/1.1.0/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
 8. Commit the resulting changes, push and raise a pull request.
 9. Once merged, continue with the release process below.
 
