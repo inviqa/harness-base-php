@@ -3,7 +3,7 @@
 To use this harness:
 
 1. Install [Workspace]
-2. Run `ws create <projectName> inviqa/spryker:v1.0.1`
+2. Run `ws create <projectName> inviqa/spryker:v1.0.2`
 3. Fill in project-specific AWS and Github credentials, set as blank if you don't need them
 4. Change to the <projectName> directory: `cd <projectName>`
 5. Create an initial commit, ensuring that `workspace.override.yml` is not added to git:

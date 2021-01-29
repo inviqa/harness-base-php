@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/inviqa/harness-base-php/tree/1.0.2) (2021-01-29)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.1...1.0.2)
+
+**Fixed bugs:**
+
+- Fix ws destroy on macOS [\#543](https://github.com/inviqa/harness-base-php/pull/543) ([kierenevans](https://github.com/kierenevans))
+
 ## [1.0.1](https://github.com/inviqa/harness-base-php/tree/1.0.1) (2021-01-29)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.0...1.0.1)
