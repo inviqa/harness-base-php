@@ -4,17 +4,6 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 0.12.x to 1.0.x
 
-### Helm charts
-
-* `.Values.service.<service>` true/false enabled array is now `.Values.services.<service>.enabled`, as set by `attribute('services.<service>.enabled')`
-* `.Values.docker.services` is now `.Values.services`, as set by `attribute('services')` run through a `filter_local_services()` function call, which restricts which keys are available to helm to exclude environment_secrets.
-* `.Values.docker.image.<service>` is now `.Values.services.<service>.image`
-* `.Values.resources.memory.<service>` is now `.Values.services.<service>.resources.memory`
-
-#### Spryker
-
-
-
 ### Removal of docker-sync
 
 If you use docker-sync on macOS, you can convert to mutagen with the following commands:
@@ -63,10 +52,31 @@ The following templates have been removed:
 * _twig/docker-compose.yml/environment.yml.twig - replaced with `attribute('services.php-base.environment')` and `attribute('services.php-base.environment_secrets')`
 * helm/app/_twig/values.yaml/environment.yml.twig - replaced with `harness/attributes/docker*.yml` which can be used via `attribute('services.<service>.environment')`
 * helm/app/_twig/values.yaml/resources.yml.twig - replaced with `.Values.services.<service>.resources.memory`
-* Akeneo's helm/app/values.yaml.twig
+* Akeneo's helm/app/values.yaml.twig - now using version from _base
 * Spryker's _twig/docker-compose.yml/environment.yml.twig - replaced with `attribute('services.php-base.environment_dynamic')` which sets up appropriate store-specific hostnames.
 * Spryker's _twig/docker-compose.yml/nginx_environment.yml.twig - replaced with `attribute('services.nginx.environment_dynamic')` which sets up appropriate store-specific hostnames.
-*
+* Spryker's helm/app/_twig/values.yaml/environment.yml.twig - replaced with `attribute('services.php-base.environment_dynamic')` which sets up appropriate store-specific rabbitmq vhost environment variables.
+* Spryker's helm/app/values.yaml.twig - now using version from _base.
+* Spryker's helm/qa/values.yaml.twig - now using version from _base.
+
+### Helm charts
+
+* `.Values.service.<service>` true/false enabled array is now `.Values.services.<service>.enabled`, as set by `attribute('services.<service>.enabled')`
+* `.Values.docker.services` is now `.Values.services`, as set by `attribute('services')` run through a `filter_local_services()` function call, which restricts which keys are available to helm to exclude environment_secrets.
+* `.Values.docker.image.<service>` is now `.Values.services.<service>.image`
+* `.Values.resources.memory.<service>` is now `.Values.services.<service>.resources.memory`
+* Now only compatible with Kubernetes 1.16+ due to ingress API version changes
+
+#### Spryker
+
+Spryker's values.yaml.twig now uses the version from _base, shared across all frameworks.
+
+The default value for `resourcePrefix` was previously `{{ @('workspace.name') ~ '-' }}`.
+
+To avoid setting up new services as a different name in kubernetes, add the following to the project's `workspace.yml`:
+```yaml
+attribute('pipeline.base.resourcePrefix'): = @('workspace.name') ~ '-'
+```
 
 ## Upgrading from 0.11.x to 0.12.x
 
