@@ -29,35 +29,37 @@ Each framework will fully override a base harness file if differing behaviour is
 
 A developer for a project can follow these steps to upgrade their harness version:
 
-1. Clone the repository for the harness in use for the project and check out the new tagged version. For example:
+1. Check the [version specific upgrade instructions] for the new version to see if there are any specific steps. If
+   upgrading through multiple versions, check the previous version's instructions too!
+2. Clone the repository for the harness in use for the project and check out the new tagged version. For example:
 ```bash
 git clone git@github.com:inviqa/harness-php.git
 cd harness-php
 git checkout 1.0.3
 pwd # Use this path for the diff in step 3
 ```
-2. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
-3. Perform a recursive diff between the new release from the checked out harness from step 1 and any "overlay"
+3. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
+4. Perform a recursive diff between the new release from the checked out harness from step 1 and any "overlay"
    directories such as `tools/workspace/`.
     1. Remove any files from the project that are now the same as the harness.
     2. Port over any changes from the harness to override files that must stay.
-4. Download the new harness version and render the twig templates:
+5. Download the new harness version and render the twig templates:
 ```bash
 rm -rf .my127ws
 ws harness download
 ws harness prepare
 ```
-5. Perform a recursive diff between the `.my127ws/application/skeleton/` folder to the project root:
+6. Perform a recursive diff between the `.my127ws/application/skeleton/` folder to the project root:
     1. If a skeleton file (that isn't in a `_twig` folder or named `*.twig`) is missing, copy it to the project
     2. If a project file is missing some changes from the skeleton, try applying the change from the skeleton.
     3. Port over new features such as new standard dev tooling in composer.json.
     4. Ensure the README.md is up to date, though keep any changes made to the project's README.md over time.
-6. Compare the overrides for attributes in the project's `workspace.yml` to the harness's `harness.yml` and `harness/attributes/*.yml`.
+7. Compare the overrides for attributes in the project's `workspace.yml` to the harness's `harness.yml` and `harness/attributes/*.yml`.
     1. Port over any additional build, init or migrate steps.
     2. Remove any attribute overrides from workspace.yml that are now the same as the harness.
-7. Test with `ws harness update existing`
-8. Open a pull request with the project and ensure CI checks (such as Jenkins) pass.
-9. Ask for someone else to test the pull request.
+8. Test with `ws harness update existing`
+9. Open a pull request with the project and ensure CI checks (such as Jenkins) pass.
+10. Ask for someone else to test the pull request.
 
 ## Helm charts
 
@@ -215,3 +217,4 @@ If the next release does not make sense to be in the current 1.0.x branch:
 [inviqa/harness-symfony]: https://github.com/inviqa/harness-symfony
 [inviqa/harness-wordpress]: https://github.com/inviqa/harness-wordpress
 [my127/my127.io]: https://github.com/my127/my127.io
+[version specific upgrade instructions]: https://github.com/inviqa/harness-base-php/blob/1.1.x/UPGRADE.md
