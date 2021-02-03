@@ -31,6 +31,7 @@
 
 **Breaking changes:**
 
+- Update ingress api version [\#535](https://github.com/inviqa/harness-base-php/pull/535) ([kierenevans](https://github.com/kierenevans))
 - Rename AWS Credentials [\#533](https://github.com/inviqa/harness-base-php/pull/533) ([kierenevans](https://github.com/kierenevans))
 - Remove docker-sync support [\#530](https://github.com/inviqa/harness-base-php/pull/530) ([kierenevans](https://github.com/kierenevans))
 - Rename magento.static\_content.backend to magento.static\_content.adminhtml [\#526](https://github.com/inviqa/harness-base-php/pull/526) ([kierenevans](https://github.com/kierenevans))
@@ -43,7 +44,6 @@
 - Rename aws.id and aws.key and env vars to match aws's standard env var naming [\#100](https://github.com/inviqa/harness-base-php/issues/100)
 - Join lighthouse to the private network [\#537](https://github.com/inviqa/harness-base-php/pull/537) ([kierenevans](https://github.com/kierenevans))
 - \#508 Use drush [\#536](https://github.com/inviqa/harness-base-php/pull/536) ([kierenevans](https://github.com/kierenevans))
-- Update ingress api version [\#535](https://github.com/inviqa/harness-base-php/pull/535) ([kierenevans](https://github.com/kierenevans))
 - Add a command hook to cleanup built images [\#534](https://github.com/inviqa/harness-base-php/pull/534) ([andytson-inviqa](https://github.com/andytson-inviqa))
 - Update magento2 NGINX config to 2.4.1 [\#532](https://github.com/inviqa/harness-base-php/pull/532) ([kierenevans](https://github.com/kierenevans))
 - Update magento2 VCL to 2.4.1 [\#531](https://github.com/inviqa/harness-base-php/pull/531) ([kierenevans](https://github.com/kierenevans))
