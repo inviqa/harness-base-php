@@ -7,13 +7,14 @@ function('built_images', [services]): |
       $builtImages[] = $service['image'];
     }
   }
+  $allImages = explode("\n", shell_exec('docker image ls -a --format \'{{ print .Repository ":" .Tag }}\''));
 
   # workspace commands don't allow non-string types
-  = join(' ', $builtImages);
+  = join(' ', array_intersect($builtImages, $allImages));
 
 command('cleanup built-images'):
   env:
-    BUILD_LABEL: = @('workspace.name') ~ ':' ~ @('app.version')
+    BUILD_LABEL: = @('namespace') ~ ':' ~ @('app.version')
     IMAGES: = built_images(docker_service_images())
   exec: |
     #!bash
@@ -21,6 +22,6 @@ command('cleanup built-images'):
     if [ "${#IMAGES[@]}" -gt 0 ]; then
       run docker image rm --force -- "${IMAGES[@]}"
     fi
-    if docker images --filter=label=build="$BUILD_LABEL" -q | grep '^.*$'; then
-      run "docker images --filter=label=build=$(printf '%q' "$BUILD_LABEL") -q | xargs docker image rm --force"
-    fi
+    run docker image prune --force --filter=label=build="$BUILD_LABEL"
+    [ -z "$(docker builder 2>&1)" ] || run docker builder prune --force --filter=label=build="$BUILD_LABEL"
+
