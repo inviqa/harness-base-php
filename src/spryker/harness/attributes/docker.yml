@@ -13,7 +13,8 @@ attributes:
           template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
           template_key_value('RABBITMQ_VHOST_{{key}}', @('rabbitmq.vhosts')),
           template_key_value('YVES_HOST_{{key}}', @('yves.external_hosts')),
-          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts'))
+          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts')),
+          template_key_value('ZED_API_HOST_{{key}}', @('zed_api.external_hosts'))
         ])"
       environment_secrets:
         SPRYKER_SALT: = @('spryker.salt')
@@ -74,13 +75,15 @@ attributes:
           environment_dynamic: "= deep_merge([
               template_key_value('GLUE_HOST_{{key}}', @('pipeline.preview.glue.external_hosts')),
               template_key_value('YVES_HOST_{{key}}', @('pipeline.preview.yves.external_hosts')),
-              template_key_value('ZED_HOST_{{key}}', @('pipeline.preview.zed.external_hosts'))
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.preview.zed.external_hosts')),
+              template_key_value('ZED_API_HOST_{{key}}', @('pipeline.preview.zed_api.external_hosts'))
             ])"
         nginx:
           environment_dynamic: "= deep_merge([
               template_key_value('GLUE_HOST_{{key}}', @('pipeline.preview.glue.external_hosts')),
               template_key_value('YVES_HOST_{{key}}', @('pipeline.preview.yves.external_hosts')),
-              template_key_value('ZED_HOST_{{key}}', @('pipeline.preview.zed.external_hosts'))
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.preview.zed.external_hosts')),
+              template_key_value('ZED_API_HOST_{{key}}', @('pipeline.preview.zed_api.external_hosts'))
             ])"
       persistence:
         enabled: true
@@ -95,11 +98,13 @@ attributes:
           environment_dynamic: "= deep_merge([
               template_key_value('GLUE_HOST_{{key}}', @('pipeline.qa.glue.external_hosts')),
               template_key_value('YVES_HOST_{{key}}', @('pipeline.qa.yves.external_hosts')),
-              template_key_value('ZED_HOST_{{key}}', @('pipeline.qa.zed.external_hosts'))
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.qa.zed.external_hosts')),
+              template_key_value('ZED_API_HOST_{{key}}', @('pipeline.qa.zed_api.external_hosts'))
             ])"
         nginx:
           environment_dynamic: "= deep_merge([
               template_key_value('GLUE_HOST_{{key}}', @('pipeline.qa.glue.external_hosts')),
               template_key_value('YVES_HOST_{{key}}', @('pipeline.qa.yves.external_hosts')),
-              template_key_value('ZED_HOST_{{key}}', @('pipeline.qa.zed.external_hosts'))
+              template_key_value('ZED_HOST_{{key}}', @('pipeline.qa.zed.external_hosts')),
+              template_key_value('ZED_API_HOST_{{key}}', @('pipeline.qa.zed.external_hosts'))
             ])"

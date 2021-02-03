@@ -115,6 +115,11 @@ attributes:
       DE: = 'zed-de-' ~ @('hostname')
       AT: = 'zed-at-' ~ @('hostname')
       US: = 'zed-us-' ~ @('hostname')
+  zed_api:
+    external_hosts:
+      DE: = 'zed-api-de-' ~ @('hostname')
+      AT: = 'zed-api-at-' ~ @('hostname')
+      US: = 'zed-api-us-' ~ @('hostname')
   glue:
     external_hosts:
       DE: = 'glue-de-' ~ @('hostname')

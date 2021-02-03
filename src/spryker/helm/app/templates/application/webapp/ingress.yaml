@@ -16,7 +16,7 @@ metadata:
 spec:
   rules:
   {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-  {{- if contains "_HOST_" $key }}
+  {{- if and (contains "_HOST_" $key) $value }}
   - host: {{ $value | quote }}
     http:
       paths:
