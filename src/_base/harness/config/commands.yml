@@ -20,7 +20,7 @@ command('disable'):
     #!bash(workspace:/)
     source .my127ws/harness/scripts/disable.sh
 
-command('destroy'):
+command('destroy [--all]'):
   env:
     NAMESPACE:            = @('namespace')
     APP_BUILD:            = @('app.build')
@@ -28,6 +28,7 @@ command('destroy'):
     DOCKER_REPOSITORY:    = @('docker.repository')
     USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
     COMPOSE_PROJECT_NAME: = @('namespace')
+    DESTROY_ALL:          = input.option('all') ? 'yes':'no'
   exec: |
     #!bash(workspace:/)|@
     source .my127ws/harness/scripts/destroy.sh

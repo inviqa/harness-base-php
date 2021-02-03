@@ -2,7 +2,11 @@
 
 run docker-compose down --rmi local --volumes --remove-orphans --timeout 120
 
-if [[ "$USE_MUTAGEN" = "yes" ]]; then
+if [ "${DESTROY_ALL}" = yes ]; then
+  passthru ws external-images rm --force
+fi
+
+if [ "${USE_MUTAGEN}" = yes ]; then
   run ws mutagen stop
   passthru ws mutagen rm
 fi
