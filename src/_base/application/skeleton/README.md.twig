@@ -27,34 +27,7 @@ Please follow the below steps to get started, if you encounter any issues instal
 2. Copy the LastPass entry "{{ @('workspace.name') }}: Development Environment Key" to a new blank file named `workspace.override.yml` in the project root.
 3. Run `ws install`
 
-{% if not @('yves.external_hosts') -%}
-Once installed, the site should be available at [https://{{ @('hostname') }}](https://{{ @('hostname') }}).
-{% set additional_hostnames = @('hostname_aliases')|map(alias => "#{alias}." ~ @('domain')) %}
-{% if additional_hostnames %}
-
-**Additional sites**:
-{% for host in additional_hostnames -%}
-- [https://{{ host }}](https://{{ host }})
-{% endfor -%}
-{% endif -%}
-{% else -%}
-Once installed, the site should be available at the following URLs:
-
-**Yves**:
-{% for store, yves_external_host in @('yves.external_hosts') -%}
-- {{ store }} Store: [https://{{ yves_external_host }}](https://{{ yves_external_host }})
-{% endfor %}
-
-**Zed**:
-{% for store, zed_external_host in @('zed.external_hosts') -%}
-- {{ store }} Zed: [https://{{ zed_external_host }}](https://{{ zed_external_host }})
-{% endfor %}
-
-**Glue**:
-{% for store, glue_external_host in @('glue.external_hosts') -%}
-- {{ store }} Glue: [https://{{ glue_external_host }}](https://{{ glue_external_host }})
-{% endfor %}
-{% endif %}
+{% include blocks ~ 'websites.md.twig' %}
 
 **Additional services**:
 - Mailhog: [https://mail.my127.site](https://mail.my127.site)

@@ -89,7 +89,8 @@ attributes:
   hostname_aliases: "= replace(flatten([
       @('glue.external_hosts'),
       @('yves.external_hosts'),
-      @('zed.external_hosts')
+      @('zed.external_hosts'),
+      @('zed_api.external_hosts')
     ]), @('hostname'), @('namespace'))"
   redis:
     protocol: redis
@@ -115,6 +116,11 @@ attributes:
       DE: = 'zed-de-' ~ @('hostname')
       AT: = 'zed-at-' ~ @('hostname')
       US: = 'zed-us-' ~ @('hostname')
+  zed_api:
+    external_hosts:
+      DE: = 'zed-api-de-' ~ @('hostname')
+      AT: = 'zed-api-at-' ~ @('hostname')
+      US: = 'zed-api-us-' ~ @('hostname')
   glue:
     external_hosts:
       DE: = 'glue-de-' ~ @('hostname')
@@ -136,6 +142,11 @@ attributes:
           DE: = 'zed-de-' ~ @('pipeline.preview.hostname')
           AT: = 'zed-at-' ~ @('pipeline.preview.hostname')
           US: = 'zed-us-' ~ @('pipeline.preview.hostname')
+      zed_api:
+        external_hosts:
+          DE: = 'zed-api-de-' ~ @('pipeline.preview.hostname')
+          AT: = 'zed-api-at-' ~ @('pipeline.preview.hostname')
+          US: = 'zed-api-us-' ~ @('pipeline.preview.hostname')
       glue:
         external_hosts:
           DE: = 'glue-de-' ~ @('pipeline.preview.hostname')
@@ -157,6 +168,11 @@ attributes:
           DE: = 'zed-de-' ~ @('pipeline.qa.hostname')
           AT: = 'zed-at-' ~ @('pipeline.qa.hostname')
           US: = 'zed-us-' ~ @('pipeline.qa.hostname')
+      zed_api:
+        external_hosts:
+          DE: = 'zed-api-de-' ~ @('pipeline.qa.hostname')
+          AT: = 'zed-api-at-' ~ @('pipeline.qa.hostname')
+          US: = 'zed-api-us-' ~ @('pipeline.qa.hostname')
       glue:
         external_hosts:
           DE: = 'glue-de-' ~ @('pipeline.qa.hostname')

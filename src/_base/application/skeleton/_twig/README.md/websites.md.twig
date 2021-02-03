@@ -1,0 +1,9 @@
+Once installed, the site should be available at [https://{{ @('hostname') }}](https://{{ @('hostname') }}).
+{% set additional_hostnames = @('hostname_aliases')|map(alias => "#{alias}." ~ @('domain')) %}
+{% if additional_hostnames %}
+
+**Additional sites**:
+{% for host in additional_hostnames -%}
+- [https://{{ host }}](https://{{ host }})
+{% endfor -%}
+{% endif -%}

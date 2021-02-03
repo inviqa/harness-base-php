@@ -67,9 +67,17 @@ $config[ApplicationConstants::BASE_URL_SSL_ZED] = sprintf(
     $config[ApplicationConstants::HOST_ZED],
     ''
 );
-$config[ZedRequestConstants::HOST_ZED_API] = $config[ApplicationConstants::HOST_ZED];
-$config[ZedRequestConstants::BASE_URL_ZED_API] = $config[ApplicationConstants::BASE_URL_ZED];
-$config[ZedRequestConstants::BASE_URL_SSL_ZED_API] = $config[ApplicationConstants::BASE_URL_SSL_ZED];
+$config[ZedRequestConstants::HOST_ZED_API] = getenv('ZED_API_HOST_' . $CURRENT_STORE) ?: $config[ApplicationConstants::HOST_ZED];
+$config[ZedRequestConstants::BASE_URL_ZED_API] = sprintf(
+    'http://%s%s',
+    $config[ZedRequestConstants::HOST_ZED_API],
+    ''
+);
+$config[ZedRequestConstants::BASE_URL_SSL_ZED_API] = sprintf(
+    'https://%s%s',
+    $config[ZedRequestConstants::HOST_ZED_API],
+    ''
+);
 $config[ApplicationConstants::ZED_TRUSTED_HOSTS]
     = $config[HttpConstants::ZED_TRUSTED_HOSTS]
     = [];
