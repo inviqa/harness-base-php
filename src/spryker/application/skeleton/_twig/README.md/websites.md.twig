@@ -2,20 +2,20 @@ Once installed, the site should be available at the following URLs:
 
 **Yves**:
 {% for store, host in @('yves.external_hosts') -%}
-- {{ store }} Store: [https://{{ host }}](https://{{ host }})
+- {{ store }}: [https://{{ host }}](https://{{ host }})
 {% endfor %}
 
 **Zed**:
 {% for store, host in @('zed.external_hosts') -%}
-- {{ store }} Zed: [https://{{ host }}](https://{{ host }})
+- {{ store }}: [https://{{ host }}](https://{{ host }})
 {% endfor %}
 
 **Zed API**:
 {% for store, host in @('zed_api.external_hosts') -%}
-- {{ store }} Zed: [https://{{ host }}](https://{{ host }})
+- {{ store }}: [https://{{ host }}](https://{{ host }})
 {% endfor %}
 
 **Glue**:
 {% for store, host in @('glue.external_hosts') -%}
-- {{ store }} Glue: [https://{{ host }}](https://{{ host }})
+- {{ store }}: [https://{{ host }}](https://{{ host }})
 {% endfor %}
