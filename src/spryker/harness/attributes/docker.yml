@@ -46,7 +46,8 @@ attributes:
       environment_dynamic: "= deep_merge([
           template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
           template_key_value('YVES_HOST_{{key}}', @('yves.external_hosts')),
-          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts'))
+          template_key_value('ZED_HOST_{{key}}', @('zed.external_hosts')),
+          template_key_value('ZED_API_HOST_{{key}}', @('zed_api.external_hosts'))
         ])"
     rabbitmq:
       environment:
