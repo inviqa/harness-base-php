@@ -23,7 +23,6 @@
 /docker-compose.override.yml
 /yarn-error.log
 /coverage/*
-/public/test_dist/*
 /.phpunit.result.cache
 /.env.local
 /.env.behat.local
