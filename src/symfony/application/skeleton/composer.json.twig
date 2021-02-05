@@ -63,45 +63,45 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-      "auto-scripts": {
-          "cache:clear": "symfony-cmd",
-          "assets:install %PUBLIC_DIR%": "symfony-cmd"
-      },
-      "post-install-cmd": [
-          "@auto-scripts"
-      ],
-      "post-update-cmd": [
-          "@auto-scripts"
-      ],
-      "test": [
-          "@test-production-quality",
-          "@test-quality",
-          "@test-unit",
-          "@test-acceptance"
-      ],
-      "test-production-quality": [
-          "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
-          "composer validate --no-check-publish"
-      ],
-      "test-quality": [
-          "phpcs -p",
-          "@phpstan",
-          "phpmd ./src text ./phpmd.xml"
-      ],
-      "test-unit": [
-          "phpspec run"
-      ],
-      "test-acceptance": [
-          "behat"
-      ],
-      "fix-code": [
-          "phpcbf -p"
-      ],
-      "phpstan": [
-          "APP_DEBUG=1 bin/console cache:warmup --env=dev",
-          "phpstan analyse"
-      ],
-      "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "test": [
+            "@test-production-quality",
+            "@test-quality",
+            "@test-unit",
+            "@test-acceptance"
+        ],
+        "test-production-quality": [
+            "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
+            "composer validate --no-check-publish"
+        ],
+        "test-quality": [
+            "phpcs -p",
+            "@phpstan",
+            "phpmd ./src text ./phpmd.xml"
+        ],
+        "test-unit": [
+            "phpspec run"
+        ],
+        "test-acceptance": [
+            "behat"
+        ],
+        "fix-code": [
+            "phpcbf -p"
+        ],
+        "phpstan": [
+            "APP_DEBUG=1 bin/console cache:warmup --env=dev",
+            "phpstan analyse"
+        ],
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
     },
     "conflict": {
         "symfony/symfony": "*"
