@@ -2,10 +2,11 @@
 
 function render_configuration()
 {
-  local vars='$FPM_HOST {% for store, zed_external_host in @('zed.external_hosts') %}$ZED_HOST_{{ store }} {% endfor %} {% for store, yves_external_host in @('yves.external_hosts') %}$YVES_HOST_{{ store }} {% endfor %}{% for store, glue_external_host in @('glue.external_hosts') %}$GLUE_HOST_{{ store }} {% endfor %}'
+  local file
+  local vars='$FPM_HOST {% for store, host in @('zed.external_hosts') %}$ZED_HOST_{{ store }} {% endfor %} {% for store, host in @('zed_api.external_hosts') %}$ZED_API_HOST_{{ store }} {% endfor %} {% for store, host in @('yves.external_hosts') %}$YVES_HOST_{{ store }} {% endfor %}{% for store, host in @('glue.external_hosts') %}$GLUE_HOST_{{ store }} {% endfor %}'
 
   for file in /etc/nginx/conf.d/*.template; do
-    envsubst "$vars" < $file > ${file%.template};
+    envsubst "$vars" < "$file" > "${file%.template}";
   done
 }
 
