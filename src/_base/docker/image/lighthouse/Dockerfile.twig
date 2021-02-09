@@ -9,6 +9,11 @@ RUN npm install -g n
 RUN n latest 
 RUN npm install -g lighthouse
 
+RUN apt install -y jq
+RUN apt install -y bc
+
+RUN apt install -y nano
+
 {% if @('app.build') == 'static' %}
 COPY root  /
 RUN chown headless /app/run.sh
