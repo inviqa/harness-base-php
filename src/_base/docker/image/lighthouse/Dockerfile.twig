@@ -3,14 +3,14 @@ FROM yukinying/chrome-headless-browser:latest
 USER root
 
 RUN apt update
+RUN apt install -y jq
+RUN apt install -y bc
 RUN apt install -y npm
+
 RUN npm install -g n
 # upgrade nodejs to latest version for lighthouse
 RUN n latest 
 RUN npm install -g lighthouse
-
-RUN apt install -y jq
-RUN apt install -y bc
 
 {% if @('app.build') == 'static' %}
 COPY root  /
