@@ -15,34 +15,40 @@ main()
     fi
 
     passthru ws networks external
-    if [ "$IS_BUILT" = "no" ]; then
-        if [ "$HAS_FLAG" = "no" ]; then
+    if [ "$IS_BUILT" = no ]; then
+        if [ "$HAS_FLAG" = no ]; then
           passthru docker-compose down
         fi
 
-        if [[ "$HAS_ASSETS" = "yes" ]]; then
+        if [ "$HAS_ASSETS" = yes ]; then
             ws assets download
         fi
 
-        $APP_BUILD
+        "$APP_BUILD"
         touch .my127ws/.flag-built
-
     else
+        if [ "$APP_BUILD" = dynamic ] && [ "$USE_MUTAGEN" = yes ]; then
+            passthru ws mutagen resume
+        fi
+
         passthru docker-compose up -d
         passthru docker-compose exec -T -u build console app welcome
-    fi
-
-    if [[ "$APP_BUILD" = "dynamic" && "$USE_MUTAGEN" = "yes" ]]; then
-        passthru ws mutagen resume
     fi
 }
 
 dynamic()
 {
+    local IS_SYNCED=no
+    if [ -f .my127ws/.flag-synced ]; then
+        IS_SYNCED=yes
+    fi
+
     # we synchronise then stop mutagen to avoid impacting CPU usage during the build
 
-    if [[ "$USE_MUTAGEN" = "yes" ]]; then
-        passthru ws mutagen start
+    if [ "$USE_MUTAGEN" = yes ]; then
+        if [ "$IS_SYNCED" = no ]; then
+            passthru ws mutagen start
+        fi
         passthru ws mutagen pause
     fi
 
@@ -69,6 +75,12 @@ dynamic()
     passthru "docker-compose config --services | grep -v cron | grep -v jenkins-runner | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app build
+
+    if [ "$USE_MUTAGEN" = yes ]; then
+        ws mutagen resume
+        touch .my127ws/.flag-synced
+    fi
+
     passthru docker-compose exec -T -u build console app init
 
     # Bring up all services
