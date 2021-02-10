@@ -2,10 +2,8 @@ FROM yukinying/chrome-headless-browser:latest
 
 USER root
 
-RUN apt update
-RUN apt install -y jq
-RUN apt install -y bc
-RUN apt install -y npm
+RUN apt update \
+ && apt install -y bc jq npm
 
 RUN npm install -g n
 # upgrade nodejs to latest version for lighthouse
