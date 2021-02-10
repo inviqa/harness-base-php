@@ -7,7 +7,7 @@ lighthouse --no-enable-error-reporting \
            --chrome-flags="--headless --no-sandbox=true" \
            --output json \
            --output-path=/home/headless/lighthouse-results.json \
-           ${TARGET_URL}
+           "${TARGET_URL}"
 
 {% if @('lighthouse.success-thresholds.performance.enabled') %}
   test_score=$(jq .categories.performance.score /home/headless/lighthouse-results.json)
