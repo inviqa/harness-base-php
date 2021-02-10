@@ -25,6 +25,7 @@ pipeline {
                 stage('unit')       { steps { sh 'ws exec composer test-unit'       } }
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+                stage('lighthouse') { steps { sh 'ws lighthouse' } }
             }
         }
 {% if @('pipeline.publish.enabled') == 'yes' %}

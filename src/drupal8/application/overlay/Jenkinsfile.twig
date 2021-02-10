@@ -24,6 +24,7 @@ pipeline {
                 stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+                stage('lighthouse') { steps { sh 'ws lighthouse' } }
             }
         }
         stage('Unit Tests') {

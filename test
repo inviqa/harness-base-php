@@ -104,6 +104,8 @@ function run_pipeline_tests()
       fi
       ws exec composer test-acceptance
     fi
+
+    ws lighthouse
 )
 
 function restart_environment()
