@@ -73,7 +73,7 @@ function check_environment_started()
       project="$(git log -n 1 --pretty=format:'%H')"
     fi
 
-    if [ "$(docker-compose -p "$project" ps | grep -c Exit)" -gt 0 ]; then
+    if [ "$(docker-compose -p "$project" ps | grep -c Exit | grep -v "Exit 0")" -gt 0 ]; then
       echo 'Some containers failed to start'
       docker-compose -p "$project" ps
       return 1
