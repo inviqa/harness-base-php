@@ -93,7 +93,7 @@ static()
 
     {% if @('services.cron.enabled') %}
         # Bring up all but cron
-        passthru "docker-compose config --services | grep -v cron | xargs docker-compose up -d"
+        passthru "docker-compose config --services | grep -v -Fwe cron | xargs docker-compose up -d"
     {% else %}
         # Bring up all services
         passthru docker-compose up -d
