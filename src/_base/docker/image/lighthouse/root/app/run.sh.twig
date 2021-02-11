@@ -6,7 +6,7 @@ set -o errexit
 echo "Running Lighthouse against URL: ${TARGET_URL}"
 
 lighthouse --no-enable-error-reporting \
-           --chrome-flags="--headless --no-sandbox=true --ignore-certificate-errors" \
+           --chrome-flags="--headless --no-sandbox=true --ignore-certificate-errors --disable-dev-shm-usage" \
            --output json \
            --output-path=/home/headless/lighthouse-results.json \
            "${TARGET_URL}"
