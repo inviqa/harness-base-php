@@ -3,9 +3,9 @@ FROM yukinying/chrome-headless-browser:latest
 USER root
 
 RUN apt update \
- && apt install -y bc jq
+ && apt install -y bc jq curl
 
-ENV NVM_DIR /home/build/.nvm
+ENV NVM_DIR /home/headless/.nvm
 USER headless
 RUN cd /home/headless \
  && mkdir .nvm \
