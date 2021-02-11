@@ -12,6 +12,7 @@ RUN cd /home/headless \
  && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash \
  && . /home/headless/.nvm/nvm.sh \
  && nvm install v15 
+RUN cat /home/headless/.bashrc
 RUN npm install -g lighthouse
 USER root
 
