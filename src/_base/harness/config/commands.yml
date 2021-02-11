@@ -286,4 +286,4 @@ command('generate token <length>'):
 command('lighthouse'):
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose run --rm lighthouse /app/run.sh
+    passthru docker-compose run --rm lighthouse bash /app/run.sh

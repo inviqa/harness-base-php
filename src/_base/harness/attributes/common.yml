@@ -155,7 +155,7 @@ attributes.default:
 
   lighthouse:
     target:
-      url: = @('hostname')
+      url: = 'https://' ~ @('hostname')
     success-thresholds:
       pwa:
         enabled: false
