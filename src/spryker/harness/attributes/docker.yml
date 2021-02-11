@@ -1,7 +1,4 @@
 attributes:
-  lighthouse:
-    target:
-      url: = 'https://' ~ @('yves.external_hosts.DE')
   services:
     php-base:
       environment:
