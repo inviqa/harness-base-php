@@ -76,13 +76,15 @@ dynamic()
         passthru docker-compose build job-queue-consumer
     {% endif %}
 
-    # Bring up all services apart from cron, jenkins-runner and job-queue-consumer
-    passthru "docker-compose config --services | grep -v -Fwe console -Fwe cron -Fwe jenkins-runner | xargs docker-compose up -d"
+    # Bring up all services apart from console (already started) and cron
+    passthru "docker-compose config --services | grep -v -Fwe console -Fwe cron | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app init
 
-    # Bring up all services
-    passthru docker-compose up -d
+    {% if @('services.cron.enabled') %}
+    # Bring up cron
+    passthru docker-compose up -d cron
+    {% endif %}
 }
 
 static()
