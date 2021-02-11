@@ -25,6 +25,9 @@ main()
         fi
 
         "$APP_BUILD"
+
+        initial_start
+
         touch .my127ws/.flag-built
     else
         if [ "$APP_BUILD" = dynamic ] && [ "$USE_MUTAGEN" = yes ]; then
@@ -75,29 +78,17 @@ dynamic()
     {% if @('services.job-queue-consumer.enabled') %}
         passthru docker-compose build job-queue-consumer
     {% endif %}
-
-    # Bring up all services apart from console (already started) and cron
-    passthru "docker-compose config --services | grep -v -Fwe console -Fwe cron | xargs docker-compose up -d"
-
-    passthru docker-compose exec -T -u build console app init
-
-    {% if @('services.cron.enabled') %}
-    # Bring up cron
-    passthru docker-compose up -d cron
-    {% endif %}
 }
 
 static()
 {
     ws app build
+}
 
-    {% if @('services.cron.enabled') %}
-        # Bring up all but cron
-        passthru "docker-compose config --services | grep -v -Fwe cron | xargs docker-compose up -d"
-    {% else %}
-        # Bring up all services
-        passthru docker-compose up -d
-    {% endif %}
+initial_start()
+{
+    # Bring up all services apart from cron
+    passthru "docker-compose config --services | grep -v -Fwe cron | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app init
 
