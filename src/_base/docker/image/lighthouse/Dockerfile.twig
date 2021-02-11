@@ -9,7 +9,7 @@ ENV NVM_DIR /home/headless/.nvm
 USER headless
 RUN cd /home/headless \
  && mkdir .nvm \
- && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+ && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash \
  && . /home/headless/.nvm/nvm.sh \
  && nvm install v15 
 RUN npm install -g lighthouse
