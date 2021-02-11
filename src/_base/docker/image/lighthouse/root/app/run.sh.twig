@@ -3,6 +3,8 @@
 set -o nounset
 set -o errexit
 
+echo "Running Lighthouse against URL: ${TARGET_URL}"
+
 lighthouse --no-enable-error-reporting \
            --chrome-flags="--headless --no-sandbox=true --ignore-certificate-errors" \
            --output json \
