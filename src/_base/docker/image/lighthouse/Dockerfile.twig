@@ -12,10 +12,8 @@ RUN cd /home/headless \
  && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash \
  && . /home/headless/.nvm/nvm.sh \
  && nvm install v15 \
- && nvm current \
- && which node \
- && which npm \
- && npm install -g lighthouse
+ && npm install -g lighthouse \
+ && which lighthouse
 USER root
 
 {% if @('app.build') == 'static' %}
