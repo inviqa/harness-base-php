@@ -94,7 +94,7 @@ attributes:
     ]), @('hostname'), @('namespace'))"
   lighthouse:
     target:
-      url: = 'https://' ~ @('zed_api.external_hosts.DE')
+      url: = 'http://' ~ @('yves.external_hosts.DE')
   redis:
     protocol: redis
   rabbitmq:
