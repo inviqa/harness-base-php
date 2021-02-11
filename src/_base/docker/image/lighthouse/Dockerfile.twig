@@ -11,8 +11,7 @@ RUN cd /home/headless \
  && mkdir .nvm \
  && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
  && . /home/headless/.nvm/nvm.sh \
- && nvm install lts/dubnium \
- && n latest \
+ && nvm install node \
  && npm install -g lighthouse
 USER root
 
