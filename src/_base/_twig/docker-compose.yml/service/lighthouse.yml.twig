@@ -1,10 +1,11 @@
   lighthouse:
     build: .my127ws/docker/image/lighthouse
+    command: "/bin/true"
     environment:
       TARGET_URL: "{{ @('lighthouse.target.url') | raw }}"
 {% if @('app.build') == 'dynamic' %}
     volumes:
-      - ./app:/app
+      - .my127ws/docker/image/lighthouse/root/app:/app
 {% endif %}
     networks:
       - private

@@ -4,7 +4,7 @@ set -o nounset
 set -o errexit
 
 lighthouse --no-enable-error-reporting \
-           --chrome-flags="--headless --no-sandbox=true" \
+           --chrome-flags="--headless --no-sandbox=true --ignore-certificate-errors" \
            --output json \
            --output-path=/home/headless/lighthouse-results.json \
            "${TARGET_URL}"
@@ -18,7 +18,7 @@ lighthouse --no-enable-error-reporting \
     echo "Failed: Performance score of ${test_score} is less then required value of ${pass_value}"
     exit 1
   fi
-{% endif %}  
+{% endif %}
 
 {% if @('lighthouse.success-thresholds.pwa.enabled') %}
   test_score=$(jq .categories.pwa.score /home/headless/lighthouse-results.json)
