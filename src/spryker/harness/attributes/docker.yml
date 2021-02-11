@@ -1,4 +1,7 @@
 attributes:
+  lighthouse:
+    target:
+      url: = 'https://' ~ @('yves.external_hosts.DE')
   services:
     php-base:
       environment:
@@ -42,9 +45,6 @@ attributes:
         RUNNER_NUM_EXECUTORS: 1
       resources:
         memory: "256Mi"
-    lighthouse:
-      target:
-        url: = 'https://yves-de-' ~ @('hostname')
     nginx:
       environment_dynamic: "= deep_merge([
           template_key_value('GLUE_HOST_{{key}}', @('glue.external_hosts')),
