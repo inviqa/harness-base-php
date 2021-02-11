@@ -92,6 +92,8 @@ attributes:
       image: = @('elasticsearch.image') ~ ':' ~ @('elasticsearch.tag')
       resources:
         memory: "1024Mi"
+    lighthouse:
+      enabled: true
     memcached:
       enabled: "= 'memcached' in @('app.services')"
       image: memcached:1-alpine
