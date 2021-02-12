@@ -15,4 +15,4 @@ fi
 
 passthru ws cleanup built-images
 
-run rm -f .my127ws/{.flag-built,.flag-synced}
+run rm -f .my127ws/{.flag-built,.flag-console-built}

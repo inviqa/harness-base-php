@@ -39,23 +39,20 @@ main()
     fi
 }
 
-dynamic()
+dynamic_console()
 {
-    local IS_SYNCED=no
-    if [ -f .my127ws/.flag-synced ]; then
-        IS_SYNCED=yes
+    if [ -f .my127ws/.flag-console-built ]; then
+        if [ -n "$(docker image list -q "${COMPOSE_PROJECT_NAME}_console")" ]; then
+            return
+        fi
+        rm .my127ws/.flag-console-built
     fi
 
     # we synchronise then stop mutagen to avoid impacting CPU usage during the build
-
     if [ "$USE_MUTAGEN" = yes ]; then
-        if [ "$IS_SYNCED" = no ]; then
-            passthru ws mutagen start
-        fi
+        passthru ws mutagen start
         passthru ws mutagen pause
     fi
-
-    ws external-images pull
 
     find .my127ws/docker/image/ -type d ! -perm u+rwx,go+rx,o-w -exec chmod u+rwx,go+rx,o-w {} +
 
@@ -64,8 +61,16 @@ dynamic()
 
     if [ "$USE_MUTAGEN" = yes ]; then
         ws mutagen resume
-        touch .my127ws/.flag-synced
     fi
+
+    touch .my127ws/.flag-console-built
+}
+
+dynamic()
+{
+    ws external-images pull
+
+    dynamic_console
 
     passthru "docker-compose config --services | grep -v -Fwe console -Fwe cron -Fwe jenkins-runner -Fwe job-queue-consumer | xargs docker-compose build"
 
