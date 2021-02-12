@@ -29,6 +29,10 @@ function test()
     elif [[ "$sync" == "mutagen" ]]; then
       setup_dynamic_mutagen
     fi
+    if [ "$harness" != drupal8 ]; then
+      install_console
+      run_isolated_tests "$harness"
+    fi
     install_environment
     check_environment_started "$harness" "$mode"
     run_pipeline_tests "$harness"
@@ -53,6 +57,14 @@ function setup()
 
     cp -ap "${path_harness}/.ci/sample-${mode}" "${path_test}"
     cp -ap "${path_harness}" "${path_test}/.my127ws"
+)
+
+function install_console()
+(
+    cd "${path_test}"
+    ws harness download
+    ws harness prepare
+    ws enable console
 )
 
 function install_environment()
@@ -80,28 +92,45 @@ function check_environment_started()
     fi
 )
 
+function run_isolated_tests()
+(
+  local harness="$1"
+  cd "${path_test}"
+
+  ws helm kubeval qa
+
+  # Check if we have a composer.json so we can run tests
+  # Check inside the console container as static builds do not
+  # update the local filesystem
+  if ws exec stat /app/composer.json > /dev/null 2>&1; then
+    # Run checks that don't reqiure development dependencies
+    ws exec composer test-production-quality
+    # Bring in dev dependencies
+    ws exec app composer:development_dependencies
+    # Run the tests
+    ws exec composer test-quality
+    if [[ "${harness}" == "drupal8" ]]; then
+      ws test-unit
+    else
+      ws exec composer test-unit
+    fi
+  fi
+)
+
 function run_pipeline_tests()
 (
     local harness="$1"
-    cd "${path_test}"
 
-    ws helm kubeval qa
+    if [ "$harness" = drupal8 ]; then
+      run_isolated_tests "$harness"
+    fi
+
+    cd "${path_test}"
 
     # Check if we have a composer.json so we can run tests
     # Check inside the console container as static builds do not
     # update the local filesystem
     if ws exec stat /app/composer.json > /dev/null 2>&1; then
-      # Run checks that don't reqiure development dependencies
-      ws exec composer test-production-quality
-      # Bring in dev dependencies
-      ws exec app composer:development_dependencies
-      # Run the tests
-      ws exec composer test-quality
-      if [[ "${harness}" == "drupal8" ]]; then
-        ws test-unit
-      else
-        ws exec composer test-unit
-      fi
       ws exec composer test-acceptance
     fi
 
