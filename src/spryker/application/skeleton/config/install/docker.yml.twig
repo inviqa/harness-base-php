@@ -94,12 +94,18 @@ sections:
     cache:
         router-cache-warmup-yves:
             command: "vendor/bin/yves router:cache:warm-up"
+            stores: true
 
         router-cache-warmup-zed:
             command: "vendor/bin/console router:cache:warm-up"
+            stores: true
 
         twig-cache-warmup:
             command: "vendor/bin/console twig:cache:warmer"
+            stores: true
+
+        translator-generate-cache:
+            command: "vendor/bin/console translator:generate-cache"
 
         navigation-cache-warmup:
             command: "vendor/bin/console navigation:build-cache"
