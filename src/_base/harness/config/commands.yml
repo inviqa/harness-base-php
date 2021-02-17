@@ -9,6 +9,20 @@ command('enable'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)
+    set -- all
+    source .my127ws/harness/scripts/enable.sh
+
+command('enable console'):
+  env:
+    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    APP_BUILD:            = @('app.build')
+    APP_MODE:             = @('app.mode')
+    NAMESPACE:            = @('namespace')
+    HAS_ASSETS:           = @('aws.bucket') !== null and @('aws.bucket') !== '' ? 'yes':'no'
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    set -- console
     source .my127ws/harness/scripts/enable.sh
 
 command('disable'):

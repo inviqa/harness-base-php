@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-main()
+enable_all()
 {
     local IS_BUILT=no
     local HAS_FLAG=no
@@ -37,6 +37,12 @@ main()
         passthru docker-compose up -d
         passthru docker-compose exec -T -u build console app welcome
     fi
+}
+
+enable_console() {
+    passthru ws networks external
+    passthru ws external-images pull console
+    "${APP_BUILD}_console"
 }
 
 dynamic_console()
@@ -85,6 +91,11 @@ dynamic()
     {% endif %}
 }
 
+static_console()
+{
+    passthru docker-compose up --build -d console
+}
+
 static()
 {
     ws app build
@@ -102,4 +113,4 @@ initial_start()
     {% endif %}
 }
 
-main
+"enable_$1"
