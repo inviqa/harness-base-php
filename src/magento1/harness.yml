@@ -37,6 +37,10 @@ attributes:
     user: magento
     pass: magento
     name: magento
+  jenkins:
+    tests:
+      # Magento 1 connects to backend services during phstan analyse
+      isolated: false
   php:
     entrypoint:
       steps:

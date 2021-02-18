@@ -190,6 +190,10 @@ attributes:
   framework:
     readme_blocks:
       - xml_urn_generation
+  jenkins:
+    tests:
+      # Magento 2 connects to backend services in composer install hooks
+      isolated: false
   rabbitmq:
     vhosts:
       default: 'magento'
