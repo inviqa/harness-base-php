@@ -131,6 +131,8 @@ function run_pipeline_tests()
     # Check inside the console container as static builds do not
     # update the local filesystem
     if ws exec stat /app/composer.json > /dev/null 2>&1; then
+      # Bring in dev dependencies
+      ws exec app composer:development_dependencies
       ws exec composer test-acceptance
     fi
 
