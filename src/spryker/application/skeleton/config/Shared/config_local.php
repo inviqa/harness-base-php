@@ -183,7 +183,7 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS][$CURRENT_STORE][RabbitMqEnv::RABBITMQ
 // ---------- Scheduler
 $config[SchedulerConstants::ENABLED_SCHEDULERS] = [];
 
-if (getenv('HAS_JENKINS_RUNNER') === 'true') {
+if ((getenv('HAS_JENKINS_RUNNER') ?: 'true') === 'true') {
     $config[SchedulerConstants::ENABLED_SCHEDULERS] = [
         SchedulerConfig::SCHEDULER_JENKINS,
     ];
