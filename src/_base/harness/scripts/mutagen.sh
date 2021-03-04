@@ -33,7 +33,7 @@ install_mutagen()
         return 1
     fi
 
-    run curl -L -q -sS -f "$download_url" -o .my127ws/utilities/mutagen/mutagen.tar.gz
+    run curl --fail --silent --show-error --location --output .my127ws/utilities/mutagen/mutagen.tar.gz "$download_url"
     run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
 }
 
