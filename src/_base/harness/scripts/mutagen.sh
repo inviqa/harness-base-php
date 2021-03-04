@@ -52,7 +52,7 @@ setup_sync_container()
             done < <(echo "${VOLUME_MAPPINGS}" | grep "^${CONTAINER_NAME}" | cut -d ':' -f2- )
 
             # shellcheck disable=SC2046
-            passthru docker run -d --name "${CONTAINER_NAME}" $(printf -- '-v %q ' "${CONTAINER_VOLUME_MAPPINGS[@]}") alpine:latest tail -f /dev/null
+            passthru docker run -d --name "${CONTAINER_NAME}" $(printf -- '-v %q ' "${CONTAINER_VOLUME_MAPPINGS[@]}") alpine:latest /bin/sh -c "'trap : TERM INT; sleep 9999999999d & wait'"
         fi
     done
 }
