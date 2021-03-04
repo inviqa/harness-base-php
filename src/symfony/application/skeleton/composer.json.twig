@@ -4,14 +4,14 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">= 7.4",
+        "php": ">= 8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "symfony/console": "5.1.*",
-        "symfony/dotenv": "5.1.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "5.1.*",
-        "symfony/yaml": "5.1.*"
+        "symfony/console": "5.2.*",
+        "symfony/dotenv": "5.2.*",
+        "symfony/flex": "^1.12",
+        "symfony/framework-bundle": "5.2.*",
+        "symfony/yaml": "5.2.*"
     },
     "require-dev": {
         "behat/behat": "^3.5",
@@ -22,20 +22,20 @@
         "dmore/chrome-mink-driver": "^2.7",
         "phpcompatibility/php-compatibility": "dev-master",
         "phpmd/phpmd": "^2.7",
-        "phpspec/phpspec": "^6.0",
+        "phpspec/phpspec": "^7.0",
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-symfony": "^0.12",
         "phpunit/phpunit": "^9.3",
         "sensiolabs/behat-page-object-extension": "^2.3",
         "slevomat/coding-standard": "^6.0",
         "squizlabs/php_codesniffer": "^3.5",
-        "symfony/phpunit-bridge": "^5.1"
+        "symfony/phpunit-bridge": "^5.2"
     },
     "config": {
         "bin-dir": "bin",
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.4.10"
+            "php": "8.0.2"
         },
         "preferred-install": {
             "*": "dist"
@@ -63,45 +63,45 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-      "auto-scripts": {
-          "cache:clear": "symfony-cmd",
-          "assets:install %PUBLIC_DIR%": "symfony-cmd"
-      },
-      "post-install-cmd": [
-          "@auto-scripts"
-      ],
-      "post-update-cmd": [
-          "@auto-scripts"
-      ],
-      "test": [
-          "@test-production-quality",
-          "@test-quality",
-          "@test-unit",
-          "@test-acceptance"
-      ],
-      "test-production-quality": [
-          "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
-          "composer validate --no-check-publish"
-      ],
-      "test-quality": [
-          "phpcs -p",
-          "@phpstan",
-          "phpmd ./src text ./phpmd.xml"
-      ],
-      "test-unit": [
-          "phpspec run"
-      ],
-      "test-acceptance": [
-          "behat"
-      ],
-      "fix-code": [
-          "phpcbf -p"
-      ],
-      "phpstan": [
-          "APP_DEBUG=1 bin/console cache:warmup --env=dev",
-          "phpstan analyse"
-      ],
-      "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "test": [
+            "@test-production-quality",
+            "@test-quality",
+            "@test-unit",
+            "@test-acceptance"
+        ],
+        "test-production-quality": [
+            "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
+            "composer validate --no-check-publish"
+        ],
+        "test-quality": [
+            "phpcs -p",
+            "@phpstan",
+            "phpmd ./src text ./phpmd.xml"
+        ],
+        "test-unit": [
+            "phpspec run"
+        ],
+        "test-acceptance": [
+            "behat"
+        ],
+        "fix-code": [
+            "phpcbf -p"
+        ],
+        "phpstan": [
+            "APP_DEBUG=1 bin/console cache:warmup --env=dev",
+            "phpstan analyse"
+        ],
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -109,7 +109,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.1.*"
+            "require": "5.2.*"
         }
     },
     "repositories": {
