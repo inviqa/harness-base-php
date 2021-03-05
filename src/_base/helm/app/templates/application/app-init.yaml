@@ -42,7 +42,7 @@ spec:
         name: app-init
 {{ if eq $.Values.ingress.type "istio" }}
         command: ["/bin/sh"]
-        args: ["-c", "/entrypoint.sh app init ; code=$? ; curl -vv -XPOST http://127.0.0.1:15020/quitquitquit ; exit $code"]
+        args: ["-c", "/entrypoint.sh app init ; code=$? ; curl -vv --request POST http://127.0.0.1:15020/quitquitquit ; exit $code"]
 {{ else }}
         command: ["/entrypoint.sh"]
         args: ["app", "init"]

@@ -22,15 +22,21 @@ command('disable'):
 
 command('destroy'):
   env:
-    NAMESPACE:            = @('namespace')
-    APP_BUILD:            = @('app.build')
-    APP_VERSION:          = @('app.version')
-    DOCKER_REPOSITORY:    = @('docker.repository')
     USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    NAMESPACE:            = @('namespace')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     source .my127ws/harness/scripts/destroy.sh
+
+command('rebuild'):
+  env:
+    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    NAMESPACE:            = @('namespace')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    source .my127ws/harness/scripts/rebuild.sh
 
 command('networks external'):
   env:

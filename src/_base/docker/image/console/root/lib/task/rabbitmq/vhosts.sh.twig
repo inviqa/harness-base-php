@@ -7,7 +7,7 @@ function task_rabbitmq_vhosts() {
     task http:wait "$rabbitmq_api_url/index.html"
 
 {% for vhost in @('rabbitmq.vhosts') %}
-    curl -f -I -s -u "$RABBITMQ_USER:$RABBITMQ_PASSWORD" -X PUT "$rabbitmq_api_url/vhosts/{{ vhost }}"
+    curl --fail --silent --show-error --user "$RABBITMQ_USER:$RABBITMQ_PASSWORD" --request PUT "$rabbitmq_api_url/vhosts/{{ vhost }}"
 {% endfor %}
 {% else %}
     :

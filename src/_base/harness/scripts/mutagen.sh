@@ -33,7 +33,7 @@ install_mutagen()
         return 1
     fi
 
-    run curl -L -q -sS -f "$download_url" -o .my127ws/utilities/mutagen/mutagen.tar.gz
+    run curl --fail --silent --show-error --location --output .my127ws/utilities/mutagen/mutagen.tar.gz "$download_url"
     run "cd .my127ws/utilities/mutagen/ && tar -xf mutagen.tar.gz"
 }
 
@@ -43,17 +43,17 @@ setup_sync_container()
     local CONTAINER_VOLUME_MAPPINGS
     local line
     for CONTAINER_NAME in "${CONTAINER_NAMES[@]}"; do
-        if [[ "$(docker ps -a -f "name=${CONTAINER_NAME}" --format '{{.Names}}')" == "${CONTAINER_NAME}" ]]; then
-            passthru docker rm -f "${CONTAINER_NAME}"
+        if [[ "$(docker ps --all --filter "name=${CONTAINER_NAME}\$" --format '{{.Names}}')" == "${CONTAINER_NAME}" ]]; then
+            passthru docker start "${CONTAINER_NAME}"
+        else
+            CONTAINER_VOLUME_MAPPINGS=()
+            while IFS= read -r line; do
+                CONTAINER_VOLUME_MAPPINGS+=("$line")
+            done < <(echo "${VOLUME_MAPPINGS}" | grep "^${CONTAINER_NAME}" | cut -d ':' -f2- )
+
+            # shellcheck disable=SC2046
+            passthru docker run -d --init --name "${CONTAINER_NAME}" $(printf -- '-v %q ' "${CONTAINER_VOLUME_MAPPINGS[@]}") alpine:latest tail -f /dev/null
         fi
-
-        CONTAINER_VOLUME_MAPPINGS=()
-        while IFS= read -r line; do
-            CONTAINER_VOLUME_MAPPINGS+=("$line")
-        done < <(echo "${VOLUME_MAPPINGS}" | grep "^${CONTAINER_NAME}" | cut -d ':' -f2- )
-
-        # shellcheck disable=SC2046
-        passthru docker run -d --name "${CONTAINER_NAME}" $(printf -- '-v %q ' "${CONTAINER_VOLUME_MAPPINGS[@]}") alpine:latest tail -f /dev/null
     done
 }
 
