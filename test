@@ -98,7 +98,6 @@ function run_isolated_tests()
   cd "${path_test}"
 
   ws helm kubeval qa
-  rm -rf .my127ws/helm/qa/charts/ .my127ws/helm/qa/requirements.lock
 
   # Check if we have a composer.json so we can run tests
   # Check inside the console container as static builds do not

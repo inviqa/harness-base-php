@@ -128,3 +128,5 @@ command('helm kubeval <chart-path>'):
     fi
 
     passthru helm kubeval "${KUBEVAL_OPTS[@]}" .
+
+    run rm -rf charts/ requirements.lock
