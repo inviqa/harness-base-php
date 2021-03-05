@@ -11,7 +11,6 @@ pipeline {
     stages {
         stage('Build and Test') {
             parallel {
-                /*
                 stage('1. PHP, Drupal 8, Akeneo') {
                     agent {
                         docker {
@@ -117,7 +116,7 @@ pipeline {
                             cleanWs()
                         }
                     }
-                }*/
+                }
                 stage('3. Wordpress, Spryker') {
                     agent {
                         docker {
