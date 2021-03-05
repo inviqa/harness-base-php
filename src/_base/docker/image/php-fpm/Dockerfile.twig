@@ -3,24 +3,26 @@ FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
 LABEL build="{{ @('namespace') ~ ':' ~ @('app.version') }}"
 RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi
 RUN if [ -d {{ @('frontend.path') }}/node_modules/ ]; then rm -rf {{ @('frontend.path') }}/node_modules/; fi
-{% endif %}
 
+{% endif %}
 FROM {{ @('docker.image.php-fpm') }}
 WORKDIR /app
 COPY root  /
 
-RUN curl --fail --silent --show-error --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+# installing tools in the image is deprecated
+RUN ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini) \
  && chmod +x /sbin/tini \
- && curl --fail --silent --show-error --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+ && ([ -e /usr/local/bin/mhsendmail ] || curl --fail --silent --show-error --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64) \
  && chmod +x /usr/local/bin/mhsendmail
-{%- set install_extensions=@('php.install_extensions')|merge(@('php.fpm.install_extensions'))|filter(v => v is not empty) %}
-{%- if install_extensions %} \
- && cd /root/installer \
+
+{% set install_extensions=@('php.install_extensions')|merge(@('php.fpm.install_extensions'))|filter(v => v is not empty) %}
+{% if install_extensions %}
+RUN cd /root/installer \
  && ./enable.sh \
     {{ install_extensions|join(" \\\n    ") }}
 {% endif %}
 
-{% if version_compare(@('php.ext-xdebug.version'), '3', '>=') and version_compare(@('php.version'), '7', '>=') and version_compare(@('php.version'), '8', '<') %}
+{%- if version_compare(@('php.ext-xdebug.version'), '3', '>=') and version_compare(@('php.version'), '7', '>=') and version_compare(@('php.version'), '8', '<') %}
 RUN pecl -q upgrade xdebug
 {% endif %}
 
