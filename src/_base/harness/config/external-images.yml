@@ -27,7 +27,7 @@ command('external-images config [--skip-exists]'):
     #!php
     $exclude = [];
     if ($env['SKIP_EXISTS']) {
-      $exclude = explode("\n", shell_exec('docker images -a --format \'{{ print .Repository ":" .Tag }}\''));
+      $exclude = explode("\n", shell_exec('docker image ls -a --format \'{{ print .Repository ":" .Tag }}\''));
     }
     $include = explode(' ', $env['IMAGES']);
     $compose = ['version' => '3', 'services' => []];
@@ -44,3 +44,37 @@ command('external-images pull'): |
   fi
 
   passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | docker-compose -f - pull"
+
+command('external-images ls [--all]'):
+  env:
+    IMAGES: = external_images(docker_service_images())
+    SHOW_REMOTE: "= input.option('all') ? 1 : 0"
+  exec: |
+    #!php
+    $include = explode(' ', $env['IMAGES']);
+    if ($env['SHOW_REMOTE']) {
+      $images = $include;
+    } else {
+      $all = explode("\n", shell_exec('docker image ls -a --format \'{{ print .Repository ":" .Tag }}\''));
+      $images = array_intersect($include, $all);
+    }
+
+    if (count($images) > 0) {
+      echo join("\n", $images)."\n";
+    }
+
+command('external-images rm [--force]'):
+  env:
+    FORCE: = input.option('force') ? 'yes':'no'
+  exec: |
+    #!bash(workspace:/)|@
+    IMAGES=($(ws external-images ls))
+    OPTS=()
+
+    if [ "${FORCE}" = yes ]; then
+      OPTS+=(--force)
+    fi
+
+    if [ "${#IMAGES[@]}" -gt 0 ]; then
+      docker image rm "${OPTS[@]}" -- "${IMAGES[@]}"
+    fi
