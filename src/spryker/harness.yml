@@ -91,7 +91,7 @@ attributes:
       @('yves.external_hosts'),
       @('zed.external_hosts'),
       @('zed_api.external_hosts')
-    ]), @('hostname'), @('namespace'))"
+    ]), '.' ~ @('domain'), '')"
   redis:
     protocol: redis
   rabbitmq:
