@@ -2,16 +2,12 @@ FROM {{ @('docker.image.console') }}
 # fix upstream signal
 STOPSIGNAL SIGTERM
 
-{% for service in [@('services.redis'), @('services.redis-session')] | filter(v => v.enabled) | slice(0, 1) %}
-# copy the redis-cli from the first enabled redis service image
-COPY --from={{ service.image }} /usr/local/bin/redis-cli /usr/local/bin/redis-cli
-{% endfor %}
-
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build /app \
- && curl --fail --silent --show-error --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini \
+ # installing tools in the image is deprecated
+ && ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini) \
  && chmod +x /sbin/tini \
- && curl --fail --silent --show-error --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
+ && ([ -e /usr/local/bin/mhsendmail ] || curl --fail --silent --show-error --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64) \
  && chmod +x /usr/local/bin/mhsendmail \
  && mkdir -p /tmp/php-file-cache \
  && chown -R build:build /tmp/php-file-cache

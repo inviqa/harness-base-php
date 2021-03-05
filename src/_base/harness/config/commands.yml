@@ -20,11 +20,12 @@ command('disable'):
     #!bash(workspace:/)
     source .my127ws/harness/scripts/disable.sh
 
-command('destroy'):
+command('destroy [--all]'):
   env:
     USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
     NAMESPACE:            = @('namespace')
     COMPOSE_PROJECT_NAME: = @('namespace')
+    DESTROY_ALL:          = input.option('all') ? 'yes':'no'
   exec: |
     #!bash(workspace:/)|@
     source .my127ws/harness/scripts/destroy.sh

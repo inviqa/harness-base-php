@@ -23,7 +23,9 @@ use Spryker\Shared\SearchElasticsearch\SearchElasticsearchConstants;
 use Spryker\Shared\Session\SessionConstants;
 use Spryker\Shared\SessionRedis\SessionRedisConstants;
 use Spryker\Shared\StorageRedis\StorageRedisConstants;
+use Spryker\Shared\Twig\TwigConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
+use Twig\Cache\FilesystemCache;
 
 $CURRENT_STORE = Store::getInstance()->getStoreName();
 
@@ -183,7 +185,7 @@ $config[RabbitMqEnv::RABBITMQ_CONNECTIONS][$CURRENT_STORE][RabbitMqEnv::RABBITMQ
 // ---------- Scheduler
 $config[SchedulerConstants::ENABLED_SCHEDULERS] = [];
 
-if (getenv('HAS_JENKINS_RUNNER') === 'true') {
+if ((getenv('HAS_JENKINS_RUNNER') ?: 'true') === 'true') {
     $config[SchedulerConstants::ENABLED_SCHEDULERS] = [
         SchedulerConfig::SCHEDULER_JENKINS,
     ];
@@ -209,4 +211,28 @@ $config[KernelConstants::DOMAIN_WHITELIST] = [];
 $config[KernelConstants::PROJECT_NAMESPACES] = [
     'Inviqa',
     'Pyz',
+];
+
+// ---------- Twig
+$config[TwigConstants::YVES_TWIG_OPTIONS] = [
+    'cache' => new FilesystemCache(
+        sprintf(
+            '%s/data/%s/cache/%s/twig',
+            APPLICATION_ROOT_DIR,
+            $CURRENT_STORE,
+            APPLICATION
+        ),
+        FilesystemCache::FORCE_BYTECODE_INVALIDATION
+    ),
+];
+$config[TwigConstants::ZED_TWIG_OPTIONS] = [
+    'cache' => new FilesystemCache(
+        sprintf(
+            '%s/data/%s/cache/%s/twig',
+            APPLICATION_ROOT_DIR,
+            $CURRENT_STORE,
+            APPLICATION
+        ),
+        FilesystemCache::FORCE_BYTECODE_INVALIDATION
+    ),
 ];
