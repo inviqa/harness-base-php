@@ -37,7 +37,7 @@ pipeline {
 {% if not @('jenkins.tests.isolated') %}
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
 {% endif %}
-                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval --cleanup qa' } }
                 stage('lighthouse') { steps { sh 'ws lighthouse' } }
             }
         }
