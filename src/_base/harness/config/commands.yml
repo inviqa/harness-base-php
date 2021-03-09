@@ -291,6 +291,8 @@ command('generate token <length>'):
     echo $string;
 
 command('lighthouse'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose run --rm lighthouse
+    passthru docker-compose run --rm lighthouse bash -i /app/run.sh

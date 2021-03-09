@@ -155,7 +155,23 @@ attributes.default:
 
   lighthouse:
     target:
-      url: = @('hostname')
+      url: = 'https://' ~ @('hostname')
+    success-thresholds:
+      pwa:
+        enabled: false
+        score: 0
+      seo:
+        enabled: false
+        score: 0
+      best-practices:
+        enabled: false
+        score: 0
+      accessibility:
+        enabled: false
+        score: 0
+      performance:
+        enabled: false
+        score: 0
 
   nginx:
     # used to set site specific configurations under server directive

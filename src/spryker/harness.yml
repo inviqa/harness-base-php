@@ -92,6 +92,9 @@ attributes:
       @('zed.external_hosts'),
       @('zed_api.external_hosts')
     ]), '.' ~ @('domain'), '')"
+  lighthouse:
+    target:
+      url: = 'https://' ~ @('yves.external_hosts.DE')
   redis:
     protocol: redis
   rabbitmq:

@@ -2,12 +2,18 @@ FROM yukinying/chrome-headless-browser:latest
 
 USER root
 
-RUN apt update
-RUN apt install -y npm
-RUN npm install -g n
-# upgrade nodejs to latest version for lighthouse
-RUN n latest 
-RUN npm install -g lighthouse
+RUN apt update \
+ && apt install -y bc jq curl
+
+USER headless
+ENV NVM_DIR /home/headless/.nvm
+RUN cd /home/headless \
+ && mkdir .nvm \
+ && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash \
+ && . /home/headless/.nvm/nvm.sh \
+ && nvm install v15 \
+ && npm install -g lighthouse
+USER root
 
 {% if @('app.build') == 'static' %}
 COPY root  /

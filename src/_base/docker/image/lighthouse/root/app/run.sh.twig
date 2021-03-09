@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -o nounset
+set -o errexit
+
+echo "Running Lighthouse against URL: ${TARGET_URL}"
+
+lighthouse --no-enable-error-reporting \
+           --chrome-flags="--headless --no-sandbox=true --ignore-certificate-errors --disable-dev-shm-usage" \
+           --output json \
+           --output-path=/home/headless/lighthouse-results.json \
+           "${TARGET_URL}"
+
+{% if @('lighthouse.success-thresholds.performance.enabled') %}
+  test_score=$(jq .categories.performance.score /home/headless/lighthouse-results.json)
+  pass_value={{ @('lighthouse.success-thresholds.performance.score') }}
+  echo "Testing Performance score"
+  if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
+  then
+    echo "Failed: Performance score of ${test_score} is less then required value of ${pass_value}"
+    exit 1
+  fi
+{% endif %}
+
+{% if @('lighthouse.success-thresholds.pwa.enabled') %}
+  test_score=$(jq .categories.pwa.score /home/headless/lighthouse-results.json)
+  pass_value={{ @('lighthouse.success-thresholds.pwa.score') }}
+  echo "Testing PWA score"
+  if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
+  then
+    echo "Failed: PWA score of ${test_score} is less then required value of ${pass_value}"
+    exit 1
+  fi
+{% endif %}
+
+{% if @('lighthouse.success-thresholds.seo.enabled') %}
+  test_score=$(jq .categories.seo.score /home/headless/lighthouse-results.json)
+  pass_value={{ @('lighthouse.success-thresholds.seo.score') }}
+  echo "Testing SEO score"
+  if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
+  then
+    echo "Failed: SEO score of ${test_score} is less then required value of ${pass_value}"
+    exit 1
+  fi
+{% endif %}
+
+{% if @('lighthouse.success-thresholds.best-practices.enabled') %}
+  test_score=$(jq '.categories["best-practices"].score' /home/headless/lighthouse-results.json)
+  pass_value={{ @('lighthouse.success-thresholds.best-practices.score') }}
+  echo "Testing Best Practices score"
+  if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
+  then
+    echo "Failed: Best Practices score of ${test_score} is less then required value of ${pass_value}"
+    exit 1
+  fi
+{% endif %}
+
+{% if @('lighthouse.success-thresholds.accessibility.enabled') %}
+  test_score=$(jq .categories.accessibility.score /home/headless/lighthouse-results.json)
+  pass_value={{ @('lighthouse.success-thresholds.accessibility.score') }}
+  echo "Testing Accessibility score"
+  if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
+  then
+    echo "Failed: Accessibility score of ${test_score} is less then required value of ${pass_value}"
+    exit 1
+  fi
+{% endif %}
+
+echo "Success"
