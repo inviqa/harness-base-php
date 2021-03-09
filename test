@@ -41,7 +41,7 @@ function test()
     if [[ "$sync" != "" ]]; then
       wait_for_vendor_directory
     fi
-#    teardown
+    teardown
 )
 
 function setup()
@@ -194,5 +194,5 @@ function clean()
     fi
 }
 
-#trap 'clean' EXIT
+trap 'clean' EXIT
 main "$@"
