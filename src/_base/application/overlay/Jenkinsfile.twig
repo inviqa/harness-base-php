@@ -36,9 +36,9 @@ pipeline {
                 stage('unit')       { steps { sh 'ws exec composer test-unit'       } }
 {% if not @('jenkins.tests.isolated') %}
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('lighthouse') { steps { sh 'ws lighthouse' } }
 {% endif %}
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval --cleanup qa' } }
-                stage('lighthouse') { steps { sh 'ws lighthouse' } }
             }
         }
 {% if @('jenkins.tests.isolated') %}
@@ -52,6 +52,11 @@ pipeline {
         stage('Acceptance') {
             steps {
                 sh 'ws exec composer test-acceptance'
+            }
+        }
+        stage('Lighthouse') {
+            steps {
+                sh 'ws lighthouse'
             }
         }
 {% endif %}
