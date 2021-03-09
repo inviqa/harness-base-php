@@ -49,14 +49,10 @@ pipeline {
                 milestone(30)
             }
         }
-        stage('Acceptance') {
-            steps {
-                sh 'ws exec composer test-acceptance'
-            }
-        }
-        stage('Lighthouse') {
-            steps {
-                sh 'ws lighthouse'
+        stage('End-to-end Test') {
+            parallel {
+                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('lighthouse') { steps { sh 'ws lighthouse' } }
             }
         }
 {% endif %}
