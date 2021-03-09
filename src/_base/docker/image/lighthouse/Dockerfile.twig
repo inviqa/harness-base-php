@@ -24,7 +24,6 @@ VOLUME /app
 {% endif %}
 
 USER headless
-ENV PATH="/home/headless/.nvm/versions/node/v15.8.0/bin/:$PATH"
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/app/run.sh"]
