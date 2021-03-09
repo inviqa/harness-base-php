@@ -11,7 +11,6 @@ else
     DIR="$(dirname "$0")" ;
 fi
 
-BACKUP_TIME=$(date +"%Y-%m-%d--%H-%M-%S")
 BACKUP_FILE="/app/tools/assets/development/dump_sanitised.sql"
 
 /tmp/mtk-dump \
