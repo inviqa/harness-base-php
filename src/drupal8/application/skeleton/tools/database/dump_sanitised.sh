@@ -11,7 +11,20 @@ else
     DIR="$(dirname "$0")" ;
 fi
 
-BACKUP_FILE="/app/tools/assets/development/dump_sanitised.sql"
+# Workspace (default).
+BACKUP_DIR="/app/tools/assets/development"
+
+# Acquia.
+if [[ -z "$AH_SITE_ENVIRONMENT" ]]; then
+  BACKUP_DIR="/mnt/files/$AH_SITE_NAME.$AH_SITE_ENVIRONMENT/backups/sanitised"
+fi
+
+# Platform.sh.
+if [[ -z "$PLATFORM_BRANCH" ]]; then
+  BACKUP_DIR="~/drush-backups/sanitised"
+fi
+
+BACKUP_FILE="$BACKUP_DIR/dump_sanitised.sql"
 
 /tmp/mtk-dump \
 --config=$DIR/mtk.config.yml \
