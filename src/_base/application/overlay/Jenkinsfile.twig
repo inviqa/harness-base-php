@@ -45,7 +45,6 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'ws enable'
-                sh 'ws exec app composer:development_dependencies'
                 milestone(30)
             }
         }
