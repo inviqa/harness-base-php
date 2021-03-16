@@ -37,7 +37,7 @@ attributes:
     media_directory: = @('app.web_directory') ~ '/media'
   php:
     composer:
-      major_version: 1
+      major_version: "= version_compare(@('magento.version'), '2.4.2', '>=') ? 2 : 1"
     fpm:
       ini:
         max_execution_time: 18000
@@ -79,6 +79,7 @@ attributes:
       frontend:
         languages: []
         themes: []
+    version: 2.4.2
   backend:
     build:
       steps:
