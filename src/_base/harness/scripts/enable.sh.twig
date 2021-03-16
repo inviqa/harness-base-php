@@ -4,20 +4,34 @@ enable_all()
 {
     local IS_BUILT=no
     local HAS_FLAG=no
+    local SERVICES_CREATED="$(docker-compose ps --services)"
 
     if [ -f .my127ws/.flag-built ]; then
         HAS_FLAG=yes
         IS_BUILT=yes
-        # If no lines for `docker-compose ps`, the containers no longer exist so we need to rebuild them
-        if [ "$(docker-compose ps --quiet | wc -l | awk '{ print $1 }')" = "0" ]; then
+        # If the containers no longer exist, we need to rebuild them
+        if [ -z "$SERVICES_CREATED" ]; then
             IS_BUILT=no
+        fi
+    fi
+
+    if [ -f .my127ws/.flag-console-built ]; then
+        if grep -v -Fxe console <<< "$SERVICES_CREATED"; then
+            rm .my127ws/.flag-console-built
         fi
     fi
 
     passthru ws networks external
     if [ "$IS_BUILT" = no ]; then
         if [ "$HAS_FLAG" = no ]; then
-          passthru docker-compose down
+            # remove all services, keeping console if considered built
+            if [ -f .my127ws/.flag-console-built ]; then
+                if [ -n "$(grep -v -Fxe console <<< "$SERVICES_CREATED")" ]
+                    passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --stop --)"
+                fi
+            else
+                passthru docker-compose down
+            fi
         fi
 
         if [ "$HAS_ASSETS" = yes ]; then
@@ -78,7 +92,7 @@ dynamic()
 
     dynamic_console
 
-    passthru "docker-compose config --services | grep -v -Fwe console -Fwe cron -Fwe jenkins-runner -Fwe job-queue-consumer | xargs docker-compose build"
+    passthru "docker-compose config --services | grep -v -Fwe console -Fxe cron -Fxe jenkins-runner -Fxe job-queue-consumer | xargs docker-compose build"
 
     {% if @('services.cron.enabled') %}
         passthru docker-compose build cron
@@ -104,7 +118,7 @@ static()
 initial_start()
 {
     # Bring up all services apart from cron
-    passthru "docker-compose config --services | grep -v -Fwe cron | xargs docker-compose up -d"
+    passthru "docker-compose config --services | grep -v -Fxe cron | xargs docker-compose up -d"
 
     passthru docker-compose exec -T -u build console app init
 
