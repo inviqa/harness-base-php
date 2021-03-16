@@ -26,7 +26,7 @@ enable_all()
         if [ "$HAS_FLAG" = no ]; then
             # remove all services, keeping console if considered built
             if [ -f .my127ws/.flag-console-built ]; then
-                if [ -n "$(grep -v -Fxe console <<< "$SERVICES_CREATED")" ]
+                if [ -n "$(grep -v -Fxe console <<< "$SERVICES_CREATED")" ]; then
                     passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --stop --)"
                 fi
             else
