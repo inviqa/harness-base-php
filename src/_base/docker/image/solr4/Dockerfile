@@ -7,17 +7,18 @@ USER root
 
 # Install SOLR 4 over the top of SOLR 5 from instructions in
 # https://github.com/docker-solr/docker-solr/blob/master/5.5/slim/Dockerfile
+# hadolint ignore=DL4006
 RUN rm -rf /opt/solr \
  && wget -t 10 --max-redirect 1 --retry-connrefused -nv "https://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz" -O "/opt/solr-$SOLR_VERSION.tgz" \
  && echo "$SOLR_SHA512 */opt/solr-$SOLR_VERSION.tgz" | sha512sum -c - \
  && tar -C /opt --extract --file "/opt/solr-$SOLR_VERSION.tgz" \
  && mv "/opt/solr-$SOLR_VERSION" /opt/solr \
  && rm "/opt/solr-$SOLR_VERSION.tgz"* \
- && rm -Rf /opt/solr/docs/ /opt/solr/dist/{solr-core-$SOLR_VERSION.jar,solr-solrj-$SOLR_VERSION.jar,solrj-lib,solr-test-framework-$SOLR_VERSION.jar,test-framework} /opt/solr/example/solr/collection1 \
+ && rm -Rf /opt/solr/docs/ "/opt/solr/dist/solr-core-$SOLR_VERSION.jar" "/opt/solr/dist/solr-solrj-$SOLR_VERSION.jar" /opt/solr/dist/solrj-lib "/opt/solr/dist/solr-test-framework-$SOLR_VERSION.jar" /opt/solr/dist/test-framework /opt/solr/example/solr/collection1 \
  && mkdir -p /opt/solr/server/solr/lib /opt/solr/server/solr/mycores /opt/solr/server/logs \
  && sed -i -e "s/\"\$(whoami)\" == \"root\"/\$(id -u) == 0/" /opt/solr/bin/solr \
  && sed -i -e 's/lsof -PniTCP:/lsof -t -PniTCP:/' /opt/solr/bin/solr \
- && sed -i 's#! -d \$coredir #! -d "$coredir/conf/" #' /opt/docker-solr/scripts/precreate-core \
+ && sed -i "s#! -d \$coredir #! -d \"\$coredir/conf/\" #" /opt/docker-solr/scripts/precreate-core \
  && if [ -f "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter" ]; then chmod 0755 "/opt/solr/contrib/prometheus-exporter/bin/solr-exporter"; fi \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/solr /docker-entrypoint-initdb.d /opt/docker-solr \
  && chown -R "$SOLR_USER:$SOLR_GROUP" /opt/mysolrhome /opt/solr/example/solr \
