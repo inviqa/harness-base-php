@@ -63,8 +63,6 @@ function setup()
 function install_console()
 (
     cd "${path_test}"
-    ws harness download
-    ws harness prepare
     ws enable console
 )
 
