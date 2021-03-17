@@ -6,12 +6,23 @@ pipeline {
     }
     triggers { cron(env.BRANCH_NAME == '{{ @('git.default_branch') }}' ? 'H H(0-6) * * *' : '') }
     stages {
+{% if @('jenkins.tests.isolated') %}
+        stage('Setup') {
+            steps {
+                sh 'ws harness download'
+                sh 'ws harness prepare'
+                sh 'ws enable console'
+                milestone(10)
+            }
+        }
+{% else %}
         stage('Build') {
             steps {
                 sh 'ws install'
                 milestone(10)
             }
         }
+{% endif %}
         stage('Checks without development dependencies') {
             steps {
                 sh 'ws exec composer test-production-quality'
@@ -22,11 +33,28 @@ pipeline {
         stage('Test')  {
             parallel {
                 stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
+{% if not @('jenkins.tests.isolated') %}
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('lighthouse') { steps { sh 'ws lighthouse' } }
+{% endif %}
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+            }
+        }
+{% if @('jenkins.tests.isolated') %}
+        stage('Build') {
+            steps {
+                sh 'ws enable'
+                sh 'ws exec app composer:development_dependencies'
+                milestone(30)
+            }
+        }
+        stage('End-to-end Test') {
+            parallel {
+                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
                 stage('lighthouse') { steps { sh 'ws lighthouse' } }
             }
         }
+{% endif %}
         stage('Unit Tests') {
             steps {
                 sh 'ws test-unit'

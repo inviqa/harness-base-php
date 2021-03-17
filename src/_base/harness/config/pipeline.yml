@@ -102,11 +102,12 @@ command('helm template <chart-path>'):
     passthru helm dependency build
     passthru helm template .
 
-command('helm kubeval <chart-path>'):
+command('helm kubeval [--cleanup] <chart-path>'):
   env:
     CHART_PATH: = input.argument('chart-path')
     NAMESPACE: = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
     ADDITIONAL_SCHEMA_LOCATIONS: = @('helm.additional_schema_locations')
+    CLEANUP: "= input.option('cleanup') ? 1 : 0"
   exec: |
     #!bash(harness:/helm)|=
     set -o pipefail
@@ -128,3 +129,7 @@ command('helm kubeval <chart-path>'):
     fi
 
     passthru helm kubeval "${KUBEVAL_OPTS[@]}" .
+
+    if [ "$CLEANUP" = "1" ]; then
+      run rm -rf charts/ requirements.lock
+    fi

@@ -23,6 +23,8 @@ attributes.default:
   mutagen: yes
 
   jenkins:
+    tests:
+      isolated: true
     credentials:
       my127ws_key: = @('workspace.name') ~ '-my127ws-key'
 

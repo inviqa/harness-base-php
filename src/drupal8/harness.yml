@@ -62,6 +62,10 @@ attributes:
     cron:
       jobs:
         - = '*/5 * * * * /cron-run-with-env.sh /app/bin/drush --root="/app/' ~ @('drupal.docroot') ~ '" cron'
+  jenkins:
+    tests:
+      # unit tests using simpletest are run in php-fpm container
+      isolated: false
   php:
     install_extensions:
       - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
