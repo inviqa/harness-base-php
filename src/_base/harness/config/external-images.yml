@@ -18,10 +18,9 @@ function('external_images', [services]): |
   # workspace commands don't allow non-string types
   = join(' ', $externalImages);
 
-
-command('external-images config [--skip-exists]'):
+command('external-images config [--skip-exists] [<service>]'):
   env:
-    IMAGES: = external_images(docker_service_images())
+    IMAGES: = external_images(docker_service_images(input.argument('service')))
     SKIP_EXISTS: "= input.option('skip-exists') ? 1 : 0"
   exec: |
     #!php
@@ -36,14 +35,21 @@ command('external-images config [--skip-exists]'):
     }
     echo \Symfony\Component\Yaml\Yaml::dump($compose, 100, 2);
 
-command('external-images pull'): |
-  #!bash(workspace:/)|@
-  CONF_ARGS=()
-  if [ -n "${CI:-}" ] || [ -n "${BUILD_ID:-}" ]; then
-    CONF_ARGS+=(--skip-exists)
-  fi
+command('external-images pull [<service>]'):
+  env:
+    SERVICE: = input.argument('service')
+  exec: |
+    #!bash(workspace:/)|@
+    CONF_ARGS=()
+    if [ -n "${CI:-}" ] || [ -n "${BUILD_ID:-}" ]; then
+      CONF_ARGS+=(--skip-exists)
+    fi
 
-  passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | docker-compose -f - pull"
+    if [ -n "${SERVICE}" ]; then
+      CONF_ARGS+=("$SERVICE")
+    fi
+
+    passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | docker-compose -f - pull"
 
 command('external-images ls [--all]'):
   env:
