@@ -104,7 +104,17 @@ memory, leading to the node having issues.
 The final harness version for each of the frameworks is put together by the [build script](./build) into a "dist"
 folder. This is used for testing in Jenkins.
 
-### With key
+### Quality check
+
+We run shellcheck and hadolint across shell scripts and Dockerfiles. These can be run via:
+```bash
+./quality
+```
+
+The `./test` script described below also runs these quality checks against rendered twig templates in
+`tmp-test/.my127ws/` as used in a test project.
+
+### End to end tests with the secret key
 
 If you have access to the secret key needed to decrypt the src/.ci/*/workspace.yml encrypted attributes, you can run
 the following to test the given framework in the given mode like Jenkins does:
@@ -114,7 +124,7 @@ the following to test the given framework in the given mode like Jenkins does:
 
 You may have to edit the test script to not shut down the environment afterwards to debug a failure.
 
-### Without key in static mode
+### End to end tests without the secret key
 
 If you don't have access to the key, you can still bring up a test environment:
 
