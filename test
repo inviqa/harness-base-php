@@ -95,7 +95,7 @@ function check_environment_started()
 
 function run_harness_quality_tests()
 {
-  ./quality
+  ./quality "${path_test}/.my127ws"
 }
 
 function run_isolated_tests()
