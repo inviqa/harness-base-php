@@ -1,34 +1,38 @@
 #!/usr/bin/env bash
 
+console_enabled()
+{
+    if [ "$APP_BUILD" = dynamic ]; then
+        [ -f .my127ws/.flag-console-built ]
+    else
+        [ -n "$(docker-compose ps --quiet console)" ]
+    fi
+}
+
 enable_all()
 {
     local IS_BUILT=no
     local HAS_FLAG=no
-    local SERVICES_CREATED="$(docker-compose ps --services)"
 
     if [ -f .my127ws/.flag-built ]; then
         HAS_FLAG=yes
         IS_BUILT=yes
         # If the containers no longer exist, we need to rebuild them
-        if [ -z "$SERVICES_CREATED" ]; then
+        if [ -z "$(docker-compose ps --quiet)" ]; then
             IS_BUILT=no
         fi
     fi
 
-    if [ -f .my127ws/.flag-console-built ]; then
-        if grep -v -Fxe console <<< "$SERVICES_CREATED"; then
-            rm .my127ws/.flag-console-built
-        fi
+    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$(docker-compose ps --quiet console)" ]; then
+        rm .my127ws/.flag-console-built
     fi
 
     passthru ws networks external
     if [ "$IS_BUILT" = no ]; then
         if [ "$HAS_FLAG" = no ]; then
             # remove all services, keeping console if considered built
-            if [ -f .my127ws/.flag-console-built ]; then
-                if [ -n "$(grep -v -Fxe console <<< "$SERVICES_CREATED")" ]; then
-                    passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --stop --)"
-                fi
+            if console_enabled; then
+                passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --stop --"
             else
                 passthru docker-compose down
             fi
@@ -54,6 +58,10 @@ enable_all()
 }
 
 enable_console() {
+    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$(docker-compose ps --quiet console)" ]; then
+        rm .my127ws/.flag-console-built
+    fi
+
     passthru ws networks external
     passthru ws external-images pull console
     "${APP_BUILD}_console"
@@ -61,11 +69,12 @@ enable_console() {
 
 dynamic_console()
 {
-    if [ -f .my127ws/.flag-console-built ]; then
-        if [ -n "$(docker image list -q "${COMPOSE_PROJECT_NAME}_console")" ]; then
-            return
+    if console_enabled; then
+        # ensure it is started
+        if [ -z "$(docker-compose ps --quiet console)" ]; then
+            passthru docker-compose up -d console
         fi
-        rm .my127ws/.flag-console-built
+        return;
     fi
 
     # we synchronise then stop mutagen to avoid impacting CPU usage during the build
