@@ -3,8 +3,12 @@ set -e -o pipefail
 
 ANALYSE_PATH="${1-}"
 
-docker pull koalaman/shellcheck-alpine:stable
-docker pull hadolint/hadolint:latest
+if ! docker image ls -a --format '{{ print .Repository ":" .Tag }}' | grep -q koalaman/shellcheck-alpine:stable; then
+  docker pull koalaman/shellcheck-alpine:stable
+fi
+if ! docker image ls -a --format '{{ print .Repository ":" .Tag }}' | grep -q hadolint/hadolint:latest; then
+  docker pull hadolint/hadolint:latest
+fi
 
 run_shellcheck()
 {
