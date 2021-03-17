@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.5](https://github.com/inviqa/harness-base-php/tree/0.9.5) (2021-03-17)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.3...0.9.5)
+
+**Fixed bugs:**
+
+- Fix external-images pull locally [\#580](https://github.com/inviqa/harness-base-php/pull/580) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [0.10.1](https://github.com/inviqa/harness-base-php/tree/0.10.1) (2020-10-02)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/0.10.0...0.10.1)
