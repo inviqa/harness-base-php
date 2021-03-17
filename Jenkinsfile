@@ -17,7 +17,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--env DOCKER_BUILDKIT=1 --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
@@ -70,7 +70,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--env DOCKER_BUILDKIT=1 --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
@@ -123,7 +123,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--env DOCKER_BUILDKIT=1 --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
