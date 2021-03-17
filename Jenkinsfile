@@ -11,6 +11,25 @@ pipeline {
     }
     triggers { cron(env.BRANCH_NAME ==~ /^\d+\.\d+\.x$/ ? 'H H(0-6) * * *' : '') }
     stages {
+        stage('Quality Checks') {
+            agent {
+               docker {
+                    label 'my127ws'
+                    alwaysPull true
+                    image 'quay.io/inviqa_images/workspace:latest'
+                    args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                }
+            }
+            steps {
+                sh './build'
+                sh './quality'
+            }
+            post {
+                always {
+                    cleanWs()
+                }
+            }
+        }
         stage('Build and Test') {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {

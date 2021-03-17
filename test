@@ -35,6 +35,7 @@ function test()
     fi
     install_environment
     check_environment_started "$harness" "$mode"
+    run_harness_quality_tests
     run_pipeline_tests "$harness"
     restart_environment
     check_environment_started "$harness" "$mode"
@@ -91,6 +92,11 @@ function check_environment_started()
       return 1
     fi
 )
+
+function run_harness_quality_tests()
+{
+  ./quality
+}
 
 function run_isolated_tests()
 (

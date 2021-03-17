@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e -o pipefail
+
+docker pull koalaman/shellcheck-alpine:stable
+docker pull hadolint/hadolint:latest
+
+run_shellcheck()
+{
+  docker run --rm --volume "$(pwd):/app" koalaman/shellcheck-alpine:stable /bin/sh -c 'find /app -type f ! -path "*/application/skeleton/bin/console" ! -path "*/docker/image/console/root/bin/strip-magento-config" ! -path "*/docker/image/console/root/bin/validate-magento-config" ! -path "*/.git/*" ! -path "/app/dist/*" ! -path "/app/test/*" ! -name "*.xml" ! -name "*.txt" ! -name "*.properties" ! -name "*.twig" -and \( -name "*.sh" -or -perm -0111 \) -print -exec shellcheck --exclude=SC1008,SC1091 {} +'
+}
+
+run_hadolint()
+{
+  docker run --rm --volume "$(pwd):/app" hadolint/hadolint:latest /bin/sh -c 'find /app -type f -name "*Dockerfile" ! -path "*/.git/*" ! -path "/app/dist/*" ! -name "*.orig" -print -exec hadolint --ignore DL3003 --ignore DL3008 --ignore DL3016 --ignore SC1091 --ignore DL3002 {} +'
+}
+
+run_shellcheck
+run_hadolint

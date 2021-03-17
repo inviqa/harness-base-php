@@ -104,7 +104,19 @@ memory, leading to the node having issues.
 The final harness version for each of the frameworks is put together by the [build script](./build) into a "dist"
 folder. This is used for testing in Jenkins.
 
-### Static mode
+### With key
+
+If you have access to the secret key needed to decrypt the src/.ci/*/workspace.yml encrypted attributes, you can run
+the following to test the given framework in the given mode like Jenkins does:
+```bash
+./build && ./test <framework> <static|dynamic> [mutagen]
+```
+
+You may have to edit the test script to not shut down the environment afterwards to debug a failure.
+
+### Without key in static mode
+
+If you don't have access to the key, you can still bring up a test environment:
 
 1. Run `./build`
 2. Create and change to a tests directory
