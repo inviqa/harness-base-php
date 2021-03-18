@@ -1,6 +1,8 @@
 pipeline {
     agent none
     environment {
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT = 1
         MY127WS_KEY = credentials('base-my127ws-key-20190523')
     }
     options {
@@ -17,7 +19,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--env COMPOSE_DOCKER_CLI_BUILD=1 --env DOCKER_BUILDKIT=1 --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
@@ -70,7 +72,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--env COMPOSE_DOCKER_CLI_BUILD=1 --env DOCKER_BUILDKIT=1 --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
@@ -123,7 +125,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--env COMPOSE_DOCKER_CLI_BUILD=1 --env DOCKER_BUILDKIT=1 --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
