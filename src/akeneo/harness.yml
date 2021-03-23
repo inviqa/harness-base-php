@@ -20,7 +20,7 @@ attributes:
     web_owner: www-data
     web_group: www-data
     web_writable_dirs:
-      - = @('uploads_directory')
+      - = @('app.uploads_directory')
       - /app/var/cache
       - /app/var/logs
     services:
