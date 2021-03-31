@@ -14,6 +14,8 @@ PATH="$PATH:./.my127ws/utilities/mutagen/"
 
 # shellcheck disable=SC2206
 CONTAINER_NAMES=($CONTAINER_NAMES)
+# shellcheck disable=SC2206
+SYNC_NAMES=($SYNC_NAMES)
 
 install_mutagen()
 {
@@ -62,13 +64,38 @@ start_mutagen_daemon()
     passthru mutagen daemon start
 }
 
+clean_existing_projects()
+{
+    if mutagen project list > /dev/null 2>&1; then
+        passthru mutagen project terminate
+    fi
+
+    local SYNC_NAME=""
+    declare -a EXISTING_SYNC=()
+    for SYNC_NAME in ${SYNC_NAMES[*]}; do
+        if [ "$(mutagen sync list "$SYNC_NAME" | grep -c "URL: $(pwd)")" -gt 0 ]; then
+            EXISTING_SYNC+=("$SYNC_NAME")
+        fi
+    done
+
+    if [ ${#EXISTING_SYNC[@]} -gt 0 ]; then
+        echo "Found multiple mutagen sync sessions for this project."
+        echo "This can lead to increased CPU usage."
+        if [[ "$(read -e -p 'Do you want to remove the other sync sessions? [yes]/no: '; echo "$REPLY")" != [Yy]* ]]; then
+          return
+        fi
+
+        passthru mutagen sync terminate "${EXISTING_SYNC[@]}"
+    fi
+}
+
 start()
 {
     install_mutagen
     setup_sync_container
     start_mutagen_daemon
 
-    mutagen project list > /dev/null 2>&1 && passthru mutagen project terminate
+    clean_existing_projects
     passthru mutagen project start
     passthru mutagen project flush
 }
@@ -76,6 +103,7 @@ start()
 stop()
 {
     passthru mutagen project terminate
+    clean_existing_projects
     passthru docker rm -f "${CONTAINER_NAMES[@]}"
 }
 
