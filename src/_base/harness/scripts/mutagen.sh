@@ -66,26 +66,37 @@ start_mutagen_daemon()
 
 clean_existing_projects()
 {
+    # Clean up the project if it's running
     if mutagen project list > /dev/null 2>&1; then
         passthru mutagen project terminate
     fi
 
     local SYNC_NAME=""
-    declare -a EXISTING_SYNC=()
+    declare -a EXISTING_SYNC_IDS=()
+    local SYNC_LIST=""
     for SYNC_NAME in ${SYNC_NAMES[*]}; do
-        if [ "$(mutagen sync list "$SYNC_NAME" | grep -c "URL: $(pwd)")" -gt 0 ]; then
-            EXISTING_SYNC+=("$SYNC_NAME")
+        # List syncs based on name
+        SYNC_LIST="$(mutagen sync list "$SYNC_NAME")"
+        # Check if there are entries left
+        if [ "$(echo "$SYNC_LIST" | grep "URL: $(pwd)" | wc -l | awk '{ print $1 }')" -gt 0 ]; then
+            # Build an array of sync session IDs to clean up
+            while IFS='' read -r line; do EXISTING_SYNC_IDS+=("$line"); done < <(echo "$SYNC_LIST" | grep --before-context=6 "URL: $(pwd)" | grep Identifier: | cut -d" " -f2)
         fi
     done
 
-    if [ ${#EXISTING_SYNC[@]} -gt 0 ]; then
+    if [ "${#EXISTING_SYNC_IDS[@]}" -gt 0 ]; then
         echo "Found multiple mutagen sync sessions for this project."
         echo "This can lead to increased CPU usage."
-        if [[ "$(read -e -p 'Do you want to remove the other sync sessions? [yes]/no: '; echo "$REPLY")" != [Yy]* ]]; then
+        local REPLY=""
+        if [ -t 0 ] ; then
+          read -p 'Do you want to remove the other sync sessions? [Yes]/no: ' REPLY
+        fi
+        REPLY="${REPLY:-Yes}"
+        if ! [[ "$REPLY" =~ ^(Y|Yes|y|yes)$ ]]; then
           return
         fi
 
-        passthru mutagen sync terminate "${EXISTING_SYNC[@]}"
+        passthru mutagen sync terminate "${EXISTING_SYNC_IDS[@]}"
     fi
 }
 
