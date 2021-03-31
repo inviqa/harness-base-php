@@ -76,7 +76,7 @@ clean_existing_projects()
     local SYNC_LIST=""
     for SYNC_NAME in ${SYNC_NAMES[*]}; do
         # List syncs based on name
-        SYNC_LIST="$(mutagen sync list "$SYNC_NAME")"
+        SYNC_LIST="$(mutagen sync list "$SYNC_NAME" 2> /dev/null || true)"
         # Check if there are entries left
         if [ "$(echo "$SYNC_LIST" | grep "URL: $(pwd)" | wc -l | awk '{ print $1 }')" -gt 0 ]; then
             # Build an array of sync session IDs to clean up
@@ -89,7 +89,7 @@ clean_existing_projects()
         echo "This can lead to increased CPU usage."
         local REPLY=""
         if [ -t 0 ] ; then
-          read -p 'Do you want to remove the other sync sessions? [Yes]/no: ' REPLY
+          read -r -p 'Do you want to remove the other sync sessions? [Yes]/no: ' REPLY
         fi
         REPLY="${REPLY:-Yes}"
         if ! [[ "$REPLY" =~ ^(Y|Yes|y|yes)$ ]]; then
