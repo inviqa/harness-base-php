@@ -16,6 +16,8 @@ PATH="$PATH:./.my127ws/utilities/mutagen/"
 CONTAINER_NAMES=($CONTAINER_NAMES)
 # shellcheck disable=SC2206
 SYNC_NAMES=($SYNC_NAMES)
+# shellcheck disable=SC2206
+FORWARD_NAMES=($FORWARD_NAMES)
 
 install_mutagen()
 {
@@ -64,6 +66,13 @@ start_mutagen_daemon()
     passthru mutagen daemon start
 }
 
+join_by_character()
+(
+  local IFS="$1"
+  shift
+  echo "$*"
+)
+
 clean_existing_projects()
 {
     # Clean up the project if it's running
@@ -71,9 +80,10 @@ clean_existing_projects()
         passthru mutagen project terminate
     fi
 
-    local SYNC_NAME=""
     declare -a EXISTING_PROJECT_LABELS=()
-    local SYNC_LIST=""
+
+    local SYNC_NAME
+    local SYNC_LIST
     for SYNC_NAME in ${SYNC_NAMES[*]}; do
         # List syncs based on name
         SYNC_LIST="$(mutagen sync list "$SYNC_NAME" 2> /dev/null || true)"
@@ -84,12 +94,27 @@ clean_existing_projects()
         fi
     done
 
+    local FORWARD_NAME
+    local FORWARD_LIST
+    local CONTAINER_NAMES_REGEX
+    CONTAINER_NAMES_REGEX="$(join_by_character "\|" "${CONTAINER_NAMES[@]}")"
+    echo $CONTAINER_NAMES_REGEX; exit
+    for FORWARD_NAME in ${FORWARD_NAMES[*]}; do
+        # List forwards based on name
+        FORWARD_LIST="$(mutagen forward list "$FORWARD_NAME" 2> /dev/null || true)"
+        # Check if there are entries left
+        if [ "$(echo "$FORWARD_LIST" | grep --count "URL: docker://\($CONTAINER_NAMES_REGEX\):tcp:" | awk '{ print $1 }')" -gt 0 ]; then
+            # Build an array of sync session IDs to clean up
+            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$FORWARD_LIST" | grep -B6 "URL: docker://\($CONTAINER_NAMES_REGEX\):tcp:" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
+        fi
+    done
+
     if [ "${#EXISTING_PROJECT_LABELS[@]}" -gt 0 ]; then
-        echo "Found multiple mutagen sync sessions for this project."
+        echo "Found multiple mutagen sessions for this project."
         echo "This can lead to increased CPU usage."
         local REPLY=""
         if [ -t 0 ] ; then
-          read -r -p 'Do you want to remove the other sync sessions? [Yes]/no: ' REPLY
+          read -r -p 'Do you want to remove the other sessions? [Yes]/no: ' REPLY
         fi
         REPLY="${REPLY:-Yes}"
         if ! [[ "$REPLY" =~ ^(Y|Yes|y|yes)$ ]]; then
