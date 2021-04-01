@@ -2,4 +2,4 @@
 
 set -e
 
-/usr/bin/msmtp --host="$SMTP_HOST" --port="$SMTP_PORT" --read-recipients --read-envelope-from -- "$@"
+/usr/bin/msmtp --host="$SMTP_HOST" --port="$SMTP_PORT" --remove-bcc-headers=off --read-recipients --read-envelope-from --auto-from=on --maildomain="$APP_HOST" -- "$@"
