@@ -7,6 +7,8 @@ command('enable'):
     NAMESPACE:            = @('namespace')
     HAS_ASSETS:           = @('aws.bucket') !== null and @('aws.bucket') !== '' ? 'yes':'no'
     COMPOSE_PROJECT_NAME: = @('namespace')
+    COMPOSE_DOCKER_CLI_BUILD: = @('docker.buildkit.enabled') ? '1':'0'
+    DOCKER_BUILDKIT:          = @('docker.buildkit.enabled') ? '1':'0'
   exec: |
     #!bash(workspace:/)
     set -- all
@@ -20,6 +22,8 @@ command('enable console'):
     NAMESPACE:            = @('namespace')
     HAS_ASSETS:           = @('aws.bucket') !== null and @('aws.bucket') !== '' ? 'yes':'no'
     COMPOSE_PROJECT_NAME: = @('namespace')
+    COMPOSE_DOCKER_CLI_BUILD: = @('docker.buildkit.enabled') ? '1':'0'
+    DOCKER_BUILDKIT:          = @('docker.buildkit.enabled') ? '1':'0'
   exec: |
     #!bash(workspace:/)
     set -- console

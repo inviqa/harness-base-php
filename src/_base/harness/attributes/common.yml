@@ -99,6 +99,8 @@ attributes.default:
       username: = @('docker.username') # for backwards compatibility
       password: = @('docker.password') # for backwards compatibility
     repository: = @("workspace.name")
+    buildkit:
+      enabled: true
     compose:
       file_version: '3.7'
       host_volume_options: "= ':' ~ (@('delegated-volumes') ? 'delegated' : 'cached')"
