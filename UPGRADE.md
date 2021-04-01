@@ -2,6 +2,59 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
+## Upgrading from 1.0.x to 1.1.x
+
+### Buildkit
+
+Buildkit is now used for docker image builds both in Jenkins and locally.
+
+To opt out from buildkit in Jenkins, set `attribute('jenkins.docker.buildkit.enabled'): false`.
+
+To opt out from buildkit locally, set `attribute('docker.buildkit.enabled'): false`.
+
+### Jenkins
+
+#### Minimal Build
+
+Jenkins now performs a minimal build with the `console` docker image and no supporting services,
+to allow faster feedback for linting or unit test issues.
+If this minimal build passes, Jenkins will launch a full build to run integration tests.
+
+If linting or unit tests need supporting services like a database or cache to be available,
+set `attribute('jenkins.tests.isolated'): true` to revert to the old behaviour.
+
+#### Lighthouse
+
+Jenkins now runs a Lighthouse check against the default URL of the site as an integration test.
+The URL being tested can be configured with `attribute('lighthouse.target.url')`.
+
+Thresholds for passing scores can also be configured by setting the `enabled` (true/false) and `score` (integer)
+of these attributes:
+```yaml
+lighthouse:
+  success-thresholds:
+    pwa:
+      enabled: false
+      score: 0
+    seo:
+      enabled: false
+      score: 0
+    best-practices:
+      enabled: false
+      score: 0
+    accessibility:
+      enabled: false
+      score: 0
+    performance:
+      enabled: false
+      score: 0
+```
+
+### Magento 2
+
+Magento 2.4.2 brings composer v2 support. To continue using composer v1 on older magento releases, please set
+`attribute('magento.version')` to the magento version in use.
+
 ## Upgrading from 0.12.x to 1.0.x
 
 ### Removal of docker-sync
