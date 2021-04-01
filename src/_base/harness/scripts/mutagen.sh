@@ -72,7 +72,7 @@ clean_existing_projects()
     fi
 
     local SYNC_NAME=""
-    declare -a EXISTING_SYNC_IDS=()
+    declare -a EXISTING_PROJECT_LABELS=()
     local SYNC_LIST=""
     for SYNC_NAME in ${SYNC_NAMES[*]}; do
         # List syncs based on name
@@ -80,11 +80,11 @@ clean_existing_projects()
         # Check if there are entries left
         if [ "$(echo "$SYNC_LIST" | grep --count "URL: $(pwd)" | awk '{ print $1 }')" -gt 0 ]; then
             # Build an array of sync session IDs to clean up
-            while IFS='' read -r line; do EXISTING_SYNC_IDS+=("$line"); done < <(echo "$SYNC_LIST" | grep --before-context=6 "URL: $(pwd)" | grep Identifier: | cut -d" " -f2)
+            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$SYNC_LIST" | grep -B4 "URL: $(pwd)" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
         fi
     done
 
-    if [ "${#EXISTING_SYNC_IDS[@]}" -gt 0 ]; then
+    if [ "${#EXISTING_PROJECT_LABELS[@]}" -gt 0 ]; then
         echo "Found multiple mutagen sync sessions for this project."
         echo "This can lead to increased CPU usage."
         local REPLY=""
@@ -96,7 +96,11 @@ clean_existing_projects()
           return
         fi
 
-        passthru mutagen sync terminate "${EXISTING_SYNC_IDS[@]}"
+        local LABEL_SELECTOR
+        for LABEL_SELECTOR in "${EXISTING_PROJECT_LABELS[@]}"; do
+          passthru mutagen sync terminate --label-selector "${LABEL_SELECTOR}"
+          passthru mutagen forward terminate --label-selector "${LABEL_SELECTOR}"
+        done
     fi
 }
 
