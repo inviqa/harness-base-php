@@ -48,10 +48,40 @@ function('get_mutagen_volume_mappings'): |
   }
   = join("\n", $volumeMappings);
 
+function('get_mutagen_forward_names'): |
+  #!php
+  $forwardNames = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+
+    if (isset($config['forward']))  {
+      $forwardNames = array_keys($config['forward']);
+    }
+  }
+  = join("\n", array_unique($forwardNames));
+
+function('get_mutagen_sync_names'): |
+  #!php
+  $syncNames = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+
+    if (isset($config['sync']))  {
+      $syncNames = array_keys($config['sync']);
+    }
+  }
+  = join("\n", array_unique($syncNames));
+
 command('mutagen (start|stop|pause|resume)'):
   env:
     COMMAND: = input.command(2)
     CONTAINER_NAMES: = get_mutagen_volume_containers()
+    FORWARD_NAMES: = get_mutagen_forward_names()
+    SYNC_NAMES: = get_mutagen_sync_names()
     VOLUME_MAPPINGS: = get_mutagen_volume_mappings()
   exec: |
     #!bash(workspace:/)
@@ -60,6 +90,8 @@ command('mutagen (start|stop|pause|resume)'):
 command('mutagen rm'):
   env:
     CONTAINER_NAMES: = get_mutagen_volume_containers()
+    FORWARD_NAMES: = get_mutagen_forward_names()
+    SYNC_NAMES: = get_mutagen_sync_names()
   exec: |
      #!bash(workspace:/)
      CONTAINER_NAMES=($CONTAINER_NAMES)
