@@ -1,5 +1,43 @@
 # Changelog
 
+## [1.1.0](https://github.com/inviqa/harness-base-php/tree/1.1.0) (2021-04-02)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.3...1.1.0)
+
+**Implemented enhancements:**
+
+- Enable docker buildkit for local installs [\#583](https://github.com/inviqa/harness-base-php/pull/583) ([kierenevans](https://github.com/kierenevans))
+- Use buildkit for harness builds [\#582](https://github.com/inviqa/harness-base-php/pull/582) ([kierenevans](https://github.com/kierenevans))
+- Update to Magento 2.4.2 [\#579](https://github.com/inviqa/harness-base-php/pull/579) ([kierenevans](https://github.com/kierenevans))
+- Do not remove sync container, make more responsive to stop [\#572](https://github.com/inviqa/harness-base-php/pull/572) ([kierenevans](https://github.com/kierenevans))
+- Introduce a ws rebuild command [\#568](https://github.com/inviqa/harness-base-php/pull/568) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Make curl fail helpfully and consistently [\#565](https://github.com/inviqa/harness-base-php/pull/565) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Early feedback in jenkins by running minimal build for isolated tests [\#561](https://github.com/inviqa/harness-base-php/pull/561) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Deprecate installing harness tools in php moving upstream [\#558](https://github.com/inviqa/harness-base-php/pull/558) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Prepare console build as early as possible [\#557](https://github.com/inviqa/harness-base-php/pull/557) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- \[DEVOPS-1181\] Validating Lighthouse scores against configured pass values [\#556](https://github.com/inviqa/harness-base-php/pull/556) ([g-foster2](https://github.com/g-foster2))
+- Upgrade Symfony to 5.2 [\#553](https://github.com/inviqa/harness-base-php/pull/553) ([kierenevans](https://github.com/kierenevans))
+- Remove duplicate entry in Akeneo's .gitignore [\#552](https://github.com/inviqa/harness-base-php/pull/552) ([jameshalsall](https://github.com/jameshalsall))
+- Simplify cleanup in ws destroy [\#550](https://github.com/inviqa/harness-base-php/pull/550) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add Jaeger Relay [\#549](https://github.com/inviqa/harness-base-php/pull/549) ([kierenevans](https://github.com/kierenevans))
+- Implement ws external-images ls/rm and use for ws destroy --all [\#548](https://github.com/inviqa/harness-base-php/pull/548) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add Zed API hosts for supporting back-channel communication [\#547](https://github.com/inviqa/harness-base-php/pull/547) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Clean up ingress template [\#546](https://github.com/inviqa/harness-base-php/pull/546) ([kierenevans](https://github.com/kierenevans))
+- Add v1.0 Upgrade Instructions [\#545](https://github.com/inviqa/harness-base-php/pull/545) ([kierenevans](https://github.com/kierenevans))
+- Move the Spryker demoshop LICENSE to another filename [\#540](https://github.com/inviqa/harness-base-php/pull/540) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Fixed bugs:**
+
+- Clean up old mutagen sync sessions [\#586](https://github.com/inviqa/harness-base-php/pull/586) ([kierenevans](https://github.com/kierenevans))
+- Switch to msmtp to avoid DNS issues with mhsendmail [\#585](https://github.com/inviqa/harness-base-php/pull/585) ([kierenevans](https://github.com/kierenevans))
+- Fix reference to attribute for akeneo [\#584](https://github.com/inviqa/harness-base-php/pull/584) ([kierenevans](https://github.com/kierenevans))
+- Use data path for Spryker twig cache [\#575](https://github.com/inviqa/harness-base-php/pull/575) ([kierenevans](https://github.com/kierenevans))
+- Fix spryker docker hosts having CI namespace issues [\#569](https://github.com/inviqa/harness-base-php/pull/569) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix issue with Jenkins runner being disabled when not using harness helm [\#567](https://github.com/inviqa/harness-base-php/pull/567) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix executing "ws secret encrypt" when printing help message [\#563](https://github.com/inviqa/harness-base-php/pull/563) ([kierenevans](https://github.com/kierenevans))
+- Add missing translator cache and run split codebucket store tasks [\#560](https://github.com/inviqa/harness-base-php/pull/560) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add missed files relating to the spryker API host changes [\#551](https://github.com/inviqa/harness-base-php/pull/551) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [1.0.3](https://github.com/inviqa/harness-base-php/tree/1.0.3) (2021-01-29)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.2...1.0.3)
