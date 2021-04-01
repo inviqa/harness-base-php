@@ -7,8 +7,6 @@ RUN chown -R build:build /home/build /app \
  # installing tools in the image is deprecated
  && ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini) \
  && chmod +x /sbin/tini \
- && ([ -e /usr/local/bin/mhsendmail ] || curl --fail --silent --show-error --location --output /usr/local/bin/mhsendmail https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64) \
- && chmod +x /usr/local/bin/mhsendmail \
  && mkdir -p /tmp/php-file-cache \
  && chown -R build:build /tmp/php-file-cache
 {%- if @('php.composer.major_version') != '1' %} \
