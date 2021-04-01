@@ -98,7 +98,6 @@ clean_existing_projects()
     local FORWARD_LIST
     local CONTAINER_NAMES_REGEX
     CONTAINER_NAMES_REGEX="$(join_by_character "\|" "${CONTAINER_NAMES[@]}")"
-    echo $CONTAINER_NAMES_REGEX; exit
     for FORWARD_NAME in ${FORWARD_NAMES[*]}; do
         # List forwards based on name
         FORWARD_LIST="$(mutagen forward list "$FORWARD_NAME" 2> /dev/null || true)"
