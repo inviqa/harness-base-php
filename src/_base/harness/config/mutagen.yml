@@ -31,6 +31,23 @@ function('get_mutagen_volume_containers'): |
   }
   = join("\n", array_unique($volumeContainers));
 
+function('get_mutagen_volume_mappings'): |
+  #!php
+  $volumeMappings = [];
+
+  if (file_exists('mutagen.yml')) {
+    $configRaw = file_get_contents('mutagen.yml');
+    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
+
+    if (isset($config['sync']))  {
+      foreach ($config['sync'] as $syncName => $syncConfig) {
+        $parts = parse_url($syncConfig['beta']);
+        $volumeMappings[] = $parts['host'] . ':' . $syncName . '-sync:' . $parts['path'];
+      }
+    }
+  }
+  = join("\n", $volumeMappings);
+
 function('get_mutagen_forward_names'): |
   #!php
   $forwardNames = [];
@@ -58,23 +75,6 @@ function('get_mutagen_sync_names'): |
     }
   }
   = join("\n", array_unique($syncNames));
-
-function('get_mutagen_volume_mappings'): |
-  #!php
-  $volumeMappings = [];
-
-  if (file_exists('mutagen.yml')) {
-    $configRaw = file_get_contents('mutagen.yml');
-    $config = \Symfony\Component\Yaml\Yaml::parse($configRaw);
-
-    if (isset($config['sync']))  {
-      foreach ($config['sync'] as $syncName => $syncConfig) {
-        $parts = parse_url($syncConfig['beta']);
-        $volumeMappings[] = $parts['host'] . ':' . $syncName . '-sync:' . $parts['path'];
-      }
-    }
-  }
-  = join("\n", $volumeMappings);
 
 command('mutagen (start|stop|pause|resume)'):
   env:
