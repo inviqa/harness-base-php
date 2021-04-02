@@ -28,30 +28,48 @@ pipeline {
                             }
                         }
                         stage('PHP Static') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test php static' }
                         }
                         stage('Drupal 8 Static') {
                             steps { sh './test drupal8 static' }
                         }
                         stage('Akeneo Static') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test akeneo static' }
                         }
                         stage('PHP Dynamic') {
                             steps { sh './test php dynamic' }
                         }
                         stage('Drupal 8 Dynamic') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test drupal8 dynamic' }
                         }
                         stage('Akeneo Dynamic') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test akeneo dynamic' }
                         }
                         stage('PHP Dynamic Mutagen') {
                             steps { sh './test php dynamic mutagen' }
                         }
                         stage('Drupal 8 Dynamic Mutagen') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test drupal8 dynamic mutagen' }
                         }
                         stage('Akeneo Dynamic Mutagen') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test akeneo dynamic mutagen' }
                         }
                     }
@@ -65,6 +83,9 @@ pipeline {
                     }
                 }
                 stage('2. Symfony, Magento 2, Magento 1') {
+                    when {
+                        not { triggeredBy 'TimerTrigger' }
+                    }
                     agent {
                         docker {
                             label 'my127ws'
@@ -118,6 +139,9 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
+                    when {
+                        not { triggeredBy 'TimerTrigger' }
+                    }
                     agent {
                         docker {
                             label 'my127ws'
