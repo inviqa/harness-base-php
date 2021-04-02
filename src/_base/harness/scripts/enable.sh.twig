@@ -64,6 +64,11 @@ enable_console() {
 
     passthru ws networks external
     passthru ws external-images pull console
+
+    if [ "$HAS_ASSETS" = yes ]; then
+        ws assets download
+    fi
+
     "${APP_BUILD}_console"
 }
 
