@@ -27,6 +27,9 @@ pipeline {
                             steps { sh './test drupal8 static' }
                         }
                         stage('Akeneo Static') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test akeneo static' }
                         }
                         stage('PHP Dynamic') {
@@ -36,6 +39,9 @@ pipeline {
                             steps { sh './test drupal8 dynamic' }
                         }
                         stage('Akeneo Dynamic') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test akeneo dynamic' }
                         }
                         stage('PHP Dynamic Mutagen') {
@@ -45,6 +51,9 @@ pipeline {
                             steps { sh './test drupal8 dynamic mutagen' }
                         }
                         stage('Akeneo Dynamic Mutagen') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test akeneo dynamic mutagen' }
                         }
                     }
@@ -67,30 +76,48 @@ pipeline {
                             }
                         }
                         stage('Symfony Static') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test symfony static' }
                         }
                         stage('Magento 2 Static') {
                             steps { sh './test magento2 static' }
                         }
                         stage('Magento 1 Static') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test magento1 static' }
                         }
                         stage('Symfony Dynamic') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test symfony dynamic' }
                         }
                         stage('Magento 2 Dynamic') {
                             steps { sh './test magento2 dynamic' }
                         }
                         stage('Magento 1 Dynamic') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test magento1 dynamic' }
                         }
                         stage('Symfony Dynamic Mutagen') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test symfony dynamic mutagen' }
                         }
                         stage('Magento 2 Dynamic Mutagen') {
                             steps { sh './test magento2 dynamic mutagen' }
                         }
                         stage('Magento 1 Dynamic Mutagen') {
+                            when {
+                                not { triggeredBy 'TimerTrigger' }
+                            }
                             steps { sh './test magento1 dynamic mutagen' }
                         }
                     }
@@ -104,6 +131,9 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
+                    when {
+                        not { triggeredBy 'TimerTrigger' }
+                    }
                     agent { label "my127ws" }
                     stages {
                         stage('Prepare') {
