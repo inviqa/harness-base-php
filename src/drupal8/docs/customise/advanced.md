@@ -7,7 +7,7 @@ There may be times when you need to customise the Workspace environment beyond w
 
 ## Adding a new service
 
-If you need a service that isn't already provided (see [available base services](https://github.com/inviqa/harness-base-php/blob/1.1.x/src/_base/_twig/docker-compose.yml/service)) then you can register a new service following the [docker-compose](https://docs.docker.com/compose/compose-file/) notation.
+If you need a service that isn't already provided (see [available base services](https://github.com/inviqa/harness-base-php/blob/1.2.x/src/_base/_twig/docker-compose.yml/service)) then you can register a new service following the [docker-compose](https://docs.docker.com/compose/compose-file/) notation.
 
 Create your new service file in the `tools/workspace/_twig/docker-compose.yml/service/` directory.  
 

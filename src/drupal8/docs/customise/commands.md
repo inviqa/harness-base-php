@@ -3,7 +3,7 @@
 Adding commands can help with productivity and to standardise tasks.  
 Information on writing commands can be found [here](https://github.com/my127/workspace/blob/0.1.x/docs/types/command.md)
 
-There are also a number of [default commands](https://github.com/inviqa/harness-base-php/blob/1.1.x/src/_base/harness/config/commands.yml) available that may already provide the functionality you require.
+There are also a number of [default commands](https://github.com/inviqa/harness-base-php/blob/1.2.x/src/_base/harness/config/commands.yml) available that may already provide the functionality you require.
 
 If not, here are some example that might be a good starting point.
 
