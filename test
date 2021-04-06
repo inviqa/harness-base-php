@@ -29,7 +29,7 @@ function test()
     elif [[ "$sync" == "mutagen" ]]; then
       setup_dynamic_mutagen
     fi
-    if ! [[ "$harness" =~ ^(drupal8|magento1|magento2)$ ]]; then
+    if ! [[ "$harness" =~ ^(drupal8|magento1)$ ]]; then
       install_console
       run_isolated_tests "$harness"
     fi
@@ -121,7 +121,7 @@ function run_pipeline_tests()
 (
     local harness="$1"
 
-    if [[ "$harness" =~ ^(drupal8|magento1|magento2)$ ]]; then
+    if [[ "$harness" =~ ^(drupal8|magento1)$ ]]; then
       run_isolated_tests "$harness"
     fi
 
