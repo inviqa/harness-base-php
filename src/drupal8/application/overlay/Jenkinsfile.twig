@@ -39,14 +39,13 @@ pipeline {
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
                 stage('lighthouse') { steps { sh 'ws lighthouse' } }
 {% endif %}
-                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval qa' } }
+                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval --cleanup qa' } }
             }
         }
 {% if @('jenkins.tests.isolated') %}
         stage('Build') {
             steps {
                 sh 'ws enable'
-                sh 'ws exec app composer:development_dependencies'
                 milestone(30)
             }
         }
