@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/inviqa/harness-base-php/tree/1.1.1) (2021-04-06)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.1.0...1.1.1)
+
+**Fixed bugs:**
+
+- Assets need to be included in the console build [\#587](https://github.com/inviqa/harness-base-php/pull/587) ([kierenevans](https://github.com/kierenevans))
+
 ## [1.1.0](https://github.com/inviqa/harness-base-php/tree/1.1.0) (2021-04-02)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.0.3...1.1.0)

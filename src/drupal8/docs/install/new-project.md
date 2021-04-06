@@ -1,13 +1,13 @@
 # Setting up Workspace on a new project
 1. Use the `create` command to create a new project with the Drupal harness:
     ```
-    ws create <projectName> inviqa/drupal8:v1.1.0
+    ws create <projectName> inviqa/drupal8:v1.1.1
     ```  
     (Note: see [harnesses.json] for available versions.)
 
     E.g.  
     ```
-    ws create testProject inviqa/drupal8:v1.1.0
+    ws create testProject inviqa/drupal8:v1.1.1
     ```  
     This will create the new project in the current directory.
 
