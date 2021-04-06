@@ -14,6 +14,9 @@ pipeline {
         stage('Build and Test') {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {
+                    when {
+                        branch 'none'
+                    }
                     agent {
                         docker {
                             label 'my127ws'
@@ -83,30 +86,48 @@ pipeline {
                             }
                         }
                         stage('Symfony Static') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test symfony static' }
                         }
                         stage('Magento 2 Static') {
                             steps { sh './test magento2 static' }
                         }
                         stage('Magento 1 Static') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test magento1 static' }
                         }
                         stage('Symfony Dynamic') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test symfony dynamic' }
                         }
                         stage('Magento 2 Dynamic') {
                             steps { sh './test magento2 dynamic' }
                         }
                         stage('Magento 1 Dynamic') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test magento1 dynamic' }
                         }
                         stage('Symfony Dynamic Mutagen') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test symfony dynamic mutagen' }
                         }
                         stage('Magento 2 Dynamic Mutagen') {
                             steps { sh './test magento2 dynamic mutagen' }
                         }
                         stage('Magento 1 Dynamic Mutagen') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test magento1 dynamic mutagen' }
                         }
                     }
@@ -120,6 +141,9 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
+                    when {
+                        branch 'none'
+                    }
                     agent {
                         docker {
                             label 'my127ws'
