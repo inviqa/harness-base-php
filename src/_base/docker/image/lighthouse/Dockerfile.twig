@@ -1,29 +1,9 @@
-FROM yukinying/chrome-headless-browser:latest
+FROM {{ @('services.lighthouse.image') }}
 
-USER root
+COPY root /
 
-RUN apt update \
- && apt install -y bc jq curl
-
-USER headless
-ENV NVM_DIR /home/headless/.nvm
-RUN cd /home/headless \
- && mkdir .nvm \
- && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.37.2/install.sh | bash \
- && . /home/headless/.nvm/nvm.sh \
- && nvm install v15 \
- && npm install -g lighthouse
-USER root
-
-{% if @('app.build') == 'static' %}
-COPY root  /
-RUN chown headless /app/run.sh
-RUN chmod u+x /app/run.sh
-{% else %}
+{% if @('app.build') != 'static' %}
 VOLUME /app
 {% endif %}
 
-USER headless
-
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["/app/run.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/bin/bash", "-i", "/app/run.sh"]

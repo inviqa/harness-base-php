@@ -1,5 +1,6 @@
   lighthouse:
     build: .my127ws/docker/image/lighthouse
+    entrypoint: "/usr/bin/dumb-init --"
     command: "/bin/true"
     environment:
       TARGET_URL: "{{ @('lighthouse.target.url') | raw }}"
