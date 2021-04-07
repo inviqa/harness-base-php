@@ -165,7 +165,7 @@ attributes:
       steps:
         - |
           if [[ -f app/etc/env-backup.php ]]; then
-            mv app/etc/env-backup.php app/etc/env.php
+            run mv app/etc/env-backup.php app/etc/env.php
           fi
         - task rabbitmq:vhosts
         - |

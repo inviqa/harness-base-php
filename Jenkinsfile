@@ -91,6 +91,9 @@ pipeline {
                             }
                             steps { sh './test symfony static' }
                         }
+                        stage('Magento 2 Dynamic') {
+                            steps { sh './test magento2 dynamic' }
+                        }
                         stage('Magento 2 Static') {
                             steps { sh './test magento2 static' }
                         }
@@ -105,9 +108,6 @@ pipeline {
                                 branch 'none'
                             }
                             steps { sh './test symfony dynamic' }
-                        }
-                        stage('Magento 2 Dynamic') {
-                            steps { sh './test magento2 dynamic' }
                         }
                         stage('Magento 1 Dynamic') {
                             when {
