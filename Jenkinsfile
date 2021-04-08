@@ -30,30 +30,48 @@ pipeline {
                             }
                         }
                         stage('PHP Static') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test php static' }
                         }
                         stage('Drupal 8 Static') {
                             steps { sh './test drupal8 static' }
                         }
                         stage('Akeneo Static') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test akeneo static' }
                         }
                         stage('PHP Dynamic') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test php dynamic' }
                         }
                         stage('Drupal 8 Dynamic') {
                             steps { sh './test drupal8 dynamic' }
                         }
                         stage('Akeneo Dynamic') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test akeneo dynamic' }
                         }
                         stage('PHP Dynamic Mutagen') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test php dynamic mutagen' }
                         }
                         stage('Drupal 8 Dynamic Mutagen') {
                             steps { sh './test drupal8 dynamic mutagen' }
                         }
                         stage('Akeneo Dynamic Mutagen') {
+                            when {
+                                branch 'none'
+                            }
                             steps { sh './test akeneo dynamic mutagen' }
                         }
                     }
@@ -67,6 +85,9 @@ pipeline {
                     }
                 }
                 stage('2. Symfony, Magento 2, Magento 1') {
+                    when {
+                        branch 'none'
+                    }
                     agent {
                         docker {
                             label 'my127ws'
@@ -120,6 +141,9 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
+                    when {
+                        branch 'none'
+                    }
                     agent {
                         docker {
                             label 'my127ws'
