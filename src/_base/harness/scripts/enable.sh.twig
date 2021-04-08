@@ -32,7 +32,7 @@ enable_all()
         if [ "$HAS_FLAG" = no ]; then
             # remove all services, keeping console if considered built
             if console_enabled; then
-                passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --stop --"
+                passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --force --stop --"
             else
                 passthru docker-compose down
             fi
