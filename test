@@ -109,9 +109,7 @@ function run_isolated_tests()
     ws exec app composer:development_dependencies
     # Run the tests
     ws exec composer test-quality
-    if [[ "${harness}" == "drupal8" ]]; then
-      ws test-unit
-    else
+    if [[ "${harness}" != "drupal8" ]]; then
       ws exec composer test-unit
     fi
   fi
@@ -132,6 +130,9 @@ function run_pipeline_tests()
     # update the local filesystem
     if ws exec stat /app/composer.json > /dev/null 2>&1; then
       ws exec composer test-acceptance
+    fi
+    if [[ "${harness}" == "drupal8" ]]; then
+      ws test-unit
     fi
 
     ws lighthouse
