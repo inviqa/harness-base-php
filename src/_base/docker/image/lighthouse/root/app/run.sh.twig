@@ -1,23 +1,41 @@
 #!/bin/bash
 
 set -o nounset
+set -o pipefail
 set -o errexit
 
-echo "Running Lighthouse against URL: ${TARGET_URL}"
+TARGET_URL="${TARGET_URL:-${1:-}}"
+OUTPUT_RESULTS="${OUTPUT_RESULTS:-no}"
+
+if [ -z "$TARGET_URL" ] || ! [[ "$TARGET_URL" =~ https?:// ]]; then
+  echo "Please provide a target URL to run lighthouse against" >&2
+  exit 1
+fi
+
+function output_results()
+{
+  if [ "$OUTPUT_RESULTS" != "yes" ]; then
+    return
+  fi
+  cat /home/headless/lighthouse-results.json
+  echo
+}
+
+echo "Running Lighthouse against URL: ${TARGET_URL}" >&2
 
 lighthouse --no-enable-error-reporting \
            --chrome-flags="--headless --no-sandbox=true --ignore-certificate-errors --disable-dev-shm-usage" \
            --output json \
            --output-path=/home/headless/lighthouse-results.json \
-           "${TARGET_URL}"
+           "${TARGET_URL}" >&2
 
 {% if @('lighthouse.success-thresholds.performance.enabled') %}
   test_score=$(jq .categories.performance.score /home/headless/lighthouse-results.json)
   pass_value={{ @('lighthouse.success-thresholds.performance.score') }}
-  echo "Testing Performance score"
+  echo "Testing Performance score" >&2
   if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
   then
-    echo "Failed: Performance score of ${test_score} is less then required value of ${pass_value}"
+    echo "Failed: Performance score of ${test_score} is less then required value of ${pass_value}" >&2
     exit 1
   fi
 {% endif %}
@@ -25,10 +43,10 @@ lighthouse --no-enable-error-reporting \
 {% if @('lighthouse.success-thresholds.pwa.enabled') %}
   test_score=$(jq .categories.pwa.score /home/headless/lighthouse-results.json)
   pass_value={{ @('lighthouse.success-thresholds.pwa.score') }}
-  echo "Testing PWA score"
+  echo "Testing PWA score" >&2
   if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
   then
-    echo "Failed: PWA score of ${test_score} is less then required value of ${pass_value}"
+    echo "Failed: PWA score of ${test_score} is less then required value of ${pass_value}" >&2
     exit 1
   fi
 {% endif %}
@@ -36,10 +54,10 @@ lighthouse --no-enable-error-reporting \
 {% if @('lighthouse.success-thresholds.seo.enabled') %}
   test_score=$(jq .categories.seo.score /home/headless/lighthouse-results.json)
   pass_value={{ @('lighthouse.success-thresholds.seo.score') }}
-  echo "Testing SEO score"
+  echo "Testing SEO score" >&2
   if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
   then
-    echo "Failed: SEO score of ${test_score} is less then required value of ${pass_value}"
+    echo "Failed: SEO score of ${test_score} is less then required value of ${pass_value}" >&2
     exit 1
   fi
 {% endif %}
@@ -47,10 +65,10 @@ lighthouse --no-enable-error-reporting \
 {% if @('lighthouse.success-thresholds.best-practices.enabled') %}
   test_score=$(jq '.categories["best-practices"].score' /home/headless/lighthouse-results.json)
   pass_value={{ @('lighthouse.success-thresholds.best-practices.score') }}
-  echo "Testing Best Practices score"
+  echo "Testing Best Practices score" >&2
   if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
   then
-    echo "Failed: Best Practices score of ${test_score} is less then required value of ${pass_value}"
+    echo "Failed: Best Practices score of ${test_score} is less then required value of ${pass_value}" >&2
     exit 1
   fi
 {% endif %}
@@ -58,12 +76,13 @@ lighthouse --no-enable-error-reporting \
 {% if @('lighthouse.success-thresholds.accessibility.enabled') %}
   test_score=$(jq .categories.accessibility.score /home/headless/lighthouse-results.json)
   pass_value={{ @('lighthouse.success-thresholds.accessibility.score') }}
-  echo "Testing Accessibility score"
+  echo "Testing Accessibility score" >&2
   if [ 1 -eq "$(echo "${test_score} < ${pass_value}" | bc)" ]
   then
-    echo "Failed: Accessibility score of ${test_score} is less then required value of ${pass_value}"
+    echo "Failed: Accessibility score of ${test_score} is less then required value of ${pass_value}" >&2
     exit 1
   fi
 {% endif %}
 
-echo "Success"
+output_results
+echo "Success" >&2

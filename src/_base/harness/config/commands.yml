@@ -308,9 +308,10 @@ command('generate token <length>'):
     }
     echo $string;
 
-command('lighthouse'):
+command('lighthouse [--with-results]'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
+    OUTPUT_RESULTS:       = input.option('with-results') ? 'yes':'no'
   exec: |
     #!bash(workspace:/)|@
     passthru docker-compose run --rm lighthouse bash -i /app/run.sh
