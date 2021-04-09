@@ -30,6 +30,7 @@ attributes.default:
         enabled: true
     tests:
       isolated: true
+      use_global_services: false
 
   pipeline:
     base:
