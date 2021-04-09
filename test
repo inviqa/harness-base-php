@@ -29,7 +29,7 @@ function test()
     elif [[ "$sync" == "mutagen" ]]; then
       setup_dynamic_mutagen
     fi
-    if ! [[ "$harness" =~ ^(drupal8|magento1)$ ]]; then
+    if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
       run_isolated_tests "$harness"
     fi
@@ -109,9 +109,7 @@ function run_isolated_tests()
     ws exec app composer:development_dependencies
     # Run the tests
     ws exec composer test-quality
-    if [[ "${harness}" == "drupal8" ]]; then
-      ws test-unit
-    else
+    if [[ "${harness}" != "drupal8" ]]; then
       ws exec composer test-unit
     fi
   fi
@@ -121,7 +119,7 @@ function run_pipeline_tests()
 (
     local harness="$1"
 
-    if [[ "$harness" =~ ^(drupal8|magento1)$ ]]; then
+    if [[ "$harness" =~ ^(magento1)$ ]]; then
       run_isolated_tests "$harness"
     fi
 
@@ -132,6 +130,9 @@ function run_pipeline_tests()
     # update the local filesystem
     if ws exec stat /app/composer.json > /dev/null 2>&1; then
       ws exec composer test-acceptance
+    fi
+    if [[ "${harness}" == "drupal8" ]]; then
+      ws test-unit
     fi
 
     ws lighthouse
