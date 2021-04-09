@@ -163,6 +163,10 @@ attributes:
         - task assets:dump
     init:
       steps:
+        - |
+          if [[ -f app/etc/env-backup.php ]]; then
+            run mv app/etc/env-backup.php app/etc/env.php
+          fi
         - task rabbitmq:vhosts
         - |
           if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
@@ -191,10 +195,6 @@ attributes:
   framework:
     readme_blocks:
       - xml_urn_generation
-  jenkins:
-    tests:
-      # Magento 2 connects to backend services in composer install hooks
-      isolated: false
   rabbitmq:
     vhosts:
       default: 'magento'
