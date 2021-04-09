@@ -46,7 +46,7 @@ pipeline {
 {% if @('jenkins.tests.isolated') %}
         stage('Build') {
             steps {
-                sh 'ws enable'
+                sh 'ws install'
                 milestone(30)
             }
         }
