@@ -29,13 +29,14 @@ function test()
     elif [[ "$sync" == "mutagen" ]]; then
       setup_dynamic_mutagen
     fi
+    prepare_environment
+    run_harness_quality_tests
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
       run_isolated_tests "$harness"
     fi
     install_environment
     check_environment_started "$harness" "$mode"
-    run_harness_quality_tests
     run_pipeline_tests "$harness"
     restart_environment
     check_environment_started "$harness" "$mode"
@@ -58,6 +59,12 @@ function setup()
 
     cp -ap "${path_harness}/.ci/sample-${mode}" "${path_test}"
     cp -ap "${path_harness}" "${path_test}/.my127ws"
+)
+
+function prepare_environment()
+(
+    cd "${path_test}"
+    ws harness prepare
 )
 
 function install_console()
