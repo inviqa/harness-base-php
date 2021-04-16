@@ -37,7 +37,9 @@ pipeline {
                 stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
 {% if not @('jenkins.tests.isolated') %}
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+{% if @('services.lighthouse.enabled') %}
                 stage('lighthouse') { steps { sh 'ws lighthouse' } }
+{% endif %}
 {% endif %}
                 stage('helm kubeval qa')  { steps { sh 'ws helm kubeval --cleanup qa' } }
             }
@@ -52,7 +54,9 @@ pipeline {
         stage('End-to-end Test') {
             parallel {
                 stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+{% if @('services.lighthouse.enabled') %}
                 stage('lighthouse') { steps { sh 'ws lighthouse' } }
+{% endif %}
             }
         }
 {% endif %}
