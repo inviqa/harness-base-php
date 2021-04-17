@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build and Test') {
             parallel {
-                stage('1. PHP, Drupal 8, Akeneo') {
+                stage('1. PHP, Drupal 8, Magento 2') {
                     agent {
                         docker {
                             label 'my127ws'
@@ -33,11 +33,8 @@ pipeline {
                         stage('Drupal 8 Static') {
                             steps { sh './test drupal8 static' }
                         }
-                        stage('Akeneo Static') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test akeneo static' }
+                        stage('Magento 2 Static') {
+                            steps { sh './test magento2 static' }
                         }
                         stage('PHP Dynamic') {
                             steps { sh './test php dynamic' }
@@ -45,11 +42,8 @@ pipeline {
                         stage('Drupal 8 Dynamic') {
                             steps { sh './test drupal8 dynamic' }
                         }
-                        stage('Akeneo Dynamic') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test akeneo dynamic' }
+                        stage('Magento 2 Dynamic') {
+                            steps { sh './test magento2 dynamic' }
                         }
                         stage('PHP Dynamic Mutagen') {
                             steps { sh './test php dynamic mutagen' }
@@ -57,11 +51,8 @@ pipeline {
                         stage('Drupal 8 Dynamic Mutagen') {
                             steps { sh './test drupal8 dynamic mutagen' }
                         }
-                        stage('Akeneo Dynamic Mutagen') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test akeneo dynamic mutagen' }
+                        stage('Magento 2 Dynamic Mutagen') {
+                            steps { sh './test magento2 dynamic mutagen' }
                         }
                     }
                     post {
@@ -73,7 +64,7 @@ pipeline {
                         }
                     }
                 }
-                stage('2. Symfony, Magento 2, Magento 1') {
+                stage('2. Magento 1, Spryker') {
                     agent {
                         docker {
                             label 'my127ws'
@@ -88,92 +79,21 @@ pipeline {
                                 sh './delete_running_containers.sh'
                                 sh './build'
                             }
-                        }
-                        stage('Symfony Static') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test symfony static' }
-                        }
-                        stage('Magento 2 Static') {
-                            steps { sh './test magento2 static' }
                         }
                         stage('Magento 1 Static') {
                             steps { sh './test magento1 static' }
                         }
-                        stage('Symfony Dynamic') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test symfony dynamic' }
-                        }
-                        stage('Magento 2 Dynamic') {
-                            steps { sh './test magento2 dynamic' }
+                        stage('Spryker Static') {
+                            steps { sh './test spryker static' }
                         }
                         stage('Magento 1 Dynamic') {
                             steps { sh './test magento1 dynamic' }
                         }
-                        stage('Symfony Dynamic Mutagen') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test symfony dynamic mutagen' }
-                        }
-                        stage('Magento 2 Dynamic Mutagen') {
-                            steps { sh './test magento2 dynamic mutagen' }
-                        }
-                        stage('Magento 1 Dynamic Mutagen') {
-                            steps { sh './test magento1 dynamic mutagen' }
-                        }
-                    }
-                    post {
-                        always {
-                            sh '(cd tmp-test && ws destroy) || true'
-                            sh 'ws destroy || true'
-                            sh './delete_running_containers.sh'
-                            cleanWs()
-                        }
-                    }
-                }
-                stage('3. Wordpress, Spryker') {
-                    agent {
-                        docker {
-                            label 'my127ws'
-                            alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                        }
-                    }
-                    stages {
-                        stage('Prepare') {
-                            steps {
-                                sh './delete_running_containers.sh'
-                                sh './build'
-                            }
-                        }
-                        stage('Wordpress Static') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test wordpress static' }
-                        }
-                        stage('Spryker Static') {
-                            steps { sh './test spryker static' }
-                        }
-                        stage('Wordpress Dynamic') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test wordpress dynamic' }
-                        }
                         stage('Spryker Dynamic') {
                             steps { sh './test spryker dynamic' }
                         }
-                        stage('Wordpress Dynamic Mutagen') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test wordpress dynamic mutagen' }
+                        stage('Magento 1 Dynamic Mutagen') {
+                            steps { sh './test magento1 dynamic mutagen' }
                         }
                         stage('Spryker Dynamic Mutagen') {
                             steps { sh './test spryker dynamic mutagen' }
