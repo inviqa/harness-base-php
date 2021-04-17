@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Build and Test') {
             parallel {
-                stage('1. PHP, Drupal 8, Akeneo') {
+                stage('1. PHP, Drupal 8, Symfony, Akeneo') {
                     agent {
                         docker {
                             label 'my127ws'
@@ -38,6 +38,9 @@ pipeline {
                         stage('Akeneo Static') {
                             steps { sh './test akeneo static' }
                         }
+                        stage('Symfony Static') {
+                            steps { sh './test symfony static' }
+                        }
                         stage('PHP Dynamic') {
                             steps { sh './test php dynamic' }
                         }
@@ -47,6 +50,9 @@ pipeline {
                         stage('Akeneo Dynamic') {
                             steps { sh './test akeneo dynamic' }
                         }
+                        stage('Symfony Dynamic') {
+                            steps { sh './test symfony dynamic' }
+                        }
                         stage('PHP Dynamic Mutagen') {
                             steps { sh './test php dynamic mutagen' }
                         }
@@ -55,6 +61,9 @@ pipeline {
                         }
                         stage('Akeneo Dynamic Mutagen') {
                             steps { sh './test akeneo dynamic mutagen' }
+                        }
+                        stage('Symfony Dynamic Mutagen') {
+                            steps { sh './test symfony dynamic mutagen' }
                         }
                     }
                     post {
@@ -67,6 +76,9 @@ pipeline {
                     }
                 }
                 stage('2. Symfony, Magento 2, Magento 1') {
+                    when {
+                        not { triggeredBy 'TimerTrigger' }
+                    }
                     agent {
                         docker {
                             label 'my127ws'
@@ -120,6 +132,9 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
+                    when {
+                        not { triggeredBy 'TimerTrigger' }
+                    }
                     agent {
                         docker {
                             label 'my127ws'
