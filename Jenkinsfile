@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Build and Test') {
             parallel {
-                stage('1. PHP, Drupal 8, Akeneo') {
+                stage('1. Drupal 8') {
                     agent {
                         docker {
                             label 'my127ws'
@@ -27,50 +27,14 @@ pipeline {
                                 sh './build'
                             }
                         }
-                        stage('PHP Static') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test php static' }
-                        }
                         stage('Drupal 8 Static') {
                             steps { sh './test drupal8 static' }
                         }
-                        stage('Akeneo Static') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test akeneo static' }
-                        }
-                        stage('PHP Dynamic') {
-                            steps { sh './test php dynamic' }
-                        }
                         stage('Drupal 8 Dynamic') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
                             steps { sh './test drupal8 dynamic' }
                         }
-                        stage('Akeneo Dynamic') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test akeneo dynamic' }
-                        }
-                        stage('PHP Dynamic Mutagen') {
-                            steps { sh './test php dynamic mutagen' }
-                        }
                         stage('Drupal 8 Dynamic Mutagen') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
                             steps { sh './test drupal8 dynamic mutagen' }
-                        }
-                        stage('Akeneo Dynamic Mutagen') {
-                            when {
-                                not { triggeredBy 'TimerTrigger' }
-                            }
-                            steps { sh './test akeneo dynamic mutagen' }
                         }
                     }
                     post {
