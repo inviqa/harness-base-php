@@ -1,6 +1,8 @@
 pipeline {
     agent none
     environment {
+        COMPOSE_DOCKER_CLI_BUILD = 1
+        DOCKER_BUILDKIT = 1
         MY127WS_KEY = credentials('base-my127ws-key-20190523')
     }
     options {
