@@ -177,7 +177,6 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
-                    // Choose a different agent to our "main" one
                     agent {
                         docker {
                             // Reuse the same agent selected at the top of the file
