@@ -62,16 +62,10 @@ pipeline {
                             steps { sh './test akeneo dynamic mutagen' }
                         }
                     }
-                    post {
-                        always {
-                            sh '(cd tmp-test && ws destroy) || true'
-                            sh 'ws destroy || true'
-                            sh './delete_running_containers.sh'
-                            cleanWs()
-                        }
-                    }
+                    // No post step, as it will be taken care of in the global cleanup at the bottom
                 }
                 stage('2. Symfony, Magento 2, Magento 1') {
+                    // Choose a different agent to our "main" one
                     agent {
                         docker {
                             label 'my127ws'
@@ -115,6 +109,7 @@ pipeline {
                             steps { sh './test magento1 dynamic mutagen' }
                         }
                     }
+                    // Need to clean up as it's a different agent
                     post {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
@@ -125,6 +120,7 @@ pipeline {
                     }
                 }
                 stage('3. Wordpress, Spryker') {
+                    // Choose a different agent to our "main" one
                     agent {
                         docker {
                             label 'my127ws'
@@ -159,6 +155,7 @@ pipeline {
                             steps { sh './test spryker dynamic mutagen' }
                         }
                     }
+                    // Need to clean up as it's a different agent
                     post {
                         always {
                             sh '(cd tmp-test && ws destroy) || true'
@@ -173,6 +170,9 @@ pipeline {
     }
     post {
         always {
+            sh '(cd tmp-test && ws destroy) || true'
+            sh 'ws destroy || true'
+            sh './delete_running_containers.sh'
             cleanWs()
         }
     }
