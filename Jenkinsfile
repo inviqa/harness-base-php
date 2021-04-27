@@ -199,15 +199,12 @@ pipeline {
                                 TEST_MODE = "quality"
                             }
                             steps {
-                                sh './test symfony static'
-                                sh './test magento2 static'
-                                sh './test magento1 static'
-                                sh './test symfony dynamic'
-                                sh './test magento2 dynamic'
-                                sh './test magento1 dynamic'
-                                sh './test symfony dynamic mutagen'
-                                sh './test magento2 dynamic mutagen'
-                                sh './test magento1 dynamic mutagen'
+                                sh './test wordpress static'
+                                sh './test spryker static'
+                                sh './test wordpress dynamic'
+                                sh './test spryker dynamic'
+                                sh './test wordpress dynamic mutagen'
+                                sh './test spryker dynamic mutagen'
                             }
                         }
                         stage('Acceptance Tests') {

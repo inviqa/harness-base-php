@@ -69,8 +69,6 @@ function test_acceptance()
     local sync="$3"
 
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
-      pwd
-      ls -la
       install_console
       run_isolated_tests "$harness"
     fi
