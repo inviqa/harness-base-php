@@ -20,10 +20,9 @@ pipeline {
         stage('Build and Test') {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {
+                    // Choose a different agent to our "main" one
                     agent {
                        docker {
-                            // Reuse the same agent selected at the top of the file
-                            reuseNode true
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
@@ -34,6 +33,7 @@ pipeline {
                         stage('Prepare') {
                             steps {
                                 sh './delete_running_containers.sh'
+                                sh './build'
                             }
                         }
                         stage('PHP Static') {
@@ -64,7 +64,15 @@ pipeline {
                             steps { sh './test akeneo dynamic mutagen' }
                         }
                     }
-                    // No post step, as it will be taken care of in the global cleanup at the bottom
+                    // Need to clean up as it's a different agent
+                    post {
+                        always {
+                            sh '(cd tmp-test && ws destroy) || true'
+                            sh 'ws destroy || true'
+                            sh './delete_running_containers.sh'
+                            cleanWs()
+                        }
+                    }
                 }
                 stage('2. Symfony, Magento 2, Magento 1') {
                     // Choose a different agent to our "main" one
@@ -125,6 +133,8 @@ pipeline {
                     // Choose a different agent to our "main" one
                     agent {
                         docker {
+                            // Reuse the same agent selected at the top of the file
+                            reuseNode true
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
@@ -135,7 +145,6 @@ pipeline {
                         stage('Prepare') {
                             steps {
                                 sh './delete_running_containers.sh'
-                                sh './build'
                             }
                         }
                         stage('Wordpress Static') {
@@ -157,16 +166,13 @@ pipeline {
                             steps { sh './test spryker dynamic mutagen' }
                         }
                     }
-                    // Need to clean up as it's a different agent
-                    post {
-                        always {
-                            sh '(cd tmp-test && ws destroy) || true'
-                            sh 'ws destroy || true'
-                            sh './delete_running_containers.sh'
-                            cleanWs()
-                        }
-                    }
+                    // No post step, as it will be taken care of in the global cleanup at the bottom
                 }
+            }
+        }
+        stage('Success') {
+            steps {
+                sh 'echo "Success"'
             }
         }
     }
