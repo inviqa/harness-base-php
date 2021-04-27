@@ -5,32 +5,69 @@ set -x
 
 export path_test="./tmp-test"
 
+export TEST_MODE="${TEST_MODE:-full}"
+export REUSE_EXISTING_WORKSPACE="${REUSE_EXISTING_WORKSPACE:-no}"
+export TEARDOWN_ENVIRONMENT="${TEARDOWN_ENVIRONMENT:-yes}"
+
 function main()
 {
-    test "$1" "$2" "${3:-}"
-}
-
-function test()
-(
     local harness="$1"
     local mode="$2"
-    local sync="$3"
+    local sync="${3:-}"
+
+    local sync_path=""
+    if [[ -n "$sync" ]]; then
+      sync_path="-${sync}"
+    fi
+    export path_test="./tmp-test-${harness}-${mode}${sync_path}"
+
+    if [[ "$TEARDOWN_ENVIRONMENT" == "yes" ]]; then
+      trap 'clean' EXIT
+    fi
 
     if [[ "$mode" == "static" ]]; then
       export MY127WS_ENV=pipeline
     fi
 
-    # Test default mode of static or dynamic harnesses
-    # For dynamic this means a mountpoint for the application code
-    # or mutagen
-    setup "$harness" "$mode"
-    if [[ "$sync" == "" ]]; then
-      setup_dynamic_mountpoint
-    elif [[ "$sync" == "mutagen" ]]; then
-      setup_dynamic_mutagen
+    if [[ "$REUSE_EXISTING_WORKSPACE" != "yes" ]]; then
+      # Test default mode of static or dynamic harnesses
+      # For dynamic this means a mountpoint for the application code
+      # or mutagen
+      setup "$harness" "$mode"
+      if [[ "$sync" == "" ]]; then
+        setup_dynamic_mountpoint
+      elif [[ "$sync" == "mutagen" ]]; then
+        setup_dynamic_mutagen
+      fi
+      prepare_environment
     fi
-    prepare_environment
+
+    if [[ "$TEST_MODE" == "quality" || "$TEST_MODE" == "full" ]]; then
+      test_quality "$harness" "$mode" "$sync"
+    fi
+    if [[ "$TEST_MODE" == "acceptance" || "$TEST_MODE" == "full"  ]]; then
+      test_acceptance "$harness" "$mode" "$sync"
+    fi
+    if [[ "$TEARDOWN_ENVIRONMENT" == "yes" ]]; then
+      teardown
+    fi
+}
+
+function test_quality()
+{
+    local harness="$1"
+    local mode="$2"
+    local sync="$3"
+
     run_harness_quality_tests
+}
+
+function test_acceptance()
+(
+    local harness="$1"
+    local mode="$2"
+    local sync="$3"
+
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
       run_isolated_tests "$harness"
@@ -43,7 +80,6 @@ function test()
     if [[ "$sync" != "" ]]; then
       wait_for_vendor_directory
     fi
-    teardown
 )
 
 function setup()
@@ -205,5 +241,4 @@ function clean()
     fi
 }
 
-trap 'clean' EXIT
 main "$@"
