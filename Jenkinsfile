@@ -1,5 +1,12 @@
 pipeline {
-    agent none
+    agent {
+       docker {
+            label 'my127ws'
+            alwaysPull true
+            image 'quay.io/inviqa_images/workspace:latest'
+            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+        }
+    }
     environment {
         COMPOSE_DOCKER_CLI_BUILD = 1
         DOCKER_BUILDKIT = 1
@@ -12,14 +19,6 @@ pipeline {
     triggers { cron(env.BRANCH_NAME ==~ /^\d+\.\d+\.x$/ ? 'H H(0-6) * * *' : '') }
     stages {
         stage('Quality Checks') {
-            agent {
-               docker {
-                    label 'my127ws'
-                    alwaysPull true
-                    image 'quay.io/inviqa_images/workspace:latest'
-                    args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                }
-            }
             steps {
                 sh './build'
                 sh './quality'
@@ -33,19 +32,11 @@ pipeline {
         stage('Build and Test') {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {
-                    agent {
-                        docker {
-                            label 'my127ws'
-                            alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                        }
-                    }
+                    // Deliberately use the first agent allocated in 'Allocate agent', so no agent {} here
                     stages {
                         stage('Prepare') {
                             steps {
                                 sh './delete_running_containers.sh'
-                                sh './build'
                             }
                         }
                         stage('PHP Static') {
