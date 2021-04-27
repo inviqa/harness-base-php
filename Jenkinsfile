@@ -23,11 +23,6 @@ pipeline {
                 sh './build'
                 sh './quality'
             }
-            post {
-                always {
-                    cleanWs()
-                }
-            }
         }
         stage('Build and Test') {
             parallel {
@@ -174,6 +169,11 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+    post {
+        always {
+            cleanWs()
         }
     }
 }
