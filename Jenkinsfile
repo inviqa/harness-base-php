@@ -15,6 +15,7 @@ pipeline {
             steps {
                 sh './build'
                 sh './quality'
+                milestone(10)
             }
         }
         stage('Build and Test') {
@@ -173,6 +174,7 @@ pipeline {
         stage('Success') {
             steps {
                 sh 'echo "Success"'
+                milestone(100)
             }
         }
     }
