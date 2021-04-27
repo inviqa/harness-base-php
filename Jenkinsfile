@@ -1,12 +1,5 @@
 pipeline {
-    agent {
-       docker {
-            label 'my127ws'
-            alwaysPull true
-            image 'quay.io/inviqa_images/workspace:latest'
-            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-        }
-    }
+    agent { label 'my127ws' }
     environment {
         COMPOSE_DOCKER_CLI_BUILD = 1
         DOCKER_BUILDKIT = 1
@@ -27,7 +20,16 @@ pipeline {
         stage('Build and Test') {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {
-                    // Deliberately use the first agent allocated in 'Allocate agent', so no agent {} here
+                    agent {
+                       docker {
+                            // Reuse the same agent selected at the top of the file
+                            reuseNode true
+                            label 'my127ws'
+                            alwaysPull true
+                            image 'quay.io/inviqa_images/workspace:latest'
+                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                        }
+                    }
                     stages {
                         stage('Prepare') {
                             steps {
