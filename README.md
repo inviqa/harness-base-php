@@ -112,7 +112,7 @@ We run shellcheck and hadolint across shell scripts and Dockerfiles. These can b
 ```
 
 The `./test` script described below also runs these quality checks against rendered twig templates in
-`tmp-test/.my127ws/` as used in a test project.
+`tmp-test-<framework>-<mode>/.my127ws/` as used in a test project.
 
 ### End to end tests with the secret key
 
@@ -122,7 +122,8 @@ the following to test the given framework in the given mode like Jenkins does:
 ./build && ./test <framework> <static|dynamic> [mutagen]
 ```
 
-You may have to edit the test script to not shut down the environment afterwards to debug a failure.
+Running with the environment variable `TEARDOWN_ENVIRONMENT=no` will keep the environment running so you can
+debug a failure.
 
 ### End to end tests without the secret key
 
