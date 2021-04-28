@@ -51,9 +51,7 @@ pipeline {
                                 sh './test symfony static'
                                 sh './test wordpress static'
                                 sh './test magento1 dynamic'
-                                sh './test magento1 dynamic mutagen'
                                 sh './test magento2 dynamic'
-                                sh './test magento2 dynamic mutagen'
                             }
                         }
                         stage('Install Mutagen') {
@@ -94,14 +92,8 @@ pipeline {
                                 stage('Magento 1 Dynamic') {
                                     steps { sh './test magento1 dynamic' }
                                 }
-                                stage('Magento 1 Dynamic Mutagen') {
-                                    steps { sh './test magento1 dynamic mutagen' }
-                                }
                                 stage('Magento 2 Dynamic') {
                                     steps { sh './test magento2 dynamic' }
-                                }
-                                stage('Magento 2 Dynamic Mutagen') {
-                                    steps { sh './test magento2 dynamic mutagen' }
                                 }
                             }
                         }
@@ -143,6 +135,8 @@ pipeline {
                                 sh './test akeneo dynamic mutagen'
                                 sh './test drupal8 dynamic'
                                 sh './test drupal8 dynamic mutagen'
+                                sh './test magento1 dynamic mutagen'
+                                sh './test magento2 dynamic mutagen'
                                 sh './test symfony dynamic'
                                 sh './test symfony dynamic mutagen'
                                 sh './test wordpress dynamic'
@@ -166,29 +160,35 @@ pipeline {
                                 stage('PHP') {
                                     steps { sh './test php dynamic' }
                                 }
-                                stage('PHP Mutagen') {
-                                    steps { sh './test php dynamic mutagen' }
-                                }
                                 stage('Akeneo') {
                                     steps { sh './test akeneo dynamic' }
-                                }
-                                stage('Akeneo Mutagen') {
-                                    steps { sh './test akeneo dynamic mutagen' }
                                 }
                                 stage('Drupal 8') {
                                     steps { sh './test drupal8 dynamic' }
                                 }
-                                stage('Drupal 8 Mutagen') {
-                                    steps { sh './test drupal8 dynamic mutagen' }
-                                }
                                 stage('Symfony') {
                                     steps { sh './test symfony dynamic' }
                                 }
-                                stage('Symfony Mutagen') {
-                                    steps { sh './test symfony dynamic mutagen' }
-                                }
                                 stage('Wordpress') {
                                     steps { sh './test wordpress dynamic' }
+                                }
+                                stage('PHP Mutagen') {
+                                    steps { sh './test php dynamic mutagen' }
+                                }
+                                stage('Akeneo Mutagen') {
+                                    steps { sh './test akeneo dynamic mutagen' }
+                                }
+                                stage('Drupal 8 Mutagen') {
+                                    steps { sh './test drupal8 dynamic mutagen' }
+                                }
+                                stage('Magento 1 Mutagen') {
+                                    steps { sh './test magento1 dynamic mutagen' }
+                                }
+                                stage('Magento 2 Mutagen') {
+                                    steps { sh './test magento2 dynamic mutagen' }
+                                }
+                                stage('Symfony Mutagen') {
+                                    steps { sh './test symfony dynamic mutagen' }
                                 }
                                 stage('Wordpress Mutagen') {
                                     steps { sh './test wordpress dynamic mutagen' }
