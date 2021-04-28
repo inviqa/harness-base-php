@@ -91,10 +91,10 @@ pipeline {
                                 stage('Wordpress') {
                                     steps { sh './test wordpress static' }
                                 }
-                                stage('Magento 1') {
+                                stage('Magento 1 Dynamic') {
                                     steps { sh './test magento1 dynamic' }
                                 }
-                                stage('Magento 1 Mutagen') {
+                                stage('Magento 1 Dynamic Mutagen') {
                                     steps { sh './test magento1 dynamic mutagen' }
                                 }
                                 stage('Magento 2 Dynamic') {
