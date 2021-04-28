@@ -233,25 +233,26 @@ pipeline {
                                 TEST_MODE = "quality"
                             }
                             steps {
+                                sh './test spryker dynamic mutagen'
                                 sh './test spryker static'
                                 sh './test spryker dynamic'
-                                sh './test spryker dynamic mutagen'
                             }
                         }
+                        // Deliberately not having an "Install Mutagen" step to test the installer we ship with the harness
                         stage('Acceptance Tests') {
                             environment {
                                 REUSE_EXISTING_WORKSPACE = "yes"
                                 TEST_MODE = "acceptance"
                             }
                             stages {
+                                stage('Spryker Mutagen') {
+                                    steps { sh './test spryker dynamic mutagen' }
+                                }
                                 stage('Spryker Static') {
                                     steps { sh './test spryker static' }
                                 }
                                 stage('Spryker Dynamic') {
                                     steps { sh './test spryker dynamic' }
-                                }
-                                stage('Spryker Mutagen') {
-                                    steps { sh './test spryker dynamic mutagen' }
                                 }
                             }
                         }
