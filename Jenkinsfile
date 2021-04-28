@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Build and Test') {
             parallel {
-                stage('1. PHP, Drupal 8, Akeneo') {
+                stage('1. Static') {
                     // Choose a different agent to our "main" one
                     agent {
                        docker {
@@ -44,14 +44,12 @@ pipeline {
                             }
                             steps {
                                 sh './test php static'
-                                sh './test drupal8 static'
                                 sh './test akeneo static'
-                                sh './test php dynamic'
-                                sh './test drupal8 dynamic'
-                                sh './test akeneo dynamic'
-                                sh './test php dynamic mutagen'
-                                sh './test drupal8 dynamic mutagen'
-                                sh './test akeneo dynamic mutagen'
+                                sh './test drupal8 static'
+                                sh './test magento1 static'
+                                sh './test magento2 static'
+                                sh './test symfony static'
+                                sh './test wordpress static'
                             }
                         }
                         stage('Acceptance Tests') {
@@ -60,32 +58,26 @@ pipeline {
                                 TEST_MODE = "acceptance"
                             }
                             stages {
-                                stage('PHP Static') {
+                                stage('PHP') {
                                     steps { sh './test php static' }
                                 }
-                                stage('Drupal 8 Static') {
-                                    steps { sh './test drupal8 static' }
-                                }
-                                stage('Akeneo Static') {
+                                stage('Akeneo') {
                                     steps { sh './test akeneo static' }
                                 }
-                                stage('PHP Dynamic') {
-                                    steps { sh './test php dynamic' }
+                                stage('Drupal 8') {
+                                    steps { sh './test drupal8 static' }
                                 }
-                                stage('Drupal 8 Dynamic') {
-                                    steps { sh './test drupal8 dynamic' }
+                                stage('Symfony') {
+                                    steps { sh './test symfony static' }
                                 }
-                                stage('Akeneo Dynamic') {
-                                    steps { sh './test akeneo dynamic' }
+                                stage('Magento 1') {
+                                    steps { sh './test magento1 static' }
                                 }
-                                stage('PHP Dynamic Mutagen') {
-                                    steps { sh './test php dynamic mutagen' }
+                                stage('Magento 2') {
+                                    steps { sh './test magento2 static' }
                                 }
-                                stage('Drupal 8 Dynamic Mutagen') {
-                                    steps { sh './test drupal8 dynamic mutagen' }
-                                }
-                                stage('Akeneo Dynamic Mutagen') {
-                                    steps { sh './test akeneo dynamic mutagen' }
+                                stage('Wordpress') {
+                                    steps { sh './test wordpress static' }
                                 }
                             }
                         }
@@ -98,7 +90,7 @@ pipeline {
                         }
                     }
                 }
-                stage('2. Symfony, Magento 2, Magento 1') {
+                stage('2. Dynamic') {
                     // Choose a different agent to our "main" one
                     agent {
                         docker {
@@ -121,15 +113,28 @@ pipeline {
                                 TEST_MODE = "quality"
                             }
                             steps {
-                                sh './test symfony static'
-                                sh './test magento2 static'
-                                sh './test magento1 static'
-                                sh './test symfony dynamic'
-                                sh './test magento2 dynamic'
+                                sh './test php dynamic'
+                                sh './test php dynamic mutagen'
+                                sh './test akeneo dynamic'
+                                sh './test akeneo dynamic mutagen'
+                                sh './test drupal8 dynamic'
+                                sh './test drupal8 dynamic mutagen'
                                 sh './test magento1 dynamic'
-                                sh './test symfony dynamic mutagen'
-                                sh './test magento2 dynamic mutagen'
                                 sh './test magento1 dynamic mutagen'
+                                sh './test magento2 dynamic'
+                                sh './test magento2 dynamic mutagen'
+                                sh './test symfony dynamic'
+                                sh './test symfony dynamic mutagen'
+                                sh './test wordpress dynamic'
+                                sh './test wordpress dynamic mutagen'
+                            }
+                        }
+                        stage('Install Mutagen') {
+                            steps {
+                                sh 'apk add grep'
+                                sh 'curl --fail --silent --show-error --location --output /tmp/mutagen.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz'
+                                sh 'tar -C /usr/local/bin/ -xf /tmp/mutagen.tar.gz'
+                                sh 'rm -f /tmp/mutagen.tar.gz'
                             }
                         }
                         stage('Acceptance Tests') {
@@ -138,32 +143,47 @@ pipeline {
                                 TEST_MODE = "acceptance"
                             }
                             stages {
-                                stage('Symfony Static') {
-                                    steps { sh './test symfony static' }
+                                stage('PHP') {
+                                    steps { sh './test php dynamic' }
                                 }
-                                stage('Magento 2 Static') {
-                                    steps { sh './test magento2 static' }
+                                stage('PHP Mutagen') {
+                                    steps { sh './test php dynamic mutagen' }
                                 }
-                                stage('Magento 1 Static') {
-                                    steps { sh './test magento1 static' }
+                                stage('Akeneo') {
+                                    steps { sh './test akeneo dynamic' }
                                 }
-                                stage('Symfony Dynamic') {
-                                    steps { sh './test symfony dynamic' }
+                                stage('Akeneo Mutagen') {
+                                    steps { sh './test akeneo dynamic mutagen' }
                                 }
-                                stage('Magento 2 Dynamic') {
-                                    steps { sh './test magento2 dynamic' }
+                                stage('Drupal 8') {
+                                    steps { sh './test drupal8 dynamic' }
                                 }
-                                stage('Magento 1 Dynamic') {
+                                stage('Drupal 8 Mutagen') {
+                                    steps { sh './test drupal8 dynamic mutagen' }
+                                }
+                                stage('Magento 1') {
                                     steps { sh './test magento1 dynamic' }
                                 }
-                                stage('Symfony Dynamic Mutagen') {
-                                    steps { sh './test symfony dynamic mutagen' }
+                                stage('Magento 1 Mutagen') {
+                                    steps { sh './test magento1 dynamic mutagen' }
                                 }
-                                stage('Magento 2 Dynamic Mutagen') {
+                                stage('Magento 2') {
+                                    steps { sh './test magento2 dynamic' }
+                                }
+                                stage('Magento 2 Mutagen') {
                                     steps { sh './test magento2 dynamic mutagen' }
                                 }
-                                stage('Magento 1 Dynamic Mutagen') {
-                                    steps { sh './test magento1 dynamic mutagen' }
+                                stage('Symfony') {
+                                    steps { sh './test symfony dynamic' }
+                                }
+                                stage('Symfony Mutagen') {
+                                    steps { sh './test symfony dynamic mutagen' }
+                                }
+                                stage('Wordpress') {
+                                    steps { sh './test wordpress dynamic' }
+                                }
+                                stage('Wordpress Mutagen') {
+                                    steps { sh './test wordpress dynamic mutagen' }
                                 }
                             }
                         }
@@ -176,7 +196,7 @@ pipeline {
                         }
                     }
                 }
-                stage('3. Wordpress, Spryker') {
+                stage('3. Spryker') {
                     agent {
                         docker {
                             // Reuse the same agent selected at the top of the file
@@ -199,11 +219,8 @@ pipeline {
                                 TEST_MODE = "quality"
                             }
                             steps {
-                                sh './test wordpress static'
                                 sh './test spryker static'
-                                sh './test wordpress dynamic'
                                 sh './test spryker dynamic'
-                                sh './test wordpress dynamic mutagen'
                                 sh './test spryker dynamic mutagen'
                             }
                         }
@@ -213,20 +230,11 @@ pipeline {
                                 TEST_MODE = "acceptance"
                             }
                             stages {
-                                stage('Wordpress Static') {
-                                    steps { sh './test wordpress static' }
-                                }
                                 stage('Spryker Static') {
                                     steps { sh './test spryker static' }
                                 }
-                                stage('Wordpress Dynamic') {
-                                    steps { sh './test wordpress dynamic' }
-                                }
                                 stage('Spryker Dynamic') {
                                     steps { sh './test spryker dynamic' }
-                                }
-                                stage('Wordpress Dynamic Mutagen') {
-                                    steps { sh './test wordpress dynamic mutagen' }
                                 }
                                 stage('Spryker Dynamic Mutagen') {
                                     steps { sh './test spryker dynamic mutagen' }
