@@ -103,7 +103,6 @@ attributes:
         - '*/30 * * * * /cron-run-with-env.sh /app/bin/console pimee:data-quality-insights:evaluate-products --env=prod'
         - 0 4 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:purge --more-than-days 90 --no-interaction --force --env=prod
         - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=prod
-        - 25 0 * * * /cron-run-with-env.sh /app/bin/console pim-atida:rules:fix --env=prod
   frontend:
     path: /app
     build:
