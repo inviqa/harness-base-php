@@ -92,7 +92,7 @@ attributes:
       jobs:
         - 15 12,20 * * * /cron-run-with-env.sh /app/bin/console akeneo:rule:run --env=prod
         - 30 16,23 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=prod
-        - 20 0 1 * * akeneo:batch:purge-job-execution --env=prod
+        - 20 0 1 * * /cron-run-with-env.sh /app/bin/console akeneo:batch:purge-job-execution --env=prod
         - 20 0 * * * /cron-run-with-env.sh /app/bin/console pimee:project:notify-before-due-date --env=prod
         - 1 0 * * * /cron-run-with-env.sh /app/bin/console akeneo:connectivity-audit:update-data --env=prod
         - 0 2 * * * /cron-run-with-env.sh /app/bin/console pimee:project:recalculate --env=prod
