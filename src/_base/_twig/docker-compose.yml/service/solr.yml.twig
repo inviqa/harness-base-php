@@ -1,10 +1,5 @@
   solr:
-{% if @('services.solr.major_version') == 4 %}
-    build:
-      context: .my127ws/docker/image/solr4/
-{% else %}
     image: {{ @('services.solr.image') }}
-{% endif %}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.solr.environment'),
         @('services.solr.environment_dynamic'),
