@@ -377,6 +377,8 @@ attributes.default:
     port: 1025
 
   varnish:
+    response:
+      s-maxage: ~
     target_service: nginx
 
   replicas:

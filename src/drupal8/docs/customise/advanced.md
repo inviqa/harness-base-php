@@ -176,12 +176,14 @@ import std;
 sub vcl_deliver {
     # Respond to upstream proxies with a lower s-maxage
     if (std.integer(regsub(resp.http.cache-control,
-  "(^\s*|.*,\s*)s-maxage=([0-9]+)(\s*,.*|\s*$)", "\2"), 0) > 100) {
+"(^|.*,)(\s*)s-maxage=([0-9]+)(\s*)(,.*|$)", "\3"), 0) > 100) {
         set resp.http.cache-control = regsub(resp.http.cache-control,
-  "(^\s*|.*,\s*)s-maxage=([0-9]+)(\s*,.*|\s*$)", "\1s-maxage=100\3");
+"(^|.*,)(\s*)s-maxage=([0-9]+)(\s*)(,.*|$)", "\1\2s-maxage=100\4\5");
     }
 }
 ```
+
+This VCL snippet can be activated in the harness by setting `attribute('varnish.response.s-maxage'): 100`.
 
 #### Testing
 
