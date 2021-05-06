@@ -168,6 +168,21 @@ visitors to be able to see changes!
 
 With control over the varnish VCL, it should be possible to alter the cache-control header in the response to the upstream proxy to lower the `s-maxage` value, but keeping the high "ttl" in terms of storage in varnish.
 
+The following VCL snippet does this - if s-maxage is present in the cache-control header in the response from
+varnish and it's over 100 seconds, it is reset to 100 seconds.
+Varnish will keep the object in cache for the original s-maxage value, or until purged.
+```vcl
+import std;
+sub vcl_deliver {
+    # Respond to upstream proxies with a lower s-maxage
+    if (std.integer(regsub(resp.http.cache-control,
+  "(^\s*|.*,\s*)s-maxage=([0-9]+)(\s*,.*|\s*$)", "\2"), 0) > 100) {
+        set resp.http.cache-control = regsub(resp.http.cache-control,
+  "(^\s*|.*,\s*)s-maxage=([0-9]+)(\s*,.*|\s*$)", "\1s-maxage=100\3");
+    }
+}
+```
+
 #### Testing
 
 Again with curl, check that there's a cache-control header and an age that is increasing, meaning it's in cache.
