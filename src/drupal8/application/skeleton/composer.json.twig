@@ -33,6 +33,9 @@
     "drupal/environment_indicator": "^3.0",
     "drupal/field_group": "^3.0@beta",
     "drupal/hook_event_dispatcher": "^1.20",
+{% if @('services.varnish.enabled') %}
+    "drupal/http_cache_control": "^2.0",
+{% endif %}
     "drupal/inline_entity_form": "^1.0-rc1",
     "drupal/linkit": "^4.3.0",
     "drupal/login_emailusername": "1.1",
