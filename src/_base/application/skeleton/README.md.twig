@@ -200,10 +200,8 @@ As setup issues are encountered please detail with step by step fix instructions
 * If you get a error that the TLS certificate has expired for the development website in your browser:
   * Restart the my127 global traefik proxy with `ws global service proxy restart`.
     This will fetch new TLS certificates for `*.my127.site`.
-* If you use mutagen and operations such as `mutagen project pause` during `ws disable` are hanging:
-  * Head to Docker Desktop Preferences via the system tray icon
-  * Turn off "Enable cloud experience" under the Command Line area of Preferences
-  * Click the "Apply and restart" button
+* If you use mutagen and operations such as `mutagen project pause` during `ws disable` or `mutagen daemon start` during `ws install` are hanging:
+  * Check that your `mutagen version` is at least version 0.11.8, and upgrade mutagen if not.
 
 # License
 
