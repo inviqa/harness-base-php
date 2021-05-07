@@ -175,7 +175,7 @@ Varnish will keep the object in cache for the original s-maxage value, or until 
 import std;
 sub vcl_deliver {
     # Respond to upstream proxies with a lower s-maxage
-    if (std.integer(regsub(resp.http.cache-control,
+    if (resp.http.cache-control && std.integer(regsub(resp.http.cache-control,
 "(^|.*,)(\s*)s-maxage=([0-9]+)(\s*)(,.*|$)", "\3"), 0) > 100) {
         set resp.http.cache-control = regsub(resp.http.cache-control,
 "(^|.*,)(\s*)s-maxage=([0-9]+)(\s*)(,.*|$)", "\1\2s-maxage=100\4\5");

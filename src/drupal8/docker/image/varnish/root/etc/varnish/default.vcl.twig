@@ -145,7 +145,7 @@ sub vcl_deliver {
 
 {% if @('varnish.response.s-maxage') and @('varnish.response.s-maxage') > 0 %}
     # Respond to upstream proxies with a lower s-maxage
-    if (std.integer(regsub(resp.http.cache-control,
+    if (resp.http.cache-control && std.integer(regsub(resp.http.cache-control,
 "(^|.*,)(\s*)s-maxage=([0-9]+)(\s*)(,.*|$)", "\3"), 0) > {{ @('varnish.response.s-maxage') }}) {
         set resp.http.cache-control = regsub(resp.http.cache-control,
 "(^|.*,)(\s*)s-maxage=([0-9]+)(\s*)(,.*|$)", "\1\2s-maxage={{ @('varnish.response.s-maxage') }}\4\5");
