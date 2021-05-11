@@ -1,5 +1,5 @@
 function('get_mutagen_volume_names'): |
-  #!php
+  #!php(workspace:/)
   $volumeNames = [];
 
   if (file_exists('mutagen.yml')) {
@@ -15,7 +15,7 @@ function('get_mutagen_volume_names'): |
   = $volumeNames;
 
 function('get_mutagen_volume_containers'): |
-  #!php
+  #!php(workspace:/)
   $volumeContainers = [];
 
   if (file_exists('mutagen.yml')) {
@@ -32,7 +32,7 @@ function('get_mutagen_volume_containers'): |
   = join("\n", array_unique($volumeContainers));
 
 function('get_mutagen_volume_mappings'): |
-  #!php
+  #!php(workspace:/)
   $volumeMappings = [];
 
   if (file_exists('mutagen.yml')) {
@@ -49,7 +49,7 @@ function('get_mutagen_volume_mappings'): |
   = join("\n", $volumeMappings);
 
 function('get_mutagen_forward_names'): |
-  #!php
+  #!php(workspace:/)
   $forwardNames = [];
 
   if (file_exists('mutagen.yml')) {
@@ -63,7 +63,7 @@ function('get_mutagen_forward_names'): |
   = join("\n", array_unique($forwardNames));
 
 function('get_mutagen_sync_names'): |
-  #!php
+  #!php(workspace:/)
   $syncNames = [];
 
   if (file_exists('mutagen.yml')) {
