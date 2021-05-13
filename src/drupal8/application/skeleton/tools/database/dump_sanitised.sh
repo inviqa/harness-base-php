@@ -15,12 +15,12 @@ fi
 BACKUP_DIR="/app/tools/assets/development"
 
 # Acquia.
-if [[ -z "$AH_SITE_ENVIRONMENT" ]]; then
+if [[ -n "$AH_SITE_ENVIRONMENT" ]]; then
   BACKUP_DIR="/mnt/files/$AH_SITE_NAME.$AH_SITE_ENVIRONMENT/backups/sanitised"
 fi
 
 # Platform.sh.
-if [[ -z "$PLATFORM_BRANCH" ]]; then
+if [[ -n "$PLATFORM_BRANCH" ]]; then
   BACKUP_DIR="~/drush-backups/sanitised"
 fi
 
