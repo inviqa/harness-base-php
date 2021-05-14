@@ -64,7 +64,7 @@ pipeline {
                         }
                     }
                 }
-                stage('2. Magento 1, Spryker') {
+                stage('2. Spryker') {
                     agent {
                         docker {
                             label 'my127ws'
@@ -80,20 +80,11 @@ pipeline {
                                 sh './build'
                             }
                         }
-                        stage('Magento 1 Static') {
-                            steps { sh './test magento1 static' }
-                        }
                         stage('Spryker Static') {
                             steps { sh './test spryker static' }
                         }
-                        stage('Magento 1 Dynamic') {
-                            steps { sh './test magento1 dynamic' }
-                        }
                         stage('Spryker Dynamic') {
                             steps { sh './test spryker dynamic' }
-                        }
-                        stage('Magento 1 Dynamic Mutagen') {
-                            steps { sh './test magento1 dynamic mutagen' }
                         }
                         stage('Spryker Dynamic Mutagen') {
                             steps { sh './test spryker dynamic mutagen' }
