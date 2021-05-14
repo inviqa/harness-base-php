@@ -28,26 +28,17 @@ pipeline {
                         stage('Drupal 8 Static') {
                             steps { sh './test drupal8 static' }
                         }
-                        stage('Magento 2 Static') {
-                            steps { sh './test magento2 static' }
-                        }
                         stage('PHP Dynamic') {
                             steps { sh './test php dynamic' }
                         }
                         stage('Drupal 8 Dynamic') {
                             steps { sh './test drupal8 dynamic' }
                         }
-                        stage('Magento 2 Dynamic') {
-                            steps { sh './test magento2 dynamic' }
-                        }
                         stage('PHP Dynamic Mutagen') {
                             steps { sh './test php dynamic mutagen' }
                         }
                         stage('Drupal 8 Dynamic Mutagen') {
                             steps { sh './test drupal8 dynamic mutagen' }
-                        }
-                        stage('Magento 2 Dynamic Mutagen') {
-                            steps { sh './test magento2 dynamic mutagen' }
                         }
                     }
                     post {
