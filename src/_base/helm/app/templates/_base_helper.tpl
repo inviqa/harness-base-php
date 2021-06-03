@@ -51,9 +51,11 @@ metadata:
   name: {{ .root.Values.resourcePrefix }}{{ .service_name }}
   labels:
     {{- include "chart.labels" .root | nindent 4 }}
+    helm
     app.kubernetes.io/component: {{ .component | default .service_name }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    helm.sh/hook: pre-install,pre-upgrade
 {{ if .root.Values.feature.sealed_secrets }}
 {{ if ne .root.Values.sealed_secrets.scope "strict" }}
     sealedsecrets.bitnami.com/{{ .root.Values.sealed_secrets.scope }}: "true"
