@@ -98,21 +98,6 @@ function run_isolated_tests()
   cd "${path_test}"
 
   ws helm kubeval --cleanup qa
-
-  # Check if we have a composer.json so we can run tests
-  # Check inside the console container as static builds do not
-  # update the local filesystem
-  if ws exec stat /app/composer.json > /dev/null 2>&1; then
-    # Run checks that don't reqiure development dependencies
-    ws exec composer test-production-quality
-    # Bring in dev dependencies
-    ws exec app composer:development_dependencies
-    # Run the tests
-    ws exec composer test-quality
-    if [[ "${harness}" != "drupal8" ]]; then
-      ws exec composer test-unit
-    fi
-  fi
 )
 
 function run_pipeline_tests()
@@ -122,20 +107,6 @@ function run_pipeline_tests()
     if [[ "$harness" =~ ^(magento1)$ ]]; then
       run_isolated_tests "$harness"
     fi
-
-    cd "${path_test}"
-
-    # Check if we have a composer.json so we can run tests
-    # Check inside the console container as static builds do not
-    # update the local filesystem
-    if ws exec stat /app/composer.json > /dev/null 2>&1; then
-      ws exec composer test-acceptance
-    fi
-    if [[ "${harness}" == "drupal8" ]]; then
-      ws test-unit
-    fi
-
-    ws lighthouse
 )
 
 function restart_environment()
