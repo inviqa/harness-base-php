@@ -38,7 +38,7 @@ attributes:
   backend:
     build:
       steps:
-        - task composer:install
+        - ~
     install:
       steps:
         - ~
