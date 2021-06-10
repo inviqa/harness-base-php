@@ -177,7 +177,6 @@ attributes.default:
       conf: []
     # used to limit what is copied into an Nginx static-built image
     copy_directories:
-     - = @('app.web_directory')
     php_fpm:
       conf: []
 

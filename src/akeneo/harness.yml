@@ -119,8 +119,6 @@ attributes:
     # used to limit what is copied into an Nginx static-built image
     # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)
     copy_directories:
-     - = @('app.web_directory')
-     - = @('app.vendor_directory')
   persistence:
     enabled: false
     akeneo:
