@@ -138,7 +138,7 @@ function wait_for_vendor_directory()
     fi
     local timer=600
     while [ $timer -gt 0 ]; do
-      if [ -d vendor ]; then
+      if [ -d . ]; then
           echo "Found vendor directory, sync worked"
           return 0
       fi
