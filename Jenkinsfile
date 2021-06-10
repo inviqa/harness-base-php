@@ -18,7 +18,7 @@ pipeline {
                         docker {
                             label 'my127ws-preview'
                             alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
+                            image 'quay.io/inviqa_images/workspace:0.2.x-dev-buster'
                             args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
@@ -71,7 +71,7 @@ pipeline {
                         docker {
                             label 'my127ws-preview'
                             alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
+                            image 'quay.io/inviqa_images/workspace:0.2.x-dev-buster'
                             args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
@@ -124,7 +124,7 @@ pipeline {
                         docker {
                             label 'my127ws-preview'
                             alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
+                            image 'quay.io/inviqa_images/workspace:0.2.x-dev-buster'
                             args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
