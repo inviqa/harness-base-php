@@ -145,8 +145,7 @@ attributes:
         size: 1Gi
   nginx:
     # Magento has a complex webroot structure
-    copy_directories:
-      - = @('app.web_directory')
+    copy_directories: []
       # additional endpoints we don't need by default
       #- /app/setup/pub
       #- /app/update/pub
