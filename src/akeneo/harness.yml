@@ -65,29 +65,24 @@ attributes:
   backend:
     build:
       steps:
-        - |
-          if grep -q akeneo/pim-enterprise-dev composer.json; then
-            run "ssh-keyscan github.com >> ~/.ssh/known_hosts"
-            run "ssh-keyscan -p 443 distribution.akeneo.com >> ~/.ssh/known_hosts"
-            run "chmod 0600 /home/build/.ssh/id_*"
-          fi
-        - task composer:install
+        - ~
+        - ~
     install:
       steps:
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
-        - = 'passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-' ~ @('akeneo.edition') ~ '-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal'
-        - task overlay:apply
-        - task assets:dump
+        - ~
+        - ~
+        - ~
+        - ~
     init:
       steps:
-        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
-        - run bin/console akeneo:elasticsearch:reset-indexes --no-interaction
-        - run bin/console pim:product:index --all
-        - run bin/console pim:product-model:index --all
+        - ~
+        - ~
+        - ~
+        - ~
+        - ~
     migrate:
       steps:
-        - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+        - ~
     cron:
       jobs:
         - 15 12,20 * * * /cron-run-with-env.sh /app/bin/console akeneo:rule:run --env=prod
@@ -108,16 +103,9 @@ attributes:
     build:
       when: -f "package.json"
       steps:
-        - run yarn install
-        - run bin/console pim:installer:assets --symlink --clean
-        - |
-          if [ "$APP_BUILD" == "static" ]; then
-            run yarn run webpack
-            run rm -rf node_modules/
-            run yarn cache clean
-          else
-            run yarn run webpack-dev
-          fi
+        - ~
+        - ~
+        - ~
   docker:
     image:
       console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster-console'

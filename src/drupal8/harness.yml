@@ -41,24 +41,15 @@ attributes:
         - task composer:install
     install:
       steps:
-        - |
-          passthru drush site:install standard \
-              --locale=en \
-              --site-name=Drupal \
-              --site-mail=admin@example.com \
-              \
-              --account-name=admin \
-              --account-mail=admin@example.com \
-              --account-pass=admin123 \
-              --yes
-        - run chmod 755 /app/docroot/sites/default
-        - task overlay:apply
-        - task assets:dump
+        - ~
+        - ~
+        - ~
+        - ~
     migrate:
       steps:
-        - run drush cache:rebuild
-        - passthru drush updatedb --yes
-        - run drush cache:rebuild
+        - ~
+        - ~
+        - ~
     cron:
       jobs:
         - = '*/5 * * * * /cron-run-with-env.sh /app/bin/drush --root="/app/' ~ @('drupal.docroot') ~ '" cron'

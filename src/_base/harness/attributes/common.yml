@@ -122,7 +122,7 @@ attributes.default:
     build:
       when: -f "composer.json"
       steps:
-        - task composer:install
+        - ~
     install:
       steps: []
     init:
@@ -141,21 +141,9 @@ attributes.default:
     build:
       when: -f "package.json"
       steps:
-        - |
-          if [ "$APP_BUILD" == "static" ] && [ -f package-lock.json ]; then
-            run npm clean-install
-          else
-            run npm install
-          fi
-        - |
-          if [ "$(jq ".scripts.build != null" < package.json)" != "false" ]; then
-            run npm run build
-          fi
-        - |
-          if [ "$APP_BUILD" == "static" ]; then
-            run rm -rf node_modules/
-            run npm cache clean --force
-          fi
+        - ~
+        - ~
+        - ~
 
   git:
     default_branch: develop
