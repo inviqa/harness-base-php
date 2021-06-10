@@ -176,7 +176,7 @@ attributes.default:
     global:
       conf: []
     # used to limit what is copied into an Nginx static-built image
-    copy_directories:
+    copy_directories: []
     php_fpm:
       conf: []
 
