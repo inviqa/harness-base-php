@@ -64,6 +64,7 @@ attributes:
       resources:
         memory: "1024Mi"
     php-fpm:
+      enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
       environment:
