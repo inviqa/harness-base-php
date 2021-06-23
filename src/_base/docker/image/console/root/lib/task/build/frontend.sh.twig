@@ -2,8 +2,11 @@
 
 function task_build_frontend()
 {(
+    set -e -o pipefail
+
     cd {{ @('frontend.path') }}
-    
+
+    # shellcheck disable=SC2160
     if [ ! {{ @('frontend.build.when')|raw }} ]; then
         return 0;
     fi
