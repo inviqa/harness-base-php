@@ -161,7 +161,7 @@ attributes:
         SOLR_CORE_NAME: collection1
       environment_secrets: {}
       host: solr
-      image: = 'solr:' ~ @('services.solr.major_version') ~ '-slim'
+      image: "= @('services.solr.major_version') != 4 ? 'solr:' ~ @('services.solr.major_version') ~ '-slim' : 'quay.io/inviqa_images/solr4:latest'"
       major_version: 8
       port: 8983
     tideways:
