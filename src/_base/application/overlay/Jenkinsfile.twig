@@ -48,7 +48,11 @@ pipeline {
 {% if @('jenkins.tests.isolated') %}
         stage('Build') {
             steps {
+{% if @('jenkins.tests.use_global_services') %}
+                sh 'ws install'
+{% else %}
                 sh 'ws enable'
+{% endif %}
                 milestone(30)
             }
         }
