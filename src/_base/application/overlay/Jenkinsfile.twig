@@ -65,7 +65,7 @@ pipeline {
             }
         }
 {% endif %}
-{% if @('pipeline.publish.enabled') == 'yes' %}
+{% if bool(@('pipeline.publish.enabled')) %}
         stage('Publish') {
 {% if @('pipeline.publish.environment') %}
             environment {
@@ -80,10 +80,10 @@ pipeline {
 {% for branch in @('pipeline.publish.branches') %}
                     branch '{{ branch }}'
 {% endfor %}
-{% if @('pipeline.qa.enabled') == 'yes' %}
+{% if bool(@('pipeline.qa.enabled')) %}
                     branch '{{ @('pipeline.qa.branch') }}'
 {% endif %}
-{% if @('pipeline.preview.enabled') == 'yes' %}
+{% if bool(@('pipeline.preview.enabled')) %}
 {% for branch in @('pipeline.preview.target_branches') %}
                     changeRequest target: '{{ branch }}'
 {% endfor %}
@@ -93,7 +93,7 @@ pipeline {
             steps {
                 milestone(50)
                 sh 'ws app publish'
-{% if @('pipeline.publish.chart.enabled') %}
+{% if bool(@('pipeline.publish.chart.enabled')) %}
                 lock(resource: '{{ @('pipeline.publish.chart.git.repository') }}', inversePrecedence: true) {
                     sh 'ws app publish chart "${GIT_BRANCH}" "{{ @('workspace.name') }} build artifact ${GIT_COMMIT}"'
                 }
@@ -101,7 +101,7 @@ pipeline {
             }
         }
 {% endif %}
-{% if @('pipeline.qa.enabled') == 'yes' %}
+{% if bool(@('pipeline.qa.enabled')) %}
         stage('Deploy (QA)') {
 {% if @('pipeline.qa.environment') %}
             environment {

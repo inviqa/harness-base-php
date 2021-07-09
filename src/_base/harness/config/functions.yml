@@ -219,3 +219,30 @@ function('version_compare', [version1, version2, operator]): |
   $version1 .= str_repeat('.0', max(0, $count2 - $count1));
   $version2 .= str_repeat('.0', max(0, $count1 - $count2));
   = version_compare($version1, $version2, $operator);
+
+function('bool', [value]): |
+  #!php
+  if (!is_bool($value)) {
+    echo 'deprecated: bool() will be removed in the future, so "' . $value . '" should be converted to a boolean before then'."\n";
+  } else {
+    return $value;
+  }
+  switch ($value) {
+    case 'yes':
+    case 'true':
+      return true;
+    case 'no':
+    case 'false':
+      return false;
+  }
+  echo 'error: unknown boolean string "'.$value.'"'."\n";
+  exit(1);
+
+function('boolToString', [value]): |
+  #!php
+  switch ($value) {
+    case true: return 'yes';
+    case false: return 'no';
+  }
+  echo 'error: unknown boolean "'.$value.'"'."\n";
+  exit(1);

@@ -167,7 +167,7 @@ docker containers.
 It enables production-like performance at the cost of having to synchronise files with an intermediate
 "data" container.
 
-{% if @('mutagen') == 'yes' %}
+{% if bool(@('mutagen')) %}
 Mutagen is enabled on the development environment.
 {% else %}
 If it takes over 2 seconds to load a page, you should consider enabling mutagen by adding the following
@@ -175,7 +175,7 @@ to `workspace.override.yml` in the project root, or after testing it and the who
 `workspace.yml` in the project root:
 
 ```yaml
-attribute('mutagen'): 'yes'
+attribute('mutagen'): true
 ```
 
 Then running `ws harness prepare && ws disable && ws enable`.
