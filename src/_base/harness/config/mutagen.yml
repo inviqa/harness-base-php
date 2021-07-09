@@ -105,14 +105,14 @@ command('switch (cached-volumes|delegated-volumes|mutagen)'):
     #!bash(workspace:/)|=
     run ws disable
     if [[ "$SYNC" = "delegated-volumes" ]]; then
-      ws set delegated-volumes yes
-      ws set mutagen no
+      ws set delegated-volumes true
+      ws set mutagen false
     elif [[ "$SYNC" = "mutagen" ]]; then
-      ws set delegated-volumes no
-      ws set mutagen yes
+      ws set delegated-volumes false
+      ws set mutagen true
     else
-      ws set delegated-volumes no
-      ws set mutagen no
+      ws set delegated-volumes false
+      ws set mutagen false
     fi
     run ws harness prepare
     echo 'Bringing up the environment with the new setting'

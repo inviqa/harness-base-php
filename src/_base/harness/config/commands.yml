@@ -1,11 +1,11 @@
 
 command('enable'):
   env:
-    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     APP_BUILD:            = @('app.build')
     APP_MODE:             = @('app.mode')
     NAMESPACE:            = @('namespace')
-    HAS_ASSETS:           = @('aws.bucket') !== null and @('aws.bucket') !== '' ? 'yes':'no'
+    HAS_ASSETS:           = boolToString(@('aws.bucket') !== null and @('aws.bucket') !== '')
     COMPOSE_PROJECT_NAME: = @('namespace')
     COMPOSE_DOCKER_CLI_BUILD: = @('docker.buildkit.enabled') ? '1':'0'
     DOCKER_BUILDKIT:          = @('docker.buildkit.enabled') ? '1':'0'
@@ -16,11 +16,11 @@ command('enable'):
 
 command('enable console'):
   env:
-    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     APP_BUILD:            = @('app.build')
     APP_MODE:             = @('app.mode')
     NAMESPACE:            = @('namespace')
-    HAS_ASSETS:           = @('aws.bucket') !== null and @('aws.bucket') !== '' ? 'yes':'no'
+    HAS_ASSETS:           = boolToString(@('aws.bucket') !== null and @('aws.bucket'))
     COMPOSE_PROJECT_NAME: = @('namespace')
     COMPOSE_DOCKER_CLI_BUILD: = @('docker.buildkit.enabled') ? '1':'0'
     DOCKER_BUILDKIT:          = @('docker.buildkit.enabled') ? '1':'0'
@@ -31,7 +31,7 @@ command('enable console'):
 
 command('disable'):
   env:
-    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     NAMESPACE:            = @('namespace')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
@@ -40,17 +40,17 @@ command('disable'):
 
 command('destroy [--all]'):
   env:
-    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     NAMESPACE:            = @('namespace')
     COMPOSE_PROJECT_NAME: = @('namespace')
-    DESTROY_ALL:          = input.option('all') ? 'yes':'no'
+    DESTROY_ALL:          = boolToString(input.option('all'))
   exec: |
     #!bash(workspace:/)|@
     source .my127ws/harness/scripts/destroy.sh
 
 command('rebuild'):
   env:
-    USE_MUTAGEN:          = @('host.os') == 'darwin' and @('mutagen') == 'yes' ? 'yes':'no'
+    USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     NAMESPACE:            = @('namespace')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
@@ -199,7 +199,7 @@ command('set <attribute> <value>'):
 command('feature blackfire (on|off)'):
   env:
     ATTR_KEY: 'php.ext-blackfire.enable'
-    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
+    ATTR_VAL: = boolToString(input.command(3) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
@@ -212,7 +212,7 @@ command('feature blackfire (on|off)'):
 command('feature blackfire cli (on|off)'):
   env:
     ATTR_KEY: 'php.ext-blackfire.cli.enable'
-    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
+    ATTR_VAL: = boolToString(input.command(4) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
@@ -224,7 +224,7 @@ command('feature blackfire cli (on|off)'):
 command('feature tideways (on|off)'):
   env:
     ATTR_KEY: 'php.ext-tideways.enable'
-    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
+    ATTR_VAL: = boolToString(input.command(3) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
@@ -237,7 +237,7 @@ command('feature tideways (on|off)'):
 command('feature tideways cli (on|off)'):
   env:
     ATTR_KEY: 'php.ext-tideways.cli.enable'
-    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
+    ATTR_VAL: = boolToString(input.command(4) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
@@ -311,7 +311,7 @@ command('generate token <length>'):
 command('lighthouse [--with-results]'):
   env:
     COMPOSE_PROJECT_NAME: = @('namespace')
-    OUTPUT_RESULTS:       = input.option('with-results') ? 'yes':'no'
+    OUTPUT_RESULTS:       = boolToString(input.option('with-results'))
   exec: |
     #!bash(workspace:/)|@
     passthru docker-compose run --rm lighthouse bash -i /app/run.sh

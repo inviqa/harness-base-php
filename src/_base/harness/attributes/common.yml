@@ -19,8 +19,8 @@ attributes.default:
     web_directory: /app/public
     vendor_directory: /app/vendor
 
-  delegated-volumes: no
-  mutagen: yes
+  delegated-volumes: false
+  mutagen: true
 
   jenkins:
     credentials:
@@ -38,7 +38,7 @@ attributes.default:
       resourcePrefix: ~
       hostname:  = @('pipeline.preview.hostname')
     publish:
-      enabled: no
+      enabled: false
       services: = publishable_services(@('services'))
       # branches that should publish (other than change requests and qa)
       # * is deprecated and will be limited to one branch by default in a future release
@@ -50,7 +50,7 @@ attributes.default:
       # when enabled the application helm chart will be published
       # to the given git repository.
       chart:
-        enabled: no
+        enabled: false
         git:
           # private key with write access to the repository
           ssh_private_key: = @('pipeline.publish.chart.git.key')
@@ -62,7 +62,7 @@ attributes.default:
           # sets the git user.email before pushing the commit
           email: name@example.com
     preview:
-      enabled: no
+      enabled: false
       target_branches:
         - = @('git.default_branch')
       environment: {}
@@ -79,7 +79,7 @@ attributes.default:
         redis-session:
           enabled: false
     qa:
-      enabled: no
+      enabled: false
       environment: {}
       branch: develop
       cluster:
@@ -104,7 +104,7 @@ attributes.default:
       enabled: true
     compose:
       file_version: '3.7'
-      host_volume_options: "= ':' ~ (@('delegated-volumes') ? 'delegated' : 'cached')"
+      host_volume_options: "= ':' ~ (bool(@('delegated-volumes')) ? 'delegated' : 'cached')"
     # If using gitops helm chart repositories, it's recommended to put this configuration
     # in the values.yml in there now instead of project application repositories
     image_pull_config: = @('docker.config')
@@ -244,9 +244,9 @@ attributes.default:
       - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
     ext-blackfire:
-      enable: no
+      enable: false
       cli:
-        enable: no
+        enable: false
       config:
         agent_socket: "tcp://blackfire:8707"
     ext-tideways:
@@ -260,9 +260,9 @@ attributes.default:
         service: web
     ext-xdebug:
       version: "= (version_compare(@('php.version'), '8.0', '>=') ? '3' : '2')"
-      enable: no
+      enable: false
       cli:
-        enable: no
+        enable: false
       config:
         v2:
           remote_enable: 1
@@ -272,7 +272,7 @@ attributes.default:
           idekey: workspace
         v3:
           mode: debug
-          start_with_request: yes
+          start_with_request: "yes"
           client_port: 9003
           client_host: host.docker.internal
 
