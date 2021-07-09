@@ -194,6 +194,7 @@ if ((getenv('HAS_JENKINS_RUNNER') ?: 'true') === 'true') {
             SchedulerJenkinsConfig::SCHEDULER_JENKINS_BASE_URL => 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/',
         ],
     ];
+    $config[SchedulerJenkinsConfig::SCHEDULER_JENKINS_CSRF_ENABLED] = true;
 }
 
 // ---------- Mail configuration
