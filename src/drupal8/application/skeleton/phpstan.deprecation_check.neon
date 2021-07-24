@@ -19,5 +19,6 @@ parameters:
         - '#Plugin manager has cache backend specified but does not declare cache tags.#'
     reportUnmatchedIgnoredErrors: false
     scanFiles:
+        - docroot/core/tests/Drupal/KernelTests/KernelTestBase.php
         - docroot/core/tests/Drupal/Tests/PhpunitCompatibilityTrait.php
     tmpDir: /tmp/phpstan_deprecation_check
