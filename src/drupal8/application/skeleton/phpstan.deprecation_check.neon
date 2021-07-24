@@ -7,7 +7,7 @@ parameters:
     paths:
         - docroot/modules/custom
     customRulesetUsed: true
-    excludes_analyse:
+    excludePaths:
         - */tests/Drupal/Tests/Listeners/Legacy/*
         - */tests/fixtures/*.php
         - */settings*.php
