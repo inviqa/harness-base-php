@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/inviqa/harness-base-php/tree/1.1.2) (2021-08-17)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.1.1...1.1.2)
+
+**Implemented enhancements:**
+
+- Use built image for lighthouse to speed up environments [\#588](https://github.com/inviqa/harness-base-php/pull/588) ([kierenevans](https://github.com/kierenevans))
+
 ## [1.1.1](https://github.com/inviqa/harness-base-php/tree/1.1.1) (2021-04-06)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.1.0...1.1.1)

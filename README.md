@@ -158,7 +158,7 @@ When ready to tag a release, make a new branch from the `1.1.x` branch for the c
    a deprecation.
 5. For each Pull Request in the release, assign an appropriate `harness-*` label.
 6. Re-generate the changelog using step 3 as needed.
-7. Adjust the version for each framework's README.md: `sed -i '' s/1\.1\.0/1.1.2/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
+7. Adjust the version for each framework's README.md: `sed -i '' s/1\.1\.1/1.1.2/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
 8. Commit the resulting changes, push and raise a pull request.
 9. Once merged, continue with the release process below.
 
@@ -166,22 +166,22 @@ When ready to tag a release, make a new branch from the `1.1.x` branch for the c
 
 Once the CHANGELOG.markdown is in the branch you wish to release:
 
-1. Tag the release version with `git tag 1.1.2 -m "v1.1.1"`
+1. Tag the release version with `git tag 1.1.2 -m "v1.1.2"`
 2. Push the tag to the repository: `git push origin 1.1.2`
 3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
 4. Run the deploy script: `./deploy`
 5. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 6. Create a "Github Release" for this repository and downstream repositories, pasting in the changelog for the release:
-   - https://github.com/inviqa/harness-base-php/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-php/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-magento1/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-magento2/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-spryker/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-symfony/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
-   - https://github.com/inviqa/harness-wordpress/releases/new?tag=1.1.2&title=1.1.1&target=1.1.x
+   - https://github.com/inviqa/harness-base-php/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-php/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-magento1/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-magento2/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-spryker/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-symfony/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
+   - https://github.com/inviqa/harness-wordpress/releases/new?tag=1.1.2&title=1.1.2&target=1.1.x
 
 ### Post-release actions
 
