@@ -21,10 +21,10 @@ function test()
       export MY127WS_ENV=pipeline
     fi
 
-    if [[ "$harness" = ^(akeneo4)$ ]]; then
+    if [[ "$harness" =~ ^(akeneo4)$ ]]; then
         akeneo_version=4
         harness="akeneo"
-    elif [[ "$harness" = ^(akeneo5)$ ]]; then
+    elif [[ "$harness" =~ ^(akeneo5)$ ]]; then
         akeneo_version=5
         harness="akeneo"
     fi
@@ -38,7 +38,7 @@ function test()
     elif [[ "$sync" == "mutagen" ]]; then
       setup_dynamic_mutagen
     fi
-    if [[ "$harness" = ^(akeneo)$ ]]; then
+    if [[ "$harness" =~ ^(akeneo)$ ]]; then
       setup_akeneo_version "$akeneo_version"
     fi
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
@@ -170,10 +170,9 @@ function setup_dynamic_mutagen()
     echo "attribute('mutagen'): yes" >> workspace.override.yml
 )
 
-function set_akeneo_version() {
+function setup_akeneo_version() {
     local version="$1"
-    cd "${path_test}"
-    echo "#attribute('akeneo.major_version'): ${version}" > workspace.override.yml
+    echo "#attribute('akeneo.major_version'): ${version}" > "${path_test}/workspace.override.yml"
 }
 
 function wait_for_vendor_directory()
