@@ -111,9 +111,11 @@ attributes:
     build:
       when: -f "package.json"
       steps:
-        - run yarn install
-        - NO_DOCKER=1 make dsm
+        - run yarn install --frozen-lockfile
+        - run bin/console cache:warmup
         - run bin/console pim:installer:assets --symlink --clean
+        - run yarn run less
+        - run NO_DOCKER=1 make dsm
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run yarn run webpack

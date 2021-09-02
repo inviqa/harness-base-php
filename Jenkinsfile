@@ -35,8 +35,11 @@ pipeline {
                         stage('Drupal 8 Static') {
                             steps { sh './test drupal8 static' }
                         }
-                        stage('Akeneo Static') {
-                            steps { sh './test akeneo static' }
+                        stage('Akeneo4 Static') {
+                            steps { sh './test akeneo4 static' }
+                        }
+                        stage('Akeneo5 Static') {
+                            steps { sh './test akeneo5 static' }
                         }
                         stage('PHP Dynamic') {
                             steps { sh './test php dynamic' }
@@ -55,6 +58,9 @@ pipeline {
                         }
                         stage('Akeneo Dynamic Mutagen') {
                             steps { sh './test akeneo dynamic mutagen' }
+                        }
+                        stage('Akeneo5 Dynamic Mutagen') {
+                            steps { sh './test akeneo5 dynamic mutagen' }
                         }
                     }
                     post {
