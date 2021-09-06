@@ -15,9 +15,18 @@ function test()
     local harness="$1"
     local mode="$2"
     local sync="$3"
+    local akeneo_version=5
 
     if [[ "$mode" == "static" ]]; then
       export MY127WS_ENV=pipeline
+    fi
+
+    if [[ "$harness" =~ ^(akeneo4)$ ]]; then
+        akeneo_version=4
+        harness="akeneo"
+    elif [[ "$harness" =~ ^(akeneo5)$ ]]; then
+        akeneo_version=5
+        harness="akeneo"
     fi
 
     # Test default mode of static or dynamic harnesses
@@ -28,6 +37,9 @@ function test()
       setup_dynamic_mountpoint
     elif [[ "$sync" == "mutagen" ]]; then
       setup_dynamic_mutagen
+    fi
+    if [[ "$harness" =~ ^(akeneo)$ ]]; then
+      setup_akeneo_version "$akeneo_version"
     fi
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
@@ -157,6 +169,11 @@ function setup_dynamic_mutagen()
     echo "attribute('host.os'): darwin" > workspace.override.yml
     echo "attribute('mutagen'): yes" >> workspace.override.yml
 )
+
+function setup_akeneo_version() {
+    local version="$1"
+    echo "attribute('akeneo.major_version'): ${version}" >> "${path_test}/workspace.override.yml"
+}
 
 function wait_for_vendor_directory()
 (
