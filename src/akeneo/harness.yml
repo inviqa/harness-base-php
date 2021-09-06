@@ -42,11 +42,11 @@ attributes:
       distribution:
         project_name: ~
   php:
-    version: "= (@('akeneo.major_version') == '4') ? 7.3 : 7.4"
+    version: "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 7.4 : 7.3"
     ini:
       apc.enable_cli: On
     composer:
-      major_version: "= (@('akeneo.major_version') == '4') ? 1 : 2"
+      major_version: "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 2 : 1"
   database:
     user: akeneo
     pass: akeneo
@@ -102,8 +102,8 @@ attributes:
         - 0 23 * * * /cron-run-with-env.sh /app/bin/console akeneo:reference-entity:refresh-records --all --env=prod
         - 4 22 * * * /cron-run-with-env.sh /app/bin/console pimee:sso:rotate-log 10 --env=prod
         - 0 23 * * * /cron-run-with-env.sh /app/bin/console pim:volume:aggregate --env=prod
-        - "= (@('akeneo.major_version') == '4') ? '15 0 * * * /cron-run-with-env.sh /app/bin/console pimee:data-quality-insights:schedule-periodic-tasks --env=prod' : '15 0 * * * /cron-run-with-env.sh /app/bin/console pim:data-quality-insights:schedule-periodic-tasks --env=prod'"
-        - "= (@('akeneo.major_version') == '4') ? '*/30 * * * * /cron-run-with-env.sh /app/bin/console pimee:data-quality-insights:evaluate-products --env=prod' : '*/30 * * * * /cron-run-with-env.sh /app/bin/console pim:data-quality-insights:evaluations --env=prod'"
+        - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? '15 0 * * * /cron-run-with-env.sh /app/bin/console pim:data-quality-insights:schedule-periodic-tasks --env=prod' : '15 0 * * * /cron-run-with-env.sh /app/bin/console pimee:data-quality-insights:schedule-periodic-tasks --env=prod'"
+        - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? '*/30 * * * * /cron-run-with-env.sh /app/bin/console pim:data-quality-insights:evaluations --env=prod' : '*/30 * * * * /cron-run-with-env.sh /app/bin/console pimee:data-quality-insights:evaluate-products --env=prod'"
         - 0 4 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:purge --more-than-days 90 --no-interaction --force --env=prod
         - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=prod
   frontend:
@@ -115,7 +115,7 @@ attributes:
         - run bin/console cache:warmup
         - run bin/console pim:installer:assets --symlink --clean
         - run yarn run less
-        - "= (@('akeneo.major_version') == '4') ? '': 'run NO_DOCKER=1 make dsm'"
+        - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 'run NO_DOCKER=1 make dsm' : ''"
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run yarn run webpack
