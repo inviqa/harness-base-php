@@ -172,7 +172,7 @@ function setup_dynamic_mutagen()
 
 function setup_akeneo_version() {
     local version="$1"
-    echo "attribute('akeneo.major_version'): ${version}" > "${path_test}/workspace.override.yml"
+    echo "attribute('akeneo.major_version'): ${version}" >> "${path_test}/workspace.override.yml"
 }
 
 function wait_for_vendor_directory()
