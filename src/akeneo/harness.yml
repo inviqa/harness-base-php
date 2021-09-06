@@ -115,7 +115,7 @@ attributes:
         - run bin/console cache:warmup
         - run bin/console pim:installer:assets --symlink --clean
         - run yarn run less
-        - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 'run NO_DOCKER=1 make dsm' : ''"
+        - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 'NO_DOCKER=1 run make dsm' : ''"
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run yarn run webpack
