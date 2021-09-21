@@ -26,6 +26,10 @@ spec:
   {{- end }}
   {{- end }}
   {{- end }}
+  {{- if .Values.ingress.tls }}
+  tls:
+  {{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end }}
 status:
   loadBalancer: {}
 {{- end }}
