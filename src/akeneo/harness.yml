@@ -119,10 +119,16 @@ attributes:
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run yarn run webpack
+            if [ "$(jq ".scripts.\"update-extensions\" != null" < package.json)" != "false" ]; then
+              run yarn update-extensions
+            fi
             run rm -rf node_modules/
             run yarn cache clean
           else
             run yarn run webpack-dev
+            if [ "$(jq ".scripts.\"update-extensions\" != null" < package.json)" != "false" ]; then
+              run yarn update-extensions
+            fi
           fi
   docker:
     image:
