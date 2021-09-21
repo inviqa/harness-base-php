@@ -119,10 +119,12 @@ attributes:
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run yarn run webpack
+            run yarn update-extensions
             run rm -rf node_modules/
             run yarn cache clean
           else
             run yarn run webpack-dev
+            run yarn update-extensions
           fi
   docker:
     image:
