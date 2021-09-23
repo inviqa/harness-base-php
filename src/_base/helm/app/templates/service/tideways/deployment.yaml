@@ -24,7 +24,17 @@ spec:
         app.service: {{ $.Values.resourcePrefix }}tideways
     spec:
       containers:
-      - image: {{ .image | quote }}
+      - env:
+        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
+        - name: {{ $key | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- if .environment_secrets }}
+        envFrom:
+          - secretRef:
+              name: {{ $.Values.resourcePrefix }}tideways
+        {{- end }}
+        image: {{ .image | quote }}
         imagePullPolicy: Always
         name: tideways
         ports:
