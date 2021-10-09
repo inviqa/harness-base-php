@@ -32,4 +32,8 @@ spec:
         host: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
         port:
           number: 80
+  {{- if .Values.ingress.tls }}
+  tls:
+  {{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end }}
 {{ end }}

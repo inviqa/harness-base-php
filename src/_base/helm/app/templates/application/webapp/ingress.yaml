@@ -20,6 +20,10 @@ spec:
       - backend:
           serviceName: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
           servicePort: 80
+  {{- if .Values.ingress.tls }}
+  tls:
+  {{- toYaml .Values.ingress.tls | nindent 4 }}
+  {{- end }}
 status:
   loadBalancer: {}
 {{- end }}
