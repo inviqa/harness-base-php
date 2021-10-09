@@ -55,26 +55,26 @@ function main()
     fi
 
     if [[ "$TEST_MODE" == "quality" || "$TEST_MODE" == "full" ]]; then
-      test_quality "$harness" "$mode" "$sync"
+      test_harness_quality "$harness" "$mode" "$sync"
     fi
     if [[ "$TEST_MODE" == "acceptance" || "$TEST_MODE" == "full"  ]]; then
-      test_acceptance "$harness" "$mode" "$sync"
+      test_harness_acceptance "$harness" "$mode" "$sync"
     fi
     if [[ "$TEARDOWN_ENVIRONMENT" == "yes" ]]; then
       teardown
     fi
 }
 
-function test_quality()
+function test_harness_quality()
 {
     local harness="$1"
     local mode="$2"
     local sync="$3"
 
-    run_harness_quality_tests
+    ./quality "${path_test}/.my127ws"
 }
 
-function test_acceptance()
+function test_harness_acceptance()
 (
     local harness="$1"
     local mode="$2"
@@ -82,11 +82,11 @@ function test_acceptance()
 
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
-      run_isolated_tests "$harness"
+      run_project_quality_tests "$harness"
     fi
     install_environment
     check_environment_started "$harness" "$mode"
-    run_pipeline_tests "$harness"
+    run_project_acceptance_tests "$harness"
     restart_environment
     check_environment_started "$harness" "$mode"
     if [[ "$sync" != "" ]]; then
@@ -146,12 +146,7 @@ function check_environment_started()
     fi
 )
 
-function run_harness_quality_tests()
-{
-  ./quality "${path_test}/.my127ws"
-}
-
-function run_isolated_tests()
+function run_project_quality_tests()
 (
   local harness="$1"
   cd "${path_test}"
@@ -174,12 +169,12 @@ function run_isolated_tests()
   fi
 )
 
-function run_pipeline_tests()
+function run_project_acceptance_tests()
 (
     local harness="$1"
 
     if [[ "$harness" =~ ^(magento1)$ ]]; then
-      run_isolated_tests "$harness"
+      run_project_quality_tests "$harness"
     fi
 
     cd "${path_test}"
