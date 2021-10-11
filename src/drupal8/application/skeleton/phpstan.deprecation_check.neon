@@ -22,4 +22,5 @@ parameters:
         - docroot/core/lib/Drupal/Core/DependencyInjection/ServiceProviderInterface.php
         - docroot/core/tests/Drupal/KernelTests/KernelTestBase.php
         - docroot/core/tests/Drupal/Tests/PhpunitCompatibilityTrait.php
+        - docroot/core/tests/Drupal/Tests/UnitTestCase.php
     tmpDir: /tmp/phpstan_deprecation_check
