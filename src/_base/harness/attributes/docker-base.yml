@@ -265,15 +265,6 @@ attributes:
           enabled: false
           resources:
             memory: "1024Mi"
-        cron:
-          resources:
-            memory: "1024Mi"
-        elasticsearch:
-          resources:
-            memory: "1024Mi"
-        mysql:
-          resources:
-            memory: "512Mi"
         nginx:
           resources:
             memory: "64Mi"
@@ -281,21 +272,12 @@ attributes:
           environment:
             SMTP_HOST: = @('pipeline.preview.smtp.host')
             SMTP_PORT: = @('pipeline.preview.smtp.port')
-        php-fpm:
-          resources:
-            memory: "1024Mi"
         php-fpm-exporter:
           resources:
             memory: "32Mi"
-        postgres:
-          resources:
-            memory: "512Mi"
         redis:
           resources:
             memory: "64Mi"
         redis-session:
           resources:
             memory: "64Mi"
-        tideways:
-          resources:
-            memory: "256Mi"
