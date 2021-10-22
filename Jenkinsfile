@@ -14,14 +14,7 @@ pipeline {
         stage('Build and Test') {
             parallel {
                 stage('1. PHP, Drupal 8, Akeneo') {
-                    agent {
-                        docker {
-                            label 'linux-amd64-preview'
-                            alwaysPull true
-                            image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
-                        }
-                    }
+                    agent { label "linux-amd64-preview" }
                     stages {
                         stage('Prepare') {
                             steps {
