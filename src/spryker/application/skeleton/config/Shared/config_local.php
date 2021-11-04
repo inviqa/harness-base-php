@@ -117,16 +117,23 @@ $config[PropelConstants::ZED_DB_PORT] = 5432;
 $config[PropelConstants::USE_SUDO_TO_MANAGE_DATABASE] = false;
 
 // ---------- Elasticsearch
-$ELASTICA_HOST = getenv('ELASTICSEARCH_HOST');
-$ELASTICA_PORT = getenv('ELASTICSEARCH_PORT');
 $ELASTICA_INDEX_NAME = strtolower($CURRENT_STORE) . '_search';
+$config[ApplicationConstants::ELASTICA_PARAMETER__TRANSPORT]
+    = $config[SearchElasticsearchConstants::TRANSPORT]
+    = getenv('ELASTICSEARCH_SCHEME') ?: 'http';
 $config[SearchConstants::ELASTICA_PARAMETER__HOST]
     = $config[SearchElasticsearchConstants::HOST]
-    = $ELASTICA_HOST;
+    = getenv('ELASTICSEARCH_HOST');
 $config[SearchConstants::ELASTICA_PARAMETER__PORT]
     = $config[SearchElasticsearchConstants::PORT]
-    = $ELASTICA_PORT;
+    = getenv('ELASTICSEARCH_PORT');
 $config[CollectorConstants::ELASTICA_PARAMETER__INDEX_NAME] = $ELASTICA_INDEX_NAME;
+
+if (getenv('ELASTICSEARCH_USERNAME')) {
+    $config[ApplicationConstants::ELASTICA_PARAMETER__AUTH_HEADER]
+        = $config[SearchElasticsearchConstants::AUTH_HEADER]
+        = base64_encode(getenv('ELASTICSEARCH_USERNAME') . ':' . getenv('ELASTICSEARCH_PASSWORD'));
+}
 
 // ----------- Session and KV storage
 $config[StorageRedisConstants::STORAGE_REDIS_PROTOCOL] = getenv('REDIS_PROTOCOL');

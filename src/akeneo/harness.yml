@@ -58,7 +58,7 @@ attributes:
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
         - passthru echo 'Reindexing Elasticsearch'
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
         - run bin/console akeneo:elasticsearch:reset-indexes -n
         - run bin/console pim:product:index --all
         - run bin/console pim:product-model:index --all
@@ -77,14 +77,14 @@ attributes:
         - task composer:install
     install:
       steps:
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
         - = 'passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-' ~ @('akeneo.edition') ~ '-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal'
         - task overlay:apply
         - task assets:dump
     init:
       steps:
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        - task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+        - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
         - run bin/console akeneo:elasticsearch:reset-indexes --no-interaction
         - run bin/console pim:product:index --all
         - run bin/console pim:product-model:index --all
