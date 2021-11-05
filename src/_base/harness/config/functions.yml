@@ -115,8 +115,11 @@ function('docker_service_images', [filterService]): |
 
     $imageSpec = [
       'image' => $service['image'] ?? null,
+      'platform' => $service['platform'] ?? null,
       'upstream' => [],
     ];
+
+    $aliases = [];
 
     if ($imageSpec['image'] && strpos($imageSpec['image'], ':') === false) {
       $imageSpec['image'] .= ':latest';
@@ -128,15 +131,26 @@ function('docker_service_images', [filterService]): |
         $dockerfilePath = rtrim($service['build']['context'], '/') . '/' . $dockerfilePath;
       }
 
-      if (preg_match_all('/^FROM\s+([^\s]*)/m', file_get_contents($dockerfilePath), $matches) === false) {
+      if (preg_match_all('/^FROM\s+(?:--platform=([^s]+)\s+)?([^\s]*)(?:\s+AS\s+([^\s]+))?/mi', file_get_contents($dockerfilePath), $matches, PREG_SET_ORDER) === false) {
         continue;
       }
 
-      foreach ($matches[1] as $image) {
-        if (strpos($image, ':') === false) {
-          $image .= ':latest';
+      foreach ($matches as $match) {
+        // Skip FROM <existing-alias>, as only the upstream images needed
+        if (in_array($match[2], $aliases)) {
+          continue;
         }
-        $imageSpec['upstream'][] = $image;
+        // Docker uses :latest tag if no explicit tag listed
+        if (strpos($match[2], ':') === false) {
+          $match[2] .= ':latest';
+        }
+        if (isset($match[3])) {
+          $aliases[] = $match[3];
+        }
+        $imageSpec['upstream'][] = [
+          'image' => $match[2],
+          'platform' => $match[1] ?: $imageSpec['platform'],
+        ];
       }
     }
     $images[$serviceName] = $imageSpec;

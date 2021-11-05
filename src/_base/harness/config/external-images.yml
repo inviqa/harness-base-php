@@ -1,22 +1,30 @@
 function('external_images', [services]): |
   #!php
-  $upstreamImages = $producedImages = [];
+  $upstreamImages = [];
   $excludeImages = ['scratch'];
 
   foreach ($services as $service) {
     if (count($service['upstream']) > 0) {
       $upstreamImages = array_merge($upstreamImages, $service['upstream']);
       if ($service['image']) {
-        $producedImages[] = $service['image'];
+        $excludeImages[] = $service['image'];
       }
     } else if ($service['image']) {
-      $upstreamImages[] = $service['image'];
+      $upstreamImages[] = [
+        'image' => $service['image'],
+        'platform' => $service['platform'],
+      ];
     }
   }
-  $externalImages = array_diff($upstreamImages, $producedImages, $excludeImages);
+  $externalImages = array_filter(
+    $upstreamImages,
+    function ($image) use ($excludeImages) {
+      return !in_array($image['image'], $excludeImages);
+    }
+  );
 
   # workspace commands don't allow non-string types
-  = join(' ', $externalImages);
+  = json_encode($externalImages);
 
 command('external-images config [--skip-exists] [<service>]'):
   env:
@@ -28,10 +36,12 @@ command('external-images config [--skip-exists] [<service>]'):
     if ($env['SKIP_EXISTS']) {
       $exclude = explode("\n", shell_exec('docker image ls -a --format \'{{ print .Repository ":" .Tag }}\''));
     }
-    $include = explode(' ', $env['IMAGES']);
+    $include = json_decode($env['IMAGES'], true);
     $compose = ['version' => '3', 'services' => []];
-    foreach (array_diff($include, $exclude) as $image) {
-      $compose['services'][str_replace(['/', ':'], '_', $image)] = ['image' => $image];
+    foreach ($include as $image) {
+      if (!in_array($image['image'], $exclude)) {
+        $compose['services'][str_replace(['/', ':'], '_', $image['image'])] = array_filter($image, function ($value) { return $value !== null; });
+      }
     }
     echo \Symfony\Component\Yaml\Yaml::dump($compose, 100, 2);
 
@@ -57,7 +67,12 @@ command('external-images ls [--all]'):
     SHOW_REMOTE: "= input.option('all') ? 1 : 0"
   exec: |
     #!php
-    $include = explode(' ', $env['IMAGES']);
+    $include = array_map(
+      function ($image) {
+        return $image['image'];
+      },
+      json_decode($env['IMAGES'], true)
+    );
     if ($env['SHOW_REMOTE']) {
       $images = $include;
     } else {
