@@ -25,7 +25,7 @@ install_mutagen()
         return 0
     fi
 
-    if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -q Mac && command -v brew > /dev/null 2>&1; then
+    if command -v sw_vers > /dev/null 2>&1 && sw_vers | grep -qi Mac && command -v brew > /dev/null 2>&1; then
         passthru brew install mutagen-io/mutagen/mutagen
         return "$?"
     fi
