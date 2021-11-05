@@ -5,7 +5,7 @@ STOPSIGNAL SIGTERM
 COPY .my127ws/docker/image/console/root /
 RUN chown -R build:build /home/build /app \
  # installing tools in the image is deprecated
- && ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini https://github.com/krallin/tini/releases/download/v0.19.0/tini) \
+ && ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini "https://github.com/krallin/tini/releases/download/v0.19.0/tini-$(dpkg --print-architecture)") \
  && chmod +x /sbin/tini \
  && mkdir -p /tmp/php-file-cache \
  && chown -R build:build /tmp/php-file-cache
