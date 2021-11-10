@@ -15,6 +15,7 @@
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/lib/task:/lib/task
       - ./.my127ws:/.my127ws
+      - ./.bash_history:/home/build/.bash_history
 {% else %}
     image: {{ @('services.console.image') }}
 {% endif %}
