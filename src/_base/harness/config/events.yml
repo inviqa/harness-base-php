@@ -2,6 +2,7 @@
 after('harness.install'): |
   #!bash
   ws enable
+  touch ./.my127ws/.bash_history
 
 after('harness.refresh'):
   env:
