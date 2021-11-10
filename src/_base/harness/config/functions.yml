@@ -131,7 +131,7 @@ function('docker_service_images', [filterService]): |
         $dockerfilePath = rtrim($service['build']['context'], '/') . '/' . $dockerfilePath;
       }
 
-      if (preg_match_all('/^FROM\s+(?:--platform=([^s]+)\s+)?([^\s]*)(?:\s+AS\s+([^\s]+))?/mi', file_get_contents($dockerfilePath), $matches, PREG_SET_ORDER) === false) {
+      if (preg_match_all('/^FROM\s+(?:--platform=([^\s]+)\s+)?([^\s]*)(?:\s+AS\s+([^\s]+))?/mi', file_get_contents($dockerfilePath), $matches, PREG_SET_ORDER) === false) {
         continue;
       }
 
