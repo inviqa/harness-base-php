@@ -141,7 +141,7 @@ function('docker_service_images', [filterService]): |
           continue;
         }
         // Docker uses :latest tag if no explicit tag listed
-        if (strpos($match[2], ':') === false) {
+        if ($match[2] != 'scratch' && strpos($match[2], ':') === false) {
           $match[2] .= ':latest';
         }
         if (isset($match[3])) {
