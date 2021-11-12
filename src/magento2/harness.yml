@@ -109,7 +109,7 @@ attributes:
         - run rm -rf /tmp/php-file-cache/*/app/app/etc/ || true
         - |
           if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
-            task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+            task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
           fi
         - |
           passthru "magento setup:install \
@@ -170,7 +170,7 @@ attributes:
         - task rabbitmq:vhosts
         - |
           if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
-            task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+            task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
           fi
         - run magento setup:upgrade --keep-generated --no-interaction
         - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
@@ -185,7 +185,7 @@ attributes:
       steps:
         - |
           if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
-            task http:wait "${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}"
+            task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
           fi
         - run magento setup:upgrade --keep-generated
         - run magento cache:clean
