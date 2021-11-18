@@ -19,8 +19,8 @@ networks:
   private:
     external: false
   shared:
-    external:
-      name: my127ws
+    external: true
+    name: my127ws
 {% if syncvolume or @('services.solr.enabled') %}
 volumes:
 {% if syncvolume %}
