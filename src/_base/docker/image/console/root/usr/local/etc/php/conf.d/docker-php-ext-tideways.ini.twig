@@ -1,6 +1,6 @@
 {% set tideways = @('php.ext-tideways') %}
 
-{% if tideways.cli.enable == 'yes' %}
+{% if bool(tideways.cli.enable) %}
   extension=tideways.so
   {% for key, value in tideways.config -%}
     tideways.{{ key }}={{ value }}

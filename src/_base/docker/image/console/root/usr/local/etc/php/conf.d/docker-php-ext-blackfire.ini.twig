@@ -1,6 +1,6 @@
 {% set blackfire = @('php.ext-blackfire') %}
 
-{% if blackfire.cli.enable == 'yes' %}
+{% if bool(blackfire.cli.enable) %}
   extension=blackfire.so
   {% for key, value in blackfire.config -%}
     blackfire.{{ key }}={{ value }}

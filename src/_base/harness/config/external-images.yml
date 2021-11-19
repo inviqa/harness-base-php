@@ -86,7 +86,7 @@ command('external-images ls [--all]'):
 
 command('external-images rm [--force]'):
   env:
-    FORCE: = input.option('force') ? 'yes':'no'
+    FORCE: = boolToString(input.option('force'))
   exec: |
     #!bash(workspace:/)|@
     IMAGES=($(ws external-images ls))

@@ -9,7 +9,7 @@ command('feature xdebug version-sync'):
 command('feature xdebug (on|off)'):
   env:
     ATTR_KEY: 'php.ext-xdebug.enable'
-    ATTR_VAL: = input.command(3) == 'on' ? 'yes':'no'
+    ATTR_VAL: = boolToString(input.command(3) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
@@ -22,7 +22,7 @@ command('feature xdebug (on|off)'):
 command('feature xdebug cli (on|off)'):
   env:
     ATTR_KEY: 'php.ext-xdebug.cli.enable'
-    ATTR_VAL: = input.command(4) == 'on' ? 'yes':'no'
+    ATTR_VAL: = boolToString(input.command(4) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
