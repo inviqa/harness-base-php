@@ -46,7 +46,7 @@ attributes:
           passthru bin/wp-cli.phar core install \
             "--path=${WORDPRESS_INSTALL_DIRECTORY}" \
             --skip-email \
-            "--url=$(eval echo $WORDPRESS_URL)" \
+            "--url=$(eval echo "$WORDPRESS_URL")" \
             "--title=${APP_NAME}" \
             --admin_user=admin \
             --admin_password=admin123 \

@@ -5,17 +5,26 @@ set -x
 
 export path_test="./tmp-test"
 
+export TEST_MODE="${TEST_MODE:-full}"
+export REUSE_EXISTING_WORKSPACE="${REUSE_EXISTING_WORKSPACE:-no}"
+export TEARDOWN_ENVIRONMENT="${TEARDOWN_ENVIRONMENT:-yes}"
+
 function main()
 {
-    test "$1" "$2" "${3:-}"
-}
-
-function test()
-(
     local harness="$1"
     local mode="$2"
-    local sync="$3"
+    local sync="${3:-}"
     local akeneo_version=5
+
+    local sync_path=""
+    if [[ -n "$sync" ]]; then
+      sync_path="-${sync}"
+    fi
+    export path_test="./tmp-test-${harness}-${mode}${sync_path}"
+
+    if [[ "$TEARDOWN_ENVIRONMENT" == "yes" ]]; then
+      trap 'clean' EXIT
+    fi
 
     if [[ "$mode" == "static" ]]; then
       export MY127WS_ENV=pipeline
@@ -29,31 +38,60 @@ function test()
         harness="akeneo"
     fi
 
-    # Test default mode of static or dynamic harnesses
-    # For dynamic this means a mountpoint for the application code
-    # or mutagen
-    setup "$harness" "$mode"
-    if [[ "$sync" == "" ]]; then
-      setup_dynamic_mountpoint
-    elif [[ "$sync" == "mutagen" ]]; then
-      setup_dynamic_mutagen
+    if [[ "$REUSE_EXISTING_WORKSPACE" != "yes" ]]; then
+      # Test default mode of static or dynamic harnesses
+      # For dynamic this means a mountpoint for the application code
+      # or mutagen
+      setup "$harness" "$mode"
+      if [[ "$sync" == "" ]]; then
+        setup_dynamic_mountpoint
+      elif [[ "$sync" == "mutagen" ]]; then
+        setup_dynamic_mutagen
+      fi
+      if [[ "$harness" =~ ^(akeneo)$ ]]; then
+        setup_akeneo_version "$akeneo_version"
+      fi
+      prepare_environment
     fi
-    if [[ "$harness" =~ ^(akeneo)$ ]]; then
-      setup_akeneo_version "$akeneo_version"
+
+    if [[ "$TEST_MODE" == "quality" || "$TEST_MODE" == "full" ]]; then
+      test_harness_quality "$harness" "$mode" "$sync"
     fi
+    if [[ "$TEST_MODE" == "acceptance" || "$TEST_MODE" == "full"  ]]; then
+      test_harness_acceptance "$harness" "$mode" "$sync"
+    fi
+    if [[ "$TEARDOWN_ENVIRONMENT" == "yes" ]]; then
+      teardown
+    fi
+}
+
+function test_harness_quality()
+{
+    local harness="$1"
+    local mode="$2"
+    local sync="$3"
+
+    ./quality "${path_test}/.my127ws"
+}
+
+function test_harness_acceptance()
+(
+    local harness="$1"
+    local mode="$2"
+    local sync="$3"
+
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
-      run_isolated_tests "$harness"
+      run_project_quality_tests "$harness"
     fi
     install_environment
     check_environment_started "$harness" "$mode"
-    run_pipeline_tests "$harness"
+    run_project_acceptance_tests "$harness"
     restart_environment
     check_environment_started "$harness" "$mode"
     if [[ "$sync" != "" ]]; then
       wait_for_vendor_directory
     fi
-    teardown
 )
 
 function setup()
@@ -71,11 +109,15 @@ function setup()
     cp -ap "${path_harness}" "${path_test}/.my127ws"
 )
 
+function prepare_environment()
+(
+    cd "${path_test}"
+    ws harness prepare
+)
+
 function install_console()
 (
     cd "${path_test}"
-    ws harness download
-    ws harness prepare
     ws enable console
 )
 
@@ -104,7 +146,7 @@ function check_environment_started()
     fi
 )
 
-function run_isolated_tests()
+function run_project_quality_tests()
 (
   local harness="$1"
   cd "${path_test}"
@@ -127,12 +169,12 @@ function run_isolated_tests()
   fi
 )
 
-function run_pipeline_tests()
+function run_project_acceptance_tests()
 (
     local harness="$1"
 
     if [[ "$harness" =~ ^(magento1)$ ]]; then
-      run_isolated_tests "$harness"
+      run_project_quality_tests "$harness"
     fi
 
     cd "${path_test}"
@@ -211,5 +253,4 @@ function clean()
     fi
 }
 
-trap 'clean' EXIT
 main "$@"

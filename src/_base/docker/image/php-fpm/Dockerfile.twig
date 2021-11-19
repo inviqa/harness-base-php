@@ -1,8 +1,8 @@
 {% if @('app.build') == 'static' %}
 FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
 LABEL build="{{ @('namespace') ~ ':' ~ @('app.version') }}"
-RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi
-RUN if [ -d {{ @('frontend.path') }}/node_modules/ ]; then rm -rf {{ @('frontend.path') }}/node_modules/; fi
+RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi; \
+  if [ -d {{ @('frontend.path') }}/node_modules/ ]; then rm -rf {{ @('frontend.path') }}/node_modules/; fi;
 
 {% endif %}
 FROM {{ @('docker.image.php-fpm') }}
@@ -12,10 +12,9 @@ COPY root  /
 # installing tools in the image is deprecated
 RUN ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini "https://github.com/krallin/tini/releases/download/v0.19.0/tini-$(dpkg --print-architecture)") \
  && chmod +x /sbin/tini
-
-{% set install_extensions=@('php.install_extensions')|merge(@('php.fpm.install_extensions'))|filter(v => v is not empty) %}
-{% if install_extensions %}
-RUN cd /root/installer \
+{%- set install_extensions=@('php.install_extensions')|merge(@('php.fpm.install_extensions'))|filter(v => v is not empty) %}
+{%- if install_extensions %} \
+ && cd /root/installer \
  && ./enable.sh \
     {{ install_extensions|join(" \\\n    ") }}
 {% endif %}

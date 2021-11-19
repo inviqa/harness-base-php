@@ -5,5 +5,7 @@ function task_database_import()
   :
   {% for step in @('database.import.steps') -%}
   {{ step|raw }}
+  {% else %}
+  :
   {% endfor %}
 }
