@@ -291,7 +291,7 @@ attributes.default:
   database:
     # possible platforms are mysql, postgres or ~ for none
     platform: mysql
-    platform_version: 5.7
+    platform_version: 8.0
     host: mysql
     port: 3306
     user: app
@@ -350,8 +350,9 @@ attributes.default:
       steps: []
 
   mysql:
-    image: mysql
-    tag: 5.7
+    # prefer native platform mysql image. _/mysql doesn't have arm64 images
+    image: "= host_architecture() == 'amd64' ? 'mysql' : 'mysql/mysql-server'"
+    tag: 8.0
 
   rabbitmq:
     image: rabbitmq
