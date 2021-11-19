@@ -192,7 +192,7 @@ attributes:
           if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
             task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
           fi
-        - run magento setup:upgrade --keep-generated
+        - run magento setup:upgrade --keep-generated --no-interaction
         - run magento cache:clean
     cron:
       jobs:
