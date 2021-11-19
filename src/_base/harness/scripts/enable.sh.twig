@@ -47,6 +47,7 @@ enable_all()
         initial_start
 
         touch .my127ws/.flag-built
+        touch .bash_history
     else
         if [ "$APP_BUILD" = dynamic ] && [ "$USE_MUTAGEN" = yes ]; then
             passthru ws mutagen resume
