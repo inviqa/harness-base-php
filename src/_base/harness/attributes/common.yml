@@ -299,6 +299,7 @@ attributes.default:
     name: app
     root_pass: DV6RdNY3QcFsBk7V
     port_forward: ~
+    # deprecated: database.var will move to services.mysql.options in a future release
     var:
       default_authentication_plugin: "= (@('database.platform') == 'mysql' && @('database.platform_version') >= 8.0 && @('database.platform_version') < 10.0 ? 'mysql_native_password' : '')"
       ignore-db-dir: "= (@('database.platform') == 'mysql' && @('database.platform_version') < 8.0 ? 'lost+found' : '')"
