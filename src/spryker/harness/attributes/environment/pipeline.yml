@@ -2,7 +2,7 @@
 attributes:
   spryker:
     mode: 'production'
-  namespace: =exec("git log -n 1 --pretty=format:'%H'")
+  namespace: =@('workspace.name') ~ '-' ~ exec("git rev-parse --short HEAD")
   hostname: =@('workspace.name') ~ '.' ~ @('domain')
   app:
     build: static
