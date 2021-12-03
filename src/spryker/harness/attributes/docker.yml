@@ -29,7 +29,7 @@ attributes:
           APPLICATION_ENV: = @('spryker.mode')
     jenkins:
       enabled: "= 'jenkins' in @('app.services')"
-      image: jenkins/jenkins:2.263.1-lts-alpine
+      image: jenkins/jenkins:2.319.1-lts
       environment:
         JAVA_OPTS: '-Djenkins.install.runSetupWizard=false -Dhudson.security.csrf.GlobalCrumbIssuerConfiguration.DISABLE_CSRF_PROTECTION=true'
       resources:
