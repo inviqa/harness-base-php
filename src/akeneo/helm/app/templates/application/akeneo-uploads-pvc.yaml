@@ -40,9 +40,8 @@ spec:
 {{- end }}
 {{- end }}
 {{- end }}
-{{- if .selector }}
-  selector:
-  {{- .selector | toYaml | nindent 4 }}
+{{- with (pick . "selector" "volumeMode" "volumeName") }}
+  {{- . | toYaml | nindent 2 }}
 {{- end }}
 ...
 {{- end -}}
