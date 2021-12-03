@@ -20,7 +20,7 @@ spec:
   storageClassName: {{ .storageClass | quote }}
 {{- end }}
 {{- end }}
-{{- with (pick . "selector" "volumeMode" "volumeName" }}
+{{- with (pick . "selector" "volumeMode" "volumeName") }}
   {{- . | toYaml | nindent 2 }}
 {{- end }}
 
