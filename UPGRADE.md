@@ -2,6 +2,19 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
+## Upgrading from 1.1.x to 1.2.x
+
+### MySQL
+
+MySQL has been upgraded from 5.7 to 8.0 in platforms that use it. This is so arm64 images can be
+used from Oracle's official docker repository [mysql/mysql-server](https://hub.docker.com/r/mysql/mysql-server).
+
+amd64 hosts can continue to use Docker's official docker repository [mysql](https://hub.docker.com/_/mysql).
+
+If it's necessary, you can switch down to version 5.7 through `attribute('mysql.tag'): 5.7`,
+however there may be instability and performance issues doing so on arm64 hosts using amd64
+emulation.
+
 ## Upgrading from 1.0.x to 1.1.x
 
 ### Buildkit
