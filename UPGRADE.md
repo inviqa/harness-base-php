@@ -4,6 +4,17 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 1.1.x to 1.2.x
 
+### Chrome
+
+Chrome is yet to release linux amd64 binaries so docker services `chrome` and `lighthouse` will use
+Chromium instead for the time being.
+
+Chrome fails to start if trying the linux/amd64 on arm64 hosts due to qemu errors.
+
+Chromium will have fewer fonts that are not FOSS, and the vendor does not support software 3D
+rendering, so it will be switched back in a later harness release to Chrome once a arm64 release
+is made.
+
 ### MySQL
 
 MySQL has been upgraded from 5.7 to 8.0 in platforms that use it. This is so arm64 images can be
@@ -14,6 +25,7 @@ amd64 hosts can continue to use Docker's official docker repository [mysql](http
 If it's necessary, you can switch down to version 5.7 through `attribute('mysql.tag'): 5.7`,
 however there may be instability and performance issues doing so on arm64 hosts using amd64
 emulation.
+
 
 ## Upgrading from 1.0.x to 1.1.x
 
