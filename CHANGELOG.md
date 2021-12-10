@@ -1,5 +1,71 @@
 # Changelog
 
+## [1.2.0](https://github.com/inviqa/harness-base-php/tree/1.2.0) (2021-12-10)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.1.2...1.2.0)
+
+**Implemented enhancements:**
+
+- Add Akeneo 5 support [\#578](https://github.com/inviqa/harness-base-php/issues/578)
+- Switch chrome and lighthouse to chromium if not amd64 host [\#650](https://github.com/inviqa/harness-base-php/pull/650) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add volumeMode/Name support to k8s pvcs [\#649](https://github.com/inviqa/harness-base-php/pull/649) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add an upgrade note about mysql update [\#648](https://github.com/inviqa/harness-base-php/pull/648) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update Jenkins to latest LTS release with multi-arch support [\#647](https://github.com/inviqa/harness-base-php/pull/647) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Include the project name in docker-compose project name in CI [\#646](https://github.com/inviqa/harness-base-php/pull/646) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add Spryker classmap for autoloading [\#644](https://github.com/inviqa/harness-base-php/pull/644) ([jbarton123](https://github.com/jbarton123))
+- Switch mysql image to mysql/mysql-server if not amd64 host architecture, changing default to 8.0 [\#643](https://github.com/inviqa/harness-base-php/pull/643) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update magento2 elasticsearch to 7.10.1 [\#641](https://github.com/inviqa/harness-base-php/pull/641) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update elasticsearch default to latest version \(7.14.2\) [\#640](https://github.com/inviqa/harness-base-php/pull/640) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Pass platform through to external-image config and skip stage aliases [\#631](https://github.com/inviqa/harness-base-php/pull/631) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add support for elasticsearch https and http auth [\#630](https://github.com/inviqa/harness-base-php/pull/630) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Use new external network syntax [\#628](https://github.com/inviqa/harness-base-php/pull/628) ([kierenevans](https://github.com/kierenevans))
+- MIX: remove redundant preview attributes overrides [\#623](https://github.com/inviqa/harness-base-php/pull/623) ([marcomc](https://github.com/marcomc))
+- Pass through tideways hostname and env variable [\#622](https://github.com/inviqa/harness-base-php/pull/622) ([kierenevans](https://github.com/kierenevans))
+- Add support for Ingress TLS attributes to be used by LetsEncrypt [\#620](https://github.com/inviqa/harness-base-php/pull/620) ([marcomc](https://github.com/marcomc))
+- Add support for Akeneo v5 [\#619](https://github.com/inviqa/harness-base-php/pull/619) ([hgajjar](https://github.com/hgajjar))
+- Fix dockerfile path with compose cli v2 [\#618](https://github.com/inviqa/harness-base-php/pull/618) ([kierenevans](https://github.com/kierenevans))
+- Use an integer for varnish tmpfs size for compose cli v2 [\#617](https://github.com/inviqa/harness-base-php/pull/617) ([kierenevans](https://github.com/kierenevans))
+- Switch changelog generator docker image [\#616](https://github.com/inviqa/harness-base-php/pull/616) ([kierenevans](https://github.com/kierenevans))
+- Support proper booleans and discourage use of yes/no except in bash [\#613](https://github.com/inviqa/harness-base-php/pull/613) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- \#605 Explicitly declare development dependencies [\#612](https://github.com/inviqa/harness-base-php/pull/612) ([kierenevans](https://github.com/kierenevans))
+- \#608: Use NGINX 1.21 [\#611](https://github.com/inviqa/harness-base-php/pull/611) ([kierenevans](https://github.com/kierenevans))
+- Add docroot/themes/contrib/ to autoload-drupal and other stories [\#610](https://github.com/inviqa/harness-base-php/pull/610) ([dantleech](https://github.com/dantleech))
+- Use memory for SQLite testing in drupal8 [\#604](https://github.com/inviqa/harness-base-php/pull/604) ([kierenevans](https://github.com/kierenevans))
+- Update guidance on hanging mutagen commands [\#603](https://github.com/inviqa/harness-base-php/pull/603) ([kierenevans](https://github.com/kierenevans))
+- Check for cache control header before using it [\#601](https://github.com/inviqa/harness-base-php/pull/601) ([kierenevans](https://github.com/kierenevans))
+- Avoid syntax checking tests for drupal8 [\#600](https://github.com/inviqa/harness-base-php/pull/600) ([kierenevans](https://github.com/kierenevans))
+- Add Varnish to Drupal [\#599](https://github.com/inviqa/harness-base-php/pull/599) ([kierenevans](https://github.com/kierenevans))
+- Use built solr 4.x docker image [\#598](https://github.com/inviqa/harness-base-php/pull/598) ([kierenevans](https://github.com/kierenevans))
+- Update Akeneo cronjobs [\#595](https://github.com/inviqa/harness-base-php/pull/595) ([a-ast](https://github.com/a-ast))
+- Bring up mailhog in Jenkins, for integration tests that send emails [\#593](https://github.com/inviqa/harness-base-php/pull/593) ([kierenevans](https://github.com/kierenevans))
+- Enable early feedback for drupal8 in Jenkins [\#591](https://github.com/inviqa/harness-base-php/pull/591) ([kierenevans](https://github.com/kierenevans))
+- Enable early feedback for magento2 in Jenkins [\#590](https://github.com/inviqa/harness-base-php/pull/590) ([kierenevans](https://github.com/kierenevans))
+- Use built image for lighthouse to speed up environments [\#588](https://github.com/inviqa/harness-base-php/pull/588) ([kierenevans](https://github.com/kierenevans))
+- Move shellcheck to Jenkins. Add Hadolint [\#581](https://github.com/inviqa/harness-base-php/pull/581) ([kierenevans](https://github.com/kierenevans))
+
+**Fixed bugs:**
+
+- Fix issue with scratch:latest being added in `ws external-images config` [\#639](https://github.com/inviqa/harness-base-php/pull/639) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix handling of platform when BUILD/TARGETPLATFORM used in FROM [\#637](https://github.com/inviqa/harness-base-php/pull/637) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix issue parsing platform from Dockerfile FROM [\#636](https://github.com/inviqa/harness-base-php/pull/636) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Install the correct architecture tini for php images [\#634](https://github.com/inviqa/harness-base-php/pull/634) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix issue with MacOS Big Sur and later not using brew for mutagen [\#633](https://github.com/inviqa/harness-base-php/pull/633) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fetch the correct architecture mutagen binary for the host [\#632](https://github.com/inviqa/harness-base-php/pull/632) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix drupal8 build [\#626](https://github.com/inviqa/harness-base-php/pull/626) ([kierenevans](https://github.com/kierenevans))
+- Resolve bug with empty database:import steps erroring [\#624](https://github.com/inviqa/harness-base-php/pull/624) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- MISC: Fix missing extensions.json file issue for akeneo [\#621](https://github.com/inviqa/harness-base-php/pull/621) ([hgajjar](https://github.com/hgajjar))
+- Fix drupal8 build [\#615](https://github.com/inviqa/harness-base-php/pull/615) ([kierenevans](https://github.com/kierenevans))
+- Fix webapp init container [\#609](https://github.com/inviqa/harness-base-php/pull/609) ([g-foster2](https://github.com/g-foster2))
+- Fix mutagen volumes being missing [\#602](https://github.com/inviqa/harness-base-php/pull/602) ([kierenevans](https://github.com/kierenevans))
+- Fix magento2 migrate pending on app:config:import question during setup:upgrade [\#597](https://github.com/inviqa/harness-base-php/pull/597) ([kierenevans](https://github.com/kierenevans))
+- Lighthouse jenkins stages should be removed if lighthouse is disabled [\#594](https://github.com/inviqa/harness-base-php/pull/594) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix asking for shutdown [\#592](https://github.com/inviqa/harness-base-php/pull/592) ([kierenevans](https://github.com/kierenevans))
+- Fix spacing with multiple build environment variables [\#589](https://github.com/inviqa/harness-base-php/pull/589) ([kierenevans](https://github.com/kierenevans))
+
+**Deprecated:**
+
+- Deprecate database.var attribute for newer services.mysql.options [\#642](https://github.com/inviqa/harness-base-php/pull/642) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [1.1.2](https://github.com/inviqa/harness-base-php/tree/1.1.2) (2021-08-17)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.1.1...1.1.2)

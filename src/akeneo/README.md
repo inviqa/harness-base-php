@@ -6,7 +6,7 @@ with Akeneo, or use the community edition which is open source.
 ## Community Edition
 
 1. Install [Workspace]
-2. Run `ws create <projectName> inviqa/akeneo:v1.1.2`
+2. Run `ws create <projectName> inviqa/akeneo:v1.2.0`
 3. You will be asked a series of questions:
   - For `akeneo.edition`, enter `community`
   - For `akeneo.enterprise.distribution.project_name`, press enter to submit a blank string
@@ -34,7 +34,7 @@ git commit -m "Initial commit"
 ### Installation
 
 1. Install [Workspace]
-2. Run `ws create <projectName> inviqa/akeneo:v1.1.2`
+2. Run `ws create <projectName> inviqa/akeneo:v1.2.0`
 3. You will be asked a series of questions:
   - For `akeneo.edition`, enter `enterprise`
   - For `akeneo.enterprise.distribution.project_name`, enter the "Git repository" name listed on the Akeneo Portal

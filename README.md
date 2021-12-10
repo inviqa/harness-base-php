@@ -36,7 +36,7 @@ A developer for a project can follow these steps to upgrade their harness versio
 ```bash
 git clone git@github.com:inviqa/harness-<framework>.git
 cd harness-<framework>
-git checkout 1.1.2
+git checkout 1.2.0
 pwd # Use this path for the diff in step 3
 ```
 4. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
