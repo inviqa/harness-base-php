@@ -95,7 +95,8 @@ attributes:
         memory: "1024Mi"
     lighthouse:
       enabled: true
-      image: quay.io/inviqa_images/lighthouse:latest
+      image: = 'quay.io/inviqa_images/lighthouse:' ~ @('services.lighthouse.tag')
+      tag: "= host_architecture() == 'amd64' ? 'chrome' : 'chromium'"
     memcached:
       enabled: "= 'memcached' in @('app.services')"
       image: memcached:1-alpine
