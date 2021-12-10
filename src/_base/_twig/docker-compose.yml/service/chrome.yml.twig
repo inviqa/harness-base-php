@@ -1,6 +1,10 @@
   chrome:
+{% if host_architecture() == 'amd64' %}
     image: yukinying/chrome-headless-browser:latest
     command: ["--no-sandbox", "--disable-gpu", "--headless", "--disable-dev-shm-usage", "--remote-debugging-address=0.0.0.0", "--remote-debugging-port=9222", "--user-data-dir=/data"]
+{% else %}
+    image: quay.io/inviqa_images/chromium:latest
+{% endif %}
     labels:
       - traefik.enable=false
     networks:
