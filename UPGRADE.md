@@ -6,7 +6,7 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ### Chrome
 
-Chrome is yet to release linux amd64 binaries so docker services `chrome` and `lighthouse` will use
+Chrome is yet to release linux arm64 binaries so docker services `chrome` and `lighthouse` will use
 Chromium instead for the time being.
 
 Chrome fails to start if trying the linux/amd64 docker image on arm64 hosts due to qemu errors.
