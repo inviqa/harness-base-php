@@ -6,5 +6,4 @@ namespace Acme;
 
 class HelloWorld
 {
-
 }
