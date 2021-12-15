@@ -311,7 +311,7 @@ attributes.default:
     host: elasticsearch
     image: elasticsearch
     port: 9200
-    tag: 7.14.2
+    tag: '7.14.2'
 
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
@@ -352,11 +352,11 @@ attributes.default:
   mysql:
     # prefer native platform mysql image. _/mysql doesn't have arm64 images
     image: "= host_architecture() == 'amd64' ? 'mysql' : 'mysql/mysql-server'"
-    tag: 8.0
+    tag: '8.0'
 
   rabbitmq:
     image: rabbitmq
-    tag: 3.8-management-alpine
+    tag: '3.8-management-alpine'
     api_port: 15672
     erlang_cookie: TeTTiwT9y548yIcfw4peaOrqgtLItD6B
     external_host: = 'rabbitmq-' ~ @('hostname')

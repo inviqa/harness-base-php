@@ -51,7 +51,7 @@ attributes:
     user: akeneo
     pass: akeneo
     name: akeneo
-    platform_version: 8.0
+    platform_version: '8.0'
     import:
       steps:
         - passthru echo 'Importing database file'
@@ -136,9 +136,9 @@ attributes:
       php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster'
   elasticsearch:
     image: elasticsearch
-    tag: 7.10.1
+    tag: '7.10.1'
   mysql:
-    tag: 8.0
+    tag: '8.0'
   nginx:
     # used to limit what is copied into an Nginx static-built image
     # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)

@@ -74,7 +74,7 @@ attributes:
       session:
         save: redis
   mysql:
-    tag: 5.7
+    tag: '5.7'
   backend:
     build:
       steps:
