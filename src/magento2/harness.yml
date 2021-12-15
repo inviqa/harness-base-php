@@ -63,7 +63,7 @@ attributes:
     pass: magento
     name: magento
   elasticsearch:
-    tag: 7.10.1
+    tag: '7.10.1'
   magento:
     edition: enterprise
     config:
@@ -84,7 +84,7 @@ attributes:
     version: 2.4.2
   mysql:
     image: mariadb
-    tag: 10.4
+    tag: '10.4'
   backend:
     build:
       steps:
