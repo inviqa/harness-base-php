@@ -20,6 +20,14 @@ RUN chown -R build:build /home/build /app \
     {{ install_extensions|join(" \\\n    ") }}
 {% endif %}
 
+{% if @('frontend.build.distribution_packages') or @('backend.build.distribution_packages') %}
+RUN apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+    {{ @('frontend.build.distribution_packages') | default([]) | merge(@('backend.build.distribution_packages') | default([])) | join(' ') }} \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+{% endif %}
+
 ENV APP_MODE={{ @('app.mode') }} \
   APP_BUILD={{ @('app.build') }} \
   ASSETS_DIR={{ @('assets.local') }}

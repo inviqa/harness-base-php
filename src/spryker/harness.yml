@@ -71,6 +71,10 @@ attributes:
     zed:
       watch: npm run zed:watch
     build:
+      distribution_packages_non_amd64:
+        - build-essential
+        - python
+      distribution_packages: "= host_architecture() == 'amd64' ? [] : @('frontend.build.distribution_packages_non_amd64')"
       when: -f "package.json"
       steps:
         - run vendor/bin/install -r docker -s frontend
