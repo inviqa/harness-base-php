@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/inviqa/harness-base-php/tree/1.2.1) (2021-12-16)
+
+**Fixed bugs:**
+
+- Add quotes on mysql.tag and other tags to avoid losing x.0 to x [\#651](https://github.com/inviqa/harness-base-php/pull/651) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Install build tools for spryker frontend on non-amd64 architectures [\#652](https://github.com/inviqa/harness-base-php/pull/652) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [1.2.0](https://github.com/inviqa/harness-base-php/tree/1.2.0) (2021-12-10)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.1.2...1.2.0)
