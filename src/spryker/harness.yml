@@ -26,13 +26,13 @@ attributes:
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
-    demoshop-version: "202009.0"
+    demoshop-version: "202108.0"
     mode: development
     oauth_client_secret: ~
     zed_request_token: ~
   php:
     composer:
-      major_version: 1
+      major_version: 2
     fpm:
       ini:
         max_execution_time: 600
@@ -89,7 +89,7 @@ attributes:
       php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   elasticsearch:
     image: elasticsearch
-    tag: '6.8.12'
+    tag: '7.16.2'
   hostname_aliases: "= replace(flatten([
       @('glue.external_hosts'),
       @('yves.external_hosts'),
