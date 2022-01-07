@@ -32,7 +32,7 @@ attributes:
     zed_request_token: ~
   php:
     composer:
-      major_version: 2
+      major_version: 1
     fpm:
       ini:
         max_execution_time: 600
