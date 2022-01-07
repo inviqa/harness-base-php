@@ -220,4 +220,3 @@ $config[HttpConstants::YVES_TRUSTED_HOSTS]
         $sprykerBackendHost,
         $sprykerBackendApiHost,
     ];
-
