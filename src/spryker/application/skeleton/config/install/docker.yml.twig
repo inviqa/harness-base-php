@@ -97,7 +97,11 @@ sections:
             stores: true
 
         router-cache-warmup-zed:
-            command: "vendor/bin/console router:cache:warm-up"
+            command: "vendor/bin/console router:cache:warm-up:backend"
+            stores: true
+
+        router-cache-warmup-zed-gateway:
+            command: "vendor/bin/console router:cache:warm-up:backend-gateway"
             stores: true
 
         twig-cache-warmup:
