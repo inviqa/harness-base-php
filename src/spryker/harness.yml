@@ -89,7 +89,7 @@ attributes:
       php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   elasticsearch:
     image: elasticsearch
-    tag: '7.16.2'
+    tag: "= @('spryker.demoshop-version') <= '202009.0'? '6.8.22' : '7.16.2'"
   hostname_aliases: "= replace(flatten([
       @('glue.external_hosts'),
       @('yves.external_hosts'),
@@ -129,7 +129,7 @@ attributes:
       DE: = 'zed-api-de-' ~ @('hostname')
       AT: = 'zed-api-at-' ~ @('hostname')
       US: = 'zed-api-us-' ~ @('hostname')
-    root_dir: = @('app.web_directory') ~ '/BackendGateway'
+    root_dir: "= @('spryker.demoshop-version') >= '202108.0'? @('app.web_directory') ~ '/BackendGateway' : @('app.web_directory') ~ '/Zed'"
   glue:
     external_hosts:
       DE: = 'glue-de-' ~ @('hostname')
