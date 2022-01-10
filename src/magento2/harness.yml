@@ -62,8 +62,6 @@ attributes:
     user: magento
     pass: magento
     name: magento
-  elasticsearch:
-    tag: '7.10.1'
   magento:
     edition: enterprise
     config:

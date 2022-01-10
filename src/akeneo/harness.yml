@@ -134,11 +134,6 @@ attributes:
     image:
       console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster-console'
       php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster'
-  elasticsearch:
-    image: elasticsearch
-    tag: '7.10.1'
-  mysql:
-    tag: '8.0'
   nginx:
     # used to limit what is copied into an Nginx static-built image
     # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)

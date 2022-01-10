@@ -89,7 +89,7 @@ attributes:
       php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   elasticsearch:
     image: elasticsearch
-    tag: '6.8.12'
+    tag: '6.8.22'
   hostname_aliases: "= replace(flatten([
       @('glue.external_hosts'),
       @('yves.external_hosts'),
