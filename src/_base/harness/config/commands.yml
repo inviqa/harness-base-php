@@ -315,3 +315,10 @@ command('lighthouse [--with-results]'):
   exec: |
     #!bash(workspace:/)|@
     passthru docker-compose run --rm lighthouse bash -i /app/run.sh
+
+command('db dump sanitised'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)
+    passthru docker-compose exec -u build console /app/tools/database/dump_sanitised.sh
