@@ -21,7 +21,6 @@ spec:
     {{- with $autoscaling.metrics }}
     {{- . | toYaml | nindent 4 }}
     {{- end }}
-    {{- /* the following is not recommended for multi-container pods due to averaging of metrics, use .metrics instead https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#container-resource-metrics */ }}
     {{- with $autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
