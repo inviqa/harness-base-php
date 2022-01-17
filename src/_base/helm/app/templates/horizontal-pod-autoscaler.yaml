@@ -14,7 +14,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
-  {{- with (pick $autoscaling "minReplicas" "maxReplicas") }}
+  {{- with (pick $autoscaling "behavior" "minReplicas" "maxReplicas") }}
   {{- . | toYaml | nindent 2 }}
   {{- end }}
   metrics:
