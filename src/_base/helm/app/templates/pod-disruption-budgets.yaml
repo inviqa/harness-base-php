@@ -2,7 +2,7 @@
 {{- with $service }}
 {{- if and (not (hasPrefix "." $serviceName)) .enabled }}
 {{- $autoscaling := .autoscaling | default (dict "minReplicas" 0) -}}
-{{- if or (gt (.replicas | default 1) 1) (and $autoscaling.enabled (gt $autoscaling.minReplicas 1)) }}
+{{- if or (gt (.replicas | default 1 | int) 1) (and $autoscaling.enabled (gt ($autoscaling.minReplicas | int) 1)) }}
 ---
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
@@ -15,7 +15,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
-  minAvailable: {{- .minAvailable | default 1 }}
+  minAvailable: {{ .minAvailable | default 1 }}
   selector:
     matchLabels:
       app.service: {{ print $.Values.resourcePrefix $serviceName }}
