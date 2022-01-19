@@ -1,0 +1,25 @@
+{{- range $serviceName, $service := .Values.services -}}
+{{- with $service }}
+{{- if and (not (hasPrefix "." $serviceName)) .enabled }}
+{{- $autoscaling := .autoscaling | default (dict "minReplicas" 0) -}}
+{{- if or (gt (.replicas | default 1 | int) 1) (and $autoscaling.enabled (gt ($autoscaling.minReplicas | int) 1)) }}
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ print $.Values.resourcePrefix $serviceName }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName}}
+    app.service: {{ print $.Values.resourcePrefix $serviceName }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
+spec:
+  minAvailable: {{ .minAvailable | default 1 }}
+  selector:
+    matchLabels:
+      app.service: {{ print $.Values.resourcePrefix $serviceName }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

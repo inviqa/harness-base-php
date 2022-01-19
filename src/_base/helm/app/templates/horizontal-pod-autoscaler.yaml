@@ -1,0 +1,44 @@
+{{- range $serviceName, $service := .Values.services -}}
+{{- with $service }}
+{{- $autoscaling := .autoscaling | default (dict) -}}
+{{- if and (not (hasPrefix "." $serviceName)) .enabled $autoscaling.enabled }}
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ print $.Values.resourcePrefix $serviceName }}
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: {{ $serviceName }}
+    app.service: {{ print $.Values.resourcePrefix $serviceName }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"
+spec:
+  {{- with (pick $autoscaling "behavior" "minReplicas" "maxReplicas") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
+  metrics:
+    {{- with $autoscaling.metrics }}
+    {{- . | toYaml | nindent 4 }}
+    {{- end }}
+    {{- with $autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ . }}
+    {{- end }}
+    {{- with $autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ . }}
+    {{- end }}
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ print $.Values.resourcePrefix $serviceName }}
+{{- end }}
+{{- end }}
+{{- end }}
