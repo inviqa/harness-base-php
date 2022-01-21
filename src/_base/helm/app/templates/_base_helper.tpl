@@ -72,3 +72,10 @@ stringData:
 {{ end }}
 {{ end }}
 {{- end }}
+
+{{- define "service.php.resolved" -}}
+{{- $service := index $.root.Values.services $.service_name -}}
+{{- $extended := index $.root.Values.services "php-base" -}}
+{{- $merged := mergeOverwrite (deepCopy $extended) (deepCopy $service) -}}
+{{ $merged | toYaml }}
+{{- end -}}
