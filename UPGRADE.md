@@ -22,7 +22,11 @@ used from Oracle's official docker repository [mysql/mysql-server](https://hub.d
 
 amd64 hosts can continue to use Docker's official docker repository [mysql](https://hub.docker.com/_/mysql).
 
-If it's necessary, you can switch down to version 5.7 through `attribute('mysql.tag'): 5.7`,
+If it's necessary, you can switch down to version 5.7 through:
+```yaml
+attribute('mysql.tag'): 5.7
+attribute('database.platform_version'): 5.7
+```
 however there may be instability and performance issues doing so on arm64 hosts using amd64
 emulation.
 
