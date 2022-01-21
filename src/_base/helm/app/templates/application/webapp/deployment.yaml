@@ -1,4 +1,4 @@
-{{- $service_php_fpm := include "service.php.resolved" (dict "root" $ "service_name" "php-fpm") | fromYaml -}}
+{{- $service_php_fpm := include "service.resolved" (dict "root" $ "service_name" "php-fpm") | fromYaml -}}
 {{- if .Values.services.webapp.enabled -}}
 apiVersion: apps/v1
 kind: Deployment

@@ -35,6 +35,8 @@ attributes:
       resources:
         memory: "1536Mi"
     jenkins-runner:
+      extends:
+        - php-base
       enabled: "= 'jenkins-runner' in @('app.services')"
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-jenkins-runner'
       publish: = @('services.jenkins-runner.enabled')

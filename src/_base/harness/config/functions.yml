@@ -76,6 +76,7 @@ function('filter_local_services', [services]): |
         case 'enabled':
         case 'environment':
         case 'environment_dynamic':
+        case 'extends':
         case 'image':
         case 'resources':
           $filteredService[$key] = $value;

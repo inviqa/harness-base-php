@@ -1,4 +1,4 @@
-{{- with (include "service.php.resolved" (dict "root" $ "service_name" "console") | fromYaml) -}}
+{{- with (include "service.resolved" (dict "root" $ "service_name" "console") | fromYaml) -}}
 apiVersion: batch/v1
 kind: Job
 metadata:

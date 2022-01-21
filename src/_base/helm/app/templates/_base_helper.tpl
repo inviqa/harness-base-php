@@ -73,9 +73,15 @@ stringData:
 {{ end }}
 {{- end }}
 
-{{- define "service.php.resolved" -}}
+{{/*
+A template to fully resolve services that extend template services
+*/}}
+{{- define "service.resolved" -}}
 {{- $service := index $.root.Values.services $.service_name -}}
-{{- $extended := index $.root.Values.services "php-base" -}}
-{{- $merged := mergeOverwrite (deepCopy $extended) (deepCopy $service) -}}
-{{ $merged | toYaml }}
+{{- $extended := (dict) -}}
+{{- range $service.extends -}}
+{{ $_ := mergeOverwrite $extended (include "service.resolved" (dict "root" $.root "service_name" .) | fromYaml) }}
+{{- end -}}
+{{- $_ := mergeOverwrite $extended $service -}}
+{{ $extended | toYaml }}
 {{- end -}}
