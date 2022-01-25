@@ -2,6 +2,16 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
+## Upgrading from 1.2.x to 1.3.x
+
+### Spryker
+With support for Spryker 202108.0 release, we have upgraded the Elasticsearch version to 7.x and also there is a change in
+Zed application's root directory (Spryker now supports different entrypoints for backoffice and Zed gateway applications).
+However, both of these changes are not backward compatible. So, to make sure we do not break projects using old demoshop version,
+we are using `spryker.demoshop-version` attribute to apply these changes conditionally.
+In order to make sure your project uses the right version of Elasticsearch and Zed root directory, make sure you set the 
+right `spryker.demoshop-version` in your workspace.yml
+
 ## Upgrading from 1.1.x to 1.2.x
 
 ### Chrome

@@ -8,3 +8,5 @@ attribute('aws.access_key_id'): null
 attribute('aws.secret_access_key'): null
 
 attribute('docker.port_forward.enabled'): false
+
+attribute('spryker.demoshop-version'): "202108.0"
