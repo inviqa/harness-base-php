@@ -14,22 +14,22 @@ sections:
     hidden:
         excluded: true
         maintenance-all-on:
-            command: "vendor/bin/console maintenance:enable"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable; fi"
 
         maintenance-all-off:
-            command: "vendor/bin/console maintenance:disable"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable; fi"
 
         maintenance-zed-on:
-            command: "vendor/bin/console maintenance:enable zed"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable zed; fi"
 
         maintenance-zed-off:
-            command: "vendor/bin/console maintenance:disable zed"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable zed; fi"
 
         maintenance-yves-on:
-            command: "vendor/bin/console maintenance:enable yves"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable yves; fi"
 
         maintenance-yves-off:
-            command: "vendor/bin/console maintenance:disable yves"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable yves; fi"
 
     environment:
         console-environment:
@@ -97,7 +97,11 @@ sections:
             stores: true
 
         router-cache-warmup-zed:
-            command: "vendor/bin/console router:cache:warm-up"
+            command: "vendor/bin/console router:cache:warm-up:backend"
+            stores: true
+
+        router-cache-warmup-zed-gateway:
+            command: "vendor/bin/console router:cache:warm-up:backend-gateway"
             stores: true
 
         twig-cache-warmup:
@@ -205,7 +209,7 @@ sections:
                 - propel
 
         maintenance-page-enable:
-            command: "vendor/bin/console maintenance:enable"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable yves; fi"
             stores: true
             condition:
                 command: "propel-migration-check"
@@ -219,7 +223,7 @@ sections:
                 - propel
 
         maintenance-page-disable:
-            command: "vendor/bin/console maintenance:disable"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable yves; fi"
             stores: true
 
         init-database:
@@ -232,6 +236,13 @@ sections:
             stores: true
             groups:
                 - elastic
+
+    performance:
+        composer-autoloader:
+            command: 'composer dumpautoload -a -o --classmap-authoritative'
+
+        class-resolver-build:
+            command: 'vendor/bin/console cache:class-resolver:build'
 
     demodata:
         import:

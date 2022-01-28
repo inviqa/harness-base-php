@@ -10,7 +10,7 @@ namespace Inviqa\Yves\Router\Plugin\EventDispatcher;
 use Spryker\Shared\EventDispatcher\EventDispatcherInterface;
 use Spryker\Yves\Router\Plugin\EventDispatcher\RouterSslRedirectEventDispatcherPlugin as SprykerRouterSslRedirectEventDispatcherPlugin;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class RouterSslRedirectEventDispatcherPlugin extends SprykerRouterSslRedirectEventDispatcherPlugin
@@ -26,7 +26,7 @@ class RouterSslRedirectEventDispatcherPlugin extends SprykerRouterSslRedirectEve
      */
     protected function addListener(EventDispatcherInterface $eventDispatcher): EventDispatcherInterface
     {
-        $eventDispatcher->addListener(KernelEvents::REQUEST, function (GetResponseEvent $event): void {
+        $eventDispatcher->addListener(KernelEvents::REQUEST, function (RequestEvent $event): void {
             $request = $event->getRequest();
             if ($this->shouldBeSsl($request)) {
                 $fakeRequest = clone $request;

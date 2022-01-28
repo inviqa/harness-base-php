@@ -250,7 +250,6 @@ pipeline {
                                 sh './test spryker dynamic'
                             }
                         }
-                        // Deliberately not having an "Install Mutagen" step to test the installer we ship with the harness
                         stage('Acceptance Tests') {
                             environment {
                                 REUSE_EXISTING_WORKSPACE = "yes"

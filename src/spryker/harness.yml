@@ -26,13 +26,13 @@ attributes:
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
-    demoshop-version: "202009.0"
+    demoshop-version: "202108.0"
     mode: development
     oauth_client_secret: ~
     zed_request_token: ~
   php:
     composer:
-      major_version: 1
+      major_version: 2
     fpm:
       ini:
         max_execution_time: 600
@@ -89,7 +89,7 @@ attributes:
       php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
   elasticsearch:
     image: elasticsearch
-    tag: '6.8.23'
+    tag: "= version_compare(@('spryker.demoshop-version'), '202009.0', '<=') ? '6.8.23' : '7.16.3'"
   hostname_aliases: "= replace(flatten([
       @('glue.external_hosts'),
       @('yves.external_hosts'),
@@ -123,11 +123,13 @@ attributes:
       DE: = 'zed-de-' ~ @('hostname')
       AT: = 'zed-at-' ~ @('hostname')
       US: = 'zed-us-' ~ @('hostname')
+    root_dir: = @('app.web_directory') ~ '/Zed'
   zed_api:
     external_hosts:
       DE: = 'zed-api-de-' ~ @('hostname')
       AT: = 'zed-api-at-' ~ @('hostname')
       US: = 'zed-api-us-' ~ @('hostname')
+    root_dir: "= @('spryker.demoshop-version') >= '202108.0'? @('app.web_directory') ~ '/BackendGateway' : @('app.web_directory') ~ '/Zed'"
   glue:
     external_hosts:
       DE: = 'glue-de-' ~ @('hostname')
