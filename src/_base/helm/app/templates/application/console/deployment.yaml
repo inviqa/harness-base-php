@@ -11,7 +11,9 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
-  replicas: 1
+  {{- with (pick . "replicas") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
   revisionHistoryLimit: 2
   selector:
     matchLabels:
