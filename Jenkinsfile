@@ -250,15 +250,6 @@ pipeline {
                                 sh './test spryker dynamic'
                             }
                         }
-                        // todo: remove this step after the mutagen installer from harness is working again
-                        stage('Install Mutagen') {
-                            steps {
-                                sh 'apk add grep'
-                                sh 'curl --fail --silent --show-error --location --output /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz'
-                                sh 'tar -C /usr/local/bin/ -xf /tmp/mutagen.tar.gz'
-                                sh 'rm -f /tmp/mutagen.tar.gz'
-                            }
-                        }
                         stage('Acceptance Tests') {
                             environment {
                                 REUSE_EXISTING_WORKSPACE = "yes"
