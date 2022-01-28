@@ -326,6 +326,8 @@ attributes.default:
       # requires sealed-secrets k8s operator
       sealed_secrets: false
     timeout: 300
+    # currently limited to versions supplied by https://github.com/inviqa/kubernetes-json-schema/tree/master/docs/schema
+    kubernetes_version: 1.21.9
 
     sealed_secrets:
       # location of the sealed-secret service to download the active certificate from

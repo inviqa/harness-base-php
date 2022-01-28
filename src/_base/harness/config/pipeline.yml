@@ -105,6 +105,7 @@ command('helm template <chart-path>'):
 command('helm kubeval [--cleanup] <chart-path>'):
   env:
     CHART_PATH: = input.argument('chart-path')
+    K8S_VERSION: = @('helm.kubernetes_version')
     NAMESPACE: = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
     ADDITIONAL_SCHEMA_LOCATIONS: = @('helm.additional_schema_locations')
     CLEANUP: "= input.option('cleanup') ? 1 : 0"
@@ -122,7 +123,10 @@ command('helm kubeval [--cleanup] <chart-path>'):
     fi
 
     passthru helm plugin install https://github.com/inviqa/helm-kubeval || true
-    KUBEVAL_OPTS=()
+    KUBEVAL_OPTS=(
+      --kubernetes-version "${K8S_VERSION}"
+      --schema-location https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master
+    )
 
     if [ -n "${ADDITIONAL_SCHEMA_LOCATIONS:-}" ]; then
       KUBEVAL_OPTS+=(--additional-schema-locations "${ADDITIONAL_SCHEMA_LOCATIONS}")
