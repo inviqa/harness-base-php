@@ -9,6 +9,7 @@ With support for Spryker 202108.0 release, we have upgraded the Elasticsearch ve
 Zed application's root directory (Spryker now supports different entrypoints for backoffice and Zed gateway applications).
 However, both of these changes are not backward compatible. So, to make sure we do not break projects using old demoshop version,
 we are using `spryker.demoshop-version` attribute to apply these changes conditionally.
+
 In order to make sure your project uses the right version of Elasticsearch and Zed root directory, make sure you set the 
 right `spryker.demoshop-version` in your workspace.yml
 
