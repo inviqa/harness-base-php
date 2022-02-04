@@ -314,4 +314,4 @@ command('lighthouse [--with-results]'):
     OUTPUT_RESULTS:       = boolToString(input.option('with-results'))
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose run --rm lighthouse bash -i /app/run.sh
+    passthru docker-compose run -T --rm lighthouse bash -i /app/run.sh
