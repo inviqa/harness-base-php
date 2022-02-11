@@ -17,6 +17,8 @@ use Spryker\Zed\Queue\Business\QueueBusinessFactory as SprykerQueueBusinessFacto
  *
  * @package Pyz\Zed\Queue\Business
  * @author Hardik Gajjar <hardik.gajjar@inviqa.com>
+ *
+ * @method \Pyz\Zed\Queue\QueueConfig getConfig()
  */
 class QueueBusinessFactory extends SprykerQueueBusinessFactory
 {
