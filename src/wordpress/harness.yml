@@ -56,7 +56,7 @@ attributes:
       steps:
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" option update siteurl "$(eval echo "${WORDPRESS_URL}")"
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" option update home "$(eval echo "${WORDPRESS_URL}")"
-        - run "bin/wp-cli.phar '--path=${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator "--user_pass=${ADMIN_DEFAULT_PASSWORD}" || exit 0"
+        - run "bin/wp-cli.phar '--path=${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator '--user_pass=${ADMIN_DEFAULT_PASSWORD}' || exit 0"
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" user update admin --role=administrator "--user_pass=${ADMIN_DEFAULT_PASSWORD}" --skip-email
   php:
     install_extensions:
