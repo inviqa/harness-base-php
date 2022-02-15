@@ -12,7 +12,7 @@ function task_welcome()
     {% endfor -%}
     echo "Admin: /admin"
     echo "  Username: admin"
-    echo "  Password: admin123"
+    echo "  Password: ${ADMIN_DEFAULT_PASSWORD}"
     {% if @('services.rabbitmq.enabled') -%}
     echo ""
     echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"

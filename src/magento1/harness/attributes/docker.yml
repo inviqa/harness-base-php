@@ -6,6 +6,9 @@ attributes:
       environment_secrets:
         MAGENTO_ADMIN_PATH: = @('magento.admin.path')
         MAGENTO_CRYPT_KEY: = @('magento.crypt.key')
+    console:
+      environment_secrets:
+        ADMIN_DEFAULT_PASSWORD: admin123admin123
   pipeline:
     preview:
       persistence:
