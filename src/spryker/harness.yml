@@ -234,6 +234,24 @@ command('frontend zed watch'):
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
     passthru docker-compose exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.zed.watch')'
+
+command('spryker-reset'):
+  env:
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru vendor/bin/console transfer:generate
+    passthru vendor/bin/console propel:install -o
+    passthru vendor/bin/console propel:database:drop
+    passthru vendor/bin/console propel:database:create
+    passthru vendor/bin/console propel:pg-sql-compat
+    passthru vendor/bin/console propel:migrate
+    passthru vendor/bin/console setup:init-db
+    passthru vendor/bin/console data:import
+    passthru vendor/bin/console cache:empty-all
+    passthru vendor/bin/console cache:class-resolver:build
+    passthru vendor/bin/console transfer:entity:generate
+    passthru vendor/bin/console rest-api:build-request-validation-cache
 ---
 import:
   - harness/config/*.yml
