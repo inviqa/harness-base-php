@@ -112,6 +112,11 @@ function setup()
 function prepare_environment()
 (
     cd "${path_test}"
+
+    if [ -e init.sh ]; then
+        bash -x ./init.sh
+    fi
+
     ws harness prepare
 )
 

@@ -2,11 +2,11 @@ workspace('ci-symfony-sample-static'):
   description: generated local workspace for ci-symfony-sample.
   harness: inviqa/symfony
 
-attribute('app.build'): static
-
 attribute('aws.bucket'): null
 attribute('app.repository'): null
 attribute('aws.access_key_id'): null
 attribute('aws.secret_access_key'): null
+
+attribute('docker.port_forward.enabled'): false
 
 attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoiZfbsRN210rxOzGyHhH74tuXtFxak6prxIjtpOjI7czo1Njoi7NjB2oXZJ3/wQsccea2VPeYEjU72koVub89ezkdQzAzOaaFwD2Rm1pbhWXR7aYgpUdXmNmO8g5YiO30=")
