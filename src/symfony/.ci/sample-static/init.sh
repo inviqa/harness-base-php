@@ -11,6 +11,6 @@ if ! [ -e symfony.lock ]; then
     ws enable console
     ws destroy
 
-    ws set app.build 'static'
+    ws set app.build static
 fi 
 
