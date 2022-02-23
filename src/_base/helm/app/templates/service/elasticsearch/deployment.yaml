@@ -28,6 +28,7 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+        runAsUser: 1000
       containers:
       - env:
         - name: ES_JAVA_OPTS
