@@ -21,6 +21,7 @@ use Spryker\Shared\Scheduler\SchedulerConstants;
 use Spryker\Shared\SchedulerJenkins\SchedulerJenkinsConfig;
 use Spryker\Shared\SchedulerJenkins\SchedulerJenkinsConstants;
 use Spryker\Shared\SearchElasticsearch\SearchElasticsearchConstants;
+use Spryker\Shared\SecurityBlocker\SecurityBlockerConstants;
 use Spryker\Shared\Session\SessionConstants;
 use Spryker\Shared\SessionRedis\SessionRedisConstants;
 use Spryker\Shared\StorageRedis\StorageRedisConstants;
@@ -118,6 +119,13 @@ $config[SessionRedisConstants::ZED_SESSION_REDIS_HOST] = getenv('REDIS_HOST');
 $config[SessionRedisConstants::ZED_SESSION_REDIS_PORT] = getenv('REDIS_PORT');
 $config[SessionRedisConstants::ZED_SESSION_REDIS_PASSWORD] = getenv('REDIS_PASSWORD');
 $config[SessionRedisConstants::ZED_SESSION_REDIS_DATABASE] = 2;
+
+// >>> SECURITY BLOCKER
+$config[SecurityBlockerConstants::SECURITY_BLOCKER_REDIS_SCHEME] = getenv('REDIS_PROTOCOL');
+$config[SecurityBlockerConstants::SECURITY_BLOCKER_REDIS_HOST] = getenv('REDIS_HOST');
+$config[SecurityBlockerConstants::SECURITY_BLOCKER_REDIS_PORT] = getenv('REDIS_PORT');
+$config[SecurityBlockerConstants::SECURITY_BLOCKER_REDIS_PASSWORD] = getenv('REDIS_PASSWORD');
+$config[SecurityBlockerConstants::SECURITY_BLOCKER_REDIS_DATABASE] = 3;
 
 // ---------- RabbitMq
 $config[RabbitMqEnv::RABBITMQ_API_HOST] = getenv('RABBITMQ_HOST');
