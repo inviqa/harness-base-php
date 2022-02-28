@@ -19,6 +19,7 @@ function fetch_demoshop()
 }
 
 # Merge core composer.json with composer-harness.json
+# Also removes a key from composer.json if it is set as null in composer-harness.json
 # fetch new composer packages from composer-harness.json and run composer update
 # only with those packages so that core spryker packages doesn't get update as well
 function merge_composer_json()
@@ -27,7 +28,7 @@ function merge_composer_json()
     local override_file="/home/build/application/skeleton/composer-harness.json"
     local merged_file="/app/composer-merged.json"
 
-    run "jq -s '.[0] * .[1]' $core_file $override_file > $merged_file"
+    run "jq -s '.[0] * .[1] | del(recurse(.[]?;true)|nulls)' $core_file $override_file > $merged_file"
     run mv "$merged_file" "$core_file"
 
     local shared_package_list=""
