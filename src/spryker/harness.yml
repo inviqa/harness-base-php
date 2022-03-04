@@ -240,18 +240,9 @@ command('spryker-reset'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru vendor/bin/console transfer:generate
-    passthru vendor/bin/console propel:install -o
-    passthru vendor/bin/console propel:database:drop
-    passthru vendor/bin/console propel:database:create
-    passthru vendor/bin/console propel:pg-sql-compat
-    passthru vendor/bin/console propel:migrate
-    passthru vendor/bin/console setup:init-db
-    passthru vendor/bin/console data:import
-    passthru vendor/bin/console cache:empty-all
-    passthru vendor/bin/console cache:class-resolver:build
-    passthru vendor/bin/console transfer:entity:generate
-    passthru vendor/bin/console rest-api:build-request-validation-cache
+    passthru "ws exec vendor/bin/console propel:database:drop"
+    passthru "ws exec vendor/bin/console propel:database:create"
+    passthru "ws exec app install"
 ---
 import:
   - harness/config/*.yml
