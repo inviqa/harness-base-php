@@ -240,9 +240,9 @@ command('spryker-reset'):
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "ws exec vendor/bin/console propel:database:drop"
-    passthru "ws exec vendor/bin/console propel:database:create"
-    passthru "ws exec app install"
+    passthru "vendor/bin/console propel:database:drop"
+    passthru "vendor/bin/console propel:database:create"
+    passthru "app install"
 ---
 import:
   - harness/config/*.yml
