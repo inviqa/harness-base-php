@@ -13,6 +13,9 @@ metadata:
     app.service: {{ .Values.resourcePrefix }}webapp
   name: {{ .Values.resourcePrefix }}webapp
 spec:
+  {{- with (pick .Values.ingress "ingressClassName" "tls") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
   rules:
   - host: {{ index .Values.services "php-base" "environment" "APP_HOST" }}
     http:
@@ -22,10 +25,6 @@ spec:
             name: {{ .Values.resourcePrefix }}{{ .Values.ingress.target_service }}
             port:
               number: 80
-  {{- if .Values.ingress.tls }}
-  tls:
-  {{- toYaml .Values.ingress.tls | nindent 4 }}
-  {{- end }}
 status:
   loadBalancer: {}
 {{- end }}
