@@ -352,9 +352,9 @@ attributes.default:
       steps: []
 
   mysql:
-    # prefer native platform mysql image. _/mysql doesn't have arm64 images
-    image: "= host_architecture() == 'amd64' ? 'mysql' : 'mysql/mysql-server'"
-    tag: '8.0'
+    image: mysql
+    # arm64 support is currently in a different tag
+    tag: "= host_architecture() == 'amd64' ? '8.0' : '8.0-oracle'"
 
   rabbitmq:
     image: rabbitmq
