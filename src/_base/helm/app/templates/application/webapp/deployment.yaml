@@ -1,4 +1,4 @@
-{{- $service_php_fpm := mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "php-fpm") -}}
+{{- $service_php_fpm := include "service.resolved" (dict "root" $ "service_name" "php-fpm") | fromYaml -}}
 {{- if .Values.services.webapp.enabled -}}
 apiVersion: apps/v1
 kind: Deployment

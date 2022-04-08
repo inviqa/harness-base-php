@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "console") -}}
+{{- with (include "service.resolved" (dict "root" $ "service_name" "console") | fromYaml) -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

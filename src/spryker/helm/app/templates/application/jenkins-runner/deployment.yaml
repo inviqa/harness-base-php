@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "jenkins-runner") -}}
+{{- with (include "service.resolved" (dict "root" $ "service_name" "jenkins-runner") | fromYaml) -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment

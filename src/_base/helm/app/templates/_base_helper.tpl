@@ -72,3 +72,16 @@ stringData:
 {{ end }}
 {{ end }}
 {{- end }}
+
+{{/*
+A template to fully resolve services that extend template services
+*/}}
+{{- define "service.resolved" -}}
+{{- $service := index $.root.Values.services $.service_name -}}
+{{- $extended := (dict) -}}
+{{- range $service.extends -}}
+{{ $_ := mergeOverwrite $extended (include "service.resolved" (dict "root" $.root "service_name" .) | fromYaml) }}
+{{- end -}}
+{{- $_ := mergeOverwrite $extended $service -}}
+{{ $extended | toYaml }}
+{{- end -}}

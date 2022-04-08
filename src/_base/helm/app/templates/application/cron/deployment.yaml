@@ -1,4 +1,4 @@
-{{- with mergeOverwrite (dict) (index .Values.services "php-base") (index .Values.services "cron") -}}
+{{- with (include "service.resolved" (dict "root" $ "service_name" "cron") | fromYaml) -}}
 {{- if .enabled -}}
 apiVersion: apps/v1
 kind: Deployment
