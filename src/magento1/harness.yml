@@ -104,7 +104,7 @@ attributes:
             --admin_lastname Last \
             --admin_email 'admin@example.com' \
             --admin_username admin \
-            --admin_password admin123admin123 \
+            --admin_password "${ADMIN_DEFAULT_PASSWORD}" \
             --encryption_key "${MAGENTO_CRYPT_KEY}" \
             --session_save db \
             --admin_frontname admin

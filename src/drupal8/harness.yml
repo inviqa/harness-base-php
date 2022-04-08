@@ -49,7 +49,7 @@ attributes:
               \
               --account-name=admin \
               --account-mail=admin@example.com \
-              --account-pass=admin123 \
+              "--account-pass=${ADMIN_DEFAULT_PASSWORD}" \
               --yes
         - run chmod 755 /app/docroot/sites/default
         - task overlay:apply

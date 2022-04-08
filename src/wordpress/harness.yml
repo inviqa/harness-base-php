@@ -49,15 +49,15 @@ attributes:
             "--url=$(eval echo "$WORDPRESS_URL")" \
             "--title=${APP_NAME}" \
             --admin_user=admin \
-            --admin_password=admin123 \
+            "--admin_password=${ADMIN_DEFAULT_PASSWORD}" \
             --admin_email=admin@localhost.local
         - task assets:dump
     init:
       steps:
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" option update siteurl "$(eval echo "${WORDPRESS_URL}")"
         - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" option update home "$(eval echo "${WORDPRESS_URL}")"
-        - run "bin/wp-cli.phar '--path=${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator --user_pass=admin123 || exit 0"
-        - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" user update admin --role=administrator --user_pass=admin123 --skip-email
+        - run "bin/wp-cli.phar '--path=${WORDPRESS_INSTALL_DIRECTORY}' user create admin admin@localhost.local --role=administrator '--user_pass=${ADMIN_DEFAULT_PASSWORD}' || exit 0"
+        - run bin/wp-cli.phar "--path=${WORDPRESS_INSTALL_DIRECTORY}" user update admin --role=administrator "--user_pass=${ADMIN_DEFAULT_PASSWORD}" --skip-email
   php:
     install_extensions:
       - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
