@@ -1,5 +1,5 @@
 {{ if and (index .Values.services .Values.ingress.target_service "enabled") (eq .Values.ingress.type "standard") }}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
 {{- with .Values.ingress.annotations }}
@@ -21,8 +21,10 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ $.Values.resourcePrefix }}{{ $.Values.ingress.target_service }}
-          servicePort: 80
+          service:
+            name: {{ $.Values.resourcePrefix }}{{ $.Values.ingress.target_service }}
+            port:
+              number: 80
   {{- end }}
   {{- end }}
   {{- end }}
