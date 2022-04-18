@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "my127ws" }
+    agent { label 'linux-amd64' }
     environment {
         COMPOSE_DOCKER_CLI_BUILD = {{ @('jenkins.docker.buildkit.enabled') ? '1' : '0' }}
         DOCKER_BUILDKIT = {{ @('jenkins.docker.buildkit.enabled') ? '1' : '0' }}
