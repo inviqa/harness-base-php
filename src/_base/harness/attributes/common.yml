@@ -187,7 +187,8 @@ attributes.default:
       conf: []
     # used to set nginx global configurations under http directive
     global:
-      conf: []
+      conf:
+        server_tokens: 'off'
     # used to limit what is copied into an Nginx static-built image
     copy_directories:
      - = @('app.web_directory')
