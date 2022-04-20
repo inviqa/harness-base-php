@@ -1,0 +1,102 @@
+{{- with .Values.services.solr -}}
+{{- if .enabled -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $.Values.resourcePrefix }}solr
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  labels:
+    {{- include "chart.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: solr
+    app.service: {{ $.Values.resourcePrefix }}solr
+spec:
+  {{- with (pick . "replicas" "revisionHistoryLimit") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app.service: {{ $.Values.resourcePrefix }}solr
+  serviceName: {{ $.Values.resourcePrefix }}solr-headless
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        {{- include "chart.selectors" $ | nindent 8 }}
+        app.kubernetes.io/component: solr
+        app.service: {{ $.Values.resourcePrefix }}solr
+    spec:
+      securityContext:
+        fsGroup: 8983
+        runAsUser: 8983
+      containers:
+      - name: solr
+        env:
+        {{- range $key, $value := .environment }}
+        {{- $tp := typeOf $value }}
+        - name: {{ $key | quote }}
+        {{- if eq $tp "string" }}
+          value: {{ tpl $value $ | quote }}
+        {{- else}}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
+        image: {{ .image | quote }}
+        imagePullPolicy: Always
+        ports:
+        - name: solr
+          containerPort: 8983
+        resources:
+          limits:
+            memory: {{ .resources.memory }}
+          requests:
+            memory: {{ .resources.memory }}
+        readinessProbe:
+          tcpSocket:
+            port: 8983
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: {{ $.Values.resourcePrefix }}solr-data
+          mountPath: {{ .environment.SOLR_VOLUME_DIR | quote }}
+      {{- if $.Values.docker.image_pull_config }}
+      imagePullSecrets:
+      - name: {{ $.Values.resourcePrefix }}image-pull-config
+      {{- end }}
+      enableServiceLinks: false
+      restartPolicy: Always
+      volumes:
+      - name: {{ $.Values.resourcePrefix }}solr-data
+        emptyDir:
+          medium: Memory
+{{- with $.Values.persistence.solr -}}
+{{- if .enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ $.Values.resourcePrefix }}solr-data
+        labels:
+          {{- include "chart.selectors" $ | nindent 10 }}
+          app.kubernetes.io/component: solr
+          app.service: {{ $.Values.resourcePrefix }}solr
+      spec:
+        accessModes:
+          - {{ .accessMode | quote }}
+        resources:
+          requests:
+            storage: {{ .size | quote }}
+        {{- if .storageClass }}
+        {{- if (eq "-" .storageClass) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: {{ .storageClass | quote }}
+        {{- end }}
+        {{- end }}
+        {{- with (pick . "selector" "volumeMode" "volumeName") }}
+        {{- . | toYaml | nindent 8 }}
+        {{- end }}
+{{- end }}
+{{- end }}
+
+{{- end }}
+{{- end }}

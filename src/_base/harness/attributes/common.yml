@@ -423,6 +423,10 @@ attributes.default:
       enabled: true
       accessMode: ReadWriteOnce
       size: 2Gi
+    solr:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 1Gi
 
   tls:
     key: |
