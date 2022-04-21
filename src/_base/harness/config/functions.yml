@@ -255,6 +255,9 @@ function('template_key_value', [template, key_value]): |
   #!php
   $output = [];
   foreach ($key_value as $key => $value) {
+    if (!$value) {
+      continue;
+    }
     $output[str_replace('{{key}}', $key, $template)] = $value;
   }
   = $output;
