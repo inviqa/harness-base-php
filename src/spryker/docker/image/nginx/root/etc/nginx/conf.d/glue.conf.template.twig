@@ -1,4 +1,5 @@
 {% for store_code, glue_external_host in @('glue.external_hosts') %}
+{% if glue_external_host is not empty %}
 server {
     listen 80;
     listen 443 ssl http2;
@@ -50,4 +51,5 @@ server {
         fastcgi_param APPLICATION_STORE {{ store_code }};
     }
 }
+{% endif %}
 {% endfor %}
