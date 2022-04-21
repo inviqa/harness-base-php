@@ -3,7 +3,7 @@
 {% set syncvolume = true %}
 {% endif %}
 {% set hostnames = [@('hostname')] %}
-{% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
+{% set hostnames = hostnames|merge(@('hostname_aliases')| filter(v => v is not empty) | map(alias => "#{alias}." ~ @('domain'))) %}
 
   nginx:
     build: .my127ws/docker/image/nginx
