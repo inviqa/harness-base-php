@@ -2,6 +2,24 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
+## Upgrading from 1.3.x to 1.4.x
+
+### Debian Bullseye for PHP 8+
+
+my127/docker-php has had bullseye images for a while now, and they solve several issues, including mariadb providing an additional sha256_password.so mysql client plugin that some mysql 8+ servers use.
+
+Additionally we have also introduced PHP 8.0 and 8.1 to Akeneo as Debian Bullseye images only, and PHP 8.1 for most harnesses as Debian Bullseye images only.
+
+So the release will now default to the bullseye distribution PHP docker images if the php.version attribute is 8.0 or greater.
+
+It's possible to override this behaviour now via an attribute.
+
+e.g. to downgrade back to buster:
+
+```yaml
+attribute('php.distro_codename'): buster
+```
+
 ## Upgrading from 1.2.x to 1.3.x
 
 ### Kubernetes Ingress v1

@@ -85,8 +85,8 @@ attributes:
           fi
   docker:
     image:
-      console: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
-      php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
+      console: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
+      php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
   elasticsearch:
     image: elasticsearch
     tag: "= version_compare(@('spryker.demoshop-version'), '202009.0', '<=') ? '6.8.23' : '7.16.3'"

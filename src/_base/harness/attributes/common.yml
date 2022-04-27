@@ -109,8 +109,8 @@ attributes.default:
     # in the values.yml in there now instead of project application repositories
     image_pull_config: = @('docker.config')
     image:
-      console: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch') ~ '-console'"
-      php-fpm: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
+      console: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
+      php-fpm: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
     port_forward:
       enabled: "= @('app.build') == 'dynamic'"
   composer:
@@ -202,6 +202,7 @@ attributes.default:
 
   php:
     version: "8.0"
+    distro_codename: "= @('php.version') >= 8.0 ? 'bullseye' : (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
     cli:
       ini:
         max_execution_time: 0
