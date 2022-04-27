@@ -1,4 +1,4 @@
-{{ if .Values.services.solr.enabled }}
+{{- if .Values.services.solr.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -14,6 +14,4 @@ spec:
     targetPort: 8983
   selector:
     app.service: {{ .Values.resourcePrefix }}solr
-status:
-  loadBalancer: {}
-{{ end }}
+{{- end }}
