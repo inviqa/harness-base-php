@@ -27,7 +27,7 @@ class QueueConfig extends SprykerQueueConfig
     }
 
     /**
-     * @return list<int>
+     * @return int[]
      */
     public function getSignalsForGracefulWorkerShutdown(): array
     {
