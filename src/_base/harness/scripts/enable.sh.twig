@@ -112,6 +112,9 @@ dynamic()
     {% if @('services.job-queue-consumer.enabled') %}
         passthru docker-compose build job-queue-consumer
     {% endif %}
+    {% if @('services.solr.enabled') %}
+        passthru docker-compose build solr
+    {% endif %}
 }
 
 static_console()

@@ -5,6 +5,7 @@ command('app build'):
     HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
     HAS_JOB_QUEUE_CONSUMER: "= @('services.job-queue-consumer.enabled') ? 'true' : 'false'"
     HAS_WEBAPP: "= @('services.webapp.enabled') ? 'true' : 'false'"
+    HAS_SOLR: "= @('services.solr.enabled') ? 'true' : 'false'"
   exec: |
     #!bash(workspace:/)|@
     ws external-images pull
@@ -25,6 +26,9 @@ command('app build'):
     fi
     if [[ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]]; then
       passthru docker-compose build job-queue-consumer
+    fi
+    if [[ "${HAS_SOLR}" == "true" ]]; then
+      passthru docker-compose build solr
     fi
 
 command('app build <service>'):

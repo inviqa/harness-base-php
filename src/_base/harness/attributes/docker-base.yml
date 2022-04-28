@@ -164,14 +164,20 @@ attributes:
       publish: false
     solr:
       enabled: "= 'solr' in @('app.services')"
+      publish: "= @('services.solr.enabled')"
+      build:
+        image: "= @('services.solr.major_version') != 4 ? 'solr:' ~ @('services.solr.major_version') ~ '-slim' : 'quay.io/inviqa_images/solr4:latest'"
+      image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-solr'
       config_path: ""
       environment:
         SOLR_CORE_NAME: collection1
+        SOLR_VOLUME_DIR: "=@('services.solr.major_version') == 4 ? '/opt/solr/example/solr' : (@('services.solr.major_version') < 8 ? '/opt/solr/server/solr/mycores' : '/var/solr')"
       environment_secrets: {}
-      host: solr
-      image: "= @('services.solr.major_version') != 4 ? 'solr:' ~ @('services.solr.major_version') ~ '-slim' : 'quay.io/inviqa_images/solr4:latest'"
+      host: solr      
       major_version: 8
       port: 8983
+      resources:
+        memory: "512Mi"
     tideways:
       enabled: "= 'tideways' in @('app.services')"
       image: quay.io/inviqa_images/tideways:latest
@@ -205,6 +211,7 @@ attributes:
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             REDIS_HOST: '{{ if .Values.services.redis.enabled }}{{ .Values.resourcePrefix }}redis{{ end }}'
             REDIS_SESSION_HOST: '{{ if (index .Values.services "redis-session" "enabled") }}{{ .Values.resourcePrefix }}redis-session{{ end }}'
+            SOLR_HOST: '{{ if (.Values.services.solr.enabled) }}{{ .Values.resourcePrefix }}solr{{ end }}'
             PHP_IDE_CONFIG: = ''
             TIDEWAYS_HOST: "{{ .Values.resourcePrefix  }}tideways"
             TIDEWAYS_ENABLED: "{{ .Values.services.tideways.enabled }}"

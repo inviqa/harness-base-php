@@ -33,6 +33,7 @@ confd('harness:/'):
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-tideways.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
   - { src: docker/image/php-fpm/root/usr/local/etc/php-fpm.d/pool.conf.template }
+  - { src: docker/image/solr/Dockerfile }
   - { src: docker/image/tls-offload/root/etc/nginx/conf.d/0-nginx.conf }
   - { src: docker/image/tls-offload/root/etc/nginx/conf.d/default.conf }
   - { src: docker/image/tls-offload/root/etc/ssl/certs/app.crt }

@@ -1,0 +1,13 @@
+# hadolint ignore=DL3007
+FROM {{ @('services.solr.build.image') }}
+
+{% if @('services.solr.config_path') %}
+COPY {{ @('services.solr.config_path')}} /opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}/conf
+{% endif %}
+
+CMD [ "solr-precreate", "{{ @('services.solr.environment.SOLR_CORE_NAME') }}"
+{%- if @('services.solr.config_path') -%}
+    , "/opt/solr/server/solr/configsets/{{ @('services.solr.environment.SOLR_CORE_NAME') }}"
+{%- elseif @('services.solr.major_version') == 4 -%}
+    , "/opt/solr/example/example-schemaless/solr/{{ @('services.solr.environment.SOLR_CORE_NAME') }}"
+{%- endif -%} ]
