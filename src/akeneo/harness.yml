@@ -132,8 +132,8 @@ attributes:
           fi
   docker:
     image:
-      console: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster-console'
-      php-fpm: = 'my127/akeneo:' ~ @('php.version') ~ '-fpm-buster'
+      console: "= 'my127/akeneo:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
+      php-fpm: "= 'my127/akeneo:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
   nginx:
     # used to limit what is copied into an Nginx static-built image
     # vendor directory needed for vendor/*/*/*/public/ resources (images etc.)
