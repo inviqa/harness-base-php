@@ -1,4 +1,4 @@
-{% for store_code, yves_external_host in @('yves.external_hosts') %}
+{% for store_code, yves_external_host in @('yves.external_hosts') | filter(v => v is not empty) %}
 server {
     listen 80;
     listen 443 ssl http2;

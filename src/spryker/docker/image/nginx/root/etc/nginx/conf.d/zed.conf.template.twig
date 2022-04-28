@@ -1,4 +1,4 @@
-{% for store_code, zed_external_host in @('zed.external_hosts') %}
+{% for store_code, zed_external_host in @('zed.external_hosts') | filter(v => v is not empty) %}
 server {
     listen 80;
     listen 443 ssl http2;
@@ -47,7 +47,7 @@ server {
 }
 {% endfor %}
 
-{% for store_code, zed_api_external_host in @('zed_api.external_hosts') %}
+{% for store_code, zed_api_external_host in @('zed_api.external_hosts') | filter(v => v is not empty) %}
 server {
     listen 80;
     listen 443 ssl http2;
