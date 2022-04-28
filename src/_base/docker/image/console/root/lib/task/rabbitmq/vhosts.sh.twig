@@ -6,9 +6,12 @@ function task_rabbitmq_vhosts() {
     local rabbitmq_api_url="http://$RABBITMQ_HOST:$RABBITMQ_API_PORT/api"
     task http:wait "$rabbitmq_api_url/index.html"
 
+{% if @('rabbitmq.vhosts') is not null %}
 {% for vhost in @('rabbitmq.vhosts') %}
     curl --fail --silent --show-error --user "$RABBITMQ_USER:$RABBITMQ_PASSWORD" --request PUT "$rabbitmq_api_url/vhosts/{{ vhost }}"
 {% endfor %}
+{% endif %}
+
 {% else %}
     :
 {% endif %}
