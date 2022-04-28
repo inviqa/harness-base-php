@@ -253,8 +253,14 @@ function('replace', [haystack, needle, replacement]): |
 
 function('template_key_value', [template, key_value]): |
   #!php
+  if ($key_value === null) {
+    return null;
+  }
   $output = [];
   foreach ($key_value as $key => $value) {
+    if ($value === null) {
+      continue;
+    }
     $output[str_replace('{{key}}', $key, $template)] = $value;
   }
   = $output;
