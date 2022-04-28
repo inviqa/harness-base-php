@@ -6,18 +6,26 @@ function task_welcome()
     echo "Welcome!"
     echo "--------"
     {% for store, host in @('yves.external_hosts') %}
-    echo "Yves {{ store }}: https://${YVES_HOST_{{ store }}}"
+      {% if host is not empty %}
+        echo "Yves {{ store }}: https://${YVES_HOST_{{ store }}}"
+      {% endif %}
     {% endfor %}
     {% for store, host in @('zed.external_hosts') %}
-    echo "Zed {{ store }}: https://${ZED_HOST_{{ store }}}"
+      {% if host is not empty %}
+        echo "Zed {{ store }}: https://${ZED_HOST_{{ store }}}"
+      {% endif %}
     {% endfor %}
     echo "  Username: admin@spryker.com"
     echo "  Password: change123"
     {% for store, host in @('zed_api.external_hosts') %}
-    echo "Zed API {{ store }}: https://${ZED_API_HOST_{{ store }}}"
+      {% if host is not empty %}
+        echo "Zed API {{ store }}: https://${ZED_API_HOST_{{ store }}}"
+      {% endif %}
     {% endfor %}
     {% for store, host in @('glue.external_hosts') %}
-    echo "Glue API {{ store }}: https://${GLUE_HOST_{{ store }}}"
+      {% if host is not empty %}
+        echo "Glue API {{ store }}: https://${GLUE_HOST_{{ store }}}"
+      {% endif %}
     {% endfor %}
     {% if @('services.jenkins.enabled') -%}
     echo ""
