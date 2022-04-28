@@ -93,6 +93,10 @@ function('filter_local_services', [services]): |
   }
   = $filteredServices;
 
+function('filter_empty', [array_input]): |
+  #!php
+  = array_filter($array_input);
+
 function('flatten', [array_input]): |
   #!php
   $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($array_input));
