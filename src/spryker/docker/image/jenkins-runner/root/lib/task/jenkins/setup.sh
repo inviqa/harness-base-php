@@ -7,7 +7,4 @@ function task_jenkins_setup()
 
     curl --fail --silent --show-error --location --output /usr/local/bin/jenkins-cli.jar "$JENKINS_URL/jnlpJars/jenkins-cli.jar"
     curl --fail --silent --show-error --location --output /usr/local/bin/jenkins-slave.jar "$JENKINS_URL/jnlpJars/slave.jar"
-
-    # link php where it is expected by cron.conf
-    ln -s /usr/local/bin/php /usr/bin/php
 }
