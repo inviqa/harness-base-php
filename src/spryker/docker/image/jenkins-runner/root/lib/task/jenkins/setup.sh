@@ -10,4 +10,8 @@ function task_jenkins_setup()
 
     # link php where it is expected by cron.conf
     ln -s /usr/local/bin/php /usr/bin/php
+
+    # setup www-data folders
+    mkdir /var/www/.jenkins /data
+    chown www-data:www-data /var/www/.jenkins /data
 }
