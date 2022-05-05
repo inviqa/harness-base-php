@@ -84,7 +84,12 @@ pipeline {
                     branch '{{ @('pipeline.qa.branch') }}'
 {% endif %}
 {% if bool(@('pipeline.preview.enabled')) %}
-{% for branch in @('pipeline.preview.target_branches') %}
+{% if @('pipeline.preview.pull_request_labels') %}
+                    expression {
+                        return env.CHANGE_ID && {{ @('pipeline.preview.pull_request_labels') | json_encode }}.any { pullRequest.labels.contains(it) }
+                    }
+{% endif %}
+{% for branch in @('pipeline.preview.target_branches') | default([]) %}
                     changeRequest target: '{{ branch }}'
 {% endfor %}
 {% endif %}

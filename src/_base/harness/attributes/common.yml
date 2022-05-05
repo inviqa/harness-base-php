@@ -65,6 +65,10 @@ attributes.default:
       enabled: false
       target_branches:
         - = @('git.default_branch')
+      pull_request_labels: ~
+      # optionally limit by pull request label
+      # A future release will make this default
+      #  - publish-preview
       environment: {}
       cluster:
         name: null
