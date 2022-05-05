@@ -1,3 +1,8 @@
+def isHarnessChange(env, pullRequest, harnesses) {
+    def harnessLabels = harnesses.collect { "harness-${it}".toString() } << 'harness-all'
+    return !env.CHANGE_ID || pullRequest.labels.size() == 0 || harnessLabels.any { pullRequest.labels.contains(it) }
+}
+
 pipeline {
     agent { label 'my127ws' }
     environment {
@@ -30,6 +35,7 @@ pipeline {
                             args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
+                    when { expression { return isHarnessChange(env, pullRequest, ['base', 'drupal8', 'wordpress']) } }
                     stages {
                         stage('Prepare') {
                             steps {
@@ -75,50 +81,65 @@ pipeline {
                             }
                             stages {
                                 stage('PHP') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['base']) } }
                                     steps { sh './test php static' }
                                 }
                                 stage('Drupal 8') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['drupal8']) } }
                                     steps { sh './test drupal8 static' }
                                 }
                                 stage('Akeneo 5') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['akeneo']) } }
                                     steps { sh './test akeneo5 static' }
                                 }
                                 stage('Akeneo 4') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['akeneo']) } }
                                     steps { sh './test akeneo4 static' }
                                 }
                                 stage('Wordpress') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['wordpress']) } }
                                     steps { sh './test wordpress static' }
                                 }
 
                                 stage('PHP Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['base']) } }
                                     steps { sh './test php dynamic' }
                                 }
                                 stage('Drupal 8 Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['drupal8']) } }
                                     steps { sh './test drupal8 dynamic' }
                                 }
                                 stage('Akeneo 5 Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['akeneo']) } }
                                     steps { sh './test akeneo5 dynamic' }
                                 }
                                 stage('Akeneo 4 Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['akeneo']) } }
                                     steps { sh './test akeneo4 dynamic' }
                                 }
                                 stage('Wordpress Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['wordpress']) } }
                                     steps { sh './test wordpress dynamic' }
                                 }
 
                                 stage('PHP Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['base']) } }
                                     steps { sh './test php dynamic mutagen' }
                                 }
                                 stage('Drupal 8 Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['drupal8']) } }
                                     steps { sh './test drupal8 dynamic mutagen' }
                                 }
                                 stage('Akeneo 5 Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['akeneo']) } }
                                     steps { sh './test akeneo5 dynamic mutagen' }
                                 }
                                 stage('Akeneo 4 Dynamic Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['akeneo']) } }
                                     steps { sh './test akeneo4 dynamic mutagen' }
                                 }
                                 stage('Wordpress Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['wordpress']) } }
                                     steps { sh './test wordpress dynamic mutagen' }
                                 }
                             }
@@ -142,6 +163,7 @@ pipeline {
                             args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
+                    when { expression { return isHarnessChange(env, pullRequest, ['symfony', 'magento2', 'magento1']) } }
                     stages {
                         stage('Prepare') {
                             steps {
@@ -183,32 +205,41 @@ pipeline {
                             }
                             stages {
                                 stage('Symfony') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['symfony']) } }
                                     steps { sh './test symfony static' }
                                 }
                                 stage('Magento 2') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['magento2']) } }
                                     steps { sh './test magento2 static' }
                                 }
                                 stage('Magento 1') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['magento1']) } }
                                     steps { sh './test magento1 static' }
                                 }
 
                                 stage('Symfony Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['symfony']) } }
                                     steps { sh './test symfony dynamic' }
                                 }
                                 stage('Magento 2 Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['magento2']) } }
                                     steps { sh './test magento2 dynamic' }
                                 }
                                 stage('Magento 1 Dynamic') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['magento1']) } }
                                     steps { sh './test magento1 dynamic' }
                                 }
 
                                 stage('Symfony Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['symfony']) } }
                                     steps { sh './test symfony dynamic mutagen' }
                                 }
                                 stage('Magento 2 Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['magento2']) } }
                                     steps { sh './test magento2 dynamic mutagen' }
                                 }
                                 stage('Magento 1 Mutagen') {
+                                    when { expression { return isHarnessChange(env, pullRequest, ['magento1']) } }
                                     steps { sh './test magento1 dynamic mutagen' }
                                 }
                             }
@@ -233,6 +264,7 @@ pipeline {
                             args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
+                    when { expression { return isHarnessChange(env, pullRequest, ['spryker']) } }
                     stages {
                         stage('Prepare') {
                             steps {
