@@ -54,7 +54,8 @@ command('app publish chart <release> <message>'):
     REPOSITORY: = @('pipeline.publish.chart.git.repository')
     ARTIFACTS_PATH:  = "./build-artifacts-repository/" ~ @('pipeline.publish.chart.git.path') ~ "/" ~ input.argument('release')
     MESSAGE:    = input.argument('message')
-    USER_EMAIL: = @('pipeline.publish.chart.git.email')
+    GIT_USER_NAME: = @('pipeline.publish.chart.git.user_name')
+    GIT_USER_EMAIL: = @('pipeline.publish.chart.git.email')
   exec: |
     #!bash(workspace:/)|@
 
@@ -65,7 +66,8 @@ command('app publish chart <release> <message>'):
     export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
 
     run git clone "$REPOSITORY" ./build-artifacts-repository
-    run git -C ./build-artifacts-repository config user.email "${USER_EMAIL}"
+    run git -C ./build-artifacts-repository config user.name "${GIT_USER_NAME}"
+    run git -C ./build-artifacts-repository config user.email "${GIT_USER_EMAIL}"
 
     run mkdir -p $ARTIFACTS_PATH
     run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ "${ARTIFACTS_PATH}/"
