@@ -32,7 +32,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     when { expression { return isHarnessChange(env, pullRequest, ['base', 'drupal8', 'wordpress']) } }
@@ -64,14 +64,6 @@ pipeline {
                                 sh './test akeneo5 dynamic mutagen'
                                 sh './test akeneo4 dynamic mutagen'
                                 sh './test wordpress dynamic mutagen'
-                            }
-                        }
-                        stage('Install Mutagen') {
-                            steps {
-                                sh 'apk add grep'
-                                sh 'curl --fail --silent --show-error --location --output /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz'
-                                sh 'tar -C /usr/local/bin/ -xf /tmp/mutagen.tar.gz'
-                                sh 'rm -f /tmp/mutagen.tar.gz'
                             }
                         }
                         stage('Acceptance Tests') {
@@ -160,7 +152,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     when { expression { return isHarnessChange(env, pullRequest, ['symfony', 'magento2', 'magento1']) } }
@@ -188,14 +180,6 @@ pipeline {
                                 sh './test symfony dynamic mutagen'
                                 sh './test magento2 dynamic mutagen'
                                 sh './test magento1 dynamic mutagen'
-                            }
-                        }
-                        stage('Install Mutagen') {
-                            steps {
-                                sh 'apk add grep'
-                                sh 'curl --fail --silent --show-error --location --output /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz'
-                                sh 'tar -C /usr/local/bin/ -xf /tmp/mutagen.tar.gz'
-                                sh 'rm -f /tmp/mutagen.tar.gz'
                             }
                         }
                         stage('Acceptance Tests') {
@@ -261,7 +245,7 @@ pipeline {
                             label 'my127ws'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     when { expression { return isHarnessChange(env, pullRequest, ['spryker']) } }
