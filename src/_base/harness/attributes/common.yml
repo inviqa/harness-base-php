@@ -59,7 +59,8 @@ attributes.default:
           # path within the repository to place the chart, no leading or trailing slashes
           # note: an additional directory with the branch name will be created
           path: = 'build-artifacts/' ~ @('workspace.name')
-          # sets the git user.email before pushing the commit
+          # sets the git user.name and user.email before pushing the commit
+          user_name: Jenkins
           email: name@example.com
     preview:
       enabled: false
