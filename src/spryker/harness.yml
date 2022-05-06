@@ -90,12 +90,12 @@ attributes:
   elasticsearch:
     image: elasticsearch
     tag: "= version_compare(@('spryker.demoshop-version'), '202009.0', '<=') ? '6.8.23' : '7.16.3'"
-  hostname_aliases: "= replace(flatten([
+  hostname_aliases: "= replace(filter_empty(flatten([
       @('glue.external_hosts'),
       @('yves.external_hosts'),
       @('zed.external_hosts'),
       @('zed_api.external_hosts')
-    ]), '.' ~ @('domain'), '')"
+    ])), '.' ~ @('domain'), '')"
   lighthouse:
     target:
       url: = 'https://' ~ @('yves.external_hosts.DE')
