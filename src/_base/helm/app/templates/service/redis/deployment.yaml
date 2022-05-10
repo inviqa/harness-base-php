@@ -31,7 +31,7 @@ spec:
       - args:
         - redis-server
         - --maxmemory
-        - "1073742000"
+        - {{ .max_memory | quote }}
         - --maxmemory-policy
         - allkeys-lru
         - --save
