@@ -173,7 +173,7 @@ attributes:
         SOLR_CORE_NAME: collection1
         SOLR_VOLUME_DIR: "=@('services.solr.major_version') == 4 ? '/opt/solr/example/solr' : (@('services.solr.major_version') < 8 ? '/opt/solr/server/solr/mycores' : '/var/solr')"
       environment_secrets: {}
-      host: solr      
+      host: solr
       major_version: 8
       port: 8983
       resources:
@@ -188,7 +188,7 @@ attributes:
         memory: "256Mi"
     varnish:
       enabled: "= 'varnish' in @('app.services')"
-      image: varnish:6
+      image: 'varnish:6.0'
       environment:
         VARNISH_SIZE: "1024M"
       resources:
