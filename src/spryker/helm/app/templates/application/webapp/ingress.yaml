@@ -20,7 +20,7 @@ spec:
   - host: {{ $value | quote }}
     http:
       paths:
-      - path: /*
+      - path: /
         pathType: Prefix
         backend:
           service:
