@@ -20,7 +20,9 @@ spec:
   - host: {{ $value | quote }}
     http:
       paths:
-      - backend:
+      - path: /
+        pathType: Prefix
+        backend:
           service:
             name: {{ $.Values.resourcePrefix }}{{ $.Values.ingress.target_service }}
             port:
