@@ -12,6 +12,9 @@ metadata:
     app.service: {{ .Values.resourcePrefix }}webapp
   name: {{ .Values.resourcePrefix }}webapp
 spec:
+  {{- with (pick .Values.ingress "ingressClassName" "tls") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
   rules:
   {{- with .Values.services.nginx }}
   {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
@@ -28,10 +31,6 @@ spec:
               number: 80
   {{- end }}
   {{- end }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
   {{- end }}
 status:
   loadBalancer: {}
