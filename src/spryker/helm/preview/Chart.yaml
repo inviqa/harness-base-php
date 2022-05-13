@@ -1,5 +1,6 @@
-name: app-preview
+name: preview
 description: Base helm chart for the app-preview environment
 version: 0.0.1
+apiVersion: v1
 sources:
 home:
