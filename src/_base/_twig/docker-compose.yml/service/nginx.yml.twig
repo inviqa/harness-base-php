@@ -4,7 +4,7 @@
 {% endif %}
 {% set hostnames = [@('hostname')] %}
 {% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
-
+{% set traefikRules = hostnames|map(hostname => "Host(`" ~ hostname ~ "`)") %}
   nginx:
     build: .my127ws/docker/image/nginx
 {% if @('app.build') == 'dynamic' %}
@@ -15,12 +15,19 @@
 {% endif %}
     labels:
 {% if @('services.varnish.enabled') %}
+      # deprecated, a later workspace release will disable by default
       - traefik.enable=false
 {% else %}
+      # Traefik 1, deprecated
       - traefik.backend={{ @('workspace.name') }}
       - traefik.frontend.rule=Host:{{ hostnames|join(',') }}
       - traefik.docker.network=my127ws
       - traefik.port=80
+      # Traefik 2
+      - traefik.enable=true
+      # - traefik.docker.network=my127ws
+      - traefik.http.routers.{{ @('workspace.name') }}-nginx.rule={{ traefikRules | join(' || ') }}
+      - traefik.http.services.{{ @('workspace.name') }}-nginx.loadbalancer.server.port=80
 {% endif %}
     environment: {{ to_nice_yaml(deep_merge([
         @('services.nginx.environment'),
