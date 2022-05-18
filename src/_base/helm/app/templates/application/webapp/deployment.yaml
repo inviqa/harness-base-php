@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/component: webapp
         app.service: {{ .Values.resourcePrefix }}webapp
     spec:
+      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "webapp" "service" .Values.services.webapp) | nindent 8 }}
       {{- if and $service_php_fpm.enabled (not (eq "" (include "application.volumes.wwwDataPaths" .))) }}
       initContainers:
       - name: webapp-volume-permissions

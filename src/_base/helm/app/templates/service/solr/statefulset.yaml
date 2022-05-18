@@ -27,6 +27,7 @@ spec:
         app.kubernetes.io/component: solr
         app.service: {{ $.Values.resourcePrefix }}solr
     spec:
+      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "solr" "service" .) | nindent 8 }}
       securityContext:
         fsGroup: 8983
         runAsUser: 8983

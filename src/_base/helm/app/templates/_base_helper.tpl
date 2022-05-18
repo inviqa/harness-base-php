@@ -85,3 +85,28 @@ A template to fully resolve services that extend template services
 {{- $_ := mergeOverwrite $extended $service -}}
 {{ $extended | toYaml }}
 {{- end -}}
+
+{{- define "pod.selfAntiAffinity" -}}
+{{- $topologyKey := (.service.affinity | default (dict)).selfAntiAffinityTopologyKey | default .root.Values.global.affinity.selfAntiAffinityTopologyKey }}
+{{- if $topologyKey }}
+preferredDuringSchedulingIgnoredDuringExecution:
+  - weight: 100
+    podAffinityTerm:
+      labelSelector:
+        matchLabels:
+          app.service: {{ .root.Values.resourcePrefix }}{{ .serviceName }}
+      topologyKey: {{ $topologyKey }}
+{{- end }}
+{{- end -}}
+
+{{- define "pod.affinity" -}}
+{{- $selfAntiAffinity := (include "pod.selfAntiAffinity" .) | fromYaml | default (dict) -}}
+{{- $affinity := omit (deepCopy (.service.affinity | default (dict) )) "selfAntiAffinityTopologyKey" -}}
+{{- if $selfAntiAffinity -}}
+  {{- $_ := set $affinity "podAntiAffinity" (index $affinity "podAntiAffinity" | default (dict)) -}}
+  {{- range $key, $value := pick $selfAntiAffinity "preferredDuringSchedulingIgnoredDuringExecution" "requiredDuringSchedulingIgnoredDuringExecution" -}}
+    {{- $_ := set $affinity.podAntiAffinity $key (concat (index $affinity.podAntiAffinity $key | default (list)) ($value)) -}}
+  {{- end -}}
+{{- end -}}
+{{ $affinity | toYaml }}
+{{- end -}}
