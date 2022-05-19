@@ -2,6 +2,8 @@ appVersion: {{ @('app.version') | json_encode | raw }}
 
 feature: {{ to_nice_yaml(@('helm.feature'), 2, 2) | raw }}
 
+global: {{ to_nice_yaml(@('pipeline.base.global'), 2, 2) | raw }}
+
 ingress: {{ to_nice_yaml(@('pipeline.base.ingress'), 2, 2) | raw }}
 
 docker:

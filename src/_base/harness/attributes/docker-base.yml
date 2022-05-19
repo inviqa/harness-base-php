@@ -198,6 +198,9 @@ attributes:
       enabled: true
   pipeline:
     base:
+      global:
+        affinity:
+          selfAntiAffinityTopologyKey: ~
       prometheus:
         podMonitoring: false
       services:

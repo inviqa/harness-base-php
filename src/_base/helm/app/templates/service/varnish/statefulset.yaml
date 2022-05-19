@@ -27,6 +27,7 @@ spec:
         app.kubernetes.io/component: varnish
         app.service: {{ $.Values.resourcePrefix }}varnish
     spec:
+      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "varnish" "service" .) | nindent 8 }}
       containers:
       - name: varnish
         image: {{ .image | quote }}

@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/component: cron
         app.service: {{ $.Values.resourcePrefix }}cron
     spec:
+      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "cron" "service" .) | nindent 8 }}
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" $)) }}
       initContainers:
       - name: cron-volume-permissions
