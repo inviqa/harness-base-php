@@ -6,7 +6,7 @@ $settings['hash_salt'] = getenv('DRUPAL_SALT');
 
 $config_directories['sync'] = '../config/sync';
 
-$databases['default']['default'] = array (
+$databases['default']['default'] = [
   'database'  => getenv('DB_NAME'),
   'username'  => getenv('DB_USER'),
   'password'  => getenv('DB_PASS'),
@@ -15,7 +15,7 @@ $databases['default']['default'] = array (
   'port'      => '3306',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver'    => 'mysql',
-);
+];
 
 $settings['trusted_host_patterns'][] = '^' . preg_quote(getenv('APP_HOST')) . '$';
 
