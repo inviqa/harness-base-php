@@ -60,6 +60,7 @@ confd('harness:/'):
   - { src: helm/qa/Chart.yaml }
   # harness-drupal templates
   - { src: application/overlay/docroot/sites/default/settings.local.php }
+  - { src: application/overlay/docroot/sites/default/services.local.yml }
   - { src: application/overlay/phpcs.xml }
   - { src: application/overlay/phpunit.xml }
   - { src: application/skeleton/behat.yml }
