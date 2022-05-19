@@ -26,3 +26,9 @@ $settings['trusted_host_patterns'][] = '^' . preg_quote(getenv('APP_HOST')) . '$
 $config['system.performance']['css']['preprocess'] = FALSE;
 $config['system.performance']['js']['preprocess']  = FALSE;
 {% endif %}
+
+// Load the local services.
+$settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.local.yml';
+
+// Uncomment the following line to disable the render cache bin.
+// $settings['cache']['bins']['render'] = 'cache.backend.null';
