@@ -2,7 +2,7 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
-## Upgrading from 1.3.x to 1.4.x
+## Upgrading from 1.3.x to 1.5.x
 
 ### Debian Bullseye for PHP 8+
 

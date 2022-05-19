@@ -18,16 +18,16 @@ function main()
 
     set_remote "base" "git@github.com:inviqa/harness-php.git"
     splitsh-lite --prefix="src/_base" --target="publish/harness-php"
-    git push -q -f "base" "publish/harness-php:refs/heads/1.4.x"
+    git push -q -f "base" "publish/harness-php:refs/heads/1.5.x"
 
     for harness in "${HARNESSES[@]}"
     do
         set_remote "$harness" "git@github.com:inviqa/harness-${harness}.git"
         splitsh-lite --prefix="src/${harness}" --target="publish/harness-${harness}"
-        git push -q -f "$harness" "publish/harness-${harness}:refs/heads/1.4.x"
+        git push -q -f "$harness" "publish/harness-${harness}:refs/heads/1.5.x"
     done
 
-    git checkout 1.4.x
+    git checkout 1.5.x
     git branch -D _build
 }
 
