@@ -1,5 +1,46 @@
 # Changelog
 
+## [1.4.0](https://github.com/inviqa/harness-base-php/tree/1.4.0) (2022-05-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.3.0...1.4.0)
+
+**Implemented enhancements:**
+
+- Update permissions for kubectl.config.yaml [\#710](https://github.com/inviqa/harness-base-php/pull/710) ([Chemaclass](https://github.com/Chemaclass))
+- Add support for defining affinity and self service antiAffinity [\#709](https://github.com/inviqa/harness-base-php/pull/709) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add support for defining cpu requests resources for pods [\#708](https://github.com/inviqa/harness-base-php/pull/708) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add missing ingressClassName for Spryker ingress [\#705](https://github.com/inviqa/harness-base-php/pull/705) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Remove creationTimestamp from ingress [\#704](https://github.com/inviqa/harness-base-php/pull/704) ([Chemaclass](https://github.com/Chemaclass))
+- Use ARM-compatible tag of official varnish docker image [\#701](https://github.com/inviqa/harness-base-php/pull/701) ([kierenevans](https://github.com/kierenevans))
+- Publish chart with user.name git config setting [\#699](https://github.com/inviqa/harness-base-php/pull/699) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Allow limiting chart publish by PR label [\#695](https://github.com/inviqa/harness-base-php/pull/695) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Test harnesses based on labels if a PR [\#694](https://github.com/inviqa/harness-base-php/pull/694) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Remove symfony flex post-update workaround now flex fixed [\#692](https://github.com/inviqa/harness-base-php/pull/692) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update build to continue to work when moved to rootless jenkins [\#691](https://github.com/inviqa/harness-base-php/pull/691) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Filter out empty spryker hostnames [\#689](https://github.com/inviqa/harness-base-php/pull/689) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Ignore null values from template\_key\_value func [\#686](https://github.com/inviqa/harness-base-php/pull/686) ([Chemaclass](https://github.com/Chemaclass))
+- Filter out the empty hosts from yves/zed on nginx conf.template [\#685](https://github.com/inviqa/harness-base-php/pull/685) ([Chemaclass](https://github.com/Chemaclass))
+- Allow rabbitmq vhosts as null [\#684](https://github.com/inviqa/harness-base-php/pull/684) ([Chemaclass](https://github.com/Chemaclass))
+- Update debian distro to bullseye for PHP 8.0+ [\#683](https://github.com/inviqa/harness-base-php/pull/683) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add getSignalsForGracefulWorkerShutdown\(\) to QueueConfig [\#682](https://github.com/inviqa/harness-base-php/pull/682) ([Chemaclass](https://github.com/Chemaclass))
+- Skip null hosts in Spryker welcome [\#680](https://github.com/inviqa/harness-base-php/pull/680) ([jbarton123](https://github.com/jbarton123))
+- Add solr image build and deployment [\#678](https://github.com/inviqa/harness-base-php/pull/678) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Disable nginx server\_tokens by default [\#677](https://github.com/inviqa/harness-base-php/pull/677) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Switch over Jenkins labels to linux-amd64 [\#676](https://github.com/inviqa/harness-base-php/pull/676) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add support for traefik 2 locally [\#673](https://github.com/inviqa/harness-base-php/pull/673) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
+**Fixed bugs:**
+
+- Add apiVersion to helm charts for lint error [\#707](https://github.com/inviqa/harness-base-php/pull/707) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update spryker phpstan for memory overuse fix [\#703](https://github.com/inviqa/harness-base-php/pull/703) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Add pathType to Spryker webapp ingress [\#702](https://github.com/inviqa/harness-base-php/pull/702) ([Chemaclass](https://github.com/Chemaclass))
+- Fix issue with pullRequest parameter being fetched before check [\#697](https://github.com/inviqa/harness-base-php/pull/697) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Exclude the latest spryker code-sniffer release due to testing twig templates [\#696](https://github.com/inviqa/harness-base-php/pull/696) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update symfony flex symfony version reference to match requires [\#693](https://github.com/inviqa/harness-base-php/pull/693) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Fix issue with spryker jenkins-runner running as root user [\#690](https://github.com/inviqa/harness-base-php/pull/690) ([andytson-inviqa](https://github.com/andytson-inviqa))
+- Update Spryker code it now to latest version [\#687](https://github.com/inviqa/harness-base-php/pull/687) ([jbarton123](https://github.com/jbarton123))
+- Update spryker code-it-now to fix build [\#681](https://github.com/inviqa/harness-base-php/pull/681) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [1.3.0](https://github.com/inviqa/harness-base-php/tree/1.3.0) (2022-04-12)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.2.2...1.3.0)
