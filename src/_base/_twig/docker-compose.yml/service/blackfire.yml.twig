@@ -1,6 +1,7 @@
   blackfire:
     image: {{ @('services.blackfire.image') }}
     labels:
+      # deprecated, a later workspace release will disable by default
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
         @('services.blackfire.environment'),

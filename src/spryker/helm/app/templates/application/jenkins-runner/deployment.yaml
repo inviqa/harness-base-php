@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/component: jenkins-runner
         app.service: {{ $.Values.resourcePrefix }}jenkins-runner
     spec:
+      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "jenkins-runner" "service" .) | nindent 8 }}
       containers:
       - env:
         {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}

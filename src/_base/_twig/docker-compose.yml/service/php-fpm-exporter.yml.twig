@@ -6,6 +6,7 @@
         @('services.php-fpm-exporter.environment_secrets')
       ]), 2, 6) | raw }}
     labels:
+      # deprecated, a later workspace release will disable by default
       - traefik.enable=false
     depends_on:
       - php-fpm

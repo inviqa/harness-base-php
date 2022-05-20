@@ -1,6 +1,7 @@
   postgres:
     image: {{ @('services.postgres.image') }}
     labels:
+      # deprecated, a later workspace release will disable by default
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
         @('services.postgres.environment'),

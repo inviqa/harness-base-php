@@ -2,17 +2,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-{{- with .Values.ingress.annotations }}
+  {{- with .Values.ingress.annotations }}
   annotations:
     {{- . | toYaml | nindent 4 }}
-{{- end }}
-  creationTimestamp: null
+  {{- end }}
   labels:
     {{- include "chart.labels" . | nindent 4 }}
     app.kubernetes.io/component: webapp
     app.service: {{ .Values.resourcePrefix }}webapp
   name: {{ .Values.resourcePrefix }}webapp
 spec:
+  {{- with (pick .Values.ingress "ingressClassName" "tls") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
   rules:
   {{- with .Values.services.nginx }}
   {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
@@ -29,10 +31,6 @@ spec:
               number: 80
   {{- end }}
   {{- end }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-  {{- toYaml .Values.ingress.tls | nindent 4 }}
   {{- end }}
 status:
   loadBalancer: {}

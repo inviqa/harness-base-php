@@ -1,6 +1,7 @@
   elasticsearch:
     image: {{ @('services.elasticsearch.image') }}
     labels:
+      # deprecated, a later workspace release will disable by default
       - traefik.enable=false
     environment:
       ES_JAVA_OPTS: -Xms512m -Xmx512m

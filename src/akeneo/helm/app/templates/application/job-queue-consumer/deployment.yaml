@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/component: job-queue-consumer
         app.service: {{ $.Values.resourcePrefix }}job-queue-consumer
     spec:
+      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "job-queue-consumer" "service" .) | nindent 8 }}
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" $)) }}
       initContainers:
       - name: job-queue-consumer-volume-permissions
