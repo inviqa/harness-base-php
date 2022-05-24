@@ -91,6 +91,9 @@ command('app deploy <environment>'):
     if helm version --short --client | grep '^Client: v2' >/dev/null 2>&1; then
       passthru helm init --client-only
     fi
+    if helm version --short --client | grep '^v3' >/dev/null 2>&1; then
+      kubectl --kubeconfig="${PWD}/kubectl.config.yaml" create ns "${NAMESPACE}" || true
+    fi
     passthru helm dependency build
     passthru helm --kubeconfig="${PWD}/kubectl.config.yaml" upgrade --wait --atomic --install --timeout "${TIMEOUT}" --namespace "${NAMESPACE}" "${NAMESPACE}" ./
 
