@@ -16,10 +16,10 @@ pipeline {
                 stage('1. PHP, Drupal 8, Akeneo') {
                     agent {
                         docker {
-                            label 'my127ws'
+                            label 'linux-amd64'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
@@ -69,10 +69,10 @@ pipeline {
                 stage('2. Symfony, Magento 2, Magento 1') {
                     agent {
                         docker {
-                            label 'my127ws'
+                            label 'linux-amd64'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
@@ -122,10 +122,10 @@ pipeline {
                 stage('3. Wordpress, Spryker') {
                     agent {
                         docker {
-                            label 'my127ws'
+                            label 'linux-amd64'
                             alwaysPull true
                             image 'quay.io/inviqa_images/workspace:latest'
-                            args '--entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
+                            args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
                     stages {
