@@ -1,6 +1,6 @@
 def isHarnessChange(harnesses) {
     def harnessLabels = harnesses.collect { "harness-${it}".toString() } << 'harness-all'
-    return !env.CHANGE_ID || pullRequest.labels.size() == 0 || harnessLabels.any { pullRequest.labels.contains(it) }
+    return false
 }
 
 pipeline {
@@ -248,7 +248,6 @@ pipeline {
                             args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
-                    when { expression { return isHarnessChange(['spryker']) } }
                     stages {
                         stage('Prepare') {
                             steps {
