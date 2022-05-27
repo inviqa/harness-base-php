@@ -60,14 +60,6 @@ pipeline {
                                 sh './test wordpress dynamic mutagen'
                             }
                         }
-                        stage('Install Mutagen') {
-                            steps {
-                                sh 'apk add grep'
-                                sh 'curl --fail --silent --show-error --location --output /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz'
-                                sh 'tar -C /usr/local/bin/ -xf /tmp/mutagen.tar.gz'
-                                sh 'rm -f /tmp/mutagen.tar.gz'
-                            }
-                        }
                         stage('Acceptance Tests') {
                             environment {
                                 REUSE_EXISTING_WORKSPACE = "yes"
@@ -166,14 +158,6 @@ pipeline {
                                 sh './test symfony dynamic mutagen'
                                 sh './test magento2 dynamic mutagen'
                                 sh './test magento1 dynamic mutagen'
-                            }
-                        }
-                        stage('Install Mutagen') {
-                            steps {
-                                sh 'apk add grep'
-                                sh 'curl --fail --silent --show-error --location --output /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz'
-                                sh 'tar -C /usr/local/bin/ -xf /tmp/mutagen.tar.gz'
-                                sh 'rm -f /tmp/mutagen.tar.gz'
                             }
                         }
                         stage('Acceptance Tests') {
