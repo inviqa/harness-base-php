@@ -2,7 +2,6 @@
 
 use Pyz\Shared\Queue\QueueConstants;
 use Pyz\Shared\Scheduler\SchedulerConfig;
-use Pyz\Zed\Propel\PropelConfig;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Collector\CollectorConstants;
 use Spryker\Shared\Customer\CustomerConstants;
@@ -27,6 +26,7 @@ use Spryker\Shared\SessionRedis\SessionRedisConstants;
 use Spryker\Shared\StorageRedis\StorageRedisConstants;
 use Spryker\Shared\Twig\TwigConstants;
 use Spryker\Shared\ZedRequest\ZedRequestConstants;
+use Spryker\Zed\Propel\PropelConfig;
 use Twig\Cache\FilesystemCache;
 
 // todo: this file sets hardcoded auth secrets, remote environments needs to have a different ones supplied via env vars
