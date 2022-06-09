@@ -123,7 +123,7 @@ attributes:
       DE: = 'zed-de-' ~ @('hostname')
       AT: = 'zed-at-' ~ @('hostname')
       US: = 'zed-us-' ~ @('hostname')
-    root_dir: = @('app.web_directory') ~ '/Zed'
+    root_dir: "= @('spryker.demoshop-version') >= '202108.0'? @('app.web_directory') ~ '/Backoffice' : @('app.web_directory') ~ '/Zed'"
   zed_api:
     external_hosts:
       DE: = 'zed-api-de-' ~ @('hostname')
