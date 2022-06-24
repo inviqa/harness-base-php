@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1](https://github.com/inviqa/harness-base-php/tree/1.4.1) (2022-06-19)
+
+[Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.4.0...1.4.1)
+
+**Fixed bugs:**
+
+- Update resources cpu key requests to intentional request [\#719](https://github.com/inviqa/harness-base-php/pull/719) ([andytson-inviqa](https://github.com/andytson-inviqa))
+
 ## [1.4.0](https://github.com/inviqa/harness-base-php/tree/1.4.0) (2022-05-19)
 
 [Full Changelog](https://github.com/inviqa/harness-base-php/compare/1.3.0...1.4.0)
