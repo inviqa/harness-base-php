@@ -97,6 +97,7 @@ command('app deploy <environment>'):
 command('helm template <chart-path>'):
   env:
     CHART_PATH:  = input.argument('chart-path')
+    K8S_VERSION: = @('helm.kubernetes_version')
     NAMESPACE:   = @('pipeline.' ~ input.argument('environment') ~ '.namespace')
   exec: |
     #!bash(harness:/helm)|=
@@ -106,7 +107,7 @@ command('helm template <chart-path>'):
       passthru helm init --client-only
     fi
     passthru helm dependency build
-    passthru helm template .
+    passthru helm template --kube-version "${K8S_VERSION}" .
 
 command('helm kubeval [--cleanup] <chart-path>'):
   env:
