@@ -60,5 +60,6 @@ spec:
       - name: {{ $.Values.resourcePrefix }}varnish-cache
         emptyDir:
           medium: Memory
+      topologySpreadConstraints: {{- (include "pod.topologySpreadConstraints" (dict "root" $ "serviceName" "console" "service" .)) | nindent 8 }}
 {{- end }}
 {{- end }}

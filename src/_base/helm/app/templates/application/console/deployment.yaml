@@ -76,6 +76,7 @@ spec:
       {{- include "application.volumes.console" $ | indent 6 }}
       {{- else }} []
       {{- end }}
+      topologySpreadConstraints: {{- (include "pod.topologySpreadConstraints" (dict "root" $ "serviceName" "console" "service" .)) | nindent 8 }}
 status: {}
 {{- end }}
 {{- end }}
