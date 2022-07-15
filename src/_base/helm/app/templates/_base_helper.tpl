@@ -114,7 +114,7 @@ preferredDuringSchedulingIgnoredDuringExecution:
 {{- define "pod.topologySpreadConstraints" }}
 {{- $topologySpreadConstraints := $.service.topologySpreadConstraints | default $.root.Values.global.topologySpreadConstraints }}
 {{- if eq (len $topologySpreadConstraints) 0 -}}
-{}
+[]
 {{- else }}
 {{- range $topologySpreadConstraints }}
 - labelSelector:
