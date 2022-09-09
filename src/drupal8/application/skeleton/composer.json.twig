@@ -9,7 +9,7 @@
     "bin-dir": "bin/",
     "sort-packages": true,
     "platform": {
-      "php": "7.4.10"
+      "php": "8.0.23"
     },
     "allow-plugins": {
       "cweagans/composer-patches": true,
@@ -31,58 +31,59 @@
     }
   },
   "require": {
-    "php": ">= 7.4",
-    "composer/installers": "^1.0",
-    "cweagans/composer-patches": "^1.5.0",
-    "drupal/admin_toolbar": "^1.0",
-    "drupal/core-composer-scaffold": "~8.9",
-    "drupal/core-recommended": "~8.9",
-    "drupal/ctools": "^3.0",
-    "drupal/environment_indicator": "^3.0",
-    "drupal/field_group": "^3.0@beta",
-    "drupal/hook_event_dispatcher": "^1.20",
+    "php": ">= 8.0",
+    "composer/installers": "^2.1",
+    "cweagans/composer-patches": "^1.7",
+    "drupal/admin_toolbar": "^3.1",
+    "drupal/core-composer-scaffold": "^9.4",
+    "drupal/core-recommended": "^9.4",
+    "drupal/ctools": "^4.0",
+    "drupal/environment_indicator": "^4.0",
+    "drupal/field_group": "^3.2",
+    "drupal/hook_event_dispatcher": "^3.3",
 {% if @('services.varnish.enabled') %}
     "drupal/http_cache_control": "^2.0",
 {% endif %}
-    "drupal/inline_entity_form": "^1.0-rc1",
-    "drupal/linkit": "^4.3.0",
-    "drupal/login_emailusername": "1.1",
-    "drupal/menu_admin_per_menu": "1.0",
-    "drupal/metatag": "1.7",
-    "drupal/pathauto": "^1.8",
-    "drupal/purge": "^3.0",
-    "drupal/redirect": "1.3",
-    "drupal/roleassign": "^1.0@alpha",
-    "drupal/seckit": "1.1",
-    "drupal/stage_file_proxy": "^1.0@alpha",
-    "drupal/taxonomy_access_fix": "2.6",
-    "drupal/token": "1.5",
+    "drupal/inline_entity_form": "^1.0-rc12",
+    "drupal/linkit": "~6.0.0@beta",
+    "drupal/login_emailusername": "2.0",
+    "drupal/menu_admin_per_menu": "1.5",
+    "drupal/metatag": "1.22",
+    "drupal/pathauto": "^1.11",
+    "drupal/purge": "^3.4",
+    "drupal/redirect": "1.8",
+    "drupal/roleassign": "^1.0.0@beta",
+    "drupal/seckit": "2.0",
+    "drupal/stage_file_proxy": "^2.0",
+    "drupal/taxonomy_access_fix": "3.3",
+    "drupal/token": "^1.11",
     "drupal/ultimate_cron": "~2.0.0@alpha",
 {% if @('services.varnish.enabled') %}
-    "drupal/varnish_purge": "^2.0",
+    "drupal/varnish_purge": "^2.1",
 {% endif %}
-    "drush/drush": "^8",
+    "drush/drush": "^11.1",
     "fenetikm/autoload-drupal": "dev-master#4503484bf2d78e6d739fe13324ab3e6b96d7c244",
     "oomphinc/composer-installers-extender": "^2.0"
   },
   "require-dev": {
-    "behat/behat": "^3.5",
+    "behat/behat": "^3.10",
     "behat/mink-extension": "^2.3",
     "behat/mink-goutte-driver": "^1.2",
     "dmore/behat-chrome-extension": "^1.3",
     "dmore/chrome-mink-driver": "^2.7",
-    "drupal/core-dev": "~8.9",
-    "drupal/devel": "^2.0",
-    "drupal/drupal-extension": "^3.4",
-    "jangregor/phpstan-prophecy": "^0.8",
+    "drupal/core-dev": "^9.4",
+    "drupal/devel": "^4.1",
+    "drupal/drupal-extension": "^4.2",
+    "jangregor/phpstan-prophecy": "^1.0",
     "mglaman/drupal-check": "^1.1",
-    "mglaman/phpstan-drupal": "^0.12",
+    "mglaman/phpstan-drupal": "^1.0",
     "mikey179/vfsstream": "^1.0",
     "phpcompatibility/php-compatibility": "dev-develop",
     "phpcsstandards/phpcsutils": "1.0.0-alpha4",
-    "phpstan/phpstan": "^0.12",
-    "phpstan/phpstan-deprecation-rules": "^0.12",
-    "phpunit/phpunit": "^7.0",
+    "phpspec/prophecy-phpunit": "^2",
+    "phpstan/phpstan": "^1.0",
+    "phpstan/phpstan-deprecation-rules": "^1.0",
+    "phpunit/phpunit": "^9.0",
     "squizlabs/php_codesniffer": "^3.5"
   },
   "autoload": {
@@ -125,7 +126,7 @@
     "test-acceptance": [
       "behat"
     ],
-    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
+    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
   },
   "extra": {
     "autoload-drupal": {

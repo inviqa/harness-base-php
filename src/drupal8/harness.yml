@@ -71,7 +71,7 @@ attributes:
     cli:
       ini:
         opcache.file_cache_only: '0'
-    version: 7.4
+    version: '8.0'
   persistence:
     enabled: false
     drupal:
