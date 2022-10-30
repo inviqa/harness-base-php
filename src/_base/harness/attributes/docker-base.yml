@@ -245,6 +245,10 @@ attributes:
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
         mysql:
           options: = @('services.mysql.options')
+        redis:
+          options: = @('services.redis.options')
+        redis-session:
+          options: = @('services.redis-session.options')
         console:
           environment:
             TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.services.tideways.enabled }}' : 'false'"
