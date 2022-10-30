@@ -30,7 +30,10 @@ spec:
       - {{- if .options }}
         args:
         {{- range $var, $value := .options }}
-        {{- if $value }}
+        {{- if kindIs "slice" $value }}
+        {{- range $arrayValue := $value }}
+        - {{ print "--" $var " " $arrayValue | quote }}
+        {{- else }}
         - {{ print "--" $var " " $value | quote }}
         {{- end }}
         {{- end }}
