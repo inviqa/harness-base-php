@@ -16,7 +16,9 @@ function task_welcome()
       {% endif %}
     {% endfor %}
     echo "  Username: admin@spryker.com"
-    echo "  Password: change123"
+    if [[ "$APP_BUILD" == "dynamic" ]]; then
+      echo "  Password: change123"
+    fi
     {% for store, host in @('zed_api.external_hosts') %}
       {% if host is not empty %}
         echo "Zed API {{ store }}: https://${ZED_API_HOST_{{ store }}}"
@@ -35,7 +37,9 @@ function task_welcome()
     echo ""
     echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"
     echo "  Username: {{ @('rabbitmq.user') }}"
-    echo "  Password: {{ @('rabbitmq.password') }}"
+    if [[ "$APP_BUILD" == "dynamic" ]]; then
+      echo "  Password: {{ @('rabbitmq.password') }}"
+    fi
     {% endif -%}
     {% if @('services.solr.enabled') -%}
     echo ""
