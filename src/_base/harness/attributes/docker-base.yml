@@ -152,10 +152,13 @@ attributes:
     redis:
       image: redis:6-alpine
       options:
+        # Handle many smaller keys
         activedefrag: 'yes'
-        # 1Gi - 1024*1024*1024 bytes; evict any least recently used key even if they don't have a TTL
+        # 1Gi - 1024*1024*1024 bytes
         maxmemory: '1073741824'
+        # Evict any least recently used key even if they don't have a TTL
         maxmemory-policy: allkeys-lru
+        # Save snapshots every X changes have happened within Y seconds (these are the defaults in redis.conf)
         save:
           - 3600 1
           - 300 100
@@ -166,10 +169,13 @@ attributes:
     redis-session:
       image: redis:6-alpine
       options:
+        # Handle many smaller keys
         activedefrag: 'yes'
-        # 1Gi - 1024*1024*1024 bytes; evict key that would expire soonest
+        # 1Gi - 1024*1024*1024 bytes
         maxmemory: '1073741824'
+        # Evict key that would expire soonest
         maxmemory-policy: volatile-ttl
+        # Save snapshots every X changes have happened within Y seconds (these are the defaults in redis.conf)
         save:
           - 3600 1
           - 300 100
