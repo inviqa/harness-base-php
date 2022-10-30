@@ -150,15 +150,33 @@ attributes:
       resources:
         memory: "1024Mi"
     redis:
-      enabled: "= 'redis' in @('app.services')"
-      image: redis:5-alpine
+      image: redis:6-alpine
+      options:
+        activedefrag: 'yes'
+        # 1Gi - 1024*1024*1024 bytes; evict any least recently used key even if they don't have a TTL
+        maxmemory: '1073741824'
+        maxmemory-policy: allkeys-lru
+        save:
+          - 3600 1
+          - 300 100
+          - 60 10000
       resources:
-        memory: "256Mi"
+        # 1.5 * maxmemory to allow copy on write snapshots
+        memory: "1.5Gi"
     redis-session:
-      enabled: "= 'redis-session' in @('app.services')"
-      image: redis:5-alpine
+      image: redis:6-alpine
+      options:
+        activedefrag: 'yes'
+        # 1Gi - 1024*1024*1024 bytes; evict key that would expire soonest
+        maxmemory: '1073741824'
+        maxmemory-policy: volatile-ttl
+        save:
+          - 3600 1
+          - 300 100
+          - 60 10000
       resources:
-        memory: "1024Mi"
+        # 1.5 * maxmemory to allow copy on write snapshots
+        memory: "1.5Gi"
     relay:
       enabled: true
       publish: false
@@ -293,9 +311,3 @@ attributes:
         php-fpm-exporter:
           resources:
             memory: "32Mi"
-        redis:
-          resources:
-            memory: "64Mi"
-        redis-session:
-          resources:
-            memory: "64Mi"
