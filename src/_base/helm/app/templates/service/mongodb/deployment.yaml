@@ -46,7 +46,7 @@ spec:
           limits:
             memory: {{ .resources.memory }}
           requests:
-            {{- with ((.resources.cpu | default (dict)).requests | default nil) }}
+            {{- with ((.resources.cpu | default (dict)).request | default nil) }}
             cpu: {{ . }}
             {{- end }}
             memory: {{ .resources.memory }}
