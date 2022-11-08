@@ -74,6 +74,7 @@ spec:
       - name: {{ $.Values.resourcePrefix }}solr-data
         emptyDir:
           medium: Memory
+      topologySpreadConstraints: {{- (include "pod.topologySpreadConstraints" (dict "root" $ "serviceName" "solr" "service" .)) | nindent 8 }}
 {{- with $.Values.persistence.solr -}}
 {{- if .enabled }}
   volumeClaimTemplates:

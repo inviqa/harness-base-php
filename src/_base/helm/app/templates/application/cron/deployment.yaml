@@ -87,6 +87,7 @@ spec:
       {{- include "application.volumes.all" $ | indent 6 }}
       {{- else }} []
       {{- end }}
+      topologySpreadConstraints: {{- (include "pod.topologySpreadConstraints" (dict "root" $ "serviceName" "cron" "service" .)) | nindent 8 }}
 status: {}
 {{- end }}
 {{- end }}

@@ -110,3 +110,25 @@ preferredDuringSchedulingIgnoredDuringExecution:
 {{- end -}}
 {{ $affinity | toYaml }}
 {{- end -}}
+
+{{- define "pod.topologySpreadConstraints" }}
+{{- $topologySpreadConstraints := $.service.topologySpreadConstraints | default $.root.Values.global.topologySpreadConstraints }}
+{{- if eq (len $topologySpreadConstraints) 0 -}}
+[]
+{{- else }}
+{{- range $topologySpreadConstraints }}
+- labelSelector:
+    matchLabels:
+      app.service: {{ $.root.Values.resourcePrefix }}{{ $.serviceName }}
+  {{- with (pick . "maxSkew" "topologyKey" "whenUnsatisfiable") }}
+  {{- . | toYaml | nindent 2 }}
+  {{- end }}
+  {{- if not (hasKey . "maxSkew") }}
+  maxSkew: 1
+  {{- end }}
+  {{- if not (hasKey . "whenUnsatisfiable") }}
+  whenUnsatisfiable: ScheduleAnyway
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

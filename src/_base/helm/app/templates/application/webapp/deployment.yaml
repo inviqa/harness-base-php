@@ -174,5 +174,6 @@ spec:
       {{- include "application.volumes.all" . | indent 6 }}
       {{- else }} []
       {{- end }}
+      topologySpreadConstraints: {{- (include "pod.topologySpreadConstraints" (dict "root" $ "serviceName" "webapp" "service" .)) | nindent 8 }}
 status: {}
 {{- end }}
