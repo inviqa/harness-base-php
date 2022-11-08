@@ -66,6 +66,10 @@
     "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
   },
   "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "sllh/composer-versions-check": true
+    },
     "platform": {
       "php": "7.4.10"
     }

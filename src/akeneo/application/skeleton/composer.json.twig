@@ -104,6 +104,10 @@
   "config": {
     "platform": {
       "php": "{{ (version_compare(@('akeneo.major_version'), '5', '>=')) ? '7.4' : '7.3.22' }}"
+    },
+    "allow-plugins": {
+      "symfony/flex": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
   "minimum-stability": "stable"

@@ -167,36 +167,36 @@ force pushed to the individual harness repositories' `1.5.x` branch.
 
 ### Changelog Generation
 
-We are keeping a changelog, powered by [GitHub Changelog Generator].
+We use Gitlab release notes to generate and store changelogs.
 
 When ready to tag a release, make a new branch from the `1.5.x` branch for the changelog entries:
-1. Generate a `repo` scope token for use with the changelog generator: https://github.com/settings/tokens/new?description=GitHub%20Changelog%20Generator%20token
-2. Export it in your environment: `export CHANGELOG_GITHUB_TOKEN=...`
-3. Run the following docker command to generate the changelog, replacing `1.5.0` with the version number as needed:
-  ```bash
-  docker run -e CHANGELOG_GITHUB_TOKEN="$CHANGELOG_GITHUB_TOKEN" -it --rm -v "$(pwd)":/usr/local/src/your-app -v "$(pwd)/github-changelog-http-cache":/tmp/github-changelog-http-cache githubchangeloggenerator/github-changelog-generator --user inviqa --project harness-base-php --exclude-labels "duplicate,question,invalid,wontfix,skip-changelog" --release-branch 1.5.x --future-release 1.5.0
-  ```
-4. Examine the generated CHANGELOG.md. For every entry in the `Merged pull requests` section, examine the Pull Requests
+
+1. Draft a release (don't publish it) https://github.com/inviqa/harness-base-php/releases/new?tag=1.5.0&title=1.5.1&target=1.5.x
+2. Click `Generate release notes`
+3. Examine the release notes. For every entry in the `Other Changes` section, examine the Pull Requests
    and assign each pull request either a `enhancement` label for a new feature, `bug` for a bugfix or `deprecated` for
    a deprecation.
-5. For each Pull Request in the release, assign an appropriate `harness-*` label.
-6. Re-generate the changelog using step 3 as needed.
-7. Adjust the version for each framework's README.md: `sed -i '' s/1\.1\.2/1.5.0/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
-8. Commit the resulting changes, push and raise a pull request.
-9. Once merged, continue with the release process below.
+4. For each Pull Request in the release, assign an appropriate `harness-*` label.
+5. Re-generate the changelog using step 2 as needed. Clearing the release notes to allow regeneration.
+6. Adjust the version for each framework's README.md: `sed -i '' s/1\.4\.1/1.5.0/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
+7. Commit the resulting changes, push and raise a pull request.
+8. Once merged, continue with the release process below.
+
 
 ### Performing a Release
 
-Once the CHANGELOG.markdown is in the branch you wish to release:
+When you're ready to release:
 
-1. Tag the release version with `git tag 1.5.0 -m "v1.5.0"`
-2. Push the tag to the repository: `git push origin 1.5.0`
-3. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
-4. Run the deploy script: `./deploy`
-5. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
+1. Draft a new release https://github.com/inviqa/harness-base-php/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
+2. Click `Generate release notes`
+3. Publish the release
+4. Ensure you are on the 1.5.x branch locally, and it's up to date
+4. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
+5. Run the deploy script: `./deploy`
+6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
-6. Create a "Github Release" for this repository and downstream repositories, pasting in the changelog for the release:
-   - https://github.com/inviqa/harness-base-php/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
+7. Create a "Github Release" for downstream repositories, pasting in the changelog for the release from the previously generated release notes:
+
    - https://github.com/inviqa/harness-php/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x

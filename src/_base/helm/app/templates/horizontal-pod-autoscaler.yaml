@@ -3,7 +3,11 @@
 {{- $autoscaling := .autoscaling | default (dict) -}}
 {{- if and (not (hasPrefix "." $serviceName)) .enabled $autoscaling.enabled }}
 ---
+{{- if semverCompare ">=1.23-0" $.Capabilities.KubeVersion.Version }}
+apiVersion: autoscaling/v2
+{{- else }}
 apiVersion: autoscaling/v2beta2
+{{- end }}
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ print $.Values.resourcePrefix $serviceName }}

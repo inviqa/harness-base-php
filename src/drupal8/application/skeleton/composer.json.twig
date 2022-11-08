@@ -3,13 +3,21 @@
   "description": "Drupal site for {{ @('workspace.name')|lower }}",
   "type": "project",
   "license": "GPL-2.0+",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "config": {
     "bin-dir": "bin/",
     "sort-packages": true,
     "platform": {
       "php": "7.4.10"
+    },
+    "allow-plugins": {
+      "cweagans/composer-patches": true,
+      "drupal/core-composer-scaffold": true,
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "fenetikm/autoload-drupal": true,
+      "oomphinc/composer-installers-extender": true
     }
   },
   "repositories": {
@@ -49,7 +57,7 @@
     "drupal/stage_file_proxy": "^1.0@alpha",
     "drupal/taxonomy_access_fix": "2.6",
     "drupal/token": "1.5",
-    "drupal/ultimate_cron": "2.x-dev",
+    "drupal/ultimate_cron": "~2.0.0@alpha",
 {% if @('services.varnish.enabled') %}
     "drupal/varnish_purge": "^2.0",
 {% endif %}

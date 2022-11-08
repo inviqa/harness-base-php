@@ -4,7 +4,11 @@
 {{- $autoscaling := .autoscaling | default (dict "minReplicas" 0) -}}
 {{- if or (gt (.replicas | default 1 | int) 1) (and $autoscaling.enabled (gt ($autoscaling.minReplicas | int) 1)) }}
 ---
+{{- if semverCompare ">=1.21-0" $.Capabilities.KubeVersion.Version }}
+apiVersion: policy/v1
+{{- else }}
 apiVersion: policy/v1beta1
+{{- end }}
 kind: PodDisruptionBudget
 metadata:
   name: {{ print $.Values.resourcePrefix $serviceName }}
