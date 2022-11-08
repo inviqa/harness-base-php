@@ -170,6 +170,7 @@ force pushed to the individual harness repositories' `1.5.x` branch.
 We use Gitlab release notes to generate and store changelogs.
 
 When ready to tag a release, make a new branch from the `1.5.x` branch for the changelog entries:
+
 1. Draft a release (don't publish it) https://github.com/inviqa/harness-base-php/releases/new?tag=1.5.0&title=1.5.1&target=1.5.x
 2. Click `Generate release notes`
 3. Examine the release notes. For every entry in the `Other Changes` section, examine the Pull Requests
