@@ -182,7 +182,6 @@ When ready to tag a release, make a new branch from the `1.5.x` branch for the c
 7. Commit the resulting changes, push and raise a pull request.
 8. Once merged, continue with the release process below.
 
-
 ### Performing a Release
 
 When you're ready to release:
@@ -196,7 +195,6 @@ When you're ready to release:
 6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 7. Create a "Github Release" for downstream repositories, pasting in the changelog for the release from the previously generated release notes:
-
    - https://github.com/inviqa/harness-php/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x

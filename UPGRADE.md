@@ -3,7 +3,6 @@
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
 
-
 ## Upgrading from 1.4.0 to 1.4.1
 
 An unintentional helm service key name `resources.cpu.requests` has dropped it's plurality to `resources.cpu.request` to match some existing implementations.
@@ -11,7 +10,6 @@ An unintentional helm service key name `resources.cpu.requests` has dropped it's
 If you have set the cpu requests already, then please update to the latter.
 
 ## Upgrading from 1.3.x to 1.4.x
-
 
 ### Debian Bullseye for PHP 8+
 
