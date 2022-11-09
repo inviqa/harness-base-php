@@ -10,15 +10,21 @@ function('built_images', [services]): |
   $allImages = explode("\n", shell_exec('docker image ls -a --format \'{{ print .Repository ":" .Tag }}\''));
 
   # workspace commands don't allow non-string types
-  = join(' ', array_intersect($builtImages, $allImages));
+  = join("\n", array_intersect($builtImages, $allImages));
+
+command('built-images ls'):
+  env:
+    IMAGES: = built_images(docker_service_images())
+  exec: |
+    #!bash
+    echo "$IMAGES"
 
 command('cleanup built-images'):
   env:
     BUILD_LABEL: = @('namespace') ~ ':' ~ @('app.version')
-    IMAGES: = built_images(docker_service_images())
   exec: |
     #!bash
-    IMAGES=($IMAGES)
+    IMAGES=$(ws built-images ls)
     if [ "${#IMAGES[@]}" -gt 0 ]; then
       run docker image rm --force -- "${IMAGES[@]}"
     fi
