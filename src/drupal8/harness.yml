@@ -45,10 +45,10 @@ attributes:
           passthru drush site:install standard \
               --locale=en \
               --site-name=Drupal \
-              --site-mail=admin@example.com \
+              "--site-mail=${ADMIN_EMAIL}" \
               \
-              --account-name=admin \
-              --account-mail=admin@example.com \
+              "--account-name=${ADMIN_USERNAME}" \
+              "--account-mail=${ADMIN_EMAIL}" \
               "--account-pass=${ADMIN_DEFAULT_PASSWORD}" \
               --yes
         - run chmod 755 /app/docroot/sites/default

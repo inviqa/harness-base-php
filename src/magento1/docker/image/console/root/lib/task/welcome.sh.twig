@@ -12,12 +12,16 @@ function task_welcome()
     {% endfor -%}
     echo "Admin: /admin"
     echo "  Username: admin"
-    echo "  Password: ${ADMIN_DEFAULT_PASSWORD}"
+    if [[ "$APP_BUILD" == "dynamic" ]]; then
+        echo "  Password: ${ADMIN_DEFAULT_PASSWORD}"
+    fi
     {% if @('services.rabbitmq.enabled') -%}
     echo ""
     echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"
     echo "  Username: {{ @('rabbitmq.user') }}"
-    echo "  Password: {{ @('rabbitmq.password') }}"
+    if [[ "$APP_BUILD" == "dynamic" ]]; then
+        echo "  Password: {{ @('rabbitmq.password') }}"
+    fi
     {% endif -%}
     {% if @('services.solr.enabled') -%}
     echo ""

@@ -2,6 +2,8 @@ attributes:
   services:
     php-base:
       environment:
+        ADMIN_EMAIL: admin@example.com
+        ADMIN_USERNAME: admin
         DRUPAL_DOCROOT: = @('drupal.docroot')
       environment_secrets:
         DRUPAL_SALT: = @('drupal.salt')
