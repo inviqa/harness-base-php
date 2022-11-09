@@ -1,5 +1,5 @@
 {% set syncvolume = false %}
-{% if @('host.os') == 'darwin' and @('mutagen') == 'yes' %}
+{% if @('host.os') == 'darwin' and bool(@('mutagen')) %}
 {% set syncvolume = true %}
 {% endif %}
 
