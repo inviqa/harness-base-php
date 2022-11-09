@@ -193,6 +193,11 @@ attributes.default:
     # used to set nginx global configurations under http directive
     global:
       conf:
+        'log_format timing': >-
+            '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"
+            $request_time "$http_x_forwarded_for" [$host]'
+        # Must be after the log format is defined
+        access_log: /dev/stdout timing
         server_tokens: 'off'
     # used to limit what is copied into an Nginx static-built image
     copy_directories:
