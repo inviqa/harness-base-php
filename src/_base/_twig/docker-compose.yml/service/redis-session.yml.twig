@@ -1,7 +1,10 @@
+{% set command = @('services.redis-session.options')
+  | filter(v => v is not empty)
+  | map((value, var) => '--' ~ var ~ ' ' ~ value|join(' --' ~ var ~ ' '))
+  | reduce((carry, v) => carry|merge([v]), []) %}
   redis-session:
     image: {{ @('services.redis-session.image') }}
-    # 1GB; evict key that would expire soonest
-    command: redis-server --maxmemory 1073742000 --maxmemory-policy volatile-ttl --save 3600 1 --save 300 100 --save 60 10000
+    command: {{ to_nice_yaml(command, 2, 6) }}
     labels:
       # deprecated, a later workspace release will disable by default
       - traefik.enable=false

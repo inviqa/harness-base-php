@@ -150,15 +150,39 @@ attributes:
       resources:
         memory: "1024Mi"
     redis:
-      enabled: "= 'redis' in @('app.services')"
-      image: redis:5-alpine
+      image: redis:6-alpine
+      options:
+        # Handle many smaller keys
+        activedefrag: 'yes'
+        # 1Gi - 1024*1024*1024 bytes
+        maxmemory: '1073741824'
+        # Evict any least recently used key even if they don't have a TTL
+        maxmemory-policy: allkeys-lru
+        # Save snapshots every X changes have happened within Y seconds (these are the defaults in redis.conf)
+        save:
+          - 3600 1
+          - 300 100
+          - 60 10000
       resources:
-        memory: "256Mi"
+        # 1.5 * maxmemory to allow copy on write snapshots
+        memory: "1.5Gi"
     redis-session:
-      enabled: "= 'redis-session' in @('app.services')"
-      image: redis:5-alpine
+      image: redis:6-alpine
+      options:
+        # Handle many smaller keys
+        activedefrag: 'yes'
+        # 1Gi - 1024*1024*1024 bytes
+        maxmemory: '1073741824'
+        # Evict key that would expire soonest
+        maxmemory-policy: volatile-ttl
+        # Save snapshots every X changes have happened within Y seconds (these are the defaults in redis.conf)
+        save:
+          - 3600 1
+          - 300 100
+          - 60 10000
       resources:
-        memory: "1024Mi"
+        # 1.5 * maxmemory to allow copy on write snapshots
+        memory: "1.5Gi"
     relay:
       enabled: true
       publish: false
@@ -230,6 +254,10 @@ attributes:
             VARNISH_HOSTNAME_TEMPLATE: "{{ .Values.resourcePrefix }}varnish-%d.{{ .Values.resourcePrefix }}varnish-headless"
         mysql:
           options: = @('services.mysql.options')
+        redis:
+          options: = @('services.redis.options')
+        redis-session:
+          options: = @('services.redis-session.options')
         console:
           environment:
             TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.services.tideways.enabled }}' : 'false'"
@@ -302,9 +330,3 @@ attributes:
         php-fpm-exporter:
           resources:
             memory: "32Mi"
-        redis:
-          resources:
-            memory: "64Mi"
-        redis-session:
-          resources:
-            memory: "64Mi"
