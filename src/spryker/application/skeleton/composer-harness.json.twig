@@ -98,10 +98,6 @@
     },
     "platform": {
       "php": "{{ version_compare(@('spryker.demoshop-version'), '202108.0', '<') ? '7.4.10' : '8.0.16' }}"
-    },
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "sllh/composer-versions-check": true
     }
   },
 {% if version_compare(@('php.version'), '8.0', '>=') %}
