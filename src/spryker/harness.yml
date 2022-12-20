@@ -123,13 +123,13 @@ attributes:
       DE: = 'zed-de-' ~ @('hostname')
       AT: = 'zed-at-' ~ @('hostname')
       US: = 'zed-us-' ~ @('hostname')
-    root_dir: = @('app.web_directory') ~ '/Zed'
+    root_dir: "= @('app.web_directory') ~ (version_compare(@('spryker.demoshop-version'), '202108.0', '>=') ? '/Backoffice' : '/Zed')"
   zed_api:
     external_hosts:
       DE: = 'zed-api-de-' ~ @('hostname')
       AT: = 'zed-api-at-' ~ @('hostname')
       US: = 'zed-api-us-' ~ @('hostname')
-    root_dir: "= @('spryker.demoshop-version') >= '202108.0'? @('app.web_directory') ~ '/BackendGateway' : @('app.web_directory') ~ '/Zed'"
+    root_dir: "= @('app.web_directory') ~ (version_compare(@('spryker.demoshop-version'), '202108.0', '>=') ? '/BackendGateway' : '/Zed')"
   glue:
     external_hosts:
       DE: = 'glue-de-' ~ @('hostname')

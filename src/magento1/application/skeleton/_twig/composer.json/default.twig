@@ -28,14 +28,15 @@
         "magento/marketplace-eqp": "dev-master#3303dfc as 2.0.1",
         "magetest/magento-phpspec-extension": "^5.0",
         "pdepend/pdepend": "2.5.2",
-        "phpcompatibility/php-compatibility": "dev-master",
+        "phpcompatibility/php-compatibility": "dev-develop",
+        "phpcsstandards/phpcsutils": "1.0.0-alpha4",
         "phpmd/phpmd": "@stable",
         "phpspec/phpspec": "^4.0",
         "phpstan/phpstan-shim": "~0.11.5",
         "phpunit/phpunit": "~6.2.0",
         "sebastian/phpcpd": "2.0.4",
         "sensiolabs/behat-page-object-extension": "^2.1",
-        "squizlabs/php_codesniffer": "3.2.2"
+        "squizlabs/php_codesniffer": "^3.2.2"
     },
     "autoload": {
         "psr-0": {
@@ -116,6 +117,7 @@
         },
         "allow-plugins": {
             "aydin-hassan/magento-core-composer-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": false,
             "magento-hackathon/magento-composer-installer": true
         }
     }

@@ -35,7 +35,10 @@ pipeline {
                             args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
-                    when { expression { return isHarnessChange(['base', 'drupal8', 'wordpress']) } }
+                    when {
+                        beforeAgent true
+                        expression { return isHarnessChange(['base', 'drupal8', 'wordpress']) }
+                    }
                     stages {
                         stage('Prepare') {
                             steps {
@@ -155,7 +158,10 @@ pipeline {
                             args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
-                    when { expression { return isHarnessChange(['symfony', 'magento2', 'magento1']) } }
+                    when {
+                        beforeAgent true
+                        expression { return isHarnessChange(['symfony', 'magento2', 'magento1']) }
+                    }
                     stages {
                         stage('Prepare') {
                             steps {
@@ -248,7 +254,10 @@ pipeline {
                             args '--group-add docker --entrypoint "" --volume /var/run/docker.sock:/var/run/docker.sock --volume "$HOME/.my127:/root/.my127"'
                         }
                     }
-                    when { expression { return isHarnessChange(['spryker']) } }
+                    when {
+                        beforeAgent true
+                        expression { return isHarnessChange(['spryker']) }
+                    }
                     stages {
                         stage('Prepare') {
                             steps {
