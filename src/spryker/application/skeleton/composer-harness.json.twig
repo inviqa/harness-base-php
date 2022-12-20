@@ -4,14 +4,7 @@
   "type": "project",
   "require": {
 {% if version_compare(@('php.version'), '8.0', '>=') %}
-    "php": ">= {{ @('php.version') }}",
-    "spryker/code-it-now": "^1.1.0",
-    "spryker/rabbit-mq": "^2.15.0",
-    "spryker-sdk/composer-constrainer": "^0.2.5",
-    "spryker-sdk/spryk": "^0.3.3",
-    "spryker-sdk/spryk-gui": "^0.2.1",
-    "spryker-sdk/benchmark": "^0.2.2",
-    "lcobucci/jwt": "~4.0.0"
+    "php": ">= {{ @('php.version') }}"
 {% else %}
     "php": ">= {{ @('php.version') }}",
     "spryker/code-it-now": "^1.1.0"
@@ -36,15 +29,10 @@
     "symfony/browser-kit": "^5.1.8",
     "codeception/codeception": "^4.1.29",
     "codeception/lib-innerbrowser": "^1.3.6",
-    "spryker/testify": "^3.43.0",
-    "sllh/composer-versions-check": "^2.0.5",
-    "spryker/architecture-sniffer": "^0.5.4",
-    "roave/better-reflection": null,
-    "roave/signature": null,
-    "fzaninotto/faker": null
+    "spryker-sdk/benchmark": "^0.2.2"
 {% else %}
-    "roave/better-reflection": "^4.3.0",
-    "symfony/browser-kit": "^5.1.8"
+    "symfony/browser-kit": "^5.1.8",
+    "roave/better-reflection": "^4.3.0"
 {% endif %}
   },
   "autoload-dev": {
@@ -91,23 +79,20 @@
       "php -d memory_limit=1280M vendor/bin/phpstan analyze -c phpstan.neon src/ -l 5"
     ]
   },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "sllh/composer-versions-check": true
-    },
-    "platform": {
-      "php": "{{ version_compare(@('spryker.demoshop-version'), '202108.0', '<') ? '7.4.10' : '8.0.16' }}"
-    }
-  },
-{% if version_compare(@('php.version'), '8.0', '>=') %}
-  "repositories": null
-{% else %}
+{% if version_compare(@('php.version'), '8.0', '<') %}
   "repositories": [
     {
       "type": "git",
       "url": "https://github.com/spryker-sdk/lib-innerbrowser.git"
     }
-  ]
+  ],
 {% endif %}
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "{{ version_compare(@('spryker.demoshop-version'), '202108.0', '<') ? '7.4.10' : '8.1.12' }}"
+    }
+  }
 }

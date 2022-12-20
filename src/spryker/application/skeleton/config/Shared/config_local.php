@@ -169,10 +169,10 @@ $config[SchedulerConstants::ENABLED_SCHEDULERS] = [];
 
 if ((getenv('HAS_JENKINS_RUNNER') ?: 'true') === 'true') {
     $config[SchedulerConstants::ENABLED_SCHEDULERS] = [
-        SchedulerConfig::SCHEDULER_JENKINS,
+        SchedulerConfig::PYZ_SCHEDULER_JENKINS,
     ];
     $config[SchedulerJenkinsConstants::JENKINS_CONFIGURATION] = [
-        SchedulerConfig::SCHEDULER_JENKINS => [
+        SchedulerConfig::PYZ_SCHEDULER_JENKINS => [
             SchedulerJenkinsConfig::SCHEDULER_JENKINS_BASE_URL => 'http://' . getenv('JENKINS_HOST') . ':' . getenv('JENKINS_PORT') . '/',
         ],
     ];
