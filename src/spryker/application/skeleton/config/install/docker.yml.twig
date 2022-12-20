@@ -65,14 +65,14 @@ sections:
             command: "vendor/bin/console transfer:remove"
 
     generate:
-        prepare-propel:
-            command: "vendor/bin/console propel:deploy:prepare"
-
         generate-transfers:
             command: "vendor/bin/console transfer:generate"
 
         generate-entity-transfer:
             command: "vendor/bin/console transfer:entity:generate"
+
+        prepare-propel:
+            command: "vendor/bin/console propel:deploy:prepare"
 
         setup-seach-create-source-map:
             command: "vendor/bin/console search:setup:source-map"
@@ -104,9 +104,6 @@ sections:
         twig-cache-warmup:
             command: "vendor/bin/console twig:cache:warmer"
             stores: true
-
-        translator-generate-cache:
-            command: "vendor/bin/console translator:generate-cache"
 
         navigation-cache-warmup:
             command: "vendor/bin/console navigation:build-cache"
@@ -272,20 +269,10 @@ sections:
             groups:
                 - project
 
-        yves-install-dependencies:
-            command: "vendor/bin/console frontend:yves:install-dependencies -vvv"
-            groups:
-                - yves
-
         yves-build-frontend:
             command: "vendor/bin/console frontend:yves:build -vvv"
             groups:
                 - yves
-
-        zed-install-dependencies:
-            command: "vendor/bin/console frontend:zed:install-dependencies -vvv"
-            groups:
-                - zed
 
         zed-build-frontend:
             command: "vendor/bin/console frontend:zed:build"
