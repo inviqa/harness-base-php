@@ -68,9 +68,6 @@ sections:
         generate-transfers:
             command: "vendor/bin/console transfer:generate"
 
-        generate-entity-transfer:
-            command: "vendor/bin/console transfer:entity:generate"
-
         prepare-propel:
             command: "vendor/bin/console propel:deploy:prepare"
 
@@ -219,6 +216,12 @@ sections:
         maintenance-page-disable:
             command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable yves; fi"
             stores: true
+
+        generate-entity-transfer:
+            command: "vendor/bin/console transfer:entity:generate"
+
+        composer-dump-autoload:
+            command: "composer dump-autoload"
 
         queue-setup:
             command: 'vendor/bin/console queue:setup'
