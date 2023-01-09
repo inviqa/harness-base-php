@@ -27,7 +27,7 @@ class ProcessManager extends SprykerProcessManager
      * Create new ProcessManager
      *
      * @param \Spryker\Zed\Queue\Persistence\QueueQueryContainerInterface $queryContainer
-     * @param int $serverUniqueId
+     * @param string $serverUniqueId
      * @param \Pyz\Zed\Queue\QueueConfig $queueConfig
      */
     public function __construct(QueueQueryContainerInterface $queryContainer, $serverUniqueId, QueueConfig $queueConfig)

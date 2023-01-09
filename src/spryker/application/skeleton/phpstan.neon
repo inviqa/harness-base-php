@@ -7,6 +7,7 @@ parameters:
         analyse:
             - %rootDir%/../../../src/Generated/*
             - %rootDir%/../../../src/Orm/*
+            - %rootDir%/../../../src/Pyz/Zed/DataImport/Business/*
 
     bootstrapFiles:
         - %rootDir%/../../../phpstan-bootstrap.php
