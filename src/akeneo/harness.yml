@@ -35,18 +35,20 @@ attributes:
     src_resources_directory: /app/src/Resources
     vendor_directory: /app/vendor
   akeneo:
-    major_version: 5
+    major_version: 6
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
     edition: ~
     enterprise:
       distribution:
         project_name: ~
   php:
-    version: "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 7.4 : 7.3"
+    version: "= (version_compare(@('akeneo.major_version'), '6', '>=')) ? '8.0' : ((version_compare(@('akeneo.major_version'), '5', '>=')) ? 7.4 : 7.3)"
     ini:
       apc.enable_cli: On
     composer:
       major_version: "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 2 : 1"
+  node:
+    version: "= (version_compare(@('akeneo.major_version'), '6', '>=')) ? '18' : null"
   database:
     user: akeneo
     pass: akeneo
@@ -115,7 +117,7 @@ attributes:
         - run bin/console cache:warmup
         - run bin/console pim:installer:assets --symlink --clean
         - run yarn run less
-        - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 'NO_DOCKER=1 run make dsm' : ''"
+        - "= (version_compare(@('akeneo.major_version'), '6', '>=')) ? 'NO_DOCKER=1 run make front-packages' : ((version_compare(@('akeneo.major_version'), '5', '>=')) ? 'NO_DOCKER=1 run make dsm' : '')"
         - |
           if [ "$APP_BUILD" == "static" ]; then
             run yarn run webpack
