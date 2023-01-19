@@ -3,7 +3,7 @@ process_name=job-queue-consumer_%(process_num)02d
 numprocs=%(ENV_AKENEO_JOB_QUEUE_CONSUMER_PROCESSES)s
 numprocs_start=01
 {% if version_compare(@('akeneo.major_version'), '6', '>=') %}
-command=php /app/bin/console messenger:consume ui_job import_export_job data_maintenance_job
+command=php /app/bin/console messenger:consume {{ @('akeneo.messenger_consumers') }}
 {% else %}
 command=php /app/bin/console akeneo:batch:job-queue-consumer-daemon
 {% endif %}
