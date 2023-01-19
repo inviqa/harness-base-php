@@ -113,6 +113,7 @@ attributes:
     build:
       when: -f "package.json"
       steps:
+        - export NODE_OPTIONS=--openssl-legacy-provider
         - run yarn install --frozen-lockfile
         - run bin/console cache:warmup
         - run bin/console pim:installer:assets --symlink --clean
