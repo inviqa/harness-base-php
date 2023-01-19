@@ -37,7 +37,7 @@
     "akeneo/pim-{{ @('akeneo.edition') }}-dev": "^{{ @('akeneo.major_version') }}.0.0"
   },
   "require-dev": {
-{% if version_compare(@('akeneo.major_version'), '6', '>=') }
+{% if version_compare(@('akeneo.major_version'), '6', '>=') %}
     "behat/behat": "^3.12",
     "friends-of-behat/mink-extension": "^2.7",
     "behat/mink-goutte-driver": "^2.0",
