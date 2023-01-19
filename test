@@ -36,6 +36,9 @@ function main()
     elif [[ "$harness" =~ ^(akeneo5)$ ]]; then
         akeneo_version=5
         harness="akeneo"
+    elif [[ "$harness" =~ ^(akeneo6)$ ]]; then
+        akeneo_version=6
+        harness="akeneo"
     fi
 
     if [[ "$REUSE_EXISTING_WORKSPACE" != "yes" ]]; then
