@@ -1,16 +1,8 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Parameter \\#1 \\$arr1 of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
-			count: 1
-			path: src/Kernel.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$args of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
-			count: 1
-			path: src/Kernel.php
-
-		-
-			message: "#^Parameter \\#3 \\.\\.\\.\\$args of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
-			count: 1
-			path: src/Kernel.php
+  ignoreErrors:
+    - message: "#^Parameter \\#\\d .* of function array_merge expects array, array\\<int, string\\>\\|false given\\.$#"
+      count: 3
+      path: src/Kernel.php
+    - message: "#Generator expects value type Symfony\\\\Component\\\\HttpKernel\\\\Bundle\\\\BundleInterface, object given\\.#"
+      reportUnmatched: false
+      path: src/Kernel.php    
