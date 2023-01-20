@@ -19,10 +19,11 @@ default:
         - App\Acceptance\Context\WebWithPageObjectsWithConstructorInjectionContext
 
   extensions:
-    Behat\Symfony2Extension:
+    FriendsOfBehat\SymfonyExtension:      
+      bootstrap: config/bootstrap.php
       kernel:
         class: Kernel
-        bootstrap: config/bootstrap.php
+        environment: test
     Behat\MinkExtension:
       base_url: 'https://{{ @('hostname') }}'
       default_session: goutte
@@ -30,6 +31,11 @@ default:
       sessions:
         goutte:
           goutte:
+            # Symfony HttpClient
+            server_parameters:
+              verify_peer: false
+              verify_host: false
+            # Guzzle
             guzzle_parameters:
               verify: false
         chrome:
