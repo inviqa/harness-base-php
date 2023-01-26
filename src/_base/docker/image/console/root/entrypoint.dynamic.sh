@@ -47,23 +47,10 @@ resolve_volume_mount_strategy()
     fi
 }
 
-healthcheck_action()
-{
-
-    # run any command required which result can be monitored by Docker's HEALTHCHECK
-    {% for step in @('console.healthcheck.action.steps') -%}
-    {{ step|raw }}
-    {% else -%}
-    echo "No healthcheck action steps declared"
-    {% endfor %}
-
-}
-
 bootstrap()
 {
     resolve_volume_mount_strategy
     setup_app_volume_permissions
-    healthcheck_action
 }
 
 bootstrap

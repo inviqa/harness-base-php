@@ -36,10 +36,16 @@ run_steps()
     fi
 }
 
+healthcheck_checkpoint()
+{
+  echo 'Entrypoint tasks completed: console has started' > /run/started
+}
+
 bootstrap()
 {
     setup_app_networking
     run_steps
+    healthcheck_checkpoint
 }
 
 bootstrap
