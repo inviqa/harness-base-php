@@ -1,0 +1,14 @@
+#!/bin/bash
+
+healthcheck_test()
+{
+    # run any command required which result can be monitored by Docker's HEALTHCHECK
+    {% for step in @('console.healthcheck.test.steps') -%}
+    {{ step|raw }}
+    {% else -%}
+    echo "No healthcheck test steps declared"
+    {% endfor %}
+
+}
+
+healthcheck_test

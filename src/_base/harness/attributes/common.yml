@@ -297,6 +297,21 @@ attributes.default:
       steps: []
 
   console:
+    healthcheck:
+      # we want that enabled only for local builds
+      enabled: false
+      action:
+        steps:
+          - echo 'Entrypoint tasks completed' > /tmp/HEALTHCHECK.txt
+      test:
+        script: /healthcheck.test.sh
+        command: ['CMD', 'bash', = @('console.healthcheck.test.script')]
+        steps:
+          - find /tmp/HEALTHCHECK.txt
+      start_period: 5s
+      interval: 5s
+      timeout: 3s
+      retries: 10
     entrypoint:
       steps: []
 

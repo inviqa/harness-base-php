@@ -8,6 +8,14 @@
       context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
 {% if @('app.build') == 'dynamic' %}
+{% if @('console.healthcheck.enabled') %}
+    healthcheck:
+      test: {{ to_nice_yaml( @('console.healthcheck.test.command'), 2, 8) | raw }}
+      start_period: {{ @('console.healthcheck.start_period') }}
+      interval: {{ @('console.healthcheck.interval') }}
+      timeout: {{ @('console.healthcheck.timeout') }}
+      retries: {{ @('console.healthcheck.retries') }}
+{% endif %}
     image: {{ @('workspace.name') ~ '-console:dev' }}
     entrypoint: [/entrypoint.dynamic.sh]
     command: [sleep, infinity]

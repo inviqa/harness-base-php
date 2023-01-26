@@ -3,6 +3,8 @@ confd('harness:/'):
   # base templates
   - { src: docker/image/console/Dockerfile }
   - { src: docker/image/console/root/entrypoint.sh }
+  - { src: docker/image/console/root/entrypoint.dynamic.sh }
+  - { src: docker/image/console/root/healthcheck.test.sh }
   - { src: docker/image/console/root/home/build/.my.cnf }
   - { src: docker/image/console/root/lib/task/database/import.sh }
   - { src: docker/image/console/root/lib/task/build/frontend.sh }
