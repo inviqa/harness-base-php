@@ -4,7 +4,7 @@
 
 ### Added attributes
 
-* `attribute('console.stete.steps')` - Steps necessary to test the health of the console container
+* `attribute('console.state.steps')` - Steps necessary to test the health of the console container
 * `attribute('console.healthcheck.enabled')` - Defaults to `true` only for local builds
 * `attribute('console.healthcheck.test')` - The command in array format that will run the healthcheck - Defaults to ['CMD', 'app', 'state']
 * `attribute('console.healthcheck.test.start_period')` - Defaults to 5s
