@@ -85,8 +85,8 @@ dynamic_console()
 
     find .my127ws/docker/image/ -type d ! -perm u+rwx,go+rx,o-w -exec chmod u+rwx,go+rx,o-w {} +
 
-    passthru docker-compose up --build -d console --wait
     # docker-compose will wait for `console` to be in healty status if healthcheck is enabled
+    passthru docker-compose up --build -d console --wait
     passthru docker-compose exec -T -u build console app build
 
     if [ "$USE_MUTAGEN" = yes ]; then
