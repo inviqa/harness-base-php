@@ -6,6 +6,7 @@ command('enable'):
     APP_MODE:             = @('app.mode')
     NAMESPACE:            = @('namespace')
     HAS_ASSETS:           = boolToString(@('aws.bucket') !== null and @('aws.bucket') !== '')
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
     COMPOSE_DOCKER_CLI_BUILD: = @('docker.buildkit.enabled') ? '1':'0'
     DOCKER_BUILDKIT:          = @('docker.buildkit.enabled') ? '1':'0'
@@ -21,6 +22,7 @@ command('enable console'):
     APP_MODE:             = @('app.mode')
     NAMESPACE:            = @('namespace')
     HAS_ASSETS:           = boolToString(@('aws.bucket') !== null and @('aws.bucket'))
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
     COMPOSE_DOCKER_CLI_BUILD: = @('docker.buildkit.enabled') ? '1':'0'
     DOCKER_BUILDKIT:          = @('docker.buildkit.enabled') ? '1':'0'
@@ -33,6 +35,7 @@ command('disable'):
   env:
     USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     NAMESPACE:            = @('namespace')
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)
@@ -42,6 +45,7 @@ command('destroy [--all]'):
   env:
     USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     NAMESPACE:            = @('namespace')
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
     DESTROY_ALL:          = boolToString(input.option('all'))
   exec: |
@@ -52,6 +56,7 @@ command('rebuild'):
   env:
     USE_MUTAGEN:          = boolToString(@('host.os') == 'darwin' and bool(@('mutagen')))
     NAMESPACE:            = @('namespace')
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
@@ -59,7 +64,7 @@ command('rebuild'):
 
 command('networks external'):
   env:
-    NETWORKS: = get_docker_external_networks()
+    NETWORKS: = get_docker_external_networks(@('docker.compose.bin'))
   exec: |
     #!bash(workspace:/)
     for NETWORK in ${NETWORKS}; do
@@ -70,35 +75,39 @@ command('networks external'):
 
 command('exec %'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
     if [ -t 0 ] && [ -t 1 ] ; then
-      docker-compose exec -u build console ={ input.argument('%') }
+      $COMPOSE_BIN exec -u build console ={ input.argument('%') }
     else
-      docker-compose exec -T -u build console ={ input.argument('%') }
+      $COMPOSE_BIN exec -T -u build console ={ input.argument('%') }
     fi
 
 command('logs %'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(harness:/)|=
-    docker-compose logs ={input.argument('%')}
+    $COMPOSE_BIN logs ={input.argument('%')}
 
 command('ps'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    docker-compose ps
+    $COMPOSE_BIN ps
 
 command('console'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build console bash
+    passthru $COMPOSE_BIN exec -u build console bash
 
 command('composer %'):
   exec: |
@@ -111,10 +120,11 @@ command('db-console'): |
 
 command('db console'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru "docker-compose exec console bash -c 'mysql --host \"\$DB_HOST\" --user \"\$DB_USER\" -p\"\$DB_PASS\" \"\$DB_NAME\"'"
+    passthru "$COMPOSE_BIN exec console bash -c 'mysql --host \"\$DB_HOST\" --user \"\$DB_USER\" -p\"\$DB_PASS\" \"\$DB_NAME\"'"
 
 command('assets download'):
   env:
@@ -138,43 +148,48 @@ command('assets upload'):
 
 command('frontend build'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose exec -u build console app build:frontend
+    passthru $COMPOSE_BIN exec -u build console app build:frontend
 
 command('frontend watch'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    docker-compose exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
+    $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
 
 command('frontend console'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru docker-compose exec -u build --workdir '@('frontend.path')' console bash -i
+    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i
 
 command('port <service>'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
-    passthru docker port "$(docker-compose ps -q ={input.argument('service')})"
+    passthru docker port "$($COMPOSE_BIN ps -q ={input.argument('service')})"
 
 command('service php-fpm restart'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     passthru ws install --step=prepare
-    docker-compose exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
-    docker-compose exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
-    passthru docker-compose exec php-fpm supervisorctl restart php-fpm
+    $COMPOSE_BIN exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    $COMPOSE_BIN exec php-fpm bash -c 'cp -r /.my127ws/docker/image/php-fpm/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    passthru $COMPOSE_BIN exec php-fpm supervisorctl restart php-fpm
 
 command('set <attribute> <value>'):
   env:
@@ -249,20 +264,23 @@ command('feature tideways cli (on|off)'):
 
 command('feature tideways cli configure <server_key>'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
     TIDEWAYS_SERVERKEY: = input.argument('server_key')
   exec: |
     #!bash(workspace:/)|=
     echo "Importing Provided Tideways CLI Key (from https://app.tideways.io/user/cli-import-settings)"
-    docker-compose exec -T -u build console tideways import "$TIDEWAYS_SERVERKEY"
+    $COMPOSE_BIN exec -T -u build console tideways import "$TIDEWAYS_SERVERKEY"
     echo "Imported Tideways CLI key"
 
 command('db import <database_file>'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
     DATABASE_FILE: = input.argument('database_file')
   exec: |
     #!bash(workspace:/)|=
-    passthru docker-compose exec -u build console app database:import "$DATABASE_FILE"
+    passthru $COMPOSE_BIN exec -u build console app database:import "$DATABASE_FILE"
 
 command('harness update existing'):
   env:
@@ -310,8 +328,9 @@ command('generate token <length>'):
 
 command('lighthouse [--with-results]'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
     OUTPUT_RESULTS:       = boolToString(input.option('with-results'))
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose run -T --rm lighthouse bash -i /app/run.sh
+    passthru $COMPOSE_BIN run -T --rm lighthouse bash -i /app/run.sh

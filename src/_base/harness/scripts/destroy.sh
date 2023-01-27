@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2206
+COMPOSE_BIN=($COMPOSE_BIN)
+
 if [ "${DESTROY_ALL}" = yes ]; then
   RMI=all
 else
   RMI=local
 fi
 
-run docker-compose down --rmi "${RMI}" --volumes --remove-orphans --timeout 120
+run "${COMPOSE_BIN[*]}" down --rmi "${RMI}" --volumes --remove-orphans --timeout 120
 
 if [ "${USE_MUTAGEN}" = yes ]; then
   run ws mutagen stop

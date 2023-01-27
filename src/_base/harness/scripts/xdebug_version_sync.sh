@@ -2,12 +2,15 @@
 
 set -e -o pipefail
 
+# shellcheck disable=SC2206
+COMPOSE_BIN=($COMPOSE_BIN)
+
 UPDATE_CONTAINERS=0
 
 xdebug_version_sync()
 {
   local INSTALLED_VERSION
-  INSTALLED_VERSION="$(docker-compose exec -T -u root "$1" pecl info xdebug 2>&1 | grep "Release Version" | awk '{print $3}')"
+  INSTALLED_VERSION="$("${COMPOSE_BIN[@]}" exec -T -u root "$1" pecl info xdebug 2>&1 | grep "Release Version" | awk '{print $3}')"
   local INSTALLED_MAJOR_VERSION
   INSTALLED_MAJOR_VERSION="$(echo "$INSTALLED_VERSION" | cut -d '.' -f1)"
 
@@ -28,8 +31,8 @@ xdebug_version_sync()
       exit 1
   esac
 
-  run docker-compose exec -T -u root "$1" pecl uninstall xdebug
-  run docker-compose exec -T -u root "$1" pecl install "$INSTALL_CANDIDATE"
+  run "${COMPOSE_BIN[@]}" exec -T -u root "$1" pecl uninstall xdebug
+  run "${COMPOSE_BIN[@]}" exec -T -u root "$1" pecl install "$INSTALL_CANDIDATE"
 
   UPDATE_CONTAINERS=1
 }

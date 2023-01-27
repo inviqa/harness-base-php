@@ -238,10 +238,11 @@ command('redis-flush'): |
 
 command('redis flush'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(harness:/)|@
-    docker-compose exec redis redis-cli flushall
+    $COMPOSE_BIN exec redis redis-cli flushall
 
 command('magento %'):
   exec: |
