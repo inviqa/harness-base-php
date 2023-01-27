@@ -6,7 +6,7 @@ function test_ok()
     {% for step in @('console.state.steps') -%}
     {{ step|raw }}
     {% else -%}
-    echo "No state test steps declared"
+    :
     {% endfor %}
 
 }
