@@ -35,7 +35,10 @@ enable_all()
         if [ "$HAS_FLAG" = no ]; then
             # remove all services, keeping console if considered built
             if console_enabled; then
-                passthru "${COMPOSE_BIN[*]}  ps --services | grep -v -Fxe console | xargs ${COMPOSE_BIN[*]} rm --force --stop --"
+                # shellcheck disable=SC2143
+                if [ -n "$("${COMPOSE_BIN[@]}" ps --services | grep -v -Fxe console)" ]; then
+                    passthru "${COMPOSE_BIN[*]}  ps --services | grep -v -Fxe console | xargs ${COMPOSE_BIN[*]} rm --force --stop --"
+                fi
             else
                 passthru "${COMPOSE_BIN[@]}" down
             fi
