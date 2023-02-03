@@ -35,6 +35,7 @@
 /phpunit.xml
 /phpunit.xml.dist
 /workspace.override.yml
+/.bash_history
 
 # Exclusions
 !/bin/console

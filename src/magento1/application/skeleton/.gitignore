@@ -26,5 +26,6 @@
 /public/app/etc/local.xml.harness.template
 /public/errors/local.xml
 /workspace.override.yml
+/.bash_history
 
 # Keep

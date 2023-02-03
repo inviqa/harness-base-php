@@ -58,6 +58,10 @@ enable_all()
 }
 
 enable_console() {
+    if [ "$APP_BUILD" = dynamic ] && [ ! -f .bash_history ]; then
+        touch .bash_history
+    fi
+
     if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$(docker-compose ps --quiet console)" ]; then
         rm .my127ws/.flag-console-built
     fi

@@ -19,5 +19,6 @@
 /phpmd.xml
 /public/wp-config.php
 /workspace.override.yml
+/.bash_history
 
 # Keep
