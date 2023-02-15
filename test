@@ -255,7 +255,7 @@ function teardown()
 
 function clean()
 {
-    if [ -d "$path_test" && -d ".my127ws"]; then
+    if [ -d "$path_test" && -d "${path_test}/.my127ws"]; then
         (cd "$path_test" && ws destroy || (docker ps -a && return 1)
         rm -rf "$path_test"
     fi
