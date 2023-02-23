@@ -78,7 +78,7 @@ attributes:
             run "chmod 0600 /home/build/.ssh/id_*"
           fi
         - task composer:install
-        - "! [ -e config/bundles.harness.php ] || run mv config/bundles.harness.php config/bundles.php"
+        - "= version_compare(@('akeneo.major_version'), '5', '>=') ? '! [ -e config/bundles.harness.php ] || run mv config/bundles.harness.php config/bundles.php' : 'rm -f config/bundles.harness.php'"
     install:
       steps:
         - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}

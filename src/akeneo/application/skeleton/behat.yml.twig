@@ -19,11 +19,18 @@ default:
         - App\Acceptance\Context\WebWithPageObjectsWithConstructorInjectionContext
 
   extensions:
+{% if version_compare(@('akeneo.major_version'), '5', '>=') %}
     FriendsOfBehat\SymfonyExtension:      
       bootstrap: config/bootstrap.php
       kernel:
         class: Kernel
         environment: test
+{% else %}
+    Behat\Symfony2Extension:
+      kernel:
+        class: Kernel
+        bootstrap: config/bootstrap.php
+{% endif %}
     Behat\MinkExtension:
       base_url: 'https://{{ @('hostname') }}'
       default_session: goutte
