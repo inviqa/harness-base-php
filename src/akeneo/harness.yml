@@ -21,6 +21,7 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - = @('app.uploads_directory')
+      - = @('app.file_storage_directory')
       - /app/var/cache
       - /app/var/logs
     services:
