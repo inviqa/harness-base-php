@@ -21,6 +21,7 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - = @('app.uploads_directory')
+      - = @('app.file_storage_directory')
       - /app/var/cache
       - /app/var/logs
     services:
@@ -77,6 +78,7 @@ attributes:
             run "chmod 0600 /home/build/.ssh/id_*"
           fi
         - task composer:install
+        - "= version_compare(@('akeneo.major_version'), '5', '>=') ? '! [ -e config/bundles.harness.php ] || run mv config/bundles.harness.php config/bundles.php' : 'rm -f config/bundles.harness.php'"
     install:
       steps:
         - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
@@ -113,7 +115,7 @@ attributes:
     build:
       when: -f "package.json"
       steps:
-        - export NODE_OPTIONS=--openssl-legacy-provider
+        - "= version_compare(@('akeneo.major_version'), '6', '>=') ? 'export NODE_OPTIONS=--openssl-legacy-provider' : ''"
         - run yarn install --frozen-lockfile
         - run bin/console cache:warmup
         - run bin/console pim:installer:assets --symlink --clean
