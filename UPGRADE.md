@@ -8,14 +8,18 @@ The drupal harness no longer sets /app/config, /app/docroot/modules and /app/doc
 
 This means that modules cannot be installed via the admin interface unless you are running in the development environment.
 
-If you require the old behaviour, set the following attribute in your workspace.yml:
-
+If there is a need from a given module to be in a web-writable directory, you can add that particular module to the `app.web_writable_dirs` attribute
+in your workspace.yml like so:
 ```yaml
 attribute('app.web_writable_dirs'):
-  - '/app/config'
-  - '/app/docroot/modules'
-  - '/app/docroot/profiles'
   - '/app/docroot/sites/default/files'
+  - '/app/docroot/modules/MODULE_NAME/tmp/'
+```
+
+Alternatively, if it's just one file needing to be writable:
+```yaml
+attribute('app.web_writable_files'):
+  - '/app/docroot/modules/MODULE_NAME/path/to/file.png
 ```
 
 ## Upgrading from 1.4.0 to 1.4.1
