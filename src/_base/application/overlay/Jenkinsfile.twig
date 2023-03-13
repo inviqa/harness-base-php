@@ -68,12 +68,16 @@ pipeline {
 {% if bool(@('pipeline.publish.enabled')) %}
         stage('Publish') {
 {% set env = @('pipeline.publish.environment') %}
+{% set docker_registry_credential_id = @('docker.registry.credential_id') %}
 {% set ssh_credential_id = @('pipeline.publish.chart.git.ssh_credential_id') %}
-{% if env or ssh_credential_id %}
+{% if env or docker_registry_credential_id or ssh_credential_id %}
             environment {
 {% for key, value in env %}
                 {{ key }} = {{ value }}
 {% endfor %}
+{% if docker_registry_credential_id %}
+                DOCKER_REGISTRY_CREDS = credentials('{{ docker_registry_credential_id }}')
+{% endif %}
 {% if ssh_credential_id %}
                 WS_APP_PUBLISH_CHART_SSH_PRIVATE_KEY = credentials('{{ ssh_credential_id }}')
 {% endif %}

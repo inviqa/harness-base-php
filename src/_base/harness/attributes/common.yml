@@ -104,8 +104,11 @@ attributes.default:
   docker:
     registry:
       url: = get_docker_registry(@('docker.repository'))
-      username: = @('docker.username') # for backwards compatibility
-      password: = @('docker.password') # for backwards compatibility
+      # A Username with Password Jenkins credential id
+      # Preferred over .username/.password to store credentials local development doesn't need
+      credential_id: ~
+      username: "= env('DOCKER_REGISTRY_CREDS_USR') ?: null"
+      password: "= env('DOCKER_REGISTRY_CREDS_PSW') ?: null"
     repository: = @("workspace.name")
     buildkit:
       enabled: true
