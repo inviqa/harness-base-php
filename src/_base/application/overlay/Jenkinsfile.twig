@@ -72,6 +72,9 @@ pipeline {
 {% for key, value in @('pipeline.publish.environment') %}
                 {{ key }} = {{ value }}
 {% endfor %}
+{% if @('pipeline.publish.chart.git.ssh_credential_id') %}
+                WS_APP_PUBLISH_CHART_SSH_PRIVATE_KEY = credentials('{{ @('pipeline.publish.chart.git.ssh_credential_id') }}')
+{% endif %}
             }
 {% endif %}
             when {
