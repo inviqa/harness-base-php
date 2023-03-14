@@ -60,10 +60,13 @@ command('app publish chart <release> <message>'):
     #!bash(workspace:/)|@
 
     run rm -rf build-artifacts-repository
-    echo "${SSH_PRIVATE_KEY}" | base64 -d > id_rsa
-    chmod 0600 id_rsa
 
-    export GIT_SSH_COMMAND='ssh -i ./id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
+    if [ -n "${SSH_PRIVATE_KEY:-}" ]; then
+      WS_APP_PUBLISH_CHART_SSH_PRIVATE_KEY="$(pwd)/id_ssh"
+      (umask 0077 && echo "${SSH_PRIVATE_KEY}" | base64 -d > "${WS_APP_PUBLISH_CHART_SSH_PRIVATE_KEY}")
+    fi
+
+    export GIT_SSH_COMMAND='ssh -i '"$(printf '%q' "$WS_APP_PUBLISH_CHART_SSH_PRIVATE_KEY")"' -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
 
     run git clone "$REPOSITORY" ./build-artifacts-repository
     run git -C ./build-artifacts-repository config user.name "${GIT_USER_NAME}"
@@ -72,7 +75,6 @@ command('app publish chart <release> <message>'):
     run mkdir -p $ARTIFACTS_PATH
     run rsync --exclude='*.twig' --exclude='_twig' --delete -a .my127ws/helm/app/ "${ARTIFACTS_PATH}/"
 
-    export GIT_SSH_COMMAND='ssh -i ../id_rsa -o "IdentitiesOnly yes" -F /dev/null -o StrictHostKeyChecking=no'
     run git -C ./build-artifacts-repository add .
     run "git -C ./build-artifacts-repository commit --allow-empty -m '${MESSAGE}'"
     run git -C ./build-artifacts-repository push origin -u HEAD

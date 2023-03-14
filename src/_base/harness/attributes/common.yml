@@ -44,14 +44,16 @@ attributes.default:
       # * is deprecated and will be limited to one branch by default in a future release
       branches:
         - '*'
-      # For defining environment variables in Jenkins, e.g. loading up docker username/password from a Jenkins
-      # credential
+      # For defining environment variables in Jenkins
       environment: {}
       # when enabled the application helm chart will be published
       # to the given git repository.
       chart:
         enabled: false
         git:
+          # A SSH Username with private key Jenkins credential id.
+          # Preferred over ssh_private_key to store credentials local development doesn't need
+          ssh_credential_id: ~
           # private key with write access to the repository
           ssh_private_key: = @('pipeline.publish.chart.git.key')
           # eg. git@github.com:organisation/project.git
