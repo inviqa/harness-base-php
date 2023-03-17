@@ -2,6 +2,7 @@ name: Startup Core
 description: 'Base module for core dependencies, global mods, config and tests.'
 type: module
 core: 8.x
+core_version_requirement: ^8 || ^9 || ^10
 package: Startup
 
 dependencies:
