@@ -26,7 +26,7 @@ attributes:
   drupal:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     docroot: docroot
-    major_version: 9
+    major_version: '9'
   nginx:
     php_fpm:
       conf:

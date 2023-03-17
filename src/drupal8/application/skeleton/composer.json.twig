@@ -170,7 +170,7 @@
     "test-acceptance": [
       "behat"
     ],
-    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
+    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion {{ @('php.version') }}-"
   },
   "extra": {
     "autoload-drupal": {
