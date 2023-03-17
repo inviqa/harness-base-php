@@ -205,7 +205,7 @@ function run_project_acceptance_tests()
     if ws exec stat /app/composer.json > /dev/null 2>&1; then
       ws exec composer test-acceptance
     fi
-    if [[ "${harness}" == "drupal8" ]]; then
+    if [[ "${harness}" == "drupal" ]]; then
       ws test-unit
     fi
 
