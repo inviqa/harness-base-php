@@ -14,7 +14,8 @@ function main()
     local harness="$1"
     local mode="$2"
     local sync="${3:-}"
-    local akeneo_version=5
+    local akeneo_version
+    local drupal_version
 
     local sync_path=""
     if [[ -n "$sync" ]]; then
@@ -41,6 +42,14 @@ function main()
         harness="akeneo"
     fi
 
+    if [[ "$harness" =~ ^(drupal9)$ ]]; then
+        drupal_version=9
+        harness="drupal8"
+    elif [[ "$harness" =~ ^(drupal8)$ ]]; then
+        drupal_version=8
+        harness="drupal8"
+    fi
+
     if [[ "$REUSE_EXISTING_WORKSPACE" != "yes" ]]; then
       # Test default mode of static or dynamic harnesses
       # For dynamic this means a mountpoint for the application code
@@ -51,8 +60,11 @@ function main()
       elif [[ "$sync" == "mutagen" ]]; then
         setup_dynamic_mutagen
       fi
-      if [[ "$harness" =~ ^(akeneo)$ ]]; then
+      if [ -n "${akeneo_version:-}" ]; then
         setup_akeneo_version "$akeneo_version"
+      fi
+      if [ -n "${drupal_version:-}" ]; then
+        setup_drupal_version "$drupal_version"
       fi
       prepare_environment
     fi
@@ -223,6 +235,11 @@ function setup_dynamic_mutagen()
 function setup_akeneo_version() {
     local version="$1"
     echo "attribute('akeneo.major_version'): ${version}" >> "${path_test}/workspace.override.yml"
+}
+
+function setup_drupal_version() {
+    local version="$1"
+    echo "attribute('drupal.major_version'): ${version}" >> "${path_test}/workspace.override.yml"
 }
 
 function wait_for_vendor_directory()
