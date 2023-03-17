@@ -44,10 +44,10 @@ function main()
 
     if [[ "$harness" =~ ^(drupal9)$ ]]; then
         drupal_version=9
-        harness="drupal8"
+        harness="drupal"
     elif [[ "$harness" =~ ^(drupal8)$ ]]; then
         drupal_version=8
-        harness="drupal8"
+        harness="drupal"
     fi
 
     if [[ "$REUSE_EXISTING_WORKSPACE" != "yes" ]]; then
@@ -183,7 +183,7 @@ function run_project_quality_tests()
     ws exec app composer:development_dependencies
     # Run the tests
     ws exec composer test-quality
-    if [[ "${harness}" != "drupal8" ]]; then
+    if [[ "${harness}" != "drupal" ]]; then
       ws exec composer test-unit
     fi
   fi

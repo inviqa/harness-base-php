@@ -11,7 +11,7 @@ Each framework will fully override a base harness file if differing behaviour is
 
 * [PHP (used as a base for everything else)](src/_base/), published to [inviqa/harness-php]
 * [Akeneo (PIM)](src/akeneo/), published to [inviqa/harness-akeneo]
-* [Drupal 8 (CMS)](src/drupal8/), published to [inviqa/harness-drupal8]
+* [Drupal (CMS)](src/drupal/), published to [inviqa/harness-drupal]
 * [Magento 1.x (Ecommerce)](src/magento1/), published to [inviqa/harness-magento1]
 * [Magento 2.x (Ecommerce)](src/magento2/), published to [inviqa/harness-magento2]
 * [Spryker (Ecommerce)](src/spryker/), published to [inviqa/harness-spryker]
@@ -197,7 +197,7 @@ When you're ready to release:
 7. Create a "Github Release" for downstream repositories, pasting in the changelog for the release from the previously generated release notes:
    - https://github.com/inviqa/harness-php/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
-   - https://github.com/inviqa/harness-drupal8/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
+   - https://github.com/inviqa/harness-drupal/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-magento1/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-magento2/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
    - https://github.com/inviqa/harness-spryker/releases/new?tag=1.5.0&title=1.5.0&target=1.5.x
@@ -241,7 +241,7 @@ If the next release does not make sense to be in the current 1.5.x branch:
 [GitHub Changelog Generator]: https://github.com/github-changelog-generator/github-changelog-generator
 [inviqa/harness-php]: https://github.com/inviqa/harness-php
 [inviqa/harness-akeneo]: https://github.com/inviqa/harness-akeneo
-[inviqa/harness-drupal8]: https://github.com/inviqa/harness-drupal8
+[inviqa/harness-drupal]: https://github.com/inviqa/harness-drupal
 [inviqa/harness-magento1]: https://github.com/inviqa/harness-magento1
 [inviqa/harness-magento2]: https://github.com/inviqa/harness-magento2
 [inviqa/harness-spryker]: https://github.com/inviqa/harness-spryker
