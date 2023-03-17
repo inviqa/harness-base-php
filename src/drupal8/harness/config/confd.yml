@@ -64,3 +64,5 @@ confd('harness:/'):
   - { src: application/overlay/phpunit.xml }
   - { src: application/skeleton/behat.yml }
   - { src: application/skeleton/composer.json }
+  - { src: application/skeleton/phpstan.deprecation_check.neon }
+  - { src: application/skeleton/phpstan.neon }

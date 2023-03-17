@@ -8,4 +8,8 @@ parameters:
     paths:
         - docroot/modules/custom
     scanFiles:
+{% if version_compare(@('drupal.major_version'), '9', '>=') %}
         - docroot/core/tests/Drupal/Tests/PhpUnitCompatibilityTrait.php
+{% else %}
+        - docroot/core/tests/Drupal/Tests/PhpunitCompatibilityTrait.php
+{% endif %}

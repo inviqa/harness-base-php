@@ -21,6 +21,10 @@ parameters:
     scanFiles:
         - docroot/core/lib/Drupal/Core/DependencyInjection/ServiceProviderInterface.php
         - docroot/core/tests/Drupal/KernelTests/KernelTestBase.php
+{% if version_compare(@('drupal.major_version'), '9', '>=') %}
         - docroot/core/tests/Drupal/Tests/PhpUnitCompatibilityTrait.php
+{% else %}
+        - docroot/core/tests/Drupal/Tests/PhpunitCompatibilityTrait.php
+{% endif %}
         - docroot/core/tests/Drupal/Tests/UnitTestCase.php
     tmpDir: /tmp/phpstan_deprecation_check

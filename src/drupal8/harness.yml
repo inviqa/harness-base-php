@@ -26,6 +26,7 @@ attributes:
   drupal:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     docroot: docroot
+    major_version: 9
   nginx:
     php_fpm:
       conf:
@@ -71,7 +72,7 @@ attributes:
     cli:
       ini:
         opcache.file_cache_only: '0'
-    version: '8.0'
+    version: "= version_compare(@('drupal.major_version'), '9', '>=') ? '8.0' : '7.4'"
   persistence:
     enabled: false
     drupal:

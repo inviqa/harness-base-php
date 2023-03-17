@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Build and Test') {
             parallel {
-                stage('1. PHP, Drupal 8, Akeneo, Wordpress') {
+                stage('1. PHP, Drupal, Akeneo, Wordpress') {
                     // Choose a different agent to our "main" one
                     agent {
                        docker {
@@ -53,6 +53,7 @@ pipeline {
                             }
                             steps {
                                 sh './test php static'
+                                sh './test drupal9 static'
                                 sh './test drupal8 static'
                                 sh './test akeneo6 static'
                                 sh './test akeneo5 static'
@@ -82,6 +83,10 @@ pipeline {
                                     when { expression { return isHarnessChange(['base']) } }
                                     steps { sh './test php static' }
                                 }
+                                stage('Drupal 9') {
+                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    steps { sh './test drupal9 static' }
+                                }
                                 stage('Drupal 8') {
                                     when { expression { return isHarnessChange(['drupal8']) } }
                                     steps { sh './test drupal8 static' }
@@ -107,6 +112,10 @@ pipeline {
                                     when { expression { return isHarnessChange(['base']) } }
                                     steps { sh './test php dynamic' }
                                 }
+                                stage('Drupal 9 Dynamic') {
+                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    steps { sh './test drupal9 dynamic' }
+                                }
                                 stage('Drupal 8 Dynamic') {
                                     when { expression { return isHarnessChange(['drupal8']) } }
                                     steps { sh './test drupal8 dynamic' }
@@ -131,6 +140,10 @@ pipeline {
                                 stage('PHP Mutagen') {
                                     when { expression { return isHarnessChange(['base']) } }
                                     steps { sh './test php dynamic mutagen' }
+                                }
+                                stage('Drupal 9 Mutagen') {
+                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    steps { sh './test drupal9 dynamic mutagen' }
                                 }
                                 stage('Drupal 8 Mutagen') {
                                     when { expression { return isHarnessChange(['drupal8']) } }
