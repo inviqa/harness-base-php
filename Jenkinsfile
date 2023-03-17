@@ -37,7 +37,7 @@ pipeline {
                     }
                     when {
                         beforeAgent true
-                        expression { return isHarnessChange(['base', 'akeneo', 'drupal8', 'wordpress']) }
+                        expression { return isHarnessChange(['base', 'akeneo', 'drupal', 'wordpress']) }
                     }
                     stages {
                         stage('Prepare') {
@@ -86,11 +86,11 @@ pipeline {
                                     steps { sh './test php static' }
                                 }
                                 stage('Drupal 9') {
-                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    when { expression { return isHarnessChange(['drupal']) } }
                                     steps { sh './test drupal9 static' }
                                 }
                                 stage('Drupal 8') {
-                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    when { expression { return isHarnessChange(['drupal']) } }
                                     steps { sh './test drupal8 static' }
                                 }
                                 stage('Akeneo 6') {
@@ -115,11 +115,11 @@ pipeline {
                                     steps { sh './test php dynamic' }
                                 }
                                 stage('Drupal 9 Dynamic') {
-                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    when { expression { return isHarnessChange(['drupal']) } }
                                     steps { sh './test drupal9 dynamic' }
                                 }
                                 stage('Drupal 8 Dynamic') {
-                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    when { expression { return isHarnessChange(['drupal']) } }
                                     steps { sh './test drupal8 dynamic' }
                                 }
                                 stage('Akeneo 6 Dynamic') {
@@ -144,11 +144,11 @@ pipeline {
                                     steps { sh './test php dynamic mutagen' }
                                 }
                                 stage('Drupal 9 Mutagen') {
-                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    when { expression { return isHarnessChange(['drupal']) } }
                                     steps { sh './test drupal9 dynamic mutagen' }
                                 }
                                 stage('Drupal 8 Mutagen') {
-                                    when { expression { return isHarnessChange(['drupal8']) } }
+                                    when { expression { return isHarnessChange(['drupal']) } }
                                     steps { sh './test drupal8 dynamic mutagen' }
                                 }
                                 stage('Akeneo 6 Mutagen') {
