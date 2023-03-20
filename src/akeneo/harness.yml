@@ -39,6 +39,8 @@ attributes:
     major_version: 6
     secret: AMjnA6QnWfkZ9s8vB2XXLALXuxZm7fmC
     edition: ~
+    # Akeneo 6+ only
+    messenger_consumers: ui_job import_export_job data_maintenance_job
     enterprise:
       distribution:
         project_name: ~
