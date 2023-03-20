@@ -47,7 +47,7 @@
     "drupal/ctools": "^4.0",
     "drupal/environment_indicator": "^4.0",
     "drupal/field_group": "^3.2",
-    "drupal/hook_event_dispatcher": "^3.3 || ~4.0.0-alpha2",
+    "drupal/hook_event_dispatcher": "{{ version_compare(@('drupal.major_version'), '10', '>=') ? '^4.0 || ~4.0.0@alpha' : '^3.3' }}",
 {% if @('services.varnish.enabled') %}
     "drupal/http_cache_control": "^2.0",
 {% endif %}
@@ -62,7 +62,7 @@
     "drupal/roleassign": "^2.0",
     "drupal/seckit": "^2.0",
     "drupal/stage_file_proxy": "^2.0",
-    "drupal/taxonomy_access_fix": "^3.3 || ~4.0.0@beta",
+    "drupal/taxonomy_access_fix": "{{ version_compare(@('drupal.major_version'), '10', '>=') ? '^4.0 || ~4.0.0@beta' : '^3.3' }}",
     "drupal/token": "^1.11",
     "drupal/ultimate_cron": "~2.0.0@alpha",
 {% if version_compare(@('drupal.major_version'), '10', '<') and @('services.varnish.enabled') %}
@@ -115,7 +115,7 @@
 {% if version_compare(@('drupal.major_version'), '10', '>=') %}
     "drupal/core-dev": "^10.0",
     "drupal/devel": "^5.1",
-    "drupal/drupal-extension": "~5.0.0@rc",
+    "drupal/drupal-extension": "^5.0 || ~5.0.0@rc",
     "phpunit/phpunit": "^9.6",
     "phpspec/prophecy-phpunit": "^2",
 {% elseif version_compare(@('drupal.major_version'), '9', '>=') %}
