@@ -2,6 +2,25 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
+## Upgrading from 1.4.x to 1.5.x
+
+The drupal harness no longer sets /app/config, /app/docroot/modules and /app/docroot/profiles to be web-writable at runtime.
+
+This means that modules cannot be installed via the admin interface unless you are running in the development environment.
+
+If there is a need from a given module to be in a web-writable directory, you can add that particular module to the `app.web_writable_dirs` attribute
+in your workspace.yml like so:
+```yaml
+attribute('app.web_writable_dirs'):
+  - '/app/docroot/sites/default/files'
+  - '/app/docroot/modules/MODULE_NAME/tmp/'
+```
+
+Alternatively, if it's just one file needing to be writable:
+```yaml
+attribute('app.web_writable_files'):
+  - '/app/docroot/modules/MODULE_NAME/path/to/file.png
+```
 
 ## Upgrading from 1.4.0 to 1.4.1
 
@@ -61,7 +80,7 @@ e.g. to Docker Inc's official mysql 5.7 (with no arm64 support)
 ```
 attribute('mysql.tag'): 5.7
 # since it's a multi-platform image of only one platform
-attribute('services.mysql.platform'): linux/amd64 
+attribute('services.mysql.platform'): linux/amd64
 ```
 
 ### Spryker
@@ -70,7 +89,7 @@ Zed application's root directory (Spryker now supports different entrypoints for
 However, both of these changes are not backward compatible. So, to make sure we do not break projects using old demoshop version,
 we are using `spryker.demoshop-version` attribute to apply these changes conditionally.
 
-In order to make sure your project uses the right version of Elasticsearch and Zed root directory, make sure you set the 
+In order to make sure your project uses the right version of Elasticsearch and Zed root directory, make sure you set the
 right `spryker.demoshop-version` in your workspace.yml
 
 ## Upgrading from 1.1.x to 1.2.x
