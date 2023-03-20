@@ -41,8 +41,10 @@ function main()
         akeneo_version=6
         harness="akeneo"
     fi
-
-    if [[ "$harness" =~ ^(drupal9)$ ]]; then
+    if [[ "$harness" =~ ^(drupal10)$ ]]; then
+        drupal_version=10
+        harness="drupal"
+    elif [[ "$harness" =~ ^(drupal9)$ ]]; then
         drupal_version=9
         harness="drupal"
     elif [[ "$harness" =~ ^(drupal8)$ ]]; then

@@ -72,7 +72,7 @@ attributes:
     cli:
       ini:
         opcache.file_cache_only: '0'
-    version: "= version_compare(@('drupal.major_version'), '9', '>=') ? '8.0' : '7.4'"
+    version: "= version_compare(@('drupal.major_version'), '10', '>=') ? '8.1' : (version_compare(@('drupal.major_version'), '9', '>=') ? '8.0' : '7.4')"
   persistence:
     enabled: false
     drupal:

@@ -2,6 +2,7 @@ name: Startup
 type: profile
 description: 'Startup profile'
 core: 8.x
+core_version_requirement: ^8 || ^9 || ^10
 
 distribution:
   name: Startup
