@@ -79,7 +79,7 @@ attributes:
       resources:
         memory: "1024Mi"
     php-fpm-exporter:
-      image: hipages/php-fpm_exporter
+      image: hipages/php-fpm_exporter:2.2
       environment:
         PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('php-fpm', @('php-fpm.pools'))
       resources:
