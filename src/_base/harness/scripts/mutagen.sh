@@ -90,7 +90,7 @@ clean_existing_projects()
         # Check if there are entries left
         if [ "$(echo "$SYNC_LIST" | grep --count "URL: $(pwd)" | awk '{ print $1 }')" -gt 0 ]; then
             # Build an array of sync session IDs to clean up
-            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$SYNC_LIST" | grep -A6 "Name: $SYNC_NAME" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
+            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$SYNC_LIST" | grep -A6 "^Name: $SYNC_NAME$" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
         fi
     done
 
