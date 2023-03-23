@@ -278,6 +278,14 @@ attributes:
         tideways:
           environment:
             TIDEWAYS_HOSTNAME: = @('pipeline.base.hostname')
+        cron:
+          initContainers:
+            volumePermissions:
+              image: = @('pipeline.base.services.webapp.initContainers.volumePermissions.image')
+        webapp:
+          initContainers:
+            volumePermissions:
+              image: busybox:1.35
       ingress:
         annotations: {}
         target_service: "= @('services.varnish.enabled') ? 'varnish' : 'webapp'"
