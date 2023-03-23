@@ -86,11 +86,11 @@ clean_existing_projects()
     local SYNC_LIST
     for SYNC_NAME in "${SYNC_NAMES[@]}"; do
         # List syncs based on name
-        SYNC_LIST="$(mutagen sync list "$SYNC_NAME" 2> /dev/null || true)"
+        SYNC_LIST="$(mutagen sync list -l "$SYNC_NAME" 2> /dev/null || true)"
         # Check if there are entries left
         if [ "$(echo "$SYNC_LIST" | grep --count "URL: $(pwd)" | awk '{ print $1 }')" -gt 0 ]; then
             # Build an array of sync session IDs to clean up
-            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$SYNC_LIST" | grep -B4 "URL: $(pwd)" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
+            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$SYNC_LIST" | grep -A6 "^Name: $SYNC_NAME$" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
         fi
     done
 
@@ -100,11 +100,11 @@ clean_existing_projects()
     CONTAINER_NAMES_REGEX="$(join_by_character "\|" "${CONTAINER_NAMES[@]}")"
     for FORWARD_NAME in "${FORWARD_NAMES[@]}"; do
         # List forwards based on name
-        FORWARD_LIST="$(mutagen forward list "$FORWARD_NAME" 2> /dev/null || true)"
+        FORWARD_LIST="$(mutagen forward list -l "$FORWARD_NAME" 2> /dev/null || true)"
         # Check if there are entries left
         if [ "$(echo "$FORWARD_LIST" | grep --count "URL: docker://\($CONTAINER_NAMES_REGEX\):tcp:" | awk '{ print $1 }')" -gt 0 ]; then
             # Build an array of sync session IDs to clean up
-            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$FORWARD_LIST" | grep -B6 "URL: docker://\($CONTAINER_NAMES_REGEX\):tcp:" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
+            while IFS='' read -r line; do EXISTING_PROJECT_LABELS+=("$line"); done < <(echo "$FORWARD_LIST" | grep -B10 "URL: docker://\($CONTAINER_NAMES_REGEX\):tcp:" | grep io.mutagen.project | awk '{print $1"="$2}' | sed s/:=/=/)
         fi
     done
 
