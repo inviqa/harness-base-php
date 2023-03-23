@@ -370,8 +370,7 @@ attributes.default:
 
   mysql:
     image: mysql
-    # arm64 support is currently in a different tag
-    tag: "= host_architecture() == 'amd64' ? '8.0' : '8.0-oracle'"
+    tag: 8.0-oracle
 
   rabbitmq:
     image: rabbitmq
