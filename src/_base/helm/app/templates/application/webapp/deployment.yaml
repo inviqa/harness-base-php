@@ -32,7 +32,7 @@ spec:
         image: {{ .Values.services.webapp.initContainers.volumePermissions.image }}
         command:
         - "/bin/chown"
-        {{- if .initContainers.volumePermissions.recursive }}
+        {{- if .Values.services.webapp.initContainers.volumePermissions.recursive }}
         - "-R"
         {{- end }}
         - "www-data"
