@@ -282,10 +282,12 @@ attributes:
           initContainers:
             volumePermissions:
               image: = @('pipeline.base.services.webapp.initContainers.volumePermissions.image')
+              recursive: = @('pipeline.base.services.webapp.initContainers.volumePermissions.recursive')
         webapp:
           initContainers:
             volumePermissions:
               image: busybox:1.35
+              recursive: true
       ingress:
         annotations: {}
         target_service: "= @('services.varnish.enabled') ? 'varnish' : 'webapp'"
