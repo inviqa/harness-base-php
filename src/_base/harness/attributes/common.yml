@@ -302,6 +302,17 @@ attributes.default:
       steps: []
 
   console:
+    state:
+      steps:
+        - if [[ -f /run/started ]]; then cat /run/started; else return 1; fi
+    healthcheck:
+      # we want that enabled only for local builds
+      enabled: false
+      test: ['CMD', 'app', 'state']
+      start_period: 5s
+      interval: 5s
+      timeout: 3s
+      retries: 10
     entrypoint:
       steps: []
 

@@ -4,3 +4,6 @@ attributes:
     build: dynamic
     mode: development
     version: develop
+  console:
+    healthcheck:
+      enabled: true

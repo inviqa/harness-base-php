@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function test_ok()
+{
+    # run any command required which result can be monitored by Docker's HEALTHCHECK
+    {% for step in @('console.state.steps') -%}
+    {{ step|raw }}
+    {% else -%}
+    :
+    {% endfor %}
+
+}
+
+function task_state()
+{
+  if ! test_ok; then
+    echo "Console is not ready: test steps failed!"
+    return 1
+  fi
+}

@@ -7,6 +7,14 @@
     build:
       context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
+{% if @('console.healthcheck.enabled') %}
+    healthcheck:
+      test: {{ to_nice_yaml( @('console.healthcheck.test'), 2, 8) | raw }}
+      start_period: {{ @('console.healthcheck.start_period') }}
+      interval: {{ @('console.healthcheck.interval') }}
+      timeout: {{ @('console.healthcheck.timeout') }}
+      retries: {{ @('console.healthcheck.retries') }}
+{% endif %}
 {% if @('app.build') == 'dynamic' %}
     image: {{ @('workspace.name') ~ '-console:dev' }}
     entrypoint: [/entrypoint.dynamic.sh]
