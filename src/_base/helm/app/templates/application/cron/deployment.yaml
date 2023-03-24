@@ -32,7 +32,9 @@ spec:
         image: {{ .initContainers.volumePermissions.image }}
         command:
         - "/bin/chown"
+        {{- if .initContainers.volumePermissions.recursive }}
         - "-R"
+        {{- end }}
         - "www-data"
         {{- include "application.volumes.wwwDataPaths" $ | indent 8 }}
         volumeMounts:
