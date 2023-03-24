@@ -29,7 +29,7 @@ spec:
       {{- if and $service_php_fpm.enabled (not (eq "" (include "application.volumes.wwwDataPaths" .))) }}
       initContainers:
       - name: webapp-volume-permissions
-        image: busybox
+        image: {{ .Values.services.webapp.initContainers.volumePermissions.image }}
         command:
         - "/bin/chown"
         - "-R"

@@ -41,6 +41,10 @@ attributes:
   pipeline:
     base:
       services:
+        job-queue-consumer:
+          initContainers:
+            volumePermissions:
+              image: = @('pipeline.base.services.webapp.initContainers.volumePermissions.image')
         php-base:
           environment:
             APP_HOST: = @('pipeline.base.hostname')

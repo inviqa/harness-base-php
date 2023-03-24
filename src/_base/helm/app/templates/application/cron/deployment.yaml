@@ -29,7 +29,7 @@ spec:
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" $)) }}
       initContainers:
       - name: cron-volume-permissions
-        image: busybox
+        image: {{ .initContainers.volumePermissions.image }}
         command:
         - "/bin/chown"
         - "-R"
