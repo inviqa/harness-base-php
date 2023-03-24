@@ -28,7 +28,7 @@ function('external_images', [services]): |
 
 command('external-images config [--skip-exists] [<service>]'):
   env:
-    IMAGES: = external_images(docker_service_images(input.argument('service')))
+    IMAGES: = external_images(docker_service_images(@('docker.compose.bin'), input.argument('service')))
     SKIP_EXISTS: "= input.option('skip-exists') ? 1 : 0"
   exec: |
     #!php
@@ -47,6 +47,7 @@ command('external-images config [--skip-exists] [<service>]'):
 
 command('external-images pull [<service>]'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     SERVICE: = input.argument('service')
   exec: |
     #!bash(workspace:/)|@
@@ -59,11 +60,11 @@ command('external-images pull [<service>]'):
       CONF_ARGS+=("$SERVICE")
     fi
 
-    passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | docker-compose -f - pull"
+    passthru "ws external-images config $(printf '%q ' "${CONF_ARGS[@]}") | $COMPOSE_BIN -f - pull"
 
 command('external-images ls [--all]'):
   env:
-    IMAGES: = external_images(docker_service_images())
+    IMAGES: = external_images(docker_service_images(@('docker.compose.bin')))
     SHOW_REMOTE: "= input.option('all') ? 1 : 0"
   exec: |
     #!php

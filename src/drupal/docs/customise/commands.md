@@ -14,36 +14,29 @@ you use `docker-compose` from within a custom command._
 
 ### Refresh script - `ws drupal-refresh`
 ```yaml
-command('drupal-refresh'):
-  env:
-    COMPOSE_PROJECT_NAME: = @('namespace')
-  exec: |
-    #!bash(workspace:/)|@
-    docker-compose exec console echo "Running drupal-refresh"
-    ws composer install
-    ws drush -y cr
-    ws drush -y updb
-    ws frontend install
+command('drupal-refresh'): |
+  #!bash(workspace:/)|@
+  echo "Running drupal-refresh"
+  ws composer install
+  ws drush -y cr
+  ws drush -y updb
+  ws frontend install
 ```
 
 ### Sanitise the DB - `ws sanitise-db`
 ```yaml
-command('sanitise-db'):
-  env:
-    COMPOSE_PROJECT_NAME: = @('namespace')
-  exec: |
-    #!bash|=
-    docker-compose exec console echo "Running sanitise-db"
-    ws drush sql-sanitize --sanitize-password=password -y
-    ws drush uublk 1
-    ws drush uli
+command('sanitise-db'): |
+  #!bash|=
+  echo "Running sanitise-db"
+  ws drush sql-sanitize --sanitize-password=password -y
+  ws drush uublk 1
+  ws drush uli
 ```
 
 ### Database import - `ws import-db @drush.alias path/to/db.sql`
 ```yaml
 command('import-db <alias> <database>'):
   env:
-    COMPOSE_PROJECT_NAME: = @('namespace')
     ALIAS: = input.argument('alias')
     DB_FILE: = input.argument('database')
   exec: |

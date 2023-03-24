@@ -1,6 +1,7 @@
 command('feature xdebug version-sync'):
   env:
     XDEBUG_VERSION: = @('php.ext-xdebug.version')
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)

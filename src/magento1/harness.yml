@@ -132,9 +132,13 @@ attributes:
         #hostPath: "..." alternatively for single node testing
         size: 1Gi
 ---
-command('redis-flush'): |
-  #!bash(harness:/)|@
-  docker-compose -p @('namespace') exec redis redis-cli flushall
+command('redis-flush'): 
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(harness:/)|@
+    $COMPOSE_BIN exec redis redis-cli flushall
 ---
 import:
   - harness/config/*.yml

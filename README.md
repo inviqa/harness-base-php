@@ -20,9 +20,9 @@ Each framework will fully override a base harness file if differing behaviour is
 
 ## Features of each harness
 
-* Local docker-compose development environment
+* Local docker compose development environment
 * Skeleton for simple set-up of new projects
-* Pipeline docker-compose environment for use in Jenkins or other tools to run tests
+* Pipeline docker compose environment for use in Jenkins or other tools to run tests
 * Helm chart for deploying QA, UAT and Production environments to Kubernetes clusters
 
 ## Harness Upgrade Instructions

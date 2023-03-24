@@ -1,6 +1,7 @@
 
 command('app build'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     HAS_CRON: "= @('services.cron.enabled') ? 'true' : 'false'"
     HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
     HAS_JOB_QUEUE_CONSUMER: "= @('services.job-queue-consumer.enabled') ? 'true' : 'false'"
@@ -11,41 +12,43 @@ command('app build'):
     ws external-images pull
 
     # dependency ordered build
-    passthru docker-compose build console
+    passthru $COMPOSE_BIN build console
     if [[ "${HAS_WEBAPP}" == "true" ]] || [[ "${HAS_CRON}" == "true" ]] || [ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]; then
-      passthru docker-compose build php-fpm
+      passthru $COMPOSE_BIN build php-fpm
     fi
     if [[ "${HAS_WEBAPP}" == "true" ]]; then
-      passthru docker-compose build nginx
+      passthru $COMPOSE_BIN build nginx
     fi
     if [[ "${HAS_CRON}" == "true" ]]; then
-      passthru docker-compose build cron
+      passthru $COMPOSE_BIN build cron
     fi
     if [[ "${HAS_JENKINS_RUNNER}" == "true" ]]; then
-      passthru docker-compose build jenkins-runner
+      passthru $COMPOSE_BIN build jenkins-runner
     fi
     if [[ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]]; then
-      passthru docker-compose build job-queue-consumer
+      passthru $COMPOSE_BIN build job-queue-consumer
     fi
     if [[ "${HAS_SOLR}" == "true" ]]; then
-      passthru docker-compose build solr
+      passthru $COMPOSE_BIN build solr
     fi
 
 command('app build <service>'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     SERVICE:    = input.argument('service')
   exec: |
     #!bash(workspace:/)|@
-    passthru docker-compose build "${SERVICE}"
+    passthru $COMPOSE_BIN build "${SERVICE}"
 
 command('app publish'):
   env:
+    COMPOSE_BIN: = @('docker.compose.bin')
     COMPOSE_HTTP_TIMEOUT: 180
     DOCKER_CLIENT_TIMEOUT: 180
   exec: |
     #!bash(workspace:/)|@
     echo '@('docker.registry.password')' | run docker login --username='@('docker.registry.username')' --password-stdin '@('docker.registry.url')'
-    passthru docker-compose push @('pipeline.publish.services')
+    passthru $COMPOSE_BIN push @('pipeline.publish.services')
     run docker logout '@('docker.registry.url')'
 
 command('app publish chart <release> <message>'):

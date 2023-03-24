@@ -102,9 +102,9 @@ function('flatten', [array_input]): |
   $iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($array_input));
   = iterator_to_array($iterator, false);
 
-function('get_docker_external_networks'): |
+function('get_docker_external_networks', [compose_bin]): |
   #!php
-  $configRaw = shell_exec('docker-compose config');
+  $configRaw = shell_exec($compose_bin . ' config');
   if ($configRaw === null) {
     exit(1);
   }
@@ -123,9 +123,9 @@ function('get_docker_external_networks'): |
   }
   = join(" ", $externalNetworks);
 
-function('docker_service_images', [filterService]): |
+function('docker_service_images', [compose_bin, filterService]): |
   #!php
-  $configRaw = shell_exec('docker-compose config');
+  $configRaw = shell_exec($compose_bin . ' config');
   if ($configRaw === null) {
     exit(1);
   }

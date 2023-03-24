@@ -14,7 +14,7 @@ function('built_images', [services]): |
 
 command('built-images ls'):
   env:
-    IMAGES: = built_images(docker_service_images())
+    IMAGES: = built_images(docker_service_images(@('docker.compose.bin')))
   exec: |
     #!bash
     echo "$IMAGES"

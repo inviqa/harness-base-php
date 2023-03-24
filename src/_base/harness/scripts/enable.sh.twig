@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2206
+COMPOSE_BIN=($COMPOSE_BIN)
+
 console_enabled()
 {
     if [ "$APP_BUILD" = dynamic ]; then
         [ -f .my127ws/.flag-console-built ]
     else
-        [ -n "$(docker-compose ps --quiet console)" ]
+        [ -n "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]
     fi
 }
 
@@ -18,12 +21,12 @@ enable_all()
         HAS_FLAG=yes
         IS_BUILT=yes
         # If the containers no longer exist, we need to rebuild them
-        if [ -z "$(docker-compose ps --quiet)" ]; then
+        if [ -z "$("${COMPOSE_BIN[@]}" ps --quiet)" ]; then
             IS_BUILT=no
         fi
     fi
 
-    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$(docker-compose ps --quiet console)" ]; then
+    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]; then
         rm .my127ws/.flag-console-built
     fi
 
@@ -32,9 +35,12 @@ enable_all()
         if [ "$HAS_FLAG" = no ]; then
             # remove all services, keeping console if considered built
             if console_enabled; then
-                passthru "docker-compose ps --services | grep -v -Fxe console | xargs docker-compose rm --force --stop --"
+                # shellcheck disable=SC2143
+                if [ -n "$("${COMPOSE_BIN[@]}" ps --services | grep -v -Fxe console)" ]; then
+                    passthru "${COMPOSE_BIN[*]}  ps --services | grep -v -Fxe console | xargs ${COMPOSE_BIN[*]} rm --force --stop --"
+                fi
             else
-                passthru docker-compose down
+                passthru "${COMPOSE_BIN[@]}" down
             fi
         fi
 
@@ -52,13 +58,13 @@ enable_all()
             passthru ws mutagen resume
         fi
 
-        passthru docker-compose up -d
-        passthru docker-compose exec -T -u build console app welcome
+        passthru "${COMPOSE_BIN[@]}" up -d
+        passthru "${COMPOSE_BIN[@]}" exec -T -u build console app welcome
     fi
 }
 
 enable_console() {
-    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$(docker-compose ps --quiet console)" ]; then
+    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]; then
         rm .my127ws/.flag-console-built
     fi
 
@@ -71,8 +77,8 @@ dynamic_console()
 {
     if console_enabled; then
         # ensure it is started
-        if [ -z "$(docker-compose ps --quiet console)" ]; then
-            passthru docker-compose up -d console
+        if [ -z "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]; then
+            passthru "${COMPOSE_BIN[@]}" up -d console
         fi
         return;
     fi
@@ -85,8 +91,8 @@ dynamic_console()
 
     find .my127ws/docker/image/ -type d ! -perm u+rwx,go+rx,o-w -exec chmod u+rwx,go+rx,o-w {} +
 
-    passthru docker-compose up --build -d console
-    passthru docker-compose exec -T -u build console app build
+    passthru "${COMPOSE_BIN[@]}" up --build -d console
+    passthru "${COMPOSE_BIN[@]}" exec -T -u build console app build
 
     if [ "$USE_MUTAGEN" = yes ]; then
         ws mutagen resume
@@ -101,19 +107,19 @@ dynamic()
 
     dynamic_console
 
-    passthru "docker-compose config --services | grep -v -Fwe console -Fxe cron -Fxe jenkins-runner -Fxe job-queue-consumer | xargs docker-compose build"
+    passthru "${COMPOSE_BIN[*]} config --services | grep -v -Fwe console -Fxe cron -Fxe jenkins-runner -Fxe job-queue-consumer | xargs ${COMPOSE_BIN[*]} build"
 
     {% if @('services.cron.enabled') %}
-        passthru docker-compose build cron
+        passthru "${COMPOSE_BIN[@]}" build cron
     {% endif %}
     {% if @('services.jenkins-runner.enabled') %}
-        passthru docker-compose build jenkins-runner
+        passthru "${COMPOSE_BIN[@]}" build jenkins-runner
     {% endif %}
     {% if @('services.job-queue-consumer.enabled') %}
-        passthru docker-compose build job-queue-consumer
+        passthru "${COMPOSE_BIN[@]}" build job-queue-consumer
     {% endif %}
     {% if @('services.solr.enabled') %}
-        passthru docker-compose build solr
+        passthru "${COMPOSE_BIN[@]}" build solr
     {% endif %}
 }
 
@@ -122,7 +128,7 @@ static_console()
     if [ "$HAS_ASSETS" = yes ]; then
         ws assets download
     fi
-    passthru docker-compose up --build -d console
+    passthru "${COMPOSE_BIN[@]}" up --build -d console
 }
 
 static()
@@ -133,12 +139,12 @@ static()
 initial_start()
 {
     # Bring up all services apart from cron
-    passthru "docker-compose config --services | grep -v -Fxe cron | xargs docker-compose up -d"
+    passthru "${COMPOSE_BIN[*]} config --services | grep -v -Fxe cron | xargs ${COMPOSE_BIN[*]} up -d"
 
-    passthru docker-compose exec -T -u build console app init
+    passthru "${COMPOSE_BIN[@]}" exec -T -u build console app init
 
     {% if @('services.cron.enabled') %}
-    passthru docker-compose up -d cron
+    passthru "${COMPOSE_BIN[@]}" up -d cron
     {% endif %}
 }
 

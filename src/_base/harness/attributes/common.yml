@@ -113,6 +113,7 @@ attributes.default:
     buildkit:
       enabled: true
     compose:
+      bin: 'docker-compose'
       file_version: '3.7'
       host_volume_options: "= ':' ~ (bool(@('delegated-volumes')) ? 'delegated' : 'cached')"
     # If using gitops helm chart repositories, it's recommended to put this configuration
