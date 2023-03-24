@@ -7,11 +7,11 @@ There may be times when you need to customise the Workspace environment beyond w
 
 ## Adding a new service
 
-If you need a service that isn't already provided (see [available base services](https://github.com/inviqa/harness-base-php/blob/2.0.x/src/_base/_twig/docker-compose.yml/service)) then you can register a new service following the [docker-compose](https://docs.docker.com/compose/compose-file/) notation.
+If you need a service that isn't already provided (see [available base services](https://github.com/inviqa/harness-base-php/blob/2.0.x/src/_base/_twig/docker-compose.yml/service)) then you can register a new service following the [docker compose](https://docs.docker.com/compose/compose-file/) notation.
 
 Create your new service file in the `tools/workspace/_twig/docker-compose.yml/service/` directory.  
 
-See the example `example.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker-compose errors.
+See the example `example.yml.twig` service file below. Note the indentation, this is deliberate and must be followed to avoid docker compose errors.
 ```yaml
   example:
     image: {{ @('services.example.image') }}
@@ -69,7 +69,7 @@ Opt in to using varnish with the following in your workspace.yml:
 attribute('services.varnish.enabled'): true
 ```
 
-To apply changes to your local environment, run `ws harness prepare && docker-compose up -d`.
+To apply changes to your local environment, run `ws harness prepare && docker compose up -d`.
 
 The harness ships with a version of the [geerlingguy/drupal-vm Varnish VCL], which supports the `purge_varnish` module as well as only allowing certain cookies to impact cachability of requests.
 
@@ -145,7 +145,7 @@ cache-control: max-age=3600, public
 
 You can also verify that varnish receives a `BAN` request with the following varnishlog query:
 ```bash
-docker-compose exec varnish varnishlog -q 'ReqMethod ~ BAN'
+docker compose exec varnish varnishlog -q 'ReqMethod ~ BAN'
 ```
 
 Now edit the homepage. Once you hit the Save button on the edit page, varnish should receive a ban request through.
