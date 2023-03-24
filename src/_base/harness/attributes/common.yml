@@ -308,7 +308,10 @@ attributes.default:
   database:
     # possible platforms are mysql, postgres or ~ for none
     platform: mysql
-    platform_version: 8.0
+    platform_version: >
+      = @('database.platform') == 'mysql' ? '8.0'
+      : @('database.platform') == 'postgres' ? '9.6'
+      : null
     host: mysql
     port: 3306
     user: app
