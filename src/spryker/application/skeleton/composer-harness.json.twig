@@ -80,7 +80,7 @@
     "test-quality": [
       "@generate",
       "@phpstan",
-      "APPLICATION_ENV=development vendor/bin/console code:sniff:style src/Inviqa",
+      "find src/ -maxdepth 1 -mindepth 1 -path 'src/Pyz' -prune -o  -print | xargs -n1 env APPLICATION_ENV=development vendor/bin/console code:sniff:style",
       "APPLICATION_ENV=development vendor/bin/console code:sniff:architecture"
     ],
     "test-unit": [],
