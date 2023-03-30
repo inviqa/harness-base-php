@@ -2,7 +2,7 @@
 FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
 {% endif %}
 
-FROM nginx:1.21-alpine
+FROM nginx:1.23-alpine
 COPY root /
 
 {% if @('app.build') == 'static' %}
