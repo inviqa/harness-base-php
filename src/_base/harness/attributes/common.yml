@@ -275,7 +275,7 @@ attributes.default:
         connection: "tcp://tideways:9135"
         collect: tracing
         sample_rate: 25
-        service: web
+        service: app
     ext-xdebug:
       version: "= (version_compare(@('php.version'), '8.0', '>=') ? '3' : '2')"
       enable: false

@@ -4,6 +4,8 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 1.4.x to 1.5.x
 
+### Drupal Writable Directories
+
 The drupal harness no longer sets /app/config, /app/docroot/modules and /app/docroot/profiles to be web-writable at runtime.
 
 This means that modules cannot be installed via the admin interface unless you are running in the development environment.
@@ -20,6 +22,17 @@ Alternatively, if it's just one file needing to be writable:
 ```yaml
 attribute('app.web_writable_files'):
   - '/app/docroot/modules/MODULE_NAME/path/to/file.png
+```
+
+### Tideways default application
+
+The default service name for new tideways applications has changed from "web" to "app".
+
+The php.ini configuration for tideways been adjusted to reflect this to avoid confusion with new applications.
+
+To use the old service name "web", set this attribute in your workspace.yml:
+```yaml
+attribute('php.ext-tideways.config.service'): web
 ```
 
 ## Upgrading from 1.4.0 to 1.4.1
