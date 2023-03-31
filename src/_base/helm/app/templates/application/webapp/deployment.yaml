@@ -26,7 +26,7 @@ spec:
         app.service: {{ .Values.resourcePrefix }}webapp
     spec:
       affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "webapp" "service" .Values.services.webapp) | nindent 8 }}
-      {{- if and $service_php_fpm.enabled (not (eq "" (include "application.volumes.wwwDataPaths" .))) }}
+      {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
       initContainers:
       - name: webapp-volume-permissions
         image: {{ .Values.services.webapp.initContainers.volumePermissions.image }}
@@ -88,7 +88,6 @@ spec:
       {{- end }}
 
       {{- with $service_php_fpm }}
-      {{- if .enabled }}
       - name: php-fpm
         env:
         {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
@@ -128,7 +127,6 @@ spec:
         {{- include "application.volumeMounts.all" $ | indent 8 }}
         {{- else }} []
         {{- end }}
-      {{- end }}
       {{- end }}
 
       {{- with index .Values.services "php-fpm-exporter" }}

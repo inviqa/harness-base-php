@@ -71,7 +71,6 @@ attributes:
     php-fpm:
       extends:
         - php-base
-      enabled: true
       image: = @('docker.repository') ~ ':' ~ @('app.version') ~ '-php-fpm'
       publish: true
       environment:
