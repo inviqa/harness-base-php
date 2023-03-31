@@ -35,6 +35,16 @@ To use the old service name "web", set this attribute in your workspace.yml:
 attribute('php.ext-tideways.config.service'): web
 ```
 
+### Webapp php-fpm no longer to be individually disablable
+
+The introduction of being able to disable the php-fpm container within webapp/deployment.yml helm template introduced a bug in local docker.
+
+Rather than add complexity to fix it, the helm template will no longer have this capability.
+
+Instead if a project needs a nginx-only Kubernetes Deployment resource, we'd suggest you create a new nginx/deployment.yml to better identify its use.
+
+Webapp can instead be set to `enabled: false` to remove the service both in docker and helm.
+
 ## Upgrading from 1.4.0 to 1.4.1
 
 An unintentional helm service key name `resources.cpu.requests` has dropped it's plurality to `resources.cpu.request` to match some existing implementations.
