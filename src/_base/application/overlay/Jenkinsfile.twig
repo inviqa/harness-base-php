@@ -182,7 +182,7 @@ pipeline {
                 if (env.CHANGE_URL) {
                     // Jenkins builds pull requests by merging the pull request branch into the pull request's target branch,
                     // so we build on commits that do not technically exist and can't link to them.
-                    gitMessage = "<${env.CHANGE_URL}|{{ @('jenkins.notifications.global.change_request_name') }} #${env.CHANGE_ID}>{% if bool(@('jenkins.notifications.global.change_request_build_on_merge')) %} merged into target branch " + "<{{ @('jenkins.notifications.global.branch_link_template') }}".replace('GIT_BRANCH', CHANGE_TARGET) + "|${CHANGE_TARGET}>{% endif %}"
+                    gitMessage = "<${env.CHANGE_URL}|{{ @('jenkins.notifications.global.change_request_name') }} #${env.CHANGE_ID}> ${env.CHANGE_TITLE}{% if bool(@('jenkins.notifications.global.change_request_build_on_merge')) %} - merged into target branch " + "<{{ @('jenkins.notifications.global.branch_link_template') }}".replace('GIT_BRANCH', CHANGE_TARGET) + "|${CHANGE_TARGET}>{% endif %}"
                 }
                 fields << [
                     title: 'Source',
