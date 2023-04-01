@@ -28,6 +28,10 @@ attributes.default:
     docker:
       buildkit:
         enabled: true
+    notifications:
+      slack:
+        channel: ~
+        tokenCredentialId: ~
     tests:
       isolated: true
       use_global_services: false
