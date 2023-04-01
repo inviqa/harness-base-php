@@ -409,7 +409,7 @@ pipeline {
                 if (env.CHANGE_URL) {
                     // Jenkins builds pull requests by merging the pull request branch into the pull request's target branch,
                     // so we build on commits that do not technically exist and can't link to them.
-                    gitMessage = "<${env.CHANGE_URL}|Pull Request #${env.CHANGE_ID}> merged into target branch ${CHANGE_TARGET}"
+                    gitMessage = "<${env.CHANGE_URL}|Pull Request #${env.CHANGE_ID}> merged into target branch https://github.com/inviqa/harness-base-php/tree/${CHANGE_TARGET}|${CHANGE_TARGET}>"
                 }
                 fields << [
                     title: 'Source',
