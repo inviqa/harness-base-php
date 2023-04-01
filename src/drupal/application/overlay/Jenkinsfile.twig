@@ -170,7 +170,7 @@ pipeline {
 {% endif %}
     }
     post {
-{% if @('jenkins.notification.slack.channel') && @('jenkins.notification.slack.tokenCredentialId') %}
+{% if @('jenkins.notification.slack.channel') and @('jenkins.notification.slack.tokenCredentialId') %}
         failure {
             script {
                 def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
