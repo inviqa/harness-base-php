@@ -93,7 +93,6 @@ pipeline {
             }
             post { failure { script { failureMessages << 'Unit tests' } } }
         }
-{% if @('pipeline.publish.enabled') == 'yes' %}
 {% if bool(@('pipeline.publish.enabled')) %}
         stage('Publish') {
 {% set env = @('pipeline.publish.environment') %}
@@ -170,7 +169,7 @@ pipeline {
 {% endif %}
     }
     post {
-{% if @('jenkins.notification.slack.channel') and @('jenkins.notification.slack.tokenCredentialId') %}
+{% if @('jenkins.notifications.slack.channel') and @('jenkins.notifications.slack.tokenCredentialId') %}
         failure {
             script {
                 def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
@@ -194,7 +193,7 @@ pipeline {
                     ]
                 ]
 
-                slackSend (channel: '{{ @('jenkins.notification.slack.channel') }}', color: 'danger', attachments: attachments, tokenCredentialId: '{{ @('jenkins.notification.slack.tokenCredentialId') }}')
+                slackSend (channel: '{{ @('jenkins.notifications.slack.channel') }}', color: 'danger', attachments: attachments, tokenCredentialId: '{{ @('jenkins.notifications.slack.tokenCredentialId') }}')
             }
         }
 {% endif %}
