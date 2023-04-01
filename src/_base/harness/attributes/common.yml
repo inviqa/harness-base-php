@@ -378,7 +378,7 @@ attributes.default:
 
   rabbitmq:
     image: rabbitmq
-    tag: '3.8-management-alpine'
+    tag: '3.9-management-alpine'
     api_port: 15672
     erlang_cookie: TeTTiwT9y548yIcfw4peaOrqgtLItD6B
     external_host: = 'rabbitmq-' ~ @('hostname')

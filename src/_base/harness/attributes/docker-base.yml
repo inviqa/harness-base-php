@@ -150,7 +150,7 @@ attributes:
       resources:
         memory: "1024Mi"
     redis:
-      image: redis:6-alpine
+      image: redis:7-alpine
       options:
         # Handle many smaller keys
         activedefrag: 'yes'
@@ -167,7 +167,7 @@ attributes:
         # 1.5 * maxmemory to allow copy on write snapshots
         memory: "1.5Gi"
     redis-session:
-      image: redis:6-alpine
+      image: redis:7-alpine
       options:
         # Handle many smaller keys
         activedefrag: 'yes'

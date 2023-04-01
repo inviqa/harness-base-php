@@ -50,7 +50,7 @@ attributes:
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
       - redis
       - sockets
-    version: 7.4
+    version: 8.2
   composer:
     auth:
       basic:
@@ -79,10 +79,10 @@ attributes:
       frontend:
         languages: []
         themes: []
-    version: 2.4.2
+    version: 2.4.6
   mysql:
     image: mariadb
-    tag: '10.4'
+    tag: '10.6'
   backend:
     build:
       steps:
