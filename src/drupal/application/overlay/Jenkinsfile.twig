@@ -175,12 +175,12 @@ pipeline {
             script {
                 def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
                 def fields = []
-                def slackFailureMessage = failureMessages.join("\n")
-                if (slackFailureMessage) {
+                def failureMessage = failureMessages.join("\n")
+                if (failureMessage) {
                     fields = [
                         [
                             title: 'Reason(s)',
-                            value: slackFailureMessage,
+                            value: failureMessage,
                             short: false
                         ]
                     ]
@@ -188,7 +188,7 @@ pipeline {
                 def attachments = [
                     [
                         text: message,
-                        fallback: "${message}\n${slackFailureMessage}",
+                        fallback: "${message}\n${failureMessage}",
                         color: 'danger',
                         fields: fields
                     ]
