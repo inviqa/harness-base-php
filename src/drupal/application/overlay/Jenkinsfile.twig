@@ -1,3 +1,4 @@
+def failureMessages = []
 pipeline {
     agent { label 'linux-amd64' }
     environment {
@@ -16,6 +17,7 @@ pipeline {
                 sh 'ws enable console'
                 milestone(10)
             }
+            post { failure { script { failureMessages << 'Development environment console' } } }
         }
 {% else %}
         stage('Build') {
@@ -23,6 +25,7 @@ pipeline {
                 sh 'ws install'
                 milestone(10)
             }
+            post { failure { script { failureMessages << 'Development environment install' } } }
         }
 {% endif %}
         stage('Checks without development dependencies') {
@@ -31,17 +34,30 @@ pipeline {
                 sh 'ws exec app composer:development_dependencies'
                 milestone(20)
             }
+            post { failure { script { failureMessages << 'Checks without development dependencies' } } }
         }
         stage('Test')  {
             parallel {
-                stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
+                stage('quality') {
+                    steps { sh 'ws exec composer test-quality' }
+                    post { failure { script { failureMessages << 'Quality checks' } } }
+                }
 {% if not @('jenkins.tests.isolated') %}
-                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('acceptance') {
+                    steps { sh 'ws exec composer test-acceptance' }
+                    post { failure { script { failureMessages << 'Acceptance tests' } } }
+                }
 {% if @('services.lighthouse.enabled') %}
-                stage('lighthouse') { steps { sh 'ws lighthouse' } }
+                stage('lighthouse') {
+                    steps { sh 'ws lighthouse' }
+                    post { failure { script { failureMessages << 'Lighthouse tests' } } }
+                }
 {% endif %}
 {% endif %}
-                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval --cleanup qa' } }
+                stage('helm kubeval qa')  {
+                    steps { sh 'ws helm kubeval --cleanup qa' }
+                    post { failure { script { failureMessages << 'Helm chart rendering' } } }
+                }
             }
         }
 {% if @('jenkins.tests.isolated') %}
@@ -54,12 +70,19 @@ pipeline {
 {% endif %}
                 milestone(30)
             }
+            post { failure { script { failureMessages << 'Development environment full install' } } }
         }
         stage('End-to-end Test') {
             parallel {
-                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('acceptance') {
+                    steps { sh 'ws exec composer test-acceptance' }
+                    post { failure { script { failureMessages << 'Acceptance tests' } } }
+                }
 {% if @('services.lighthouse.enabled') %}
-                stage('lighthouse') { steps { sh 'ws lighthouse' } }
+                stage('lighthouse') {
+                    steps { sh 'ws lighthouse' }
+                    post { failure { script { failureMessages << 'Lighthouse tests' } } }
+                }
 {% endif %}
             }
         }
@@ -68,14 +91,25 @@ pipeline {
             steps {
                 sh 'ws test-unit'
             }
+            post { failure { script { failureMessages << 'Unit tests' } } }
         }
 {% if @('pipeline.publish.enabled') == 'yes' %}
+{% if bool(@('pipeline.publish.enabled')) %}
         stage('Publish') {
-{% if @('pipeline.publish.environment') %}
+{% set env = @('pipeline.publish.environment') %}
+{% set docker_registry_credential_id = @('docker.registry.credential_id') %}
+{% set ssh_credential_id = @('pipeline.publish.chart.git.ssh_credential_id') %}
+{% if env or docker_registry_credential_id or ssh_credential_id %}
             environment {
-{% for key, value in @('pipeline.publish.environment') %}
+{% for key, value in env %}
                 {{ key }} = {{ value }}
 {% endfor %}
+{% if docker_registry_credential_id %}
+                DOCKER_REGISTRY_CREDS = credentials('{{ docker_registry_credential_id }}')
+{% endif %}
+{% if ssh_credential_id %}
+                WS_APP_PUBLISH_CHART_SSH_PRIVATE_KEY = credentials('{{ ssh_credential_id }}')
+{% endif %}
             }
 {% endif %}
             when {
@@ -84,11 +118,16 @@ pipeline {
 {% for branch in @('pipeline.publish.branches') %}
                     branch '{{ branch }}'
 {% endfor %}
-{% if @('pipeline.qa.enabled') == 'yes' %}
+{% if bool(@('pipeline.qa.enabled')) %}
                     branch '{{ @('pipeline.qa.branch') }}'
 {% endif %}
-{% if @('pipeline.preview.enabled') == 'yes' %}
-{% for branch in @('pipeline.preview.target_branches') %}
+{% if bool(@('pipeline.preview.enabled')) %}
+{% if @('pipeline.preview.pull_request_labels') %}
+                    expression {
+                        return env.CHANGE_ID && {{ @('pipeline.preview.pull_request_labels') | json_encode }}.any { pullRequest.labels.contains(it) }
+                    }
+{% endif %}
+{% for branch in @('pipeline.preview.target_branches') | default([]) %}
                     changeRequest target: '{{ branch }}'
 {% endfor %}
 {% endif %}
@@ -103,6 +142,7 @@ pipeline {
                 }
 {% endif %}
             }
+            post { failure { script { failureMessages << 'Publish' } } }
         }
 {% endif %}
 {% if bool(@('pipeline.qa.enabled')) %}
@@ -125,10 +165,39 @@ pipeline {
                     sh 'ws app deploy qa'
                 }
             }
+            post { failure { script { failureMessages << 'Deploy QA' } } }
         }
 {% endif %}
     }
     post {
+{% if @('jenkins.notification.slack.channel') && @('jenkins.notification.slack.tokenCredentialId') %}
+        failure {
+            script {
+                def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
+                def fields = []
+                def slackFailureMessage = failureMessages.join("\n")
+                if (slackFailureMessage) {
+                    fields = [
+                        [
+                            title: 'Reason(s)',
+                            value: slackFailureMessage,
+                            short: false
+                        ]
+                    ]
+                }
+                def attachments = [
+                    [
+                        text: message,
+                        fallback: "${message}\n${slackFailureMessage}",
+                        color: 'danger',
+                        fields: fields
+                    ]
+                ]
+
+                slackSend (channel: '{{ @('jenkins.notification.slack.channel') }}', color: 'danger', attachments: attachments, tokenCredentialId: '{{ @('jenkins.notification.slack.tokenCredentialId') }}')
+            }
+        }
+{% endif %}
         always {
             sh 'ws destroy'
             cleanWs()
