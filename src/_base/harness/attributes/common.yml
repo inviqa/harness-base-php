@@ -30,7 +30,12 @@ attributes.default:
         enabled: true
     notifications:
       slack:
+        # 'GIT_BRANCH' is replaced with the git branch name, e.g. https://github.com/inviqa/harness-base-php/tree/GIT_BRANCH
+        branchLinkTemplate: ~
         channel: ~
+        changeRequestName: 'Pull Request'
+        # 'GIT_COMMIT' is replaced with the git commit hash, e.g. https://github.com/inviqa/harness-base-php/commit/GIT_COMMIT
+        commitLinkTemplate: ~
         tokenCredentialId: ~
     tests:
       isolated: true

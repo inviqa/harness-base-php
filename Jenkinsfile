@@ -399,21 +399,38 @@ pipeline {
         failure {
             script {
                 def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
+                def fallbackMessages = [ message ]
                 def fields = []
+
+                def shortCommitHash = "${GIT_COMMIT}".substring(0, 7)
+                def commitLink = "<https://github.com/inviqa/harness-base-php/commit/GIT_COMMIT".replace('GIT_COMMIT', GIT_COMMIT) + "|${shortCommitHash}>"
+                def gitMessage = "Branch <https://github.com/inviqa/harness-base-php/tree/GIT_BRANCH".replace('GIT_BRANCH', GIT_BRANCH) + "|${GIT_BRANCH}> @ ${commitLink}"
+
+                if (env.CHANGE_URL) {
+                    // Jenkins builds pull requests by merging the pull request branch into the pull request's target branch,
+                    // so we build on commits that do not technically exist and can't link to them.
+                    gitMessage = "<${env.CHANGE_URL}|Pull Request #${env.CHANGE_ID}> merged into target branch ${CHANGE_TARGET}"
+                }
+                fields << [
+                    title: 'Source'
+                    value: gitMessage
+                    short: false
+                ]
+                fallbackMessages << gitMessage
+
                 def failureMessage = failureMessages.join("\n")
                 if (failureMessage) {
-                    fields = [
-                        [
-                            title: 'Reason(s)',
-                            value: failureMessage,
-                            short: false
-                        ]
+                    fields << [
+                        title: 'Reason(s)',
+                        value: failureMessage,
+                        short: false
                     ]
+                    fallbackMessages << failureMessage
                 }
                 def attachments = [
                     [
                         text: message,
-                        fallback: "${message}\n${failureMessage}",
+                        fallback: fallbackMessages.join("\n"),
                         color: 'danger',
                         fields: fields
                     ]
