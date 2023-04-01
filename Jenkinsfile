@@ -371,15 +371,15 @@ pipeline {
                             stages {
                                 stage('Spryker Mutagen') {
                                     steps { sh './test spryker dynamic mutagen' }
-                                    post { failure { script { failureMessages << 'Spryker static acceptance' } } }
+                                    post { failure { script { failureMessages << 'Spryker mutagen acceptance' } } }
                                 }
                                 stage('Spryker Static') {
                                     steps { sh './test spryker static' }
-                                    post { failure { script { failureMessages << 'Spryker dynamic acceptance' } } }
+                                    post { failure { script { failureMessages << 'Spryker static acceptance' } } }
                                 }
                                 stage('Spryker Dynamic') {
                                     steps { sh './test spryker dynamic' }
-                                    post { failure { script { failureMessages << 'Spryker mutagen acceptance' } } }
+                                    post { failure { script { failureMessages << 'Spryker dynamic acceptance' } } }
                                 }
                             }
                         }
