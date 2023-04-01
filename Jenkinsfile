@@ -412,8 +412,8 @@ pipeline {
                     gitMessage = "<${env.CHANGE_URL}|Pull Request #${env.CHANGE_ID}> merged into target branch ${CHANGE_TARGET}"
                 }
                 fields << [
-                    title: 'Source'
-                    value: gitMessage
+                    title: 'Source',
+                    value: gitMessage,
                     short: false
                 ]
                 fallbackMessages << gitMessage
