@@ -403,8 +403,8 @@ pipeline {
                 def fields = []
 
                 def shortCommitHash = "${GIT_COMMIT}".substring(0, 7)
-                def commitLink = "<https://github.com/inviqa/harness-base-php/commit/GIT_COMMIT".replace('GIT_COMMIT', GIT_COMMIT) + "|${shortCommitHash}>"
-                def gitMessage = "Branch <https://github.com/inviqa/harness-base-php/tree/GIT_BRANCH".replace('GIT_BRANCH', GIT_BRANCH) + "|${GIT_BRANCH}> @ ${commitLink}"
+                def commitLink = "<https://github.com/inviqa/harness-base-php/commit/${GIT_COMMIT}|${shortCommitHash}>"
+                def gitMessage = "Branch <https://github.com/inviqa/harness-base-php/tree/${GIT_BRANCH}|${GIT_BRANCH}> @ ${commitLink}"
 
                 if (env.CHANGE_URL) {
                     // Jenkins builds pull requests by merging the pull request branch into the pull request's target branch,
