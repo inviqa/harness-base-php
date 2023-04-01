@@ -398,7 +398,7 @@ pipeline {
     post {
         failure {
             script {
-                def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
+                def message = "${env.JOB_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
                 def fallbackMessages = [ message ]
                 def fields = []
 

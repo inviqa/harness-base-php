@@ -36,6 +36,7 @@ attributes.default:
         changeRequestName: 'Pull Request'
         # 'GIT_COMMIT' is replaced with the git commit hash, e.g. https://github.com/inviqa/harness-base-php/commit/GIT_COMMIT
         commitLinkTemplate: ~
+        fullBuildName: false
         tokenCredentialId: ~
     tests:
       isolated: true

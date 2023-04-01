@@ -170,7 +170,7 @@ pipeline {
 {% if @('jenkins.notifications.slack.channel') and @('jenkins.notifications.slack.tokenCredentialId') %}
         failure {
             script {
-                def message = "${env.JOB_BASE_NAME} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
+                def message = "{% if bool(@('jenkins.notifications.slack.fullBuildName')) %}${env.JOB_NAME}{% else %}${env.JOB_BASE_NAME}{% endif %} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
                 def fallbackMessages = [ message ]
                 def fields = []
 
