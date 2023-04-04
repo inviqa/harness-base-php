@@ -28,6 +28,23 @@ attributes.default:
     docker:
       buildkit:
         enabled: true
+    notifications:
+      global:
+        # 'GIT_BRANCH' is replaced with the git branch name, e.g. https://github.com/inviqa/harness-base-php/tree/GIT_BRANCH
+        branch_link_template: ~
+        # Does the change request build upon a merge of the branch into the target branch?
+        change_request_build_on_merge: true
+        # What is a change request called in the web UI? e.g. Pull Request or Merge Request
+        change_request_name: 'Pull Request'
+        # 'GIT_COMMIT' is replaced with the git commit hash, e.g. https://github.com/inviqa/harness-base-php/commit/GIT_COMMIT
+        commit_link_template: ~
+        # If multiple build configurations are reporting into the same method, set to true to show which build configuration it is, rather than just "PR-123"
+        full_build_name: false
+      slack:
+        # Which slack channel to post to
+        channel: ~
+        # ID of a jenkins credential that contains a secret to use with the Jenkins CI Slack app to talk to your slack instance
+        tokenCredentialId: ~
     tests:
       isolated: true
       use_global_services: false

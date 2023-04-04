@@ -1,3 +1,4 @@
+def failureMessages = []
 pipeline {
     agent { label 'linux-amd64' }
     environment {
@@ -16,6 +17,7 @@ pipeline {
                 sh 'ws enable console'
                 milestone(10)
             }
+            post { failure { script { failureMessages << 'Development environment console' } } }
         }
 {% else %}
         stage('Build') {
@@ -23,6 +25,7 @@ pipeline {
                 sh 'ws install'
                 milestone(10)
             }
+            post { failure { script { failureMessages << 'Development environment install' } } }
         }
 {% endif %}
         stage('Checks without development dependencies') {
@@ -31,18 +34,34 @@ pipeline {
                 sh 'ws exec app composer:development_dependencies'
                 milestone(20)
             }
+            post { failure { script { failureMessages << 'Checks without development dependencies' } } }
         }
         stage('Test')  {
             parallel {
-                stage('quality')    { steps { sh 'ws exec composer test-quality'    } }
-                stage('unit')       { steps { sh 'ws exec composer test-unit'       } }
+                stage('quality') {
+                    steps { sh 'ws exec composer test-quality' }
+                    post { failure { script { failureMessages << 'Quality checks' } } }
+                }
+                stage('unit') {
+                    steps { sh 'ws exec composer test-unit' }
+                    post { failure { script { failureMessages << 'Unit tests' } } }
+                }
 {% if not @('jenkins.tests.isolated') %}
-                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('acceptance') {
+                    steps { sh 'ws exec composer test-acceptance' }
+                    post { failure { script { failureMessages << 'Acceptance tests' } } }
+                }
 {% if @('services.lighthouse.enabled') %}
-                stage('lighthouse') { steps { sh 'ws lighthouse' } }
+                stage('lighthouse') {
+                    steps { sh 'ws lighthouse' }
+                    post { failure { script { failureMessages << 'Lighthouse tests' } } }
+                }
 {% endif %}
 {% endif %}
-                stage('helm kubeval qa')  { steps { sh 'ws helm kubeval --cleanup qa' } }
+                stage('helm kubeval qa')  {
+                    steps { sh 'ws helm kubeval --cleanup qa' }
+                    post { failure { script { failureMessages << 'Helm chart rendering' } } }
+                }
             }
         }
 {% if @('jenkins.tests.isolated') %}
@@ -55,12 +74,19 @@ pipeline {
 {% endif %}
                 milestone(30)
             }
+            post { failure { script { failureMessages << 'Development environment full install' } } }
         }
         stage('End-to-end Test') {
             parallel {
-                stage('acceptance') { steps { sh 'ws exec composer test-acceptance' } }
+                stage('acceptance') {
+                    steps { sh 'ws exec composer test-acceptance' }
+                    post { failure { script { failureMessages << 'Acceptance tests' } } }
+                }
 {% if @('services.lighthouse.enabled') %}
-                stage('lighthouse') { steps { sh 'ws lighthouse' } }
+                stage('lighthouse') {
+                    steps { sh 'ws lighthouse' }
+                    post { failure { script { failureMessages << 'Lighthouse tests' } } }
+                }
 {% endif %}
             }
         }
@@ -113,6 +139,7 @@ pipeline {
                 }
 {% endif %}
             }
+            post { failure { script { failureMessages << 'Publish' } } }
         }
 {% endif %}
 {% if bool(@('pipeline.qa.enabled')) %}
@@ -135,10 +162,58 @@ pipeline {
                     sh 'ws app deploy qa'
                 }
             }
+            post { failure { script { failureMessages << 'Deploy QA' } } }
         }
 {% endif %}
     }
     post {
+{% if @('jenkins.notifications.slack.channel') and @('jenkins.notifications.slack.token_credential_id') %}
+        failure {
+            script {
+                def message = "{% if bool(@('jenkins.notifications.global.full_build_name')) %}${env.JOB_NAME}{% else %}${env.JOB_BASE_NAME}{% endif %} #${env.BUILD_NUMBER} - Failure after ${currentBuild.durationString.minus(' and counting')} (<${env.RUN_DISPLAY_URL}|View Build>)"
+                def fallbackMessages = [ message ]
+                def fields = []
+
+{% if @('jenkins.notifications.global.branch_link_template') and @('jenkins.notifications.global.commit_link_template') %}
+                def shortCommitHash = "${GIT_COMMIT}".substring(0, 7)
+                def commitLink = "commit <{{ @('jenkins.notifications.global.commit_link_template') }}".replace('GIT_COMMIT', GIT_COMMIT) + "|${shortCommitHash}>"
+                def gitMessage = "Branch <{{ @('jenkins.notifications.global.branch_link_template') }}".replace('GIT_BRANCH', GIT_BRANCH) + "|${GIT_BRANCH}> at ${commitLink}"
+
+                if (env.CHANGE_URL) {
+                    // Jenkins builds pull requests by merging the pull request branch into the pull request's target branch,
+                    // so we build on commits that do not technically exist and can't link to them.
+                    gitMessage = "<${env.CHANGE_URL}|{{ @('jenkins.notifications.global.change_request_name') }} #${env.CHANGE_ID}> ${env.CHANGE_TITLE}{% if bool(@('jenkins.notifications.global.change_request_build_on_merge')) %} - merged into target branch " + "<{{ @('jenkins.notifications.global.branch_link_template') }}".replace('GIT_BRANCH', CHANGE_TARGET) + "|${CHANGE_TARGET}>{% endif %}"
+                }
+                fields << [
+                    title: 'Source',
+                    value: gitMessage,
+                    short: false
+                ]
+                fallbackMessages << gitMessage
+{% endif %}
+
+                def failureMessage = failureMessages.join("\n")
+                if (failureMessage) {
+                    fields << [
+                        title: 'Reason(s)',
+                        value: failureMessage,
+                        short: false
+                    ]
+                    fallbackMessages << failureMessage
+                }
+                def attachments = [
+                    [
+                        text: message,
+                        fallback: fallbackMessages.join("\n"),
+                        color: 'danger',
+                        fields: fields
+                    ]
+                ]
+
+                slackSend (channel: '{{ @('jenkins.notifications.slack.channel') }}', color: 'danger', attachments: attachments, tokenCredentialId: '{{ @('jenkins.notifications.slack.token_credential_id') }}')
+            }
+        }
+{% endif %}
         always {
             sh 'ws destroy'
             cleanWs()
