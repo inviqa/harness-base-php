@@ -11,11 +11,13 @@ function task_spryker_build_backend()
     
     passthru vendor/bin/install -r docker -s generate
     passthru vendor/bin/install -r docker -s cache
-    
+
     {% if @('app.mode') == 'production' %}
         task composer:install
         task composer:autoload:level2
     {% else %}
         task composer:autoload:level0
     {% endif %}
+
+    passthru vendor/bin/console translator:generate-cache
 }
