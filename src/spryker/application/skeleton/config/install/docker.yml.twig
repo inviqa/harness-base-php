@@ -111,7 +111,6 @@ sections:
 
         navigation-cache-warmup:
             command: "vendor/bin/console navigation:build-cache"
-            stores: true
 
         rest-request-validation-cache-warmup:
             command: "vendor/bin/console rest-api:build-request-validation-cache"
@@ -119,7 +118,6 @@ sections:
 
         class-resolver-build:
             command: "vendor/bin/console cache:class-resolver:build"
-            stores: true
 
     queue-flush:
         set-permissions:
