@@ -91,19 +91,27 @@ sections:
     cache:
         router-cache-warmup-yves:
             command: "vendor/bin/yves router:cache:warm-up"
+            stores: true
 
         router-cache-warmup-backoffice:
             command: 'vendor/bin/console router:cache:warm-up:backoffice'
+            stores: true
 
         router-cache-warmup-backend-gateway:
             command: 'vendor/bin/console router:cache:warm-up:backend-gateway'
+            stores: true
 
         twig-cache-warmup:
             command: "vendor/bin/console twig:cache:warmer"
             stores: true
 
+        translator-generate-cache:
+            command: "vendor/bin/console translator:generate-cache"
+            stores: true
+
         navigation-cache-warmup:
             command: "vendor/bin/console navigation:build-cache"
+            stores: true
 
         rest-request-validation-cache-warmup:
             command: "vendor/bin/console rest-api:build-request-validation-cache"
@@ -111,6 +119,7 @@ sections:
 
         class-resolver-build:
             command: "vendor/bin/console cache:class-resolver:build"
+            stores: true
 
     queue-flush:
         set-permissions:
