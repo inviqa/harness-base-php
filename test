@@ -100,7 +100,7 @@ function test_harness_acceptance()
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
       run_project_quality_tests "$harness"
-      destroy_environment
+      remove_console
     fi
     install_environment
     check_environment_started "$harness" "$mode"
@@ -142,6 +142,12 @@ function install_console()
 (
     cd "${path_test}"
     ws enable console
+)
+
+function remove_console()
+(
+    cd "${path_test}"
+    docker-compose rm --stop console
 )
 
 function install_environment()
