@@ -100,6 +100,7 @@ function test_harness_acceptance()
     if ! [[ "$harness" =~ ^(magento1)$ ]]; then
       install_console
       run_project_quality_tests "$harness"
+      destroy_environment
     fi
     install_environment
     check_environment_started "$harness" "$mode"
@@ -219,6 +220,12 @@ function restart_environment()
     cd "${path_test}"
     ws disable
     ws enable
+)
+
+function destroy_environment()
+(
+    cd "${path_test}"
+    ws destroy
 )
 
 function setup_dynamic_mountpoint()
