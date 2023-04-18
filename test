@@ -229,12 +229,6 @@ function restart_environment()
     ws enable
 )
 
-function destroy_environment()
-(
-    cd "${path_test}"
-    ws destroy
-)
-
 function setup_dynamic_mountpoint()
 (
     cd "${path_test}"
