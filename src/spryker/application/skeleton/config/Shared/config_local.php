@@ -38,7 +38,7 @@ $sprykerFrontendHost = getenv('YVES_HOST_' . $CURRENT_STORE);
 $sprykerBackendHost = getenv('ZED_HOST_' . $CURRENT_STORE);
 $sprykerBackendApiHost = getenv('ZED_API_HOST_' . $CURRENT_STORE);
 
-$config[ConsoleConstants::ENABLE_DEVELOPMENT_CONSOLE_COMMANDS] = true;
+$config[ConsoleConstants::ENABLE_DEVELOPMENT_CONSOLE_COMMANDS] = (bool)getenv('DEVELOPMENT_CONSOLE_COMMANDS', true);
 
 // ---------- Yves host
 $config[ApplicationConstants::HOST_YVES] = $sprykerFrontendHost;

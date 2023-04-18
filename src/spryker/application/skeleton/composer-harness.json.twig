@@ -77,7 +77,7 @@
     ],
     "generate": [
       "APPLICATION_ENV=development vendor/bin/console transfer:generate",
-      "APPLICATION_ENV=development vendor/bin/console dev:ide:generate-auto-completion"
+      "APPLICATION_ENV=development DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console dev:ide:generate-auto-completion"
     ],
     "test-production-quality": [
       "bash -e -o pipefail -c \"find src/ -type f -name '*.php' -print0 | xargs -0 --no-run-if-empty -n 1 -P 8 -i php -l {} | (grep -v 'No syntax errors detected' || echo OK)\"",
@@ -86,8 +86,8 @@
     "test-quality": [
       "@generate",
       "@phpstan",
-      "find src/ -maxdepth 1 -mindepth 1 -path 'src/Pyz' -prune -o  -print | xargs -n1 env APPLICATION_ENV=development vendor/bin/console code:sniff:style",
-      "APPLICATION_ENV=development vendor/bin/console code:sniff:architecture"
+      "find src/ -maxdepth 1 -mindepth 1 -path 'src/Pyz' -prune -o  -print | xargs -n1 env APPLICATION_ENV=development DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console code:sniff:style",
+      "APPLICATION_ENV=development DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console code:sniff:architecture"
     ],
     "test-unit": [],
     "test-acceptance": [
