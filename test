@@ -148,6 +148,7 @@ function remove_console()
 (
     cd "${path_test}"
     docker-compose rm --stop console
+    docker-compose up -d console
 )
 
 function install_environment()
