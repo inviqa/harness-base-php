@@ -8,7 +8,7 @@ console_enabled()
     if [ "$APP_BUILD" = dynamic ]; then
         [ -f .my127ws/.flag-console-built ]
     else
-        [ -n "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]
+        [ -n "$("${COMPOSE_BIN[@]}" ps --quiet --all console)" ]
     fi
 }
 
@@ -21,12 +21,12 @@ enable_all()
         HAS_FLAG=yes
         IS_BUILT=yes
         # If the containers no longer exist, we need to rebuild them
-        if [ -z "$("${COMPOSE_BIN[@]}" ps --quiet)" ]; then
+        if [ -z "$("${COMPOSE_BIN[@]}" ps --quiet --all)" ]; then
             IS_BUILT=no
         fi
     fi
 
-    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]; then
+    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$("${COMPOSE_BIN[@]}" ps --quiet --all console)" ]; then
         rm .my127ws/.flag-console-built
     fi
 
@@ -64,7 +64,7 @@ enable_all()
 }
 
 enable_console() {
-    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]; then
+    if [ "$APP_BUILD" = dynamic ] && console_enabled && [ -z "$("${COMPOSE_BIN[@]}" ps --quiet --all console)" ]; then
         rm .my127ws/.flag-console-built
     fi
 
@@ -77,7 +77,7 @@ dynamic_console()
 {
     if console_enabled; then
         # ensure it is started
-        if [ -z "$("${COMPOSE_BIN[@]}" ps --quiet console)" ]; then
+        if [ -z "$("${COMPOSE_BIN[@]}" ps --quiet --all console)" ]; then
             passthru "${COMPOSE_BIN[@]}" up -d console
         fi
         return;
