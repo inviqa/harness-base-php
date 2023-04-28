@@ -14,22 +14,22 @@ sections:
     hidden:
         excluded: true
         maintenance-all-on:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:enable; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable; fi"
 
         maintenance-all-off:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:disable; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable; fi"
 
         maintenance-zed-on:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:enable zed; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable zed; fi"
 
         maintenance-zed-off:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:disable zed; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable zed; fi"
 
         maintenance-yves-on:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:enable yves; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable yves; fi"
 
         maintenance-yves-off:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:disable yves; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable yves; fi"
 
     environment:
         console-environment:
@@ -206,7 +206,7 @@ sections:
                 - propel
 
         maintenance-page-enable:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:enable yves; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:enable yves; fi"
             stores: true
             condition:
                 command: "propel-migration-check"
@@ -220,7 +220,7 @@ sections:
                 - propel
 
         maintenance-page-disable:
-            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then DEVELOPMENT_CONSOLE_COMMANDS=1 vendor/bin/console maintenance:disable yves; fi"
+            command: "if [ \"$APPLICATION_ENV\" = \"development\" ]; then vendor/bin/console maintenance:disable yves; fi"
             stores: true
 
         generate-entity-transfer:
