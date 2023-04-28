@@ -342,6 +342,7 @@ pipeline {
                                     post { failure { script { failureMessages << 'Akeneo 4 mutagen acceptance' } } }
                                 }
                                 stage('Spryker Mutagen') {
+                                    when { expression { return isHarnessChange(['spryker']) } }
                                     steps { sh './test spryker dynamic mutagen' }
                                     post { failure { script { failureMessages << 'Spryker mutagen acceptance' } } }
                                 }
@@ -363,6 +364,7 @@ pipeline {
                                 }
 
                                 stage('Spryker Static') {
+                                    when { expression { return isHarnessChange(['spryker']) } }
                                     steps { sh './test spryker static' }
                                     post { failure { script { failureMessages << 'Spryker static acceptance' } } }
                                 }
@@ -383,6 +385,7 @@ pipeline {
                                     post { failure { script { failureMessages << 'Akeneo 4 dynamic acceptance' } } }
                                 }
                                 stage('Spryker Dynamic') {
+                                    when { expression { return isHarnessChange(['spryker']) } }
                                     steps { sh './test spryker dynamic' }
                                     post { failure { script { failureMessages << 'Spryker dynamic acceptance' } } }
                                 }
