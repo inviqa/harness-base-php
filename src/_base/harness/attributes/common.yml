@@ -235,7 +235,7 @@ attributes.default:
 
   php:
     version: "8.0"
-    distro_codename: "= @('php.version') >= 8.0 ? 'bullseye' : (@('php.version') >= 7.4 ? 'buster' : 'stretch')"
+    distro_codename: "= @('php.version') >= 8.0 ? 'bullseye' : (@('php.version') >= 7.3 ? 'buster' : 'stretch')"
     cli:
       ini:
         max_execution_time: 0
