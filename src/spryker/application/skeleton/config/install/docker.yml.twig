@@ -278,6 +278,11 @@ sections:
             groups:
                 - project
 
+        dependencies-install-zed:
+            command: "vendor/bin/console frontend:zed:install-dependencies -vvv"
+            groups:
+                - zed
+
         yves-build-frontend:
             command: "vendor/bin/console frontend:yves:build -vvv"
             groups:
