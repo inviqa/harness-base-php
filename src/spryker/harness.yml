@@ -26,7 +26,7 @@ attributes:
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
     demoshop-url: https://github.com/spryker-shop/b2c-demo-shop.git
-    demoshop-version: "202211.0"
+    demoshop-version: "202212.0-p2"
     mode: development
     oauth_client_secret: ~
     zed_request_token: ~
@@ -50,7 +50,7 @@ attributes:
     build:
       when: 'true'
       steps:
-        - task spryker:build
+        - task spryker:build:backend
     install:
       steps:
         - task rabbitmq:vhosts
@@ -77,12 +77,9 @@ attributes:
       distribution_packages: "= host_architecture() == 'amd64' ? [] : @('frontend.build.distribution_packages_non_amd64')"
       when: -f "package.json"
       steps:
-        - run vendor/bin/install -r docker -s frontend
-        - |
-          if [ "$APP_BUILD" == "static" ]; then
-            run "rm -rf node_modules/ vendor/*/*/assets/Zed/node_modules"
-            run npm cache clean --force
-          fi
+        - task spryker:build:frontend
+        - ~
+        - ~
   docker:
     image:
       console: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"

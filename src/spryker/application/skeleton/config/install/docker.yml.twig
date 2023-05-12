@@ -91,16 +91,22 @@ sections:
     cache:
         router-cache-warmup-yves:
             command: "vendor/bin/yves router:cache:warm-up"
+            stores: true
 
         router-cache-warmup-backoffice:
             command: 'vendor/bin/console router:cache:warm-up:backoffice'
+            stores: true
 
         router-cache-warmup-backend-gateway:
             command: 'vendor/bin/console router:cache:warm-up:backend-gateway'
+            stores: true
 
         twig-cache-warmup:
             command: "vendor/bin/console twig:cache:warmer"
             stores: true
+
+        translator-generate-cache:
+            command: "vendor/bin/console translator:generate-cache"
 
         navigation-cache-warmup:
             command: "vendor/bin/console navigation:build-cache"
@@ -271,6 +277,11 @@ sections:
             command: "vendor/bin/console frontend:project:install-dependencies -vvv"
             groups:
                 - project
+
+        dependencies-install-zed:
+            command: "vendor/bin/console frontend:zed:install-dependencies -vvv"
+            groups:
+                - zed
 
         yves-build-frontend:
             command: "vendor/bin/console frontend:yves:build -vvv"

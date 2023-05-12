@@ -3,6 +3,7 @@
 use Pyz\Shared\Queue\QueueConstants;
 use Pyz\Shared\Scheduler\SchedulerConfig;
 use Pyz\Zed\Propel\PropelConfig;
+use Pyz\Shared\Console\ConsoleConstants;
 use Spryker\Shared\Application\ApplicationConstants;
 use Spryker\Shared\Collector\CollectorConstants;
 use Spryker\Shared\Customer\CustomerConstants;
@@ -30,12 +31,14 @@ use Spryker\Shared\ZedRequest\ZedRequestConstants;
 use Twig\Cache\FilesystemCache;
 
 // todo: this file sets hardcoded auth secrets, remote environments needs to have a different ones supplied via env vars
-require 'common/config_oauth-devvm.php';
+require 'common/config_oauth.php';
 
 $CURRENT_STORE = Store::getInstance()->getStoreName();
 $sprykerFrontendHost = getenv('YVES_HOST_' . $CURRENT_STORE);
 $sprykerBackendHost = getenv('ZED_HOST_' . $CURRENT_STORE);
 $sprykerBackendApiHost = getenv('ZED_API_HOST_' . $CURRENT_STORE);
+
+$config[ConsoleConstants::ENABLE_DEVELOPMENT_CONSOLE_COMMANDS] = (bool)getenv('DEVELOPMENT_CONSOLE_COMMANDS', true);
 
 // ---------- Yves host
 $config[ApplicationConstants::HOST_YVES] = $sprykerFrontendHost;

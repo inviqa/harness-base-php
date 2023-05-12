@@ -3,6 +3,7 @@ attributes:
     php-base:
       environment:
         APPLICATION_ENV: = @('spryker.mode')
+        DEVELOPMENT_CONSOLE_COMMANDS: "= @('app.build') == 'dynamic' ? '1' : '0'"
         REDIS_PROTOCOL: = @('redis.protocol')
         HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
         JENKINS_HOST: = @('jenkins.host')
