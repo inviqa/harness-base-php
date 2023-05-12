@@ -65,8 +65,8 @@
     "drupal/taxonomy_access_fix": "{{ version_compare(@('drupal.major_version'), '10', '>=') ? '^4.0 || ~4.0.0@beta' : '^3.3' }}",
     "drupal/token": "^1.11",
     "drupal/ultimate_cron": "~2.0.0@alpha",
-{% if version_compare(@('drupal.major_version'), '10', '<') and @('services.varnish.enabled') %}
-    "drupal/varnish_purge": "^2.1",
+{% if @('services.varnish.enabled') %}
+    "drupal/varnish_purge": "^2.2",
 {% endif %}
     "drush/drush": "^11.1",
     "fenetikm/autoload-drupal": "dev-master#4503484bf2d78e6d739fe13324ab3e6b96d7c244",
