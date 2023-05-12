@@ -41,7 +41,7 @@ pipeline {
                     }
                     when {
                         beforeAgent true
-                        expression { return isHarnessChange(['base', 'drupal', 'wordpress']) }
+                        expression { return isHarnessChange(['php', 'drupal', 'wordpress']) }
                     }
                     stages {
                         stage('Prepare') {
@@ -82,7 +82,7 @@ pipeline {
                             }
                             stages {
                                 stage('PHP') {
-                                    when { expression { return isHarnessChange(['base']) } }
+                                    when { expression { return isHarnessChange(['php']) } }
                                     steps { sh './test php static' }
                                     post { failure { script { failureMessages << 'PHP static acceptance' } } }
                                 }
@@ -108,7 +108,7 @@ pipeline {
                                 }
 
                                 stage('PHP Dynamic') {
-                                    when { expression { return isHarnessChange(['base']) } }
+                                    when { expression { return isHarnessChange(['php']) } }
                                     steps { sh './test php dynamic' }
                                     post { failure { script { failureMessages << 'PHP dynamic acceptance' } } }
                                 }
@@ -134,7 +134,7 @@ pipeline {
                                 }
 
                                 stage('PHP Mutagen') {
-                                    when { expression { return isHarnessChange(['base']) } }
+                                    when { expression { return isHarnessChange(['php']) } }
                                     steps { sh './test php dynamic mutagen' }
                                     post { failure { script { failureMessages << 'PHP mutagen acceptance' } } }
                                 }
