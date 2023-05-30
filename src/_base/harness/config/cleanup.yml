@@ -24,7 +24,7 @@ command('cleanup built-images'):
     BUILD_LABEL: = @('namespace') ~ ':' ~ @('app.version')
   exec: |
     #!bash
-    IMAGES=$(ws built-images ls)
+    IMAGES=($(ws built-images ls))
     if [ "${#IMAGES[@]}" -gt 0 ]; then
       run docker image rm --force -- "${IMAGES[@]}"
     fi
