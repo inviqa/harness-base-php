@@ -28,7 +28,7 @@ abstract class YvesPage extends Page
         if (!isset($parameters['base_url'])) {
             $parameters['base_url'] = isset($parameters['yves_base_url'])
                 ? $parameters['yves_base_url']
-                : 'http://' . getenv('YVES_HOST_DE');
+                : 'http://' . getenv('YVES_HOST_DE', true);
         }
 
         $this->baseUrl = rtrim($parameters['base_url'], '/');

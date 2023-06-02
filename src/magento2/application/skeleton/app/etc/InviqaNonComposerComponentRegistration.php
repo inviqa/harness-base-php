@@ -49,7 +49,7 @@ $find = function () {
 };
 
 $cache = function ($find) {
-    if (getenv(State::PARAM_MODE) !== State::MODE_PRODUCTION) {
+    if (getenv(State::PARAM_MODE, true) !== State::MODE_PRODUCTION) {
         return $find();
     }
 

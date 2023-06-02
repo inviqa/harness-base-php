@@ -20,10 +20,10 @@
  */
 
 // ** MySQL settings ** //
-define('DB_NAME',     getenv('DB_NAME'));
-define('DB_USER',     getenv('DB_USER'));
-define('DB_PASSWORD', getenv('DB_PASS'));
-define('DB_HOST',     getenv('DB_HOST'));
+define('DB_NAME',     getenv('DB_NAME', true));
+define('DB_USER',     getenv('DB_USER', true));
+define('DB_PASSWORD', getenv('DB_PASS', true));
+define('DB_HOST',     getenv('DB_HOST', true));
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
@@ -36,14 +36,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',          getenv('WORDPRESS_AUTH_KEY'));
-define('SECURE_AUTH_KEY',   getenv('WORDPRESS_SECURE_AUTH_KEY'));
-define('LOGGED_IN_KEY',     getenv('WORDPRESS_LOGGED_IN_KEY'));
-define('NONCE_KEY',         getenv('WORDPRESS_NONCE_KEY'));
-define('AUTH_SALT',         getenv('WORDPRESS_AUTH_SALT'));
-define('SECURE_AUTH_SALT',  getenv('WORDPRESS_SECURE_AUTH_SALT'));
-define('LOGGED_IN_SALT',    getenv('WORDPRESS_LOGGED_IN_SALT'));
-define('NONCE_SALT',        getenv('WORDPRESS_NONCE_SALT'));
+define('AUTH_KEY',          getenv('WORDPRESS_AUTH_KEY', true));
+define('SECURE_AUTH_KEY',   getenv('WORDPRESS_SECURE_AUTH_KEY', true));
+define('LOGGED_IN_KEY',     getenv('WORDPRESS_LOGGED_IN_KEY', true));
+define('NONCE_KEY',         getenv('WORDPRESS_NONCE_KEY', true));
+define('AUTH_SALT',         getenv('WORDPRESS_AUTH_SALT', true));
+define('SECURE_AUTH_SALT',  getenv('WORDPRESS_SECURE_AUTH_SALT', true));
+define('LOGGED_IN_SALT',    getenv('WORDPRESS_LOGGED_IN_SALT', true));
+define('NONCE_SALT',        getenv('WORDPRESS_NONCE_SALT', true));
 
 /**
  * WordPress Database Table prefix.
