@@ -11,8 +11,8 @@ bootstrap()
     export NVM_DIR="$HOME/.nvm"
     # shellcheck source=/home/build/nvm.sh
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    . /lib/sidekick.sh
-    . /lib/functions.sh
+    . /usr/lib/sidekick.sh
+    . /usr/lib/functions.sh
 }
 
 bootstrap

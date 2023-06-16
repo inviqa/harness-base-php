@@ -12,7 +12,7 @@ fi
 
 run_shellcheck()
 {
-  docker run --rm --volume "$(pwd):/app" koalaman/shellcheck-alpine:stable /bin/sh -c "find '/app/$ANALYSE_PATH' -type f ! -path '*/application/skeleton/bin/console' ! -path '*/docker/image/console/root/bin/strip-magento-config' ! -path '*/docker/image/console/root/bin/validate-magento-config' ! -path '*/.git/*' ! -path '/app/dist/*' ! -path '/app/tmp-test/*' ! -path '/app/test/*' ! -name '*.xml' ! -name '*.txt' ! -name '*.properties' ! -name '*.twig' -and \( -name "*.sh" -or -perm -0111 \) -print -exec shellcheck --exclude=SC1008,SC1091 {} +"
+  docker run --rm --volume "$(pwd):/app" koalaman/shellcheck-alpine:stable /bin/sh -c "find '/app/$ANALYSE_PATH' -type f ! -path '*/application/skeleton/bin/console' ! -path '*/docker/image/console/root/usr/bin/strip-magento-config' ! -path '*/docker/image/console/root/usr/bin/validate-magento-config' ! -path '*/.git/*' ! -path '/app/dist/*' ! -path '/app/tmp-test/*' ! -path '/app/test/*' ! -name '*.xml' ! -name '*.txt' ! -name '*.properties' ! -name '*.twig' -and \( -name "*.sh" -or -perm -0111 \) -print -exec shellcheck --exclude=SC1008,SC1091 {} +"
 }
 
 run_hadolint()

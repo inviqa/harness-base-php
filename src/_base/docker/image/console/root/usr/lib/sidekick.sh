@@ -9,7 +9,7 @@ INDICATOR_SUCCESS="32m"
 INDICATOR_ERROR="31m"
 INDICATOR_PASSTHRU="37m"
 
-TASKS="/lib/task"
+TASKS="/usr/lib/task"
 
 task()
 {

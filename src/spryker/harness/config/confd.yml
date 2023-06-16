@@ -4,15 +4,15 @@ confd('harness:/'):
   - { src: docker/image/console/Dockerfile }
   - { src: docker/image/console/root/entrypoint.sh }
   - { src: docker/image/console/root/home/build/.my.cnf }
-  - { src: docker/image/console/root/lib/task/database/import.sh }
-  - { src: docker/image/console/root/lib/task/build/frontend.sh }
-  - { src: docker/image/console/root/lib/task/build/backend.sh }
-  - { src: docker/image/console/root/lib/task/composer/install.sh }
-  - { src: docker/image/console/root/lib/task/init.sh }
-  - { src: docker/image/console/root/lib/task/install.sh }
-  - { src: docker/image/console/root/lib/task/migrate.sh }
-  - { src: docker/image/console/root/lib/task/rabbitmq/vhosts.sh }
-  - { src: docker/image/console/root/lib/task/welcome.sh }
+  - { src: docker/image/console/root/usr/lib/task/database/import.sh }
+  - { src: docker/image/console/root/usr/lib/task/build/frontend.sh }
+  - { src: docker/image/console/root/usr/lib/task/build/backend.sh }
+  - { src: docker/image/console/root/usr/lib/task/composer/install.sh }
+  - { src: docker/image/console/root/usr/lib/task/init.sh }
+  - { src: docker/image/console/root/usr/lib/task/install.sh }
+  - { src: docker/image/console/root/usr/lib/task/migrate.sh }
+  - { src: docker/image/console/root/usr/lib/task/rabbitmq/vhosts.sh }
+  - { src: docker/image/console/root/usr/lib/task/welcome.sh }
   - { src: docker/image/console/root/usr/local/etc/php/php.ini }
   - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-blackfire.ini }
   - { src: docker/image/console/root/usr/local/etc/php/conf.d/docker-php-ext-tideways.ini }
@@ -61,9 +61,9 @@ confd('harness:/'):
   # harness-spryker templates
   - { src: application/skeleton/composer-harness.json }
   - { src: application/skeleton/config/install/docker.yml }
-  - { src: docker/image/console/root/lib/task/skeleton/apply.sh }
-  - { src: docker/image/console/root/lib/task/spryker/build/backend.sh }
-  - { src: docker/image/console/root/lib/task/spryker/build/frontend.sh }
+  - { src: docker/image/console/root/usr/lib/task/skeleton/apply.sh }
+  - { src: docker/image/console/root/usr/lib/task/spryker/build/backend.sh }
+  - { src: docker/image/console/root/usr/lib/task/spryker/build/frontend.sh }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf.template }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf.template }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf.template }
