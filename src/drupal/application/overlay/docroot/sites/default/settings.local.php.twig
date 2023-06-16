@@ -2,15 +2,15 @@
 
 $config_directories = [];
 
-$settings['hash_salt'] = getenv('DRUPAL_SALT');
+$settings['hash_salt'] = getenv('DRUPAL_SALT', true);
 
 $config_directories['sync'] = '../config/sync';
 
 $databases['default']['default'] = array (
-  'database'  => getenv('DB_NAME'),
-  'username'  => getenv('DB_USER'),
-  'password'  => getenv('DB_PASS'),
-  'host'      => getenv('DB_HOST'),
+  'database'  => getenv('DB_NAME', true),
+  'username'  => getenv('DB_USER', true),
+  'password'  => getenv('DB_PASS', true),
+  'host'      => getenv('DB_HOST', true),
   'prefix'    => '',
   'port'      => '3306',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
@@ -22,7 +22,7 @@ $databases['default']['default'] = array (
 {% endif %}
 );
 
-$settings['trusted_host_patterns'][] = '^' . preg_quote(getenv('APP_HOST')) . '$';
+$settings['trusted_host_patterns'][] = '^' . preg_quote(getenv('APP_HOST', true)) . '$';
 
 {% if @('app.build') == 'static' %}
 // TODO: come up with an approach which allows asset aggregation

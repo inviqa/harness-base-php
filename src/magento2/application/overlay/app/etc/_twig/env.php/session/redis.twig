@@ -1,12 +1,12 @@
   [
       'save'  => 'redis',
       'redis' => [
-          'host'                  => getenv('REDIS_SESSION_HOST')?:'redis-session',
-          'port'                  => getenv('REDIS_SESSION_PORT')?:'6379',
+          'host'                  => getenv('REDIS_SESSION_HOST', true)?:'redis-session',
+          'port'                  => getenv('REDIS_SESSION_PORT', true)?:'6379',
           'password'              => '',
           'timeout'               => '2.5',
           'persistent_identifier' => '',
-          'database'              => getenv('REDIS_DB')?:'1',
+          'database'              => getenv('REDIS_DB', true)?:'1',
           'compression_threshold' => '2048',
           'compression_library'   => 'gzip',
           'log_level'             => '1',
