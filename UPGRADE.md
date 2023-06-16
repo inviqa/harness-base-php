@@ -4,6 +4,21 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 1.4.x to 1.6.x
 
+### /bin and /lib are now /usr/bin and /usr/lib
+
+The latest linux distributions have merged several top-level folders with their /usr folders. The top-level folder has been replaced with a symlink. This isn't supported in Docker COPY operations, so its now changed to the canonical folder names under /usr
+
+For the harnesses, this means:
+
+* Files copied to /bin are now copied to /usr/bin instead.
+* Files copied to /lib are now copied to /usr/lib instead.
+
+If you don't override or add any /lib/task files in your workspace overlay (usuually in tools/workspace/docker/console/lib), or add any /bin files, then you'll likely not need to change anything for this in the upgrade, but otherwise you'll also need to use this folder structure.
+
+Whilst Debian 11 (Bullseye) and lower are not merging the folders, the location in the harness still has changed to be under /usr for them, since still compatible with their folder structure.
+
+For PHP images using Debian 12 (Bookworm), this change is necessary.
+
 ### Drupal Writable Directories
 
 The drupal harness no longer sets /app/config, /app/docroot/modules and /app/docroot/profiles to be web-writable at runtime.
