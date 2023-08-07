@@ -20,7 +20,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && mkdir /var/www/.jenkins /data \
  && chown www-data:www-data /var/www/.jenkins /data
 
-COPY root-jenkins-runner /
+COPY .my127ws/docker/image/app/root-jenkins-runner /
 
 ENTRYPOINT ["/entrypoint.jenkins_runner.sh"]
 CMD ["app", "jenkins", "start"]

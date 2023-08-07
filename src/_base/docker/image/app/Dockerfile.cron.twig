@@ -15,7 +15,7 @@ RUN apt-get update -qq \
  && chown -R www-data:www-data /tmp/php-file-cache
 
 WORKDIR /app
-COPY root-cron /
+COPY .my127ws/docker/image/app/root-cron /
 RUN chmod +x /cron-run-with-env.sh /entrypoint.sh /entrypoint.dynamic.sh
 {%- if @('app.build') == 'static' %} \
  && bash /fix_app_permissions.sh

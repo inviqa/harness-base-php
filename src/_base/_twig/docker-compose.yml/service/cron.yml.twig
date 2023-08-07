@@ -1,6 +1,7 @@
   cron:
     build:
-      context: .my127ws/docker/image/app
+      context: ./
+      dockerfile: .my127ws/docker/image/app/Dockerfile
       target: cron
 {% if @('app.build') == 'dynamic' %}
     volumes:

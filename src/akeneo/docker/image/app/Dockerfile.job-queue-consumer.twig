@@ -1,7 +1,7 @@
 FROM base as job-queue-consumer
 
 WORKDIR /app
-COPY root-job-queue-consumer /
+COPY .my127ws/docker/image/app/root-job-queue-consumer /
 
 RUN mkdir -p /tmp/php-file-cache \
  && chown -R www-data:www-data /tmp/php-file-cache \

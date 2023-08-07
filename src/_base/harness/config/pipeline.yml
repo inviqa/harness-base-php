@@ -6,8 +6,6 @@ command('app build'):
     #!bash(workspace:/)|@
     ws external-images pull
 
-    # console is used as an intermediate image
-    passthru $COMPOSE_BIN build console
     passthru $COMPOSE_BIN build
 
 command('app build <service>'):
