@@ -107,20 +107,7 @@ dynamic()
 
     dynamic_console
 
-    passthru "${COMPOSE_BIN[*]} config --services | grep -v -Fwe console -Fxe cron -Fxe jenkins-runner -Fxe job-queue-consumer | xargs ${COMPOSE_BIN[*]} build"
-
-    {% if @('services.cron.enabled') %}
-        passthru "${COMPOSE_BIN[@]}" build cron
-    {% endif %}
-    {% if @('services.jenkins-runner.enabled') %}
-        passthru "${COMPOSE_BIN[@]}" build jenkins-runner
-    {% endif %}
-    {% if @('services.job-queue-consumer.enabled') %}
-        passthru "${COMPOSE_BIN[@]}" build job-queue-consumer
-    {% endif %}
-    {% if @('services.solr.enabled') %}
-        passthru "${COMPOSE_BIN[@]}" build solr
-    {% endif %}
+    passthru "${COMPOSE_BIN[*]} config --services | grep -v -Fwe console | xargs ${COMPOSE_BIN[*]} build"
 }
 
 static_console()

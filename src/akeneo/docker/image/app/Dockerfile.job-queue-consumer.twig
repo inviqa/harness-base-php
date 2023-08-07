@@ -1,11 +1,7 @@
-{% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-php-fpm
-{% else %}
-FROM {{ @('workspace.name') ~ '-php-fpm:dev' }}
-{% endif %}
+FROM base as job-queue-consumer
 
 WORKDIR /app
-COPY .my127ws/docker/image/job-queue-consumer/root /
+COPY root-job-queue-consumer /
 
 RUN mkdir -p /tmp/php-file-cache \
  && chown -R www-data:www-data /tmp/php-file-cache \

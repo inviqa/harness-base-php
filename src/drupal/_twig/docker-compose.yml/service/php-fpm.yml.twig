@@ -4,7 +4,9 @@
 {% endif %}
 
   php-fpm:
-    build: .my127ws/docker/image/php-fpm
+    build: 
+      context: .my127ws/docker/image/app
+      target: php-fpm
 {% if @('app.build') == 'dynamic' %}
 {% if @('services.cron.enabled') %}
     image: {{ @('workspace.name') ~ '-php-fpm:dev' }}

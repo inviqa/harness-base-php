@@ -5,9 +5,10 @@ RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi; \
   if [ -d {{ @('frontend.path') }}/node_modules/ ]; then rm -rf {{ @('frontend.path') }}/node_modules/; fi;
 
 {% endif %}
-FROM {{ @('docker.image.php-fpm') }}
+FROM {{ @('docker.image.php-fpm') }} as base
+LABEL build="{{ @('namespace') ~ ':' ~ @('app.version') }}"
 WORKDIR /app
-COPY root  /
+COPY root-base  /
 
 # installing tools in the image is deprecated
 RUN ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini "https://github.com/krallin/tini/releases/download/v0.19.0/tini-$(dpkg --print-architecture)") \

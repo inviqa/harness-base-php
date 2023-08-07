@@ -1,6 +1,17 @@
 # this file is not considered part of the public API so changes aren't considered breaking
 confd('harness:/'):
   # base templates
+  - { src: docker/image/app/Dockerfile }
+  - { src: docker/image/app/root-base/entrypoint.sh }
+  - { src: docker/image/app/root-base/fix_app_permissions.sh }
+  - { src: docker/image/app/root-base/usr/local/etc/php/php.ini }
+  - { src: docker/image/app/root-base/usr/local/etc/php/conf.d/docker-php-ext-blackfire.ini }
+  - { src: docker/image/app/root-base/usr/local/etc/php/conf.d/docker-php-ext-tideways.ini }
+  - { src: docker/image/app/root-base/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
+  - { src: docker/image/app/root-base/usr/local/etc/php-fpm.d/pool.conf.template }
+  - { src: docker/image/app/root-cron/crontab }
+  - { src: docker/image/app/root-cron/entrypoint.sh }
+  - { src: docker/image/app/root-cron/usr/local/etc/php/php.ini }
   - { src: docker/image/console/Dockerfile }
   - { src: docker/image/console/root/entrypoint.sh }
   - { src: docker/image/console/root/home/build/.my.cnf }
@@ -25,24 +36,12 @@ confd('harness:/'):
   #- { src: docker/image/nginx/root/etc/nginx/conf.d/default.conf.template } Deliberately missing
   - { src: docker/image/nginx/root/etc/ssl/certs/app.crt }
   - { src: docker/image/nginx/root/etc/ssl/private/app.key }
-  - { src: docker/image/php-fpm/Dockerfile }
-  - { src: docker/image/php-fpm/root/entrypoint.sh }
-  - { src: docker/image/php-fpm/root/fix_app_permissions.sh }
-  - { src: docker/image/php-fpm/root/usr/local/etc/php/php.ini }
-  - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-blackfire.ini }
-  - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-tideways.ini }
-  - { src: docker/image/php-fpm/root/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini }
-  - { src: docker/image/php-fpm/root/usr/local/etc/php-fpm.d/pool.conf.template }
   - { src: docker/image/solr/Dockerfile }
   - { src: docker/image/tls-offload/root/etc/nginx/conf.d/0-nginx.conf }
   - { src: docker/image/tls-offload/root/etc/nginx/conf.d/default.conf }
   - { src: docker/image/tls-offload/root/etc/ssl/certs/app.crt }
   - { src: docker/image/tls-offload/root/etc/ssl/private/app.key }
   - { src: docker/image/varnish/root/etc/varnish/default.vcl }
-  - { src: docker/image/cron/Dockerfile }
-  - { src: docker/image/cron/root/crontab }
-  - { src: docker/image/cron/root/entrypoint.sh }
-  - { src: docker/image/cron/root/usr/local/etc/php/php.ini }
   - { src: application/overlay/Jenkinsfile }
   - { src: application/overlay/auth.json }
   - { src: application/overlay/.dockerignore, dst: workspace:/.dockerignore }
@@ -61,13 +60,12 @@ confd('harness:/'):
   # harness-spryker templates
   - { src: application/skeleton/composer-harness.json }
   - { src: application/skeleton/config/install/docker.yml }
+  - { src: docker/image/app/root-jenkins-runner/usr/local/etc/php/php.ini }
   - { src: docker/image/console/root/usr/lib/task/skeleton/apply.sh }
   - { src: docker/image/console/root/usr/lib/task/spryker/build/backend.sh }
   - { src: docker/image/console/root/usr/lib/task/spryker/build/frontend.sh }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/glue.conf.template }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/yves.conf.template }
   - { src: docker/image/nginx/root/etc/nginx/conf.d/zed.conf.template }
-  - { src: docker/image/jenkins-runner/Dockerfile }
-  - { src: docker/image/jenkins-runner/root/usr/local/etc/php/php.ini }
   - { src: helm/preview/requirements.yaml }
   - { src: helm/preview/values.yaml }

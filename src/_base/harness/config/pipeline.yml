@@ -2,35 +2,13 @@
 command('app build'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    HAS_CRON: "= @('services.cron.enabled') ? 'true' : 'false'"
-    HAS_JENKINS_RUNNER: "= @('services.jenkins-runner.enabled') ? 'true' : 'false'"
-    HAS_JOB_QUEUE_CONSUMER: "= @('services.job-queue-consumer.enabled') ? 'true' : 'false'"
-    HAS_WEBAPP: "= @('services.webapp.enabled') ? 'true' : 'false'"
-    HAS_SOLR: "= @('services.solr.enabled') ? 'true' : 'false'"
   exec: |
     #!bash(workspace:/)|@
     ws external-images pull
 
-    # dependency ordered build
+    # console is used as an intermediate image
     passthru $COMPOSE_BIN build console
-    if [[ "${HAS_WEBAPP}" == "true" ]] || [[ "${HAS_CRON}" == "true" ]] || [ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]; then
-      passthru $COMPOSE_BIN build php-fpm
-    fi
-    if [[ "${HAS_WEBAPP}" == "true" ]]; then
-      passthru $COMPOSE_BIN build nginx
-    fi
-    if [[ "${HAS_CRON}" == "true" ]]; then
-      passthru $COMPOSE_BIN build cron
-    fi
-    if [[ "${HAS_JENKINS_RUNNER}" == "true" ]]; then
-      passthru $COMPOSE_BIN build jenkins-runner
-    fi
-    if [[ "${HAS_JOB_QUEUE_CONSUMER}" == "true" ]]; then
-      passthru $COMPOSE_BIN build job-queue-consumer
-    fi
-    if [[ "${HAS_SOLR}" == "true" ]]; then
-      passthru $COMPOSE_BIN build solr
-    fi
+    passthru $COMPOSE_BIN build
 
 command('app build <service>'):
   env:
