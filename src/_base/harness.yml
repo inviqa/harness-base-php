@@ -1,6 +1,8 @@
 ---
 harness('inviqa/php'):
   description: A docker based development environment for PHP
+  parentLayers:
+    - inviqa/docker:v0.2.0 # will need to be 0.3.0
   require:
     services:
       - proxy
@@ -9,10 +11,13 @@ harness('inviqa/php'):
       - harness:/
 ---
 attributes:
-  app:
-    services:
-      - chrome
-      - mysql
+  services:
+    chrome:
+      enabled: true
+    lighthouse:
+      enabled: true
+    mysql:
+      enabled: true
 ---
 import:
   - harness/config/*.yml

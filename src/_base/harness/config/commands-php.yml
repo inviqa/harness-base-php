@@ -1,0 +1,99 @@
+
+command('frontend build'):
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru $COMPOSE_BIN exec -u build console app build:frontend
+
+command('frontend watch'):
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
+    $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
+
+command('frontend console'):
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
+    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i
+
+command('service php-fpm restart'):
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+  exec: |
+    #!bash(workspace:/)|@
+    passthru ws install --step=prepare
+    $COMPOSE_BIN exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    $COMPOSE_BIN exec php-fpm bash -c 'cp -r /.my127ws/docker/image/app/root-base/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    passthru $COMPOSE_BIN exec php-fpm supervisorctl restart php-fpm
+
+command('feature blackfire (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-blackfire.enable'
+    ATTR_VAL: = boolToString(input.command(3) == 'on')
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up php-fpm with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature blackfire cli (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-blackfire.cli.enable'
+    ATTR_VAL: = boolToString(input.command(4) == 'on')
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up console with the new setting'
+    run ws service
+
+command('feature tideways (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-tideways.enable'
+    ATTR_VAL: = boolToString(input.command(3) == 'on')
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up php-fpm with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature tideways cli (on|off)'):
+  env:
+    ATTR_KEY: 'php.ext-tideways.cli.enable'
+    ATTR_VAL: = boolToString(input.command(4) == 'on')
+  exec: |
+    #!bash(workspace:/)|=
+    ws set $ATTR_KEY $ATTR_VAL
+    echo 'Updating templates in .my127ws/'
+    run ws install --step=prepare
+    echo 'Bringing up console with the new setting'
+    run ws service php-fpm restart
+    echo 'Done'
+
+command('feature tideways cli configure <server_key>'):
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+    COMPOSE_PROJECT_NAME: = @('namespace')
+    TIDEWAYS_SERVERKEY: = input.argument('server_key')
+  exec: |
+    #!bash(workspace:/)|=
+    echo "Importing Provided Tideways CLI Key (from https://app.tideways.io/user/cli-import-settings)"
+    $COMPOSE_BIN exec -T -u build console tideways import "$TIDEWAYS_SERVERKEY"
+    echo "Imported Tideways CLI key"

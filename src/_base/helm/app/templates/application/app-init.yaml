@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ $.Values.resourcePrefix }}app-init
+  name: {{ $.Release.Name }}-app-init
   annotations:
     helm.sh/hook: "post-install"
     helm.sh/hook-delete-policy: "before-hook-creation"
@@ -17,36 +17,21 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "chart.labels" $ | nindent 8 }}
+        {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: app-init
     spec:
-      restartPolicy: Never
       containers:
-      - env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else }}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .environment_secrets }}
-        envFrom:
-          - secretRef:
-              name: {{ $.Values.resourcePrefix }}console
-        {{- end }}
+      - name: app-init
+        {{- include "service.environment" (dict "root" $ "serviceName" "console" "service" .) | nindent 8 }}
         image: {{ .image | quote }}
         imagePullPolicy: Always
-        name: app-init
-{{ if eq $.Values.ingress.type "istio" }}
+{{- if $.Values.global | dig "istio" "enabled" false }}
         command: ["/bin/sh"]
         args: ["-c", "/entrypoint.sh app init ; code=$? ; curl -vv --request POST http://127.0.0.1:15020/quitquitquit ; exit $code"]
-{{ else }}
+{{- else }}
         command: ["/entrypoint.sh"]
         args: ["app", "init"]
-{{ end }}
+{{- end }}
         resources:
           limits:
             memory: {{ .resources.init_memory }}
@@ -59,7 +44,7 @@ spec:
         {{- end }}
 {{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ $.Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Release.Name }}-image-pull-config
 {{- end }}
       restartPolicy: Never
       enableServiceLinks: false

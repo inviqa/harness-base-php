@@ -1,10 +1,11 @@
 {% set syncvolume = false %}
-{% if @('host.os') == 'darwin' and bool(@('mutagen')) %}
+{% if @('host.os') == 'darwin' and @('mutagen') %}
 {% set syncvolume = true %}
 {% endif %}
 {% set hostnames = [@('hostname')] %}
 {% set hostnames = hostnames|merge(@('hostname_aliases')|map(alias => "#{alias}." ~ @('domain'))) %}
 {% set traefikRules = hostnames|map(hostname => "Host(`" ~ hostname ~ "`)") %}
+services:
   nginx:
     build: .my127ws/docker/image/nginx
 {% if @('app.build') == 'dynamic' %}

@@ -1,8 +1,8 @@
 {% set syncvolume = false %}
-{% if @('host.os') == 'darwin' and bool(@('mutagen')) %}
+{% if @('host.os') == 'darwin' and @('mutagen') %}
 {% set syncvolume = true %}
 {% endif %}
-
+services:
   console:
     build:
       context: ./

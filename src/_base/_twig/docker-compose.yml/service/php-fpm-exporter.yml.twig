@@ -1,3 +1,4 @@
+services:
   php-fpm-exporter:
     image: {{ @('services.php-fpm-exporter.image') }}
     environment: {{ to_nice_yaml(deep_merge([

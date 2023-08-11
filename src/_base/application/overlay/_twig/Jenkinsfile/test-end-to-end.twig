@@ -1,0 +1,14 @@
+        stage('End-to-end Test') {
+            parallel {
+                stage('acceptance') {
+                    steps { sh 'ws exec composer test-acceptance' }
+                    post { failure { script { failureMessages << 'Acceptance tests' } } }
+                }
+{% if @('services.lighthouse.enabled') %}
+                stage('lighthouse') {
+                    steps { sh 'ws lighthouse' }
+                    post { failure { script { failureMessages << 'Lighthouse tests' } } }
+                }
+{% endif %}
+            }
+        }

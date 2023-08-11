@@ -173,7 +173,7 @@ function run_project_quality_tests()
   local harness="$1"
   cd "${path_test}"
 
-  ws helm kubeval --cleanup qa
+  ws helm kubeval --cleanup app
 
   # Check if we have a composer.json so we can run tests
   # Check inside the console container as static builds do not

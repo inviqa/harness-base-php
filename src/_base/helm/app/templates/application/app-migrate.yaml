@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ $.Values.resourcePrefix }}app-migrate
+  name: {{ $.Release.Name }}-app-migrate
   annotations:
     helm.sh/hook: "pre-upgrade"
     helm.sh/hook-delete-policy: "before-hook-creation"
@@ -20,31 +20,17 @@ spec:
         app.kubernetes.io/component: app-migrate
     spec:
       containers:
-      - env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else }}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .environment_secrets }}
-        envFrom:
-          - secretRef:
-              name: {{ $.Values.resourcePrefix }}console
-        {{- end }}
+      - name: app-migrate
+        {{- include "service.environment" (dict "root" $ "serviceName" "console" "service" .) | nindent 8 }}
         image: {{ .image }}
         imagePullPolicy: Always
-        name: app-migrate
-{{ if eq $.Values.ingress.type "istio" }}
+{{- if $.Values.global | dig "istio" "enabled" false }}
         command: ["/bin/sh"]
         args: ["-c", "/entrypoint.sh app migrate ; code=$? ; curl -vv -request POST http://127.0.0.1:15020/quitquitquit ; exit $code"]
-{{ else }}
+{{- else }}
         command: ["/entrypoint.sh"]
         args: ["app", "migrate"]
-{{ end }}
+{{- end }}
         resources:
           limits:
             memory: {{ .resources.migrate_memory }}
@@ -57,7 +43,7 @@ spec:
         {{- end }}
 {{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ $.Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Release.Name }}-image-pull-config
 {{- end }}
       restartPolicy: Never
       enableServiceLinks: false

@@ -1,9 +1,0 @@
-{% if @('pipeline.preview.global') %}
-global: {{ to_nice_yaml(@('pipeline.preview.global'), 2, 2) | raw }}  
-{% endif %}
-{% if @('pipeline.preview.services') %}
-services: {{ to_nice_yaml(@('pipeline.preview.services'), 2, 2) | raw }}  
-{% endif %}
-{% if @('pipeline.preview.persistence') %}
-persistence: {{ to_nice_yaml(@('pipeline.preview.persistence'), 2, 2) | raw }}
-{% endif %}
