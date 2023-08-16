@@ -2,7 +2,7 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
-## Upgrading from 1.4.x to 1.6.x
+## Upgrading from 1.5.x to 1.6.x
 
 ### /bin and /lib are now /usr/bin and /usr/lib
 
@@ -18,6 +18,8 @@ If you don't override or add any /lib/task files in your workspace overlay (usuu
 Whilst Debian 11 (Bullseye) and lower are not merging the folders, the location in the harness still has changed to be under /usr for them, since still compatible with their folder structure.
 
 For PHP images using Debian 12 (Bookworm), this change is necessary.
+
+## Upgrading from 1.4.x to 1.5.x
 
 ### Drupal Writable Directories
 
