@@ -149,6 +149,7 @@ attributes:
       resources:
         memory: "1024Mi"
     redis:
+      enabled: "= 'redis' in @('app.services')"
       image: redis:6-alpine
       options:
         # Handle many smaller keys
@@ -166,6 +167,7 @@ attributes:
         # 1.5 * maxmemory to allow copy on write snapshots
         memory: "1.5Gi"
     redis-session:
+      enabled: "= 'redis-session' in @('app.services')"
       image: redis:6-alpine
       options:
         # Handle many smaller keys
