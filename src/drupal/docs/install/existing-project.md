@@ -6,7 +6,7 @@
     ```
     From here, run the `ws create` command, but don't run the installation:
     ```bash
-    ws create <projectName> inviqa/drupal8:v1.5.1 --no-install
+    ws create <projectName> inviqa/drupal8:v1.5.2 --no-install
     ```
     (Note: see [harnesses.json] for available versions.)
 

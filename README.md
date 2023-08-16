@@ -36,7 +36,7 @@ A developer for a project can follow these steps to upgrade their harness versio
 ```bash
 git clone git@github.com:inviqa/harness-<framework>.git
 cd harness-<framework>
-git checkout 1.5.1
+git checkout 1.5.2
 pwd # Use this path for the diff in step 3
 ```
 4. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
@@ -218,10 +218,10 @@ If the next release does not make sense to be in the current 1.5.x branch:
   grep -FR '1.5.x' . | grep -v dist/
   # Edit resulting files
   ```
-3. Adjust references in this file from 1.5.1 to 1.6.x:
+3. Adjust references in this file from 1.5.2 to 1.6.x:
   ```bash
-  grep -FR '1.5.1' README.md
-  grep -FR '1.5.1' README.md
+  grep -FR '1.5.2' README.md
+  grep -FR '1.5.2' README.md
   # Edit resulting files
   ```
 4. Commit the resulting files and push:
