@@ -1,7 +1,9 @@
 #!/bin/bash
 
 run_steps()
-{
+(
+    export SIDEKICK_VERBOSE=yes
+
     {% for poolName, pool in @('php-fpm.pools') -%}
     FPM_NAME="{{ poolName }}" FPM_PORT="{{ pool.port }}" envsubst < /usr/local/etc/php-fpm.d/pool.conf.template > /usr/local/etc/php-fpm.d/{{ poolName }}.conf;
     {% endfor %}
@@ -22,7 +24,7 @@ run_steps()
           rm /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
       fi
     fi
-}
+)
 
 run_steps
 

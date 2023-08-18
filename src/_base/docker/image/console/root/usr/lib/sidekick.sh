@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERBOSE="no"
+VERBOSE="${SIDEKICK_VERBOSE:-no}"
 
 RUN_CWD=""
 
