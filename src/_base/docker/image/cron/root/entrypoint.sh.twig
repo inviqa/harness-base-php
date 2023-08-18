@@ -13,7 +13,8 @@ setup_app_networking()
 }
 
 run_steps()
-{
+(
+    export SIDEKICK_VERBOSE=yes
     # run any command required to be executed at docker startup
     {% for step in @('php.entrypoint.steps') -%}
     {{ step|raw }}
@@ -34,7 +35,7 @@ run_steps()
           rm /usr/local/etc/php/conf.d/docker-php-ext-tideways.ini
       fi
     fi
-}
+)
 
 dump_environment_variables()
 {

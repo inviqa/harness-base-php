@@ -47,5 +47,6 @@ bootstrap
 if [ "${1:-}" == "sleep" ]; then
     exec /sbin/tini -- bash -c "$(printf "%q " "$@")"
 else
+    export SIDEKICK_VERBOSE=yes
     exec /sbin/tini -- "$@"
 fi
