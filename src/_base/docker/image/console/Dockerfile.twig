@@ -55,7 +55,7 @@ RUN composer --no-plugins global remove hirak/prestissimo
 {% if @('app.build') == 'static' %}
 COPY --chown=build:build .my127ws/application  /home/build/application
 COPY --chown=build:build ./                    /app
-RUN app build
+RUN SIDEKICK_VERBOSE=yes app build
 {% else %}
 VOLUME /app
 VOLUME /home/build/application
