@@ -29,7 +29,9 @@ spec:
     - type: Resource
       resource:
         name: memory
-        targetAverageUtilization: {{ . }}
+        target:
+          type: Utilization
+          averageUtilization: {{ . }}
     {{- end }}
     {{- with $autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
