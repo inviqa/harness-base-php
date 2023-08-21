@@ -29,25 +29,17 @@ spec:
     - type: Resource
       resource:
         name: memory
-        {{- if semverCompare ">=1.23-0" $.Capabilities.KubeVersion.Version }}
         target:
           type: Utilization
           averageUtilization: {{ . }}
-        {{- else }}
-        targetAverageUtilization: {{ . }}
-        {{- end }}
     {{- end }}
     {{- with $autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
-        {{- if semverCompare ">=1.23-0" $.Capabilities.KubeVersion.Version }}
         target:
           type: Utilization
           averageUtilization: {{ . }}
-        {{- else }}
-        targetAverageUtilization: {{ . }}
-        {{- end }}
     {{- end }}
   scaleTargetRef:
     apiVersion: apps/v1
