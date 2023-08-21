@@ -155,13 +155,9 @@ MY127WS_ENV=pipeline ws install
 
 ## Deployment
 
-### Deploy Script
+### Release archives
 
-The [deploy script](./deploy) does a similar thing but the end result is output to `src/<framework>`, where it is then
-committed as a publish commit to a temporary build branch.
-
-A "subtree-split" is then performed which outputs a directory for each folder into a "publish" folder, where it is then
-force pushed to the individual harness repositories' `2.0.x` branch.
+Once a Github release has been created, a Github Action will build and create archives of each harness and upload them to the release.
 
 ## Release
 
@@ -189,20 +185,8 @@ When you're ready to release:
 1. Draft a new release https://github.com/inviqa/harness-base-php/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
 2. Click `Generate release notes`
 3. Publish the release
-4. Ensure you are on the 2.0.x branch locally, and it's up to date
-4. Verify you don't have any ignored files in `src/`, and clean up if you do: `git status --ignored`
-5. Run the deploy script: `./deploy`
-6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
+4. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
-7. Create a "Github Release" for downstream repositories, pasting in the changelog for the release from the previously generated release notes:
-   - https://github.com/inviqa/harness-php/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-akeneo/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-drupal/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-magento1/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-magento2/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-spryker/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-symfony/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
-   - https://github.com/inviqa/harness-wordpress/releases/new?tag=2.0.0&title=2.0.0&target=2.0.x
 
 ### Post-release actions
 
@@ -239,13 +223,5 @@ If the next release does not make sense to be in the current 2.0.x branch:
 
 [Workspace]: https://github.com/my127/workspace
 [GitHub Changelog Generator]: https://github.com/github-changelog-generator/github-changelog-generator
-[inviqa/harness-php]: https://github.com/inviqa/harness-php
-[inviqa/harness-akeneo]: https://github.com/inviqa/harness-akeneo
-[inviqa/harness-drupal]: https://github.com/inviqa/harness-drupal
-[inviqa/harness-magento1]: https://github.com/inviqa/harness-magento1
-[inviqa/harness-magento2]: https://github.com/inviqa/harness-magento2
-[inviqa/harness-spryker]: https://github.com/inviqa/harness-spryker
-[inviqa/harness-symfony]: https://github.com/inviqa/harness-symfony
-[inviqa/harness-wordpress]: https://github.com/inviqa/harness-wordpress
 [my127/my127.io]: https://github.com/my127/my127.io
 [version specific upgrade instructions]: https://github.com/inviqa/harness-base-php/blob/2.0.x/UPGRADE.md
