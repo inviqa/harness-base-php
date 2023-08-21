@@ -1,0 +1,31 @@
+on:
+  release:
+    types:
+      - created
+
+name: Attach archives to release
+
+jobs:
+  build:
+    name: Build and upload archives
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+            fetch-depth: 0
+
+      - name: Create archives
+        run: ./build --archive
+      
+      - name: Generate sha256sum
+        working-directory: ./dist
+        run: sha256sum harness-*.tgz > ./sha256sum
+
+      - name: "Upload archives to Release"
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ./dist/harness-*.tgz
+            ./dist/sha256sum

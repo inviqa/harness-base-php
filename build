@@ -3,7 +3,31 @@
 set -e
 set -x
 
+function usage() {
+    cat <<EOF
+$0 [--archive]
+EOF
+}
+
 HARNESSES=(akeneo drupal magento1 magento2 spryker symfony wordpress)
+ARCHIVE=0
+ARGS=()
+
+while [ $# -ne 0 ]; do
+  case "$1" in
+    --help)
+      usage
+      exit 0
+      ;;
+    --archive)
+      ARCHIVE=1
+      ;;
+    *)
+      ARGS+=("$1")
+  esac
+  shift 1
+done
+
 
 function main()
 {
@@ -12,7 +36,14 @@ function main()
     for harness in "${HARNESSES[@]}"
     do
         build "$harness"
+        if [ "$ARCHIVE" -gt 0 ]; then
+            archive "$harness"
+        fi
     done
+
+    if [ "$ARCHIVE" -gt 0 ]; then
+        archive "php"
+    fi
 }
 
 function build()
@@ -48,6 +79,16 @@ function build_base()
     mkdir "$harness_dist_path"
 
     rsync -va "./src/_base/" "$harness_dist_path"
+}
+
+function archive()
+{
+    pushd ./dist >/dev/null
+
+    tar -czvf "./harness-$1.tgz" "harness-$1"
+    rm -rf "./harness-$1"
+
+    popd >/dev/null
 }
 
 main
