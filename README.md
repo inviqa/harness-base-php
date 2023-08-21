@@ -214,12 +214,6 @@ If the next release does not make sense to be in the current 2.0.x branch:
   git commit
   git push origin -u HEAD
   ```
-5. Change the default branch in GitHub settings and re-target any open PRs against the new default branch.
-6. Run a deployment of the 2.1.x branch so the branches now exist in the downstream repositories:
-  ```bash
-  ./deploy
-  ```
-7. Adjust each downstream repository's default branch so people can easily follow the README
 
 [Workspace]: https://github.com/my127/workspace
 [GitHub Changelog Generator]: https://github.com/github-changelog-generator/github-changelog-generator
