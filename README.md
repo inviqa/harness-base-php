@@ -223,5 +223,13 @@ If the next release does not make sense to be in the current 2.0.x branch:
 
 [Workspace]: https://github.com/my127/workspace
 [GitHub Changelog Generator]: https://github.com/github-changelog-generator/github-changelog-generator
+[inviqa/harness-php]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/_base
+[inviqa/harness-akeneo]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/akeneo
+[inviqa/harness-drupal]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/drupal
+[inviqa/harness-magento1]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/magento1
+[inviqa/harness-magento2]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/magento2
+[inviqa/harness-spryker]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/spryker
+[inviqa/harness-symfony]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/symfony
+[inviqa/harness-wordpress]: https://github.com/inviqa/harness-base-php/tree/2.0.x/src/wordpress
 [my127/my127.io]: https://github.com/my127/my127.io
 [version specific upgrade instructions]: https://github.com/inviqa/harness-base-php/blob/2.0.x/UPGRADE.md
