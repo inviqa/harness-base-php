@@ -85,7 +85,7 @@ function archive()
 {
     pushd ./dist >/dev/null
 
-    tar -czvf "./harness-$1.tgz" "./harness-$1"
+    tar -czvf "./harness-$1.tgz" "harness-$1"
     rm -rf "./harness-$1"
 
     popd >/dev/null
