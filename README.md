@@ -171,14 +171,14 @@ We use Gitlab release notes to generate and store changelogs.
 
 When ready to tag a release, make a new branch from the `1.6.x` branch for the changelog entries:
 
-1. Draft a release (don't publish it) https://github.com/inviqa/harness-base-php/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
+1. Draft a release (don't publish it) https://github.com/inviqa/harness-base-php/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
 2. Click `Generate release notes`
 3. Examine the release notes. For every entry in the `Other Changes` section, examine the Pull Requests
    and assign each pull request either a `enhancement` label for a new feature, `bug` for a bugfix or `deprecated` for
    a deprecation.
 4. For each Pull Request in the release, assign an appropriate `harness-*` label.
 5. Re-generate the changelog using step 2 as needed. Clearing the release notes to allow regeneration.
-6. Adjust the version for each framework's README.md: `sed -i '' s/1\.5\.0/1.6.0/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
+6. Adjust the version for each framework's README.md: `sed -i '' s/1\.6\.0/1.6.1/ README.md src/*/README.md src/*/docs/*.md  src/*/docs/*/*.md`
 7. Commit the resulting changes, push and raise a pull request.
 8. Once merged, continue with the release process below.
 
@@ -186,7 +186,7 @@ When ready to tag a release, make a new branch from the `1.6.x` branch for the c
 
 When you're ready to release:
 
-1. Draft a new release https://github.com/inviqa/harness-base-php/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
+1. Draft a new release https://github.com/inviqa/harness-base-php/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
 2. Click `Generate release notes`
 3. Publish the release
 4. Ensure you are on the 1.6.x branch locally, and it's up to date
@@ -195,14 +195,14 @@ When you're ready to release:
 6. Submit a pull request to [my127/my127.io] which adds the new release version and asset download URL for the
    php-based harnesses to `harnesses.json`
 7. Create a "Github Release" for downstream repositories, pasting in the changelog for the release from the previously generated release notes:
-   - https://github.com/inviqa/harness-php/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-drupal/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-magento1/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-magento2/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-spryker/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-symfony/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
-   - https://github.com/inviqa/harness-wordpress/releases/new?tag=1.6.0&title=1.6.0&target=1.6.x
+   - https://github.com/inviqa/harness-php/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-akeneo/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-drupal/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-magento1/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-magento2/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-spryker/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-symfony/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
+   - https://github.com/inviqa/harness-wordpress/releases/new?tag=1.6.1&title=1.6.1&target=1.6.x
 
 ### Post-release actions
 
