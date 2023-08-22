@@ -9,14 +9,14 @@ Each framework will fully override a base harness file if differing behaviour is
 
 ## Available Frameworks
 
-* [PHP (used as a base for everything else)](src/_base/), published to [inviqa/harness-php]
-* [Akeneo (PIM)](src/akeneo/), published to [inviqa/harness-akeneo]
-* [Drupal (CMS)](src/drupal/), published to [inviqa/harness-drupal]
-* [Magento 1.x (Ecommerce)](src/magento1/), published to [inviqa/harness-magento1]
-* [Magento 2.x (Ecommerce)](src/magento2/), published to [inviqa/harness-magento2]
-* [Spryker (Ecommerce)](src/spryker/), published to [inviqa/harness-spryker]
-* [Symfony](src/symfony/), published to [inviqa/harness-symfony]
-* [Wordpress (CMS)](src/wordpress/), published to [inviqa/harness-wordpress]
+* [PHP (used as a base for everything else)](src/_base/)
+* [Akeneo (PIM)](src/akeneo/)
+* [Drupal (CMS)](src/drupal/)
+* [Magento 1.x (Ecommerce)](src/magento1/)
+* [Magento 2.x (Ecommerce)](src/magento2/)
+* [Spryker (Ecommerce)](src/spryker/)
+* [Symfony](src/symfony/)
+* [Wordpress (CMS)](src/wordpress/)
 
 ## Features of each harness
 
