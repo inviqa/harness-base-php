@@ -4,6 +4,18 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 1.6.x to 2.0.x
 
+### `docker-compose` command now `docker compose`
+
+In line with the preferred way to run Docker Compose v2, the harness will now use the binary from it's Docker plugin architecture.
+
+This means all `docker-compose` commands are replaced with `docker compose`. For Docker Desktop users there is no difference, however Linux users may need to [install the Compose plugin](https://docs.docker.com/compose/install/linux/).
+
+If you really would like to continue using the old command, you can set in your `~/.config/my127/workspace/config.yml`:
+
+```yaml
+attribute('docker.compose.bin'): docker-compose
+```
+
 ### .my127ws/docker/app mult-stage Dockerfile replacing all php-derrived images
 
 .my127ws/docker/app has combined the php-fpm, cron, Akeneo job-queue-consumer, and Spryker jenkins-runner Dockerfile build contexts into one multi-stage Dockerfile (with templating of each stage still separate).
