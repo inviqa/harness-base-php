@@ -1,6 +1,8 @@
 workspace('ci-magento1-sample-static'):
   description: generated local workspace for ci-magento1-sample.
-  harness: inviqa/magento1
+  harnessLayers:
+    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.3.0-alpha5.tar.gz
+    # - inviqa/magento1 # installed by test
 
 attribute('app.build'): static
 
