@@ -3,11 +3,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $.Values.resourcePrefix }}jenkins-runner
+  name: {{ $.Release.Name }}-jenkins-runner
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: jenkins-runner
-    app.service: {{ $.Values.resourcePrefix }}jenkins-runner
+    app.service: {{ $.Release.Name }}-jenkins-runner
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
@@ -17,34 +17,22 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app.service: {{ $.Values.resourcePrefix }}jenkins-runner
+      app.service: {{ $.Release.Name }}-jenkins-runner
   template:
     metadata:
       labels:
         {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: jenkins-runner
-        app.service: {{ $.Values.resourcePrefix }}jenkins-runner
+        app.service: {{ $.Release.Name }}-jenkins-runner
     spec:
-      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "jenkins-runner" "service" .) | nindent 8 }}
+      {{- with (pick . "affinity") }}
+      {{- . | toYaml | nindent 6 }}
+      {{- end }}
       containers:
-      - env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else }}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .environment_secrets }}
-        envFrom:
-          - secretRef:
-              name: {{ $.Values.resourcePrefix }}jenkins-runner
-        {{- end }}
+      - name: jenkins-runner
+        {{- include "service.environment" (dict "root" $ "serviceName" "jenkins-runner" "service" .) | nindent 8 }}
         image: {{ .image | quote }}
         imagePullPolicy: Always
-        name: jenkins-runner
         resources:
           limits:
             memory: {{ .resources.memory }}
@@ -65,9 +53,10 @@ spec:
         {{- end }}
 {{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ $.Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Release.Name }}-image-pull-config
 {{- end }}
       restartPolicy: Always
+      topologySpreadConstraints: {{- (include "pod.topologySpreadConstraints" (dict "root" $ "serviceName" "jenkins-runner" "service" .)) | nindent 8 }}
       enableServiceLinks: false
       volumes:
       {{- if not (and (eq "" (include "application.volumes.backend" $)) (eq "" (include "application.volumes.all" $)) ) }}

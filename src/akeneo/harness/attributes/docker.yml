@@ -58,8 +58,7 @@ attributes:
     preview:
       persistence:
         enabled: true
-        akeneo:
-          file_storage:
-            storageClass: nfs
-          uploads:
-            storageClass: nfs
+        akeneo-file-storage:
+          storageClass: nfs
+        akeneo-uploads:
+          storageClass: nfs

@@ -5,14 +5,8 @@ workspace('ci-magento2-sample-static'):
 attribute('app.build'): static
 attribute('app.mode'): production
 
-attribute('app.services'):
-  - chrome
-  - mysql
-  - rabbitmq
-  - redis
-  - redis-session
-  - varnish
-  - elasticsearch
+attribute('services.varnish.enabled'): true
+attribute('services.rabbitmq.enabled'): true
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null

@@ -1,7 +1,7 @@
 {{- define "application.volumeMounts.backend" }}
-- mountPath: {{ .Values.persistence.akeneo.file_storage.mountPath | quote }}
+- mountPath: {{ index .Values.persistence "akeneo-file-storage" "mountPath" | quote }}
   name: akeneo-file-storage-volume
-- mountPath: {{ .Values.persistence.akeneo.uploads.mountPath | quote }}
+- mountPath: {{ index .Values.persistence "akeneo-uploads" "mountPath" | quote }}
   name: akeneo-uploads-volume
 {{- end }}
 
@@ -9,20 +9,20 @@
 - name: akeneo-file-storage-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: {{ tpl .Values.persistence.akeneo.file_storage.claimName $ | quote }}
+    claimName: {{ tpl (index .Values.persistence "akeneo-file-storage" "claimName") $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
 - name: akeneo-uploads-volume
 {{- if .Values.persistence.enabled }}
   persistentVolumeClaim:
-    claimName: {{ tpl .Values.persistence.akeneo.uploads.claimName $ | quote }}
+    claimName: {{ tpl (index .Values.persistence "akeneo-uploads" "claimName") $ | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
 {{- end }}
 
 {{- define "application.volumes.wwwDataPaths" }}
-- {{ .Values.persistence.akeneo.file_storage.mountPath | quote }}
-- {{ .Values.persistence.akeneo.uploads.mountPath | quote }}
+- {{ index .Values.persistence "akeneo-file-storage" "mountPath" | quote }}
+- {{ index .Values.persistence "akeneo-uploads" "mountPath" | quote }}
 {{- end }}

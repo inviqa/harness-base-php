@@ -1,10 +1,10 @@
 {% set syncvolume = false %}
-{% if @('host.os') == 'darwin' and bool(@('mutagen')) %}
+{% if @('host.os') == 'darwin' and @('mutagen') %}
 {% set syncvolume = true %}
 {% endif %}
-
+services:
   php-fpm:
-    build: 
+    build:
       context: ./
       dockerfile: .my127ws/docker/image/app/Dockerfile
       target: php-fpm

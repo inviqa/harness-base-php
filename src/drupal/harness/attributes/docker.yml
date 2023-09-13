@@ -11,6 +11,5 @@ attributes:
     preview:
       persistence:
         enabled: true
-        drupal:
-          files:
-            storageClass: nfs
+        drupal-files:
+          storageClass: nfs
