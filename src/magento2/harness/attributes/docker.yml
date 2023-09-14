@@ -1,4 +1,4 @@
-attributes:
+attributes.default:
   services:
     console:
       build:

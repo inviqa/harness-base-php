@@ -1,4 +1,4 @@
-attributes:
+attributes.default:
   akeneo:
     app:
       mode: dev # dev or prod
