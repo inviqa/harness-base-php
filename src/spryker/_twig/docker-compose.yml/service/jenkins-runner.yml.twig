@@ -1,7 +1,8 @@
   jenkins-runner:
     build:
       context: ./
-      dockerfile: .my127ws/docker/image/jenkins-runner/Dockerfile
+      dockerfile: .my127ws/docker/image/app/Dockerfile
+      target: jenkins-runner
 {% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.jenkins_runner.dynamic.sh
     command: [app, jenkins, start]

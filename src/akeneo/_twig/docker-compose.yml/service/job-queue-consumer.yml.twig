@@ -1,7 +1,8 @@
   job-queue-consumer:
     build:
       context: ./
-      dockerfile: .my127ws/docker/image/job-queue-consumer/Dockerfile
+      dockerfile: .my127ws/docker/image/app/Dockerfile
+      target: job-queue-consumer
 {% if @('app.build') == 'dynamic' %}
     volumes:
       - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}

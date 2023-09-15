@@ -2,6 +2,16 @@
 
 In addition to the README's [Harness Upgrade Instructions], please note these specific version upgrade instructions.
 
+## Upgrading from 1.6.x to 2.0.x
+
+### .my127ws/docker/app mult-stage Dockerfile replacing all php-derrived images
+
+.my127ws/docker/app has combined the php-fpm, cron, Akeneo job-queue-consumer, and Spryker jenkins-runner Dockerfile build contexts into one multi-stage Dockerfile (with templating of each stage still separate).
+
+This was in order to remove the use of intermediate image stage builds in favour of Docker's native multi-stage builds. The resulting images will still be the same, but Docker can now build them even more efficiently without harness logic ordering the builds, and so allowing less logic to be per-harness and instead able to use the new docker harness with fewer layer overrides.
+
+The result is, if you are extending these images with overlay, you'll need to match the new directory structure within docker/app. Any additional PHP images you create on top of what the harness provides can use this same pattern.
+
 ## Upgrading from 1.5.x to 1.6.x
 
 ### /bin and /lib are now /usr/bin and /usr/lib

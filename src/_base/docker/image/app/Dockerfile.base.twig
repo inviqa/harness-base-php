@@ -1,13 +1,14 @@
 {% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console as console
+FROM console as console_clean
 LABEL build="{{ @('namespace') ~ ':' ~ @('app.version') }}"
 RUN if [ -d /app/tools/assets/ ]; then rm -rf /app/tools/assets/; fi; \
   if [ -d {{ @('frontend.path') }}/node_modules/ ]; then rm -rf {{ @('frontend.path') }}/node_modules/; fi;
 
 {% endif %}
-FROM {{ @('docker.image.php-fpm') }}
+FROM {{ @('docker.image.php-fpm') }} as base
+LABEL build="{{ @('namespace') ~ ':' ~ @('app.version') }}"
 WORKDIR /app
-COPY root  /
+COPY .my127ws/docker/image/app/root-base  /
 
 # installing tools in the image is deprecated
 RUN ([ -e /sbin/tini ] || curl --fail --silent --show-error --location --output /sbin/tini "https://github.com/krallin/tini/releases/download/v0.19.0/tini-$(dpkg --print-architecture)") \
@@ -24,7 +25,7 @@ RUN pecl -q upgrade xdebug
 {% endif %}
 
 {% if @('app.build') == 'static' %}
-COPY --from=console --chown=root:root /app /app
+COPY --from=console_clean --chown=root:root /app /app
 RUN bash /fix_app_permissions.sh
 {% else %}
 VOLUME /app

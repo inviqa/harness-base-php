@@ -4,11 +4,11 @@
 {% endif %}
 
   php-fpm:
-    build: .my127ws/docker/image/php-fpm
+    build:
+      context: ./
+      dockerfile: .my127ws/docker/image/app/Dockerfile
+      target: php-fpm
 {% if @('app.build') == 'dynamic' %}
-{% if @('services.cron.enabled') %}
-    image: {{ @('workspace.name') ~ '-php-fpm:dev' }}
-{% endif %}
     volumes:
       - {{ (syncvolume) ? @('workspace.name') ~ '-sync:/app:nocopy' : ('./:/app' ~ @('docker.compose.host_volume_options')) }}
       - ./.my127ws:/.my127ws

@@ -17,7 +17,7 @@ run_shellcheck()
 
 run_hadolint()
 {
-  docker run --rm --volume "$(pwd):/app" hadolint/hadolint:latest-alpine /bin/sh -c "find '/app/$ANALYSE_PATH' -type f -name '*Dockerfile' ! -path '*/.git/*' ! -path '/app/dist/*' ! -path '/app/tmp-test/*' ! -path '/app/test/*' ! -name '*.orig' -print -exec hadolint --ignore DL3003 --ignore DL3008 --ignore DL3016 --ignore SC1091 --ignore DL3002 {} +"
+  docker run --rm --volume "$(pwd):/app" hadolint/hadolint:latest-alpine /bin/sh -c "find '/app/$ANALYSE_PATH' -type f -name '*Dockerfile' ! -path '*/.git/*' ! -path '/app/dist/*' ! -path '/app/tmp-test/*' ! -path '/app/test/*' ! -name '*.orig' -print -exec hadolint --ignore DL3003 --ignore DL3008 --ignore DL3016 --ignore SC1091 --ignore DL3002 --ignore DL3006 {} +"
 }
 
 run_shellcheck

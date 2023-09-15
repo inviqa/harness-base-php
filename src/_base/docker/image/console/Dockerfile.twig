@@ -1,4 +1,4 @@
-FROM {{ @('docker.image.console') }}
+FROM {{ @('docker.image.console') }} as console
 # fix upstream signal
 STOPSIGNAL SIGTERM
 

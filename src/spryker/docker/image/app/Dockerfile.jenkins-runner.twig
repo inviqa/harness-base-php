@@ -1,8 +1,4 @@
-{% if @('app.build') == 'static' %}
-FROM {{ @('docker.repository') ~ ':' ~ @('app.version') }}-console
-{% else %}
-FROM {{ @('workspace.name') ~ '-console:dev' }}
-{% endif %}
+FROM base as jenkins-runner
 
 # Install Java Runtime
 # ----------------------------
@@ -24,7 +20,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && mkdir /var/www/.jenkins /data \
  && chown www-data:www-data /var/www/.jenkins /data
 
-COPY .my127ws/docker/image/jenkins-runner/root /
+COPY .my127ws/docker/image/app/root-jenkins-runner /
 
 ENTRYPOINT ["/entrypoint.jenkins_runner.sh"]
 CMD ["app", "jenkins", "start"]
