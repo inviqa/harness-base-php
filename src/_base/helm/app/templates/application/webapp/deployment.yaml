@@ -104,7 +104,7 @@ spec:
       {{- end }}
 
       {{- with index .Values.services "php-fpm-exporter" }}
-      {{- if .enabled }}
+      {{- if . | dig "enabled" $.Values.global.prometheus.podMonitoring }}
       - name: php-fpm-exporter
         {{- include "service.environment" (dict "root" $ "serviceName" "php-fpm-exporter" "service" .) | nindent 8 }}
         image: {{ .image | quote }}

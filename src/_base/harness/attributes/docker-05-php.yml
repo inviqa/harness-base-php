@@ -102,6 +102,10 @@ attributes.default:
     # webapp is by default two services combined, nginx and php-fpm
     webapp:
       enabled: true
+      containers:
+        - php-fpm
+        - php-fpm-exporter # only is added if podMonitoring is enabled
+        - nginx
   pipeline:
     base:
       services:
@@ -126,13 +130,9 @@ attributes.default:
         nginx:
           environment:
             FPM_HOST: localhost
-          metricsEnabled: false
-          metricsEndpoints:
-            - port: http
         php-fpm-exporter:
           environment:
             PHP_FPM_SCRAPE_URI: = php_fpm_exporter_scrape_url('127.0.0.1', @('php-fpm.pools'))
-          metricsEnabled: true
           metricsEndpoints:
             - port: php-fpm-metrics
         tideways:
@@ -148,6 +148,7 @@ attributes.default:
             volumePermissions:
               image: busybox:1.35
               recursive: true
+          metricsEnabled: true
       ingresses:
         webapp:
           target_service: "= @('services.varnish.enabled') ? 'varnish' : 'webapp'"
