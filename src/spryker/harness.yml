@@ -202,25 +202,27 @@ attributes:
       size: 2Gi
 
   services:
+    chrome:
+      enabled: true
     console:
       build:
         from: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
-    php-fpm:
-      build:
-        from: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
-    chrome:
-      enabled: true
-    postgres:
-      enabled: true
-    redis:
-      enabled: true
     elasticsearch:
-      enabled: true
-    rabbitmq:
       enabled: true
     jenkins:
       enabled: true
     jenkins-runner:
+      enabled: true
+    lighthouse:
+      enabled: true
+    php-fpm:
+      build:
+        from: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
+    postgres:
+      enabled: true
+    redis:
+      enabled: true
+    rabbitmq:
       enabled: true
 
 ---

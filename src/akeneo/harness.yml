@@ -160,22 +160,24 @@ attributes:
       #storageClass: "..." most clusters need a custom storageclass
       size: 1Gi
   services:
+    chrome:
+      enabled: true
     console:
       build:
         from: "= 'my127/akeneo:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
-    php-fpm:
-      build:
-        from: "= 'my127/akeneo:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
-    chrome:
+    cron:
       enabled: true
     elasticsearch:
       enabled: true
-    mysql:
-      enabled: true
     job-queue-consumer:
       enabled: true
-    cron:
+    lighthouse:
       enabled: true
+    mysql:
+      enabled: true
+    php-fpm:
+      build:
+        from: "= 'my127/akeneo:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
 ---
 import:
   - harness/config/*.yml

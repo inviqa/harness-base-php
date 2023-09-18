@@ -127,6 +127,8 @@ attributes:
   services:
     chrome:
       enabled: true
+    lighthouse:
+      enabled: true
     mysql:
       enabled: true
     redis:
