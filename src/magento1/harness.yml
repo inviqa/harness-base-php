@@ -117,8 +117,8 @@ attributes:
         - run n98-magerun.phar index:reindex:all
         - run n98-magerun.phar cache:clean
   persistence:
-    enabled: false
     magento-media:
+      enabled: true
       claimName: magento-media-pvc
       mountPath: = @('app.media_directory')
       accessMode: ReadWriteMany # the requirement if persistence is enabled

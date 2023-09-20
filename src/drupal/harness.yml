@@ -67,8 +67,8 @@ attributes:
         opcache.file_cache_only: '0'
     version: "= version_compare(@('drupal.major_version'), '10', '>=') ? '8.1' : (version_compare(@('drupal.major_version'), '9', '>=') ? '8.0' : '7.4')"
   persistence:
-    enabled: false
     drupal-files:
+      enabled: true
       claimName: drupal-files-pvc
       mountPath: = @('app.files_directory')
       accessMode: ReadWriteMany # the requirement if persistence is enabled

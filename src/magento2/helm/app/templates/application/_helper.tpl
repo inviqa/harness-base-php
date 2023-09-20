@@ -10,9 +10,9 @@
 
 {{- define "application.volumes.all" }}
 - name: magento-media-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "magento-media" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl (index .Values.persistence "magento-media" "claimName") $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "magento-media") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
@@ -20,9 +20,9 @@
 
 {{- define "application.volumes.backend" }}
 - name: magento-export-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "magento-export" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl (index .Values.persistence "magento-export" "claimName") $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "magento-export") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}

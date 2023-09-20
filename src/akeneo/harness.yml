@@ -144,7 +144,6 @@ attributes:
      - = @('app.web_directory')
      - = @('app.vendor_directory')
   persistence:
-    enabled: false
     akeneo-file-storage:
       enabled: true
       claimName: akeneo-file-storage-pvc

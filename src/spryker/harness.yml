@@ -187,8 +187,8 @@ attributes:
         port: 9001
 
   persistence:
-    enabled: false
     spryker-data:
+      enabled: true
       claimName: spryker-data-pvc
       mountPath: = @('app.data_directory')
       accessMode: ReadWriteMany # the requirement if persistence is enabled

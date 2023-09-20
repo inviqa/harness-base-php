@@ -5,9 +5,9 @@
 
 {{- define "application.volumes.backend" }}
 - name: spryker-data-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "spryker-data" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl (index .Values.persistence "spryker-data" "claimName") $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "spryker-data") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}

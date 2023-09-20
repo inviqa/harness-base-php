@@ -7,16 +7,16 @@
 
 {{- define "application.volumes.backend" }}
 - name: akeneo-file-storage-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "akeneo-file-storage" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl (index .Values.persistence "akeneo-file-storage" "claimName") $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "akeneo-file-storage") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
 - name: akeneo-uploads-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "akeneo-uploads" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl (index .Values.persistence "akeneo-uploads" "claimName") $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "akeneo-uploads") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}

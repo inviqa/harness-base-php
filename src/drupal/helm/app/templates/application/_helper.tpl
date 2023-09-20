@@ -5,9 +5,9 @@
 
 {{- define "application.volumes.all" }}
 - name: drupal-files-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "drupal-files" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl (index .Values.persistence "drupal-files" "claimName") $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "drupal-files") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
