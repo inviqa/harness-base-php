@@ -4,6 +4,22 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 1.6.x to 2.0.x
 
+### Docker harness now needed as a harness layer
+
+The docker harness now provides the functionality multiple harnesses need, so the PHP harness has had a lot stripped out and now depends on the docker harness.
+
+When you upgrade you'll need to change your workspace.yml to reference both harnesess like:
+
+```diff
+ workspace('my-app'):
+-  harness: inviqa/php:v1.6.0
++  harnessLayers:
++    - inviqa/docker:v0.3.0
++    - inviqa/php:v2.0.0
+```
+
+This requires my127 Workspace version 0.3.1+ for general operation, but 0.4.0+ for `ws create` to automatically add the docker harness.
+
 ### Attributes changed
 
 harness attributes:
@@ -121,7 +137,6 @@ Previously `persistence.enabled` was only used for application volumes, but now 
    app-data:
 +    enabled: false
 ```
-
 
 ### Helm PersistentVolume hostPath obsolete
 
