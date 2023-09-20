@@ -4,6 +4,26 @@ In addition to the README's [Harness Upgrade Instructions], please note these sp
 
 ## Upgrading from 1.6.x to 2.0.x
 
+### Attributes changed
+
+harness attributes:
+
+* `app.services[]: *` -> `services.*.enabled: true` - backwards compatibility removed
+* `backend.*.when`, `fronted.*.when` - now are full bash if conditions, so `-f package.json` becomes `"[ -f package.json ]"`, and `"true"` and `"false"` now is semantically valid
+* `docker.image.*` -> `services.*.build.from`
+* `persistence.*.*` -> `persistence.*-*` - now using a flat structure for consistency for templating. e.g. `persistence.drupal.files` becomes `persistence.drupal-files`
+* `persistence.jenkins` -> `persistence.jenkins-home`
+* `replicas.varnish` -> `services.varnish.replicas`
+* `services.*.options` -> `services.*.config.options` - i.e for (mysql, redis, and redis-session)
+
+helm values:
+
+* `feature.sealed_secrets` -> `global.sealed_secrets.enabled`
+* `ingress` -> `ingresses.webapp`
+* `istio` -> `global.istio`
+* `prometheus` -> `global.prometheus`
+* `resourcePrefix` - oboleted, see below for further information
+
 ### `docker-compose` command now `docker compose`
 
 In line with the preferred way to run Docker Compose v2, the harness will now use the binary from it's Docker plugin architecture.
@@ -23,6 +43,91 @@ attribute('docker.compose.bin'): docker-compose
 This was in order to remove the use of intermediate image stage builds in favour of Docker's native multi-stage builds. The resulting images will still be the same, but Docker can now build them even more efficiently without harness logic ordering the builds, and so allowing less logic to be per-harness and instead able to use the new docker harness with fewer layer overrides.
 
 The result is, if you are extending these images with overlay, you'll need to match the new directory structure within docker/app. Any additional PHP images you create on top of what the harness provides can use this same pattern.
+
+### Helm value .resourcePrefix obsoleted in favour of helm release name
+
+`resourcePrefix` is now oboleted, instead the helm release name will be used. 
+
+It may be necessary to set the release name manually in some cases.
+
+e.g. ArgoCD clusters due to k8s-project-cluster defaults incorrectly using the environment name in the release name
+
+```diff
+ environments:
+   - name: test
+     services:
+       - name: myapp
+         source:
+           path: build-artifacts/myapp/main
+           helm:
++            releaseName: myapp # since it will default to test-myapp
+             values:
+-              resourcePrefix: myapp-
+```
+
+If you were not using resourcePrefix (and so resource names were just e.g. `webapp`, `mysql` etc) then you may need to put more planning into a solution to avoid downtime.
+
+Older PersistentVolumeClaim names were generally hard-coded resource names, and continue to use those old resource names, so unaffected, but newer PVCs you can set the persistence.*.claimName to the original resource name, and then they will remain.
+
+### Helm templates pod affinity no longer used for pod spread across zones and hosts
+
+Topology spread constraints are better suited to pod spread than anti-affinity, as will continue to spread more evenly once replicas is higher than the ordinal constraint (e.g. 6 replicas across 3 zones will try to prioritise 2 replicas per zone for).
+
+Pod anti-affinity would instead stop prioritising once replicas are higher than the ordinal topology key constraint (e.g. > 3 replicas across 3 zones), causing further pods to be scheduled randomly and potentially put a majority in one zone. This would, in the event of zone downtime, hit the application's HA unfairly reducing accessible pods more than a proportional amount.
+
+`services.*.topologySpreadConstraints` has been supported since the harness version 1.5.0, so `services.*.affinity.selfAntiAffinityTopologyKey` has been removed. `services.*.affinity` will still support the Affinity v1 core specification of Pod resources however.
+
+If you haven't migrated your HA deployments to `topologySpreadConstraints`, then the change is e.g.:
+
+```diff
+
+ global:
+-   affinity:
+-     selfAntiAffinityTopologyKey: topology.kubernetes.io/zone
++   topologySpreadConstraints:
++     - topologyKey: topology.kubernetes.io/zone
+```
+
+Or if it was needed per service (though global is preferred if no reason to):
+
+```diff
+ services:
+   myapp:
+-     affinity:
+-       selfAntiAffinityTopologyKey: topology.kubernetes.io/zone
++     topologySpreadConstraints:
++       - topologyKey: topology.kubernetes.io/zone
+```
+
+### Kubernetes persistence enabled by default
+
+Since it makes more sense for persistence to be enabled for environments, and previously backend service persistence was also enabled by default, persistence of application volumes is now also enabled by default.
+
+Both application and backend services have two enabled flags now, `persistence.enabled` for a global toggle, and `persistence.*.enabled` for an individual toggle.
+
+Since it's unlikely that the Kubernetes cluster you would be releasing to would support ReadWriteMany for it's default storageclass, you will need to define the PersistentVolumeClaim's storageClass, which may be, for example `nfs`. Not providing a storageClass or selector would fail to obtain a PersistentVolume for the claim, and so the Pod would never start.
+
+```diff
+ persistence:
+   app-data:
++    storageClass: nfs
+```
+
+Previously `persistence.enabled` was only used for application volumes, but now includes backend service volumes, so if you do need to disable application volume persistence without disabling service volume persistence, you need to individually disable the application persistence:
+
+```diff
+ persistence:
+-  enabled: false 
+   app-data:
++    enabled: false
+```
+
+
+### Helm PersistentVolume hostPath obsolete
+
+Since hostPath PersistentVolumes are technically not perisistent (they get wiped on upgrade or replacement of a node), they are inappropriate to be used, so have been obsoleted. No service was using them by default.
+
+The managed Kubernetes clusters such as DigitalOcean and AWS have ReadWriteOnce capable storage classes that can be migrated to instead, though a ReadWriteMany capable storage class is preferred for Deployments.
 
 ## Upgrading from 1.5.x to 1.6.x
 
