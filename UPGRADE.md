@@ -29,7 +29,7 @@ harness attributes:
 * `docker.image.*` -> `services.*.build.from`
 * `persistence.*.*` -> `persistence.*-*` - now using a flat structure for consistency for templating. e.g. `persistence.drupal.files` becomes `persistence.drupal-files`
 * `persistence.jenkins` -> `persistence.jenkins-home`
-* `replicas.varnish` -> `services.varnish.replicas`
+* `persistence.solr` -> `persistence.solr-data`
 * `services.*.options` -> `services.*.config.options` - i.e for (mysql, redis, and redis-session)
 
 helm values:
@@ -38,6 +38,7 @@ helm values:
 * `ingress` -> `ingresses.webapp`
 * `istio` -> `global.istio`
 * `prometheus` -> `global.prometheus`
+* `replicas.varnish` -> `services.varnish.replicas` - however the value has been removed, as the default is 1
 * `resourcePrefix` - oboleted, see below for further information
 
 ### `docker-compose` command now `docker compose`
