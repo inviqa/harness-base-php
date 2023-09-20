@@ -89,7 +89,7 @@ server {
   }
 
   # Protect files and directories from prying eyes.
-  location ~* \.(engine|inc|install|make|module|profile|po|sh|.*sql|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\.(?!well-known).*|Entries.*|Repository|Root|Tag|Template|composer\.(json|lock)|web\.config)$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig|\.save)$ {
+  location ~* \.(engine|inc|install|make|module|profile|po|sh|.*sql|theme|twig|tpl(\.php)?|xtmpl|yml)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\.(?!well-known).*|Entries.*|Repository|Root|Tag|Template|composer\.(json|lock)|web\.config|yarn\.lock|package\.json)$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig|\.save)$ {
     deny all;
     return 404;
   }
@@ -115,8 +115,8 @@ server {
     # latest 5.3, you should have "cgi.fix_pathinfo = 0;" in php.ini.
     # See http://serverfault.com/q/627903/94922 for details.
     include fastcgi_params;
-
     fastcgi_param HTTPS $custom_https;
+
     fastcgi_read_timeout {{ @('php.fpm.ini.max_execution_time') + 1 }}s;
 
     # Block httpoxy attacks. See https://httpoxy.org/.
