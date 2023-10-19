@@ -244,7 +244,6 @@ command('redis-flush'): |
 command('redis flush'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(harness:/)|@
     $COMPOSE_BIN exec redis redis-cli flushall

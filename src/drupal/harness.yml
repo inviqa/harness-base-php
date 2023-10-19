@@ -86,8 +86,6 @@ attributes:
 
 ---
 command('drush %'):
-  env:
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
     passthru ws exec drush --root=/app/={ @('drupal.docroot') } ={ input.argument('%') }
@@ -95,7 +93,6 @@ command('drush %'):
 command('test-unit'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|=
     $COMPOSE_BIN exec -T -u root php-fpm bash -c 'mkdir -p /app/docroot/sites/simpletest'

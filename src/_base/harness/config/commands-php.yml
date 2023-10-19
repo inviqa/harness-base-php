@@ -2,7 +2,6 @@
 command('frontend build'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     passthru $COMPOSE_BIN exec -u build console app build:frontend
@@ -10,7 +9,6 @@ command('frontend build'):
 command('frontend watch'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
@@ -19,7 +17,6 @@ command('frontend watch'):
 command('frontend console'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
@@ -28,7 +25,6 @@ command('frontend console'):
 command('service php-fpm restart'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     passthru ws install --step=prepare
@@ -90,7 +86,6 @@ command('feature tideways cli (on|off)'):
 command('feature tideways cli configure <server_key>'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
     TIDEWAYS_SERVERKEY: = input.argument('server_key')
   exec: |
     #!bash(workspace:/)|=
