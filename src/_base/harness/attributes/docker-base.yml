@@ -159,10 +159,14 @@ attributes:
         # Evict any least recently used key even if they don't have a TTL
         maxmemory-policy: allkeys-lru
         # Save snapshots every X changes have happened within Y seconds (these are the defaults in redis.conf)
-        save:
-          - 3600 1
-          - 300 100
-          - 60 10000
+        # Redis < 7
+        # save:
+        #   - 3600 1
+        #   - 300 100
+        #   - 60 10000
+        # Redis >= 7
+        # save:
+        #   - '3600 1 300 100 60 10000'
       resources:
         # 1.5 * maxmemory to allow copy on write snapshots
         memory: "1.5Gi"
