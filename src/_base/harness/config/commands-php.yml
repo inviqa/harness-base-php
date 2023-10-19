@@ -25,6 +25,11 @@ command('frontend console'):
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
     passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i
 
+command('composer %'):
+  exec: |
+    #!bash(workspace:/)|=
+    passthru ws exec composer ={ input.argument('%') }
+
 command('service php-fpm restart'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
@@ -96,3 +101,17 @@ command('feature tideways cli configure <server_key>'):
     echo "Importing Provided Tideways CLI Key (from https://app.tideways.io/user/cli-import-settings)"
     $COMPOSE_BIN exec -T -u "${CODE_OWNER}" console tideways import "$TIDEWAYS_SERVERKEY"
     echo "Imported Tideways CLI key"
+
+command('harness update existing'):
+  exec: |
+    #!bash(workspace:/)|@
+    ws disable
+    rm -rf .my127ws
+    ws install --step=download
+    ws harness prepare
+    touch .my127ws/.flag-built
+    ws refresh
+    ws exec app overlay:apply
+    ws exec composer install
+    ws exec app migrate
+    ws exec app welcome
