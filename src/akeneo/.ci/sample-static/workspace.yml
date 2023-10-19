@@ -1,7 +1,7 @@
 workspace('ci-akeneo-sample-static'):
   description: generated local workspace for ci-akeneo-sample.
   harnessLayers:
-    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.3.0-alpha5.tar.gz
+    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.3.0-alpha6.tar.gz
     # - inviqa/akeneo # installed by test
 
 attribute('app.build'): static

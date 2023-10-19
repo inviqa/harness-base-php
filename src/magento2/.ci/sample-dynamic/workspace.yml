@@ -1,7 +1,7 @@
 workspace('ci-magento2-sample-dynamic'):
   description: generated local workspace for ci-magento2-sample.
   harnessLayers:
-    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.3.0-alpha5.tar.gz
+    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.3.0-alpha6.tar.gz
     # - inviqa/magento2 # installed by test
 
 attribute('services.varnish.enabled'): true
