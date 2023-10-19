@@ -25,7 +25,7 @@ This requires my127 Workspace version 0.3.1+ for general operation, but 0.4.0+ f
 harness attributes:
 
 * `app.services[]: *` -> `services.*.enabled: true` - backwards compatibility removed
-* `backend.*.when`, `fronted.*.when` - now are full bash if conditions, so `-f package.json` becomes `"[ -f package.json ]"`, and `"true"` and `"false"` now is semantically valid
+* `backend.*.when`, `frontend.*.when` - are now full bash if conditions, so `-f package.json` becomes `"[ -f package.json ]"`, and `"true"` and `"false"` now is semantically valid
 * `docker.image.*` -> `services.*.build.from`
 * `persistence.*.*` -> `persistence.*-*` - now using a flat structure for consistency for templating. e.g. `persistence.drupal.files` becomes `persistence.drupal-files`
 * `persistence.jenkins` -> `persistence.jenkins-home`
