@@ -1,26 +1,29 @@
 
 command('frontend build'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
   exec: |
     #!bash(workspace:/)|@
-    passthru $COMPOSE_BIN exec -u build console app build:frontend
+    passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" console app build:frontend
 
 command('frontend watch'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
+    $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i -c '@('frontend.watch')'
 
 command('frontend console'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i
+    passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i
 
 command('service php-fpm restart'):
   env:
@@ -85,10 +88,11 @@ command('feature tideways cli (on|off)'):
 
 command('feature tideways cli configure <server_key>'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
     TIDEWAYS_SERVERKEY: = input.argument('server_key')
   exec: |
     #!bash(workspace:/)|=
     echo "Importing Provided Tideways CLI Key (from https://app.tideways.io/user/cli-import-settings)"
-    $COMPOSE_BIN exec -T -u build console tideways import "$TIDEWAYS_SERVERKEY"
+    $COMPOSE_BIN exec -T -u "${CODE_OWNER}" console tideways import "$TIDEWAYS_SERVERKEY"
     echo "Imported Tideways CLI key"

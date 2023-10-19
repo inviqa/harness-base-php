@@ -228,18 +228,20 @@ attributes:
 ---
 command('frontend yves watch'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.yves.watch')'
+    passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i -c '@('frontend.yves.watch')'
 command('frontend zed watch'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.zed.watch')'
+    passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i -c '@('frontend.zed.watch')'
 
 command('spryker-reset'):
   exec: |
