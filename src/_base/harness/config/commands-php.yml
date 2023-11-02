@@ -102,15 +102,9 @@ command('feature tideways cli configure <server_key>'):
     $COMPOSE_BIN exec -T -u "${CODE_OWNER}" console tideways import "$TIDEWAYS_SERVERKEY"
     echo "Imported Tideways CLI key"
 
-command('harness update existing'):
+command('harness post-update'):
   exec: |
     #!bash(workspace:/)|@
-    ws disable
-    rm -rf .my127ws
-    ws install --step=download
-    ws harness prepare
-    touch .my127ws/.flag-built
-    ws refresh
     ws exec app overlay:apply
     ws exec composer install
     ws exec app migrate
