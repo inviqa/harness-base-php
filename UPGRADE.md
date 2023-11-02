@@ -30,6 +30,9 @@ harness attributes:
 * `persistence.*.*` -> `persistence.*-*` - now using a flat structure for consistency for templating. e.g. `persistence.drupal.files` becomes `persistence.drupal-files`
 * `persistence.jenkins` -> `persistence.jenkins-home`
 * `persistence.solr` -> `persistence.solr-data`
+* `pipeline.publish.chart.git.ssh_credential_id` -> `pipeline.clusters.*.git.ssh_credential_id`
+* `pipeline.publish.chart.git.ssh_private_key` -> `pipeline.clusters.*.git.ssh_private_key`
+* `pipeline.publish.chart.git.repository` -> `pipeline.clusters.*.git.repository`
 * `services.*.options` -> `services.*.config.options` - i.e for (mysql, redis, and redis-session)
 
 helm values:
@@ -40,6 +43,36 @@ helm values:
 * `prometheus` -> `global.prometheus`
 * `replicas.varnish` -> `services.varnish.replicas` - however the value has been removed, as the default is 1
 * `resourcePrefix` - oboleted, see below for further information
+
+### Major updates of mongodb and postgres due to EOL
+
+Both mongodb 4.4 and postgres 9.6 are end-of-life (EOL), and so receiving no security updates.
+
+They have been upgraded to supported major versions in this harness (mongodb 5.0 and postgres 15)
+
+The upgrade process for these are not automated, and so you will need to manage these updates.
+
+If you are only using them for local development, then it may be as easy as dumping their data stores and restoring after upgrade, however if you have these in Kubernetes clusters, then you may need to plan a non-destructive upgrade.
+
+* mongodb
+  * See MongoDB's release notes for upgrading, [standalone upgrade](https://www.mongodb.com/docs/v7.0/release-notes/5.0-upgrade-standalone/)
+* postgres
+  * We recommend a database dump and restore. Whilst pg_upgrade can be used to upgrade from 9.6 to 15, it needs the 9.6 binaries in the same container as 15 to do so.
+
+You can postpone their upgrade, to be instead done in a separate step, by setting in your workspace.yml:
+
+mongodb:
+```
+attribute('services.mongodb.image'): mongo:4.4
+```
+
+postgres:
+```
+attribute('database.platform_version'): '9.6' # if database.platform is set to `postgres`
+attribute('services.postgres.image'): postgres:9.6
+```
+
+For mongodb, please consider upgrading further than 5.0 if you can, so that you don't need to do this process often. We've only set to 5.0 as getting to 7.0 would require successive upgrades of 5.0, 6.0, and 7.0. These will be targetted in future harness minor releases.
 
 ### `docker-compose` command now `docker compose`
 
@@ -60,6 +93,32 @@ attribute('docker.compose.bin'): docker-compose
 This was in order to remove the use of intermediate image stage builds in favour of Docker's native multi-stage builds. The resulting images will still be the same, but Docker can now build them even more efficiently without harness logic ordering the builds, and so allowing less logic to be per-harness and instead able to use the new docker harness with fewer layer overrides.
 
 The result is, if you are extending these images with overlay, you'll need to match the new directory structure within docker/app. Any additional PHP images you create on top of what the harness provides can use this same pattern.
+
+### `ws app publish chart <cluster> <branch> <commit message>` and `pipeline.clusters`
+
+Some projects need to deploy to multiple Kubernetes clusters, so multiple cluster repositories need to be defined.
+
+As due to this, the process for adding the first cluster repository has changed:
+
+```diff
+ pipeline:
++  clusters:
++    mycluster:
++      git:
++        ssh_credential_id: ...
++        repository: ...
+   publish:
+     chart:
+       enabled: true
++      default_cluster: mycluster
+-      git:
+-        ssh_credential_id: ...
+-        repository: ....
+```
+
+Additional clusters can be added to pipeline.clusters, however currently still you need to define Jenkinsfile stages for these to fit in your deployment pipeline.
+
+The `ws app publish chart` command has now an additional first argument of the cluster name, in order to publish to the specified cluster.
 
 ### Helm value .resourcePrefix obsoleted in favour of helm release name
 
