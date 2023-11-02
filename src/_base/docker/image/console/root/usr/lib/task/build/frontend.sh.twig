@@ -6,14 +6,14 @@ function task_build_frontend()
 
     cd {{ @('frontend.path') }}
 
-    if {{ @('frontend.build.when')|raw }}; then
+    if {{ @('frontend.build.when') }}; then
         :
     else
         return 0;
     fi
 
     {% for step in @('frontend.build.steps') -%}
-    {{ step|raw }}
+    {{ step }}
     {% endfor %}
 
 )}

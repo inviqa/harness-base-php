@@ -18,7 +18,7 @@ services:
         @('services.job-queue-consumer.environment_dynamic'),
         @('services.php-base.environment_secrets'),
         @('services.job-queue-consumer.environment_secrets')
-      ]), 2, 6) | raw }}
+      ]), 2, 6) }}
     networks:
       - private
     labels:

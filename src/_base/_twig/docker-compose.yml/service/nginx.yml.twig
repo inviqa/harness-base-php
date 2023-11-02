@@ -34,7 +34,7 @@ services:
         @('services.nginx.environment'),
         @('services.nginx.environment_dynamic'),
         @('services.nginx.environment_secrets')
-      ]), 2, 6) | raw }}
+      ]), 2, 6) }}
     links:
       - php-fpm:php-fpm
     networks:

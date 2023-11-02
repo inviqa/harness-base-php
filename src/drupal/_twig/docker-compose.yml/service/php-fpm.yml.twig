@@ -27,7 +27,7 @@ services:
         @('services.php-fpm.environment_dynamic'),
         @('services.php-base.environment_secrets'),
         @('services.php-fpm.environment_secrets')
-      ]), 2, 6) | raw }}
+      ]), 2, 6) }}
     expose:
 {% for pool in @('php-fpm.pools') %}
       - {{ pool.port }}
