@@ -1,6 +1,6 @@
-workspace('ci-drupal8-sample-static'):
-  description: generated local workspace for ci-drupal8-sample.
-  harness: inviqa/drupal8
+workspace('ci-drupal-sample-static'):
+  description: generated local workspace for ci-drupal-sample.
+  harness: inviqa/drupal
 
 attribute('app.build'): static
 
