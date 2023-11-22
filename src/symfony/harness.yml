@@ -1,6 +1,8 @@
 ---
 harness('inviqa/symfony'):
   description: A docker based development environment for Symfony
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy

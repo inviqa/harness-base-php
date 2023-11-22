@@ -1,6 +1,8 @@
 ---
 harness('inviqa/drupal'):
   description: A docker based development environment for drupal
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy

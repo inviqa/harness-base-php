@@ -1,6 +1,8 @@
 ---
 harness('inviqa/spryker'):
   description: A docker based development environment for Spryker
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy

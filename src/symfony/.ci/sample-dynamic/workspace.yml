@@ -1,7 +1,7 @@
 workspace('ci-symfony-sample-dynamic'):
   description: generated local workspace for ci-symfony-sample.
   harnessLayers:
-    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.3.0-alpha7.tar.gz
+    - inviqa/docker:v0.3.0
     # - inviqa/symfony # installed by test
 
 attribute('aws.bucket'): null
