@@ -444,7 +444,9 @@ pipeline {
                     ]
                 ]
 
-                slackSend (channel: env.SLACK_NOTIFICATION_CHANNEL, color: 'danger', attachments: attachments, tokenCredentialId: env.SLACK_TOKEN_CREDENTIAL_ID)
+                if (!env.CHANGE_ID || !pullRequest.draft) {
+                    slackSend (channel: env.SLACK_NOTIFICATION_CHANNEL, color: 'danger', attachments: attachments, tokenCredentialId: env.SLACK_TOKEN_CREDENTIAL_ID)
+                }
             }
         }
         always {
