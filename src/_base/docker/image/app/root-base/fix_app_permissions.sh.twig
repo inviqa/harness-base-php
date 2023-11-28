@@ -15,8 +15,8 @@ function app_permissions_fix()
 {
     local APP_OWNER="{{ @('app.web_owner') }}"
     local APP_GROUP="{{ @('app.web_group') }}"
-    DIRS=("{{ @('app.web_writable_dirs') | join('" "') | raw }}")
-    FILES=("{{ @('app.web_writable_files') | join('" "') | raw }}")
+    DIRS=("{{ @('app.web_writable_dirs') | join('" "') }}")
+    FILES=("{{ @('app.web_writable_files') | join('" "') }}")
 
     for DIR in "${DIRS[@]}"
     do

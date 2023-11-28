@@ -1,3 +1,4 @@
+services:
   jenkins-runner:
     build:
       context: ./
@@ -22,7 +23,7 @@
         @('services.jenkins-runner.environment_dynamic'),
         @('services.php-base.environment_secrets'),
         @('services.jenkins-runner.environment_secrets')
-      ]), 2, 6) | raw }}
+      ]), 2, 6) }}
     networks:
       - private
     labels:

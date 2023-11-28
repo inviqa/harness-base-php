@@ -1,6 +1,8 @@
 workspace('ci-drupal-sample-static'):
   description: generated local workspace for ci-drupal-sample.
-  harness: inviqa/drupal
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/drupal # installed by test
 
 attribute('app.build'): static
 

@@ -1,6 +1,8 @@
 ---
 harness('inviqa/magento2'):
   description: A docker based development environment for magento2
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy
@@ -25,13 +27,6 @@ attributes:
       - '/app/var/export'
       - '/app/pub/static/frontend'
       - "= (@('app.mode') !== 'production' ? '/app/generated' : '')"
-    services:
-      - chrome
-      - cron
-      - mysql
-      - redis
-      - redis-session
-      - elasticsearch
     web_directory: /app/pub
     export_directory: /app/var/export
     media_directory: = @('app.web_directory') ~ '/media'
@@ -202,22 +197,20 @@ attributes:
     vhosts:
       default: 'magento'
   persistence:
-    enabled: false
-    magento:
-      export:
-        claimName: magento-export-pvc
-        mountPath: = @('app.export_directory')
-        accessMode: ReadWriteMany # the requirement if persistence is enabled
-        #storageClass: "..." most clusters need a custom storageclass
-        #hostPath: "..." alternatively for single node testing
-        size: 512Mi
-      media:
-        claimName: magento-media-pvc
-        mountPath: = @('app.media_directory')
-        accessMode: ReadWriteMany # the requirement if persistence is enabled
-        #storageClass: "..." most clusters need a custom storageclass
-        #hostPath: "..." alternatively for single node testing
-        size: 1Gi
+    magento-export:
+      enabled: true
+      claimName: magento-export-pvc
+      mountPath: = @('app.export_directory')
+      accessMode: ReadWriteMany # the requirement if persistence is enabled
+      #storageClass: "..." most clusters need a custom storageclass
+      size: 512Mi
+    magento-media:
+      enabled: true
+      claimName: magento-media-pvc
+      mountPath: = @('app.media_directory')
+      accessMode: ReadWriteMany # the requirement if persistence is enabled
+      #storageClass: "..." most clusters need a custom storageclass
+      size: 1Gi
   nginx:
     # Magento has a complex webroot structure
     copy_directories:
@@ -230,7 +223,21 @@ attributes:
         fastcgi_buffer_size: 128k
         # fastcgi_buffer_size (128k) + fastcgi_buffers's size (16k)
         fastcgi_busy_buffers_size: 144k
-
+  services:
+    chrome:
+      enabled: true
+    cron:
+      enabled: true
+    elasticsearch:
+      enabled: true
+    lighthouse:
+      enabled: true
+    mysql:
+      enabled: true
+    redis:
+      enabled: true
+    redis-session:
+      enabled: true
 ---
 command('redis-flush'): |
   #!bash
@@ -239,7 +246,6 @@ command('redis-flush'): |
 command('redis flush'):
   env:
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(harness:/)|@
     $COMPOSE_BIN exec redis redis-cli flushall

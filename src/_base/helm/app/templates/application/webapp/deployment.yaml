@@ -3,11 +3,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.resourcePrefix }}webapp
+  name: {{ $.Release.Name }}-webapp
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: webapp
-    app.service: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ $.Release.Name }}-webapp
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
@@ -17,15 +17,17 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app.service: {{ .Values.resourcePrefix }}webapp
+      app.service: {{ $.Release.Name }}-webapp
   template:
     metadata:
       labels:
         {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: webapp
-        app.service: {{ .Values.resourcePrefix }}webapp
+        app.service: {{ $.Release.Name }}-webapp
     spec:
-      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "webapp" "service" .Values.services.webapp) | nindent 8 }}
+      {{- with (pick . "affinity") }}
+      {{- . | toYaml | nindent 6 }}
+      {{- end }}
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" .)) }}
       initContainers:
       - name: webapp-volume-permissions
@@ -47,21 +49,7 @@ spec:
       containers:
       {{- with .Values.services.nginx }}
       - name: nginx
-        env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else}}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .environment_secrets }}
-        envFrom:
-          - secretRef:
-              name: {{ $.Values.resourcePrefix }}nginx
-        {{- end }}
+        {{- include "service.environment" (dict "root" $ "serviceName" "nginx" "service" .) | nindent 8 }}
         image: {{ .image }}
         imagePullPolicy: Always
         ports:
@@ -71,7 +59,7 @@ spec:
           limits:
             memory: {{ .resources.memory }}
           requests:
-            {{- with ((.resources.cpu | default (dict)).request | default nil) }}
+            {{- with (.resources | dig "cpu" "request" nil) }}
             cpu: {{ . }}
             {{- end }}
             memory: {{ .resources.memory }}
@@ -89,21 +77,7 @@ spec:
 
       {{- with $service_php_fpm }}
       - name: php-fpm
-        env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else}}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .environment_secrets }}
-        envFrom:
-          - secretRef:
-              name: {{ $.Values.resourcePrefix }}php-fpm
-        {{- end }}
+        {{- include "service.environment" (dict "root" $ "serviceName" "php-fpm" "service" .) | nindent 8 }}
         image: {{ .image | quote }}
         imagePullPolicy: Always
         ports:
@@ -112,7 +86,7 @@ spec:
           limits:
             memory: {{ .resources.memory }}
           requests:
-            {{- with ((.resources.cpu | default (dict)).request | default nil) }}
+            {{- with (.resources | dig "cpu" "request" nil) }}
             cpu: {{ . }}
             {{- end }}
             memory: {{ .resources.memory }}
@@ -130,18 +104,9 @@ spec:
       {{- end }}
 
       {{- with index .Values.services "php-fpm-exporter" }}
-      {{- if .enabled }}
+      {{- if . | dig "enabled" $.Values.global.prometheus.podMonitoring }}
       - name: php-fpm-exporter
-        env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else}}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
+        {{- include "service.environment" (dict "root" $ "serviceName" "php-fpm-exporter" "service" .) | nindent 8 }}
         image: {{ .image | quote }}
         imagePullPolicy: Always
         ports:
@@ -151,7 +116,7 @@ spec:
           limits:
             memory: {{ .resources.memory }}
           requests:
-            {{- with ((.resources.cpu | default (dict)).request | default nil) }}
+            {{- with (.resources | dig "cpu" "request" nil) }}
             cpu: {{ . }}
             {{- end }}
             memory: {{ .resources.memory }}
@@ -164,7 +129,7 @@ spec:
       {{- end }}
 {{- if .Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ .Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Release.Name }}-image-pull-config
 {{- end }}
       restartPolicy: Always
       enableServiceLinks: false

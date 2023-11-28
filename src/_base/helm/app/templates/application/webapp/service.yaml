@@ -1,19 +1,21 @@
-{{- if index .Values.services .Values.ingress.target_service "enabled" -}}
+{{- with .Values.services.webapp }}
+{{- if .enabled }}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: webapp
-    app.service: {{ .Values.resourcePrefix }}webapp
-  name: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ $.Release.Name }}-webapp
+  name: {{ $.Release.Name }}-webapp
 spec:
   ports:
   - name: http-80
     port: 80
     targetPort: 80
   selector:
-    app.service: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ $.Release.Name }}-webapp
 status:
   loadBalancer: {}
+{{- end }}
 {{- end }}

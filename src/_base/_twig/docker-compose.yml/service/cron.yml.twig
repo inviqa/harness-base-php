@@ -1,3 +1,4 @@
+services:
   cron:
     build:
       context: ./
@@ -17,7 +18,7 @@
         @('services.cron.environment_dynamic'),
         @('services.php-base.environment_secrets'),
         @('services.cron.environment_secrets')
-      ]), 2, 6) | raw }}
+      ]), 2, 6) }}
     networks:
       - private
     labels:

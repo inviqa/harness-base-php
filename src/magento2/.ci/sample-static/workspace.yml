@@ -1,18 +1,14 @@
 workspace('ci-magento2-sample-static'):
   description: generated local workspace for ci-magento2-sample.
-  harness: inviqa/magento2
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/magento2 # installed by test
 
 attribute('app.build'): static
 attribute('app.mode'): production
 
-attribute('app.services'):
-  - chrome
-  - mysql
-  - rabbitmq
-  - redis
-  - redis-session
-  - varnish
-  - elasticsearch
+attribute('services.varnish.enabled'): true
+attribute('services.rabbitmq.enabled'): true
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null

@@ -6,13 +6,14 @@ function task_build_backend()
 
     cd {{ @('backend.path') }}
 
-    # shellcheck disable=SC2160
-    if [ ! {{ @('backend.build.when')|raw }} ]; then
+    if {{ @('backend.build.when') }}; then
+        :
+    else
         return 0;
     fi
 
     {% for step in @('backend.build.steps') -%}
-    {{ step|raw }}
+    {{ step }}
     {% endfor %}
 
 )}

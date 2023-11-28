@@ -1,6 +1,8 @@
 ---
 harness('inviqa/symfony'):
   description: A docker based development environment for Symfony
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy
@@ -25,9 +27,6 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - '/app/var/'
-    services:
-      - chrome
-      - mysql
   backend:
     build:
       steps:
@@ -43,6 +42,13 @@ attributes:
     migrate:
       steps:
         - "= (@('symfony.has_doctrine') ? 'passthru console doctrine:migrations:migrate --no-interaction --allow-no-migration' : '')"
+  services:
+    chrome:
+      enabled: true
+    lighthouse:
+      enabled: true
+    mysql:
+      enabled: true
   symfony:
     has_doctrine: false
 ---

@@ -1,4 +1,4 @@
-attributes:
+attributes.default:
   services:
     php-base:
       environment:
@@ -13,6 +13,5 @@ attributes:
     preview:
       persistence:
         enabled: true
-        magento:
-          media:
-            storageClass: nfs
+        magento-media:
+          storageClass: nfs

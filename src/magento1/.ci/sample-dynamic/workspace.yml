@@ -1,6 +1,8 @@
 workspace('ci-magento1-sample-dynamic'):
   description: generated local workspace for ci-magento1-sample.
-  harness: inviqa/magento1
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/magento1 # installed by test
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null

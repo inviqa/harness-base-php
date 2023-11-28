@@ -1,6 +1,8 @@
 ---
 harness('inviqa/spryker'):
   description: A docker based development environment for Spryker
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy
@@ -14,14 +16,6 @@ attributes:
     web_group: www-data
     web_writable_dirs:
       - '/app/data'
-    services:
-      - chrome
-      - postgres
-      - redis
-      - elasticsearch
-      - rabbitmq
-      - jenkins
-      - jenkins-runner
     data_directory: /app/data
   spryker:
     salt: 2tkqCCRKy5rT4wMVz8KTCh8r3sJGkL5v
@@ -75,15 +69,11 @@ attributes:
         - build-essential
         - python
       distribution_packages: "= host_architecture() == 'amd64' ? [] : @('frontend.build.distribution_packages_non_amd64')"
-      when: -f "package.json"
+      when: '[ -f "package.json" ]'
       steps:
         - task spryker:build:frontend
         - ~
         - ~
-  docker:
-    image:
-      console: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
-      php-fpm: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
   elasticsearch:
     image: elasticsearch
     tag: "= version_compare(@('spryker.demoshop-version'), '202009.0', '<=') ? '6.8.23' : '7.16.3'"
@@ -162,7 +152,6 @@ attributes:
         external_host: = 'jenkins-' ~ @('pipeline.preview.hostname')
       smtp:
         host: mailhog.kube-system.svc.cluster.local
-      resourcePrefix: ~
     qa:
       yves:
         external_hosts:
@@ -200,43 +189,63 @@ attributes:
         port: 9001
 
   persistence:
-    enabled: false
-    spryker:
-      data:
-        claimName: spryker-data-pvc
-        mountPath: = @('app.data_directory')
-        accessMode: ReadWriteMany # the requirement if persistence is enabled
-        #storageClass: "..." most clusters need a custom storageclass
-        #hostPath: "..." alternatively for single node testing
-        size: 1Gi
+    spryker-data:
+      enabled: true
+      claimName: spryker-data-pvc
+      mountPath: = @('app.data_directory')
+      accessMode: ReadWriteMany # the requirement if persistence is enabled
+      #storageClass: "..." most clusters need a custom storageclass
+      size: 1Gi
     redis:
       enabled: true
-    jenkins:
+    jenkins-home:
       enabled: true
       accessMode: ReadWriteOnce
       size: 2Gi
 
+  services:
+    chrome:
+      enabled: true
+    console:
+      build:
+        from: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
+    elasticsearch:
+      enabled: true
+    jenkins:
+      enabled: true
+    jenkins-runner:
+      enabled: true
+    lighthouse:
+      enabled: true
+    php-fpm:
+      build:
+        from: "= 'my127/spryker:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename')"
+    postgres:
+      enabled: true
+    redis:
+      enabled: true
+    rabbitmq:
+      enabled: true
+
 ---
 command('frontend yves watch'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.yves.watch')'
+    passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i -c '@('frontend.yves.watch')'
 command('frontend zed watch'):
   env:
+    CODE_OWNER: = @('app.code_owner')
     COMPOSE_BIN: = @('docker.compose.bin')
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     # Use `bash -i` to load up /home/build/.bashrc, which sets up node version manager (nvm) paths
-    passthru $COMPOSE_BIN exec -u build --workdir '@('frontend.path')' console bash -i -c '@('frontend.zed.watch')'
+    passthru $COMPOSE_BIN exec -u "${CODE_OWNER}" --workdir '@('frontend.path')' console bash -i -c '@('frontend.zed.watch')'
 
 command('spryker-reset'):
-  env:
-    COMPOSE_PROJECT_NAME: = @('namespace')
   exec: |
     #!bash(workspace:/)|@
     passthru "vendor/bin/console propel:database:drop"

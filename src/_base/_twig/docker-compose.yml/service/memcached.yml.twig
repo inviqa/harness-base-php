@@ -1,7 +1,0 @@
-  memcached:
-    image: {{ @('services.memcached.image') }}
-    labels:
-      # deprecated, a later workspace release will disable by default
-      - traefik.enable=false
-    networks:
-      - private

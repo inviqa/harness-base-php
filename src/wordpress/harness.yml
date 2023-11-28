@@ -1,6 +1,8 @@
 ---
 harness('inviqa/wordpress'):
   description: A docker based development environment for wordpress
+  parentLayers:
+    - inviqa/docker:v0.3.0
   require:
     services:
       - proxy
@@ -9,10 +11,6 @@ harness('inviqa/wordpress'):
       - harness:/
 ---
 attributes:
-  app:
-    services:
-      - chrome
-      - mysql
   wordpress:
     install_directory: = @('app.web_directory')
     url: = 'https://' ~ @('hostname') ~ '/'
@@ -64,6 +62,13 @@ attributes:
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
       - mysqli
     version: 7.4
+  services:
+    chrome:
+      enabled: true
+    lighthouse:
+      enabled: true
+    mysql:
+      enabled: true
 ---
 import:
   - harness/config/*.yml

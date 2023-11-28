@@ -1,6 +1,8 @@
 workspace('blog-static'):
   description: generated local workspace for blog.
-  harness: inviqa/wordpress
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/wordpress # installed by test
 
 attribute('app.build'): static
 

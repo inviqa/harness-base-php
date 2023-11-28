@@ -1,6 +1,8 @@
 workspace('ci-akeneo-sample-dynamic'):
   description: generated local workspace for ci-akeneo-sample.
-  harness: inviqa/akeneo
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/akeneo # installed by test
 
 attribute('aws.bucket'): null
 attribute('app.repository'): null

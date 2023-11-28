@@ -3,11 +3,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $.Values.resourcePrefix }}cron
+  name: {{ $.Release.Name }}-cron
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: cron
-    app.service: {{ $.Values.resourcePrefix }}cron
+    app.service: {{ $.Release.Name }}-cron
   annotations:
     argocd.argoproj.io/sync-wave: "15"
 spec:
@@ -17,15 +17,17 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app.service: {{ $.Values.resourcePrefix }}cron
+      app.service: {{ $.Release.Name }}-cron
   template:
     metadata:
       labels:
         {{- include "chart.selectors" $ | nindent 8 }}
         app.kubernetes.io/component: cron
-        app.service: {{ $.Values.resourcePrefix }}cron
+        app.service: {{ $.Release.Name }}-cron
     spec:
-      affinity: {{- include "pod.affinity" (dict "root" $ "serviceName" "cron" "service" .) | nindent 8 }}
+      {{- with (pick . "affinity") }}
+      {{- . | toYaml | nindent 6 }}
+      {{- end }}
       {{- if not (eq "" (include "application.volumes.wwwDataPaths" $)) }}
       initContainers:
       - name: cron-volume-permissions
@@ -46,28 +48,14 @@ spec:
       {{- end }}
       containers:
       - name: cron
-        env:
-        {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
-        {{- $tp := typeOf $value }}
-        - name: {{ $key | quote }}
-        {{- if eq $tp "string" }}
-          value: {{ tpl $value $ | quote }}
-        {{- else}}
-          value: {{ $value | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .environment_secrets }}
-        envFrom:
-          - secretRef:
-              name: {{ $.Values.resourcePrefix }}cron
-        {{- end }}
+        {{- include "service.environment" (dict "root" $ "serviceName" "cron" "service" .) | nindent 8 }}
         image: {{ .image }}
         imagePullPolicy: Always
         resources:
           limits:
             memory: {{ .resources.memory }}
           requests:
-            {{- with ((.resources.cpu | default (dict)).request | default nil) }}
+            {{- with (.resources | dig "cpu" "request" nil) }}
             cpu: {{ . }}
             {{- end }}
             memory: {{ .resources.memory }}
@@ -79,7 +67,7 @@ spec:
         {{- end }}
 {{- if $.Values.docker.image_pull_config }}
       imagePullSecrets:
-      - name: {{ $.Values.resourcePrefix }}image-pull-config
+      - name: {{ $.Release.Name }}-image-pull-config
 {{- end }}
       restartPolicy: Always
       enableServiceLinks: false

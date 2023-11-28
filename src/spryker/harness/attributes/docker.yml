@@ -1,4 +1,4 @@
-attributes:
+attributes.default:
   services:
     php-base:
       environment:
@@ -65,8 +65,8 @@ attributes:
       services:
         php-base:
           environment:
-            JENKINS_HOST: = '{{ .Values.resourcePrefix  }}' ~ @('jenkins.host')
-            JENKINS_URL: = 'http://{{ .Values.resourcePrefix  }}' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
+            JENKINS_HOST: = '{{ .Release.Name }}-' ~ @('jenkins.host')
+            JENKINS_URL: = 'http://{{ .Release.Name }}-' ~ @('jenkins.host') ~ ':' ~ @('jenkins.port') ~ '/'
     preview:
       services:
         php-base:
@@ -91,9 +91,8 @@ attributes:
             ])"
       persistence:
         enabled: true
-        spryker:
-          data:
-            storageClass: nfs
+        spryker-data:
+          storageClass: nfs
     qa:
       services:
         php-base:

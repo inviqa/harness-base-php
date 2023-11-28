@@ -1,18 +1,18 @@
 {{- define "application.volumeMounts.all" }}
-- mountPath: {{ .Values.persistence.drupal.files.mountPath | quote }}
+- mountPath: {{ index .Values.persistence "drupal-files" "mountPath" | quote }}
   name: drupal-files-volume
 {{- end }}
 
 {{- define "application.volumes.all" }}
 - name: drupal-files-volume
-{{- if .Values.persistence.enabled }}
+{{- if and $.Values.persistence.enabled (index .Values.persistence "drupal-files" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl .Values.persistence.drupal.files.claimName $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "drupal-files") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
 {{- end }}
 
 {{- define "application.volumes.wwwDataPaths" }}
-- {{ .Values.persistence.drupal.files.mountPath | quote }}
+- {{ index .Values.persistence "drupal-files" "mountPath" | quote }}
 {{- end }}

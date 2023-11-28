@@ -1,0 +1,184 @@
+attributes.default:
+  app:
+    web_owner: www-data
+    web_group: www-data
+    web_writable_dirs: []
+    web_writable_files: []
+
+    web_directory: /app/public
+    vendor_directory: /app/vendor
+
+  pipeline:
+    preview:
+      persistence:
+        redis-session:
+          enabled: false
+
+  composer:
+    auth:
+      basic: ~
+      github: ~
+
+  task:
+    build:
+      when: 'true'
+      steps:
+        - task "build:backend"
+        - task "build:frontend"
+
+  backend:
+    path: /app
+    build:
+      when: '[ -f "composer.json" ]'
+      steps:
+        - task composer:install
+    install:
+      steps: []
+    init:
+      steps: []
+    migrate:
+      steps: []
+    cron:
+      jobs: []
+
+  framework:
+    readme_blocks: []
+
+  frontend:
+    path: /app
+    watch: npm run watch
+    build:
+      when: '[ -f "package.json" ]'
+      steps:
+        - |
+          if [ "$APP_BUILD" == "static" ] && [ -f package-lock.json ]; then
+            run npm clean-install
+          else
+            run npm install
+          fi
+        - |
+          if [ "$(jq ".scripts.build != null" < package.json)" != "false" ]; then
+            run npm run build
+          fi
+        - |
+          if [ "$APP_BUILD" == "static" ]; then
+            run rm -rf node_modules/
+            run npm cache clean --force
+          fi
+
+  nginx:
+    # used to set site specific configurations under server directive
+    site:
+      conf: []
+    # used to set nginx global configurations under http directive
+    global:
+      conf:
+        'log_format timing': >-
+            '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"
+            $request_time "$http_x_forwarded_for" [$host]'
+        # Must be after the log format is defined
+        access_log: /dev/stdout timing
+        server_tokens: 'off'
+    # used to limit what is copied into an Nginx static-built image
+    copy_directories:
+     - = @('app.web_directory')
+    php_fpm:
+      conf: []
+
+  node:
+    # only set this attribute if you wish to override the supplied node version, by default
+    # the supplied version will be the current LTS.
+    version: null
+
+  php:
+    version: "8.0"
+    distro_codename: "= @('php.version') >= 8.0 ? 'bullseye' : (@('php.version') >= 7.3 ? 'buster' : 'stretch')"
+    cli:
+      ini:
+        max_execution_time: 0
+        memory_limit: -1
+        opcache.file_cache: "= (@('app.build') == 'static' ? '/tmp/php-file-cache' : '')"
+        opcache.file_cache_only: "= (@('app.build') == 'static' ? '1' : '0')"
+        opcache.file_cache_consistency_checks: "= (@('app.build') == 'static' ? '1' : '0')"
+      install_extensions: []
+    composer:
+      major_version: 2
+    cron:
+      ini: = @('php.cli.ini')
+    entrypoint:
+      steps: []
+    fpm:
+      ini:
+        disable_functions: pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals
+        expose_php: Off
+        log_errors: On
+        max_execution_time: 30
+        max_input_time: 60
+        memory_limit: 1024M
+        output_buffering: 4096
+        register_argc_argv: Off
+        request_order: GP
+        variables_order: GPCS
+      install_extensions: []
+    ini:
+      enable_dl: Off
+      error_reporting: "E_ALL"
+      opcache.enable_cli: On
+      # Use PHP 8+ Just In Time (JIT) optimisations
+      # 1255 means a tracing JIT optimiser that analyses code for hot paths on the fly for whole scripts.
+      # One step up from the default of "tracing" which is 1254 which uses callgraph
+      opcache.jit: "= (version_compare(@('php.version'), '8.0', '>=') ? '1255' : null)"
+      opcache.jit_buffer_size: "= (version_compare(@('php.version'), '8.0', '>=') ? '100M' : null)"
+      realpath_cache_ttl: 600
+      sendmail_path: /usr/local/bin/send_mail
+      short_open_tag: Off
+    install_extensions:
+      - "= @('services.blackfire.enabled') ? 'blackfire' : ''"
+      - "= @('services.tideways.enabled') ? 'tideways' : ''"
+    ext-blackfire:
+      enable: false
+      cli:
+        enable: false
+      config:
+        agent_socket: "tcp://blackfire:8707"
+    ext-tideways:
+      enable: "= @('services.tideways.enabled')"
+      cli:
+        enable: "= @('services.tideways.enabled')"
+      config:
+        connection: "tcp://tideways:9135"
+        collect: tracing
+        sample_rate: 25
+        service: app
+    ext-xdebug:
+      version: "= (version_compare(@('php.version'), '8.0', '>=') ? '3' : '2')"
+      enable: false
+      cli:
+        enable: false
+      config:
+        v2:
+          remote_enable: 1
+          remote_autostart: 1
+          remote_port: 9000
+          remote_host: host.docker.internal
+          idekey: workspace
+        v3:
+          mode: debug
+          start_with_request: "yes"
+          client_port: 9003
+          client_host: host.docker.internal
+
+  cron:
+    entrypoint:
+      steps: []
+
+  console:
+    entrypoint:
+      steps: []
+
+  php-fpm:
+    pools:
+      www:
+        port: 9000
+    entrypoint:
+      steps: []

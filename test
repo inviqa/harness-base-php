@@ -123,7 +123,13 @@ function setup()
     fi
 
     cp -ap "${path_harness}/.ci/sample-${mode}" "${path_test}"
-    cp -ap "${path_harness}" "${path_test}/.my127ws"
+
+    # download parent harness layers
+    pushd "${path_test}" >/dev/null
+    ws harness download
+    popd >/dev/null
+
+    rsync --archive "${path_harness}/" "${path_test}/.my127ws/"
 )
 
 function prepare_environment()
@@ -173,7 +179,7 @@ function run_project_quality_tests()
   local harness="$1"
   cd "${path_test}"
 
-  ws helm kubeval --cleanup qa
+  ws helm kubeval --cleanup app
 
   # Check if we have a composer.json so we can run tests
   # Check inside the console container as static builds do not

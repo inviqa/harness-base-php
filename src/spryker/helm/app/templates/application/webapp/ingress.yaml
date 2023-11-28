@@ -1,32 +1,33 @@
-{{ if and (index .Values.services .Values.ingress.target_service "enabled") (eq .Values.ingress.type "standard") }}
+{{- with $ingress := .Values.ingresses.webapp }}
+{{- if and (index $.Values.services .target_service "enabled") (eq .type "standard") }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  {{- with .Values.ingress.annotations }}
+  {{- with .annotations }}
   annotations:
     {{- . | toYaml | nindent 4 }}
   {{- end }}
   labels:
-    {{- include "chart.labels" . | nindent 4 }}
+    {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: webapp
-    app.service: {{ .Values.resourcePrefix }}webapp
-  name: {{ .Values.resourcePrefix }}webapp
+    app.service: {{ $.Release.Name }}-webapp
+  name: {{ $.Release.Name }}-webapp
 spec:
-  {{- with (pick .Values.ingress "ingressClassName" "tls") }}
+  {{- with (pick . "ingressClassName" "tls") }}
   {{- . | toYaml | nindent 2 }}
   {{- end }}
   rules:
-  {{- with .Values.services.nginx }}
+  {{- with $.Values.services.nginx }}
   {{- range $key, $value := (mergeOverwrite (dict) .environment .environment_dynamic) }}
   {{- if and (contains "_HOST_" $key) $value }}
-  - host: {{ $value | quote }}
+  - host: {{ . | quote }}
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: {{ $.Values.resourcePrefix }}{{ $.Values.ingress.target_service }}
+            name: {{ print $.Release.Name "-" $ingress.target_service | quote }}
             port:
               number: 80
   {{- end }}
@@ -34,4 +35,5 @@ spec:
   {{- end }}
 status:
   loadBalancer: {}
+{{- end }}
 {{- end }}

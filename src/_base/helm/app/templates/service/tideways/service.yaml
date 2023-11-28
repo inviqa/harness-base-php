@@ -1,19 +1,19 @@
-{{ if .Values.services.tideways.enabled }}
+{{- if .Values.services | dig "tideways" "enabled" false }}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: tideways
-    app.service: {{ .Values.resourcePrefix }}tideways
-  name: {{ .Values.resourcePrefix }}tideways
+    app.service: {{ $.Release.Name }}-tideways
+  name: {{ $.Release.Name }}-tideways
 spec:
   ports:
   - name: "9135"
     port: 9135
     targetPort: 9135
   selector:
-    app.service: {{ .Values.resourcePrefix }}tideways
+    app.service: {{ $.Release.Name }}-tideways
 status:
   loadBalancer: {}
-{{ end }}
+{{- end }}

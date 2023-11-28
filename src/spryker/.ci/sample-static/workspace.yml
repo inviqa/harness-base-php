@@ -1,6 +1,8 @@
 workspace('ci-spryker-sample-static'):
   description: generated local workspace for ci-spryker-sample.
-  harness: inviqa/spryker
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/spryker # installed by test
 
 attribute('app.build'): static
 

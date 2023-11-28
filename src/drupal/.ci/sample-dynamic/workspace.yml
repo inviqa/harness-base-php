@@ -1,5 +1,8 @@
 workspace('ci-drupal-sample-dynamic'):
   description: generated local workspace for ci-drupal-sample.
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/drupal # installed by test
   harness: inviqa/drupal
 
 attribute('aws.bucket'): null

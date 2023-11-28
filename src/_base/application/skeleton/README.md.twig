@@ -167,7 +167,7 @@ docker containers.
 It enables production-like performance at the cost of having to synchronise files with an intermediate
 "data" container.
 
-{% if bool(@('mutagen')) %}
+{% if @('mutagen') %}
 Mutagen is enabled on the development environment.
 {% else %}
 If it takes over 2 seconds to load a page, you should consider enabling mutagen by adding the following

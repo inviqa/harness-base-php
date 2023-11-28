@@ -7,11 +7,6 @@ There are also a number of [default commands](https://github.com/inviqa/harness-
 
 If not, here are some example that might be a good starting point.
 
-_Note: If someone clones the project repository as a different name than what's in workspace.yml for
-`workspace('projectname')`, docker compose commands will fail due to using the directory name by default.
-The way around this is to ensure you include the `COMPOSE_PROJECT_NAME` environment variable any time
-you use `docker compose` from within a custom command._
-
 ### Refresh script - `ws drupal-refresh`
 ```yaml
 command('drupal-refresh'): |

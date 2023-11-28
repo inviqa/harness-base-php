@@ -1,18 +1,18 @@
 {{- define "application.volumeMounts.all" }}
-- mountPath: {{ .Values.persistence.magento.media.mountPath | quote }}
+- mountPath: {{ index .Values.persistence "magento-media" "mountPath" | quote }}
   name: magento-media-volume
 {{- end }}
 
 {{- define "application.volumes.all" }}
 - name: magento-media-volume
-{{- if .Values.persistence.enabled }}
+{{- if and .Values.persistence.enabled (index .Values.persistence "magento-media" "enabled") }}
   persistentVolumeClaim:
-    claimName: {{ tpl .Values.persistence.magento.media.claimName $ | quote }}
+    claimName: {{ include "persistence.claimName" (dict "root" $ "name" "magento-media") | quote }}
 {{- else }}
   emptyDir: {}
 {{- end }}
 {{- end }}
 
 {{- define "application.volumes.wwwDataPaths" }}
-- {{ .Values.persistence.magento.media.mountPath | quote }}
+- {{ index .Values.persistence "magento-media" "mountPath" | quote }}
 {{- end }}

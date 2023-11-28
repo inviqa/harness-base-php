@@ -1,12 +1,12 @@
-{{ if .Values.services.jenkins.enabled }}
+{{- if .Values.services.jenkins.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.resourcePrefix }}jenkins
+  name: {{ .Release.Name }}-jenkins
   labels:
     {{- include "chart.labels" $ | nindent 4 }}
     app.kubernetes.io/component: jenkins
-    app.service: {{ .Values.resourcePrefix }}jenkins
+    app.service: {{ .Release.Name }}-jenkins
 spec:
   ports:
   - name: http-8080
@@ -16,7 +16,7 @@ spec:
     port: 50000
     targetPort: 50000
   selector:
-    app.service: {{ .Values.resourcePrefix }}jenkins
+    app.service: {{ .Release.Name }}-jenkins
 status:
   loadBalancer: {}
-{{ end }}
+{{- end }}

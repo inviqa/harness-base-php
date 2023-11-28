@@ -1,4 +1,4 @@
-attributes:
+attributes.default:
   services:
     console:
       build:
@@ -13,8 +13,7 @@ attributes:
     preview:
       persistence:
         enabled: true
-        magento:
-          export:
-            storageClass: nfs
-          media:
-            storageClass: nfs
+        magento-export:
+          storageClass: nfs
+        magento-media:
+          storageClass: nfs

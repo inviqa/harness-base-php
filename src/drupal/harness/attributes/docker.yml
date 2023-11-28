@@ -1,4 +1,4 @@
-attributes:
+attributes.default:
   services:
     php-base:
       environment:
@@ -11,6 +11,5 @@ attributes:
     preview:
       persistence:
         enabled: true
-        drupal:
-          files:
-            storageClass: nfs
+        drupal-files:
+          storageClass: nfs

@@ -1,6 +1,8 @@
 workspace('ci-symfony-sample-static'):
   description: generated local workspace for ci-symfony-sample.
-  harness: inviqa/symfony
+  harnessLayers:
+    - inviqa/docker:v0.3.0
+    # - inviqa/symfony # installed by test
 
 attribute('app.build'): static
 

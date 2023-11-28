@@ -1,29 +1,3 @@
-{{ if and .Values.services.jenkins.enabled .Values.persistence.jenkins.enabled -}}
-{{- with .Values.persistence.jenkins -}}
-
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: {{ $.Values.resourcePrefix }}jenkins-home
-  labels:
-    app.service: {{ $.Values.resourcePrefix }}jenkins
-spec:
-  accessModes:
-    - {{ .accessMode | quote }}
-  resources:
-    requests:
-      storage: {{ .size | quote }}
-{{- if .storageClass }}
-{{- if (eq "-" .storageClass) }}
-  storageClassName: ""
-{{- else }}
-  storageClassName: {{ .storageClass | quote }}
-{{- end }}
-{{- end }}
-{{- with (pick . "selector" "volumeMode" "volumeName") }}
-  {{- . | toYaml | nindent 2 }}
-{{- end }}
-
-{{- end }}
-
+{{- if .Values.services.jenkins.enabled }}
+{{- include "resource.persistentVolumeClaim" (dict "root" $ "name" "jenkins-home" "serviceName" "jenkins") }}
 {{- end }}

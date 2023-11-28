@@ -1,0 +1,36 @@
+       stage('Checks without development dependencies') {
+            steps {
+                sh 'ws exec composer test-production-quality'
+                sh 'ws exec app composer:development_dependencies'
+                milestone(20)
+            }
+            post { failure { script { failureMessages << 'Checks without development dependencies' } } }
+        }
+        stage('Test')  {
+            parallel {
+                stage('quality') {
+                    steps { sh 'ws exec composer test-quality' }
+                    post { failure { script { failureMessages << 'Quality checks' } } }
+                }
+                stage('unit') {
+                    steps { sh 'ws exec composer test-unit' }
+                    post { failure { script { failureMessages << 'Unit tests' } } }
+                }
+{% if not @('jenkins.tests.isolated') %}
+                stage('acceptance') {
+                    steps { sh 'ws exec composer test-acceptance' }
+                    post { failure { script { failureMessages << 'Acceptance tests' } } }
+                }
+{% if @('services.lighthouse.enabled') %}
+                stage('lighthouse') {
+                    steps { sh 'ws lighthouse' }
+                    post { failure { script { failureMessages << 'Lighthouse tests' } } }
+                }
+{% endif %}
+{% endif %}
+                stage('helm kubeval')  {
+                    steps { sh 'ws helm kubeval --cleanup app' }
+                    post { failure { script { failureMessages << 'Helm chart rendering' } } }
+                }
+            }
+        }
