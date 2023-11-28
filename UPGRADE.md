@@ -147,7 +147,7 @@ Older PersistentVolumeClaim names were generally hard-coded resource names, and 
 
 ### Helm templates pod affinity no longer used for pod spread across zones and hosts
 
-Topology spread constraints are better suited to pod spread than anti-affinity, as will continue to spread more evenly once replicas is higher than the ordinal constraint (e.g. 6 replicas across 3 zones will try to prioritise 2 replicas per zone for).
+Topology spread constraints are better suited to pod spread than anti-affinity, as will continue to spread more evenly once replicas is higher than the ordinal constraint (e.g. 6 replicas across 3 zones will try to prioritise 2 replicas per zone).
 
 Pod anti-affinity would instead stop prioritising once replicas are higher than the ordinal topology key constraint (e.g. > 3 replicas across 3 zones), causing further pods to be scheduled randomly and potentially put a majority in one zone. This would, in the event of zone downtime, hit the application's HA unfairly reducing accessible pods more than a proportional amount.
 
