@@ -20,6 +20,10 @@
   "autoload-dev": {
     "psr-4": {
       "AkeneoTest\\": "vendor/akeneo/pim-community-dev/tests/back",
+{% if version_compare(@('akeneo.major_version'), '7', '>=') %}
+      "Akeneo\\Catalogs\\Test\\": "vendor/akeneo/pim-community-dev/components/catalogs/back/tests",
+      "Akeneo\\Connectivity\\Connection\\Tests\\": "vendor/akeneo/pim-community-dev/src/Akeneo/Connectivity/Connection/back/tests",
+{% endif %}
       "App\\Acceptance\\": "features/bootstrap"
     }
   },
