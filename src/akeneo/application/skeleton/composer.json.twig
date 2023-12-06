@@ -75,20 +75,23 @@
 {% endif %}
   },
   "scripts": {
-    "remove-overridden-files": [
-      "grep -v -E '(docker/|docker-compose|.gitignore)' vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh > vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+    "customise-akeneo-install": [
+      "grep -v -E '(docker/|docker-compose|.gitignore|yarn install)' vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh > vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+{% if version_compare(@('akeneo.major_version'), '7', '>=') %}
+      "echo 'yarn install' >> vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+{% endif %}
       "mv vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-update-cmd": [
-      "@remove-overridden-files",
+      "@customise-akeneo-install",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-install-cmd": [
-      "@remove-overridden-files",
+      "@customise-akeneo-install",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-create-project-cmd": [
-      "@remove-overridden-files",
+      "@customise-akeneo-install",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "test": [
