@@ -4,7 +4,7 @@ Feature: View the homepage
   I want to be able to view the homepage
 
   # Mink will use default_session
-  # which is configured to use goutte (see behat.yml)
+  # which is configured to use browserkit (see behat.yml)
   Scenario: visitor views the homepage
     When I visit the home page
     Then I should see the home page

@@ -5,13 +5,15 @@ default:
         - Acceptance\Context\Yves\ProductListPageContext
   extensions:
     Behat\MinkExtension:
-      default_session: goutte
+      default_session: browserkit
       javascript_session: chrome
       sessions:
-        goutte:
-          goutte:
-            guzzle_parameters:
-              verify: false
+        browserkit:
+          browserkit_http:
+            # Symfony HttpClient
+            http_client_parameters:
+              verify_peer: false
+              verify_host: false
         chrome:
           chrome:
             api_url: "http://chrome:9222"

@@ -7,18 +7,15 @@ default:
     extensions:
         Behat\MinkExtension:
             base_url: 'https://{{ @('hostname') }}'
-            default_session: goutte
+            default_session: browserkit
             javascript_session: chrome
             sessions:
-                goutte:
-                    goutte:
+                browserkit:
+                    browserkit_http:
                         # Symfony HttpClient
-                        server_parameters:
+                        http_client_parameters:
                             verify_peer: false
                             verify_host: false
-                        # Guzzle
-                        guzzle_parameters:
-                            verify: false
                 chrome:
                     chrome:
                         api_url: "http://chrome:9222"
