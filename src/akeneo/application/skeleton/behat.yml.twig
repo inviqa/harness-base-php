@@ -20,7 +20,7 @@ default:
 
   extensions:
 {% if version_compare(@('akeneo.major_version'), '5', '>=') %}
-    FriendsOfBehat\SymfonyExtension:      
+    FriendsOfBehat\SymfonyExtension:   
       bootstrap: config/bootstrap.php
       kernel:
         class: Kernel
