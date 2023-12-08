@@ -30,7 +30,9 @@ attributes:
     fpm:
       ini:
         max_execution_time: 600
-    version: "= version_compare(@('spryker.demoshop-version'), '202211.0', '<') ? '7.4' : '8.1'"
+    version: >
+      = version_compare(@('spryker.demoshop-version'), '202211.0', '>=') ? '8.1'
+      : '7.4'
     ini:
       opcache.max_accelerated_files: 65407
       opcache.memory_consumption: 512

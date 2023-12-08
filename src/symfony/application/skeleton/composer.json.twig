@@ -4,7 +4,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">= 8.0",
+        "php": ">= 8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/console": "~5.4",
@@ -42,7 +42,7 @@
         "bin-dir": "bin",
         "optimize-autoloader": true,
         "platform": {
-            "php": "8.0.2"
+            "php": "8.2.12"
         },
         "preferred-install": {
             "*": "dist"
@@ -108,7 +108,7 @@
             "APP_DEBUG=1 bin/console cache:warmup --env=dev",
             "phpstan analyse"
         ],
-        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion {{ @('php.version') }}-"
     },
     "conflict": {
         "symfony/symfony": "*"
