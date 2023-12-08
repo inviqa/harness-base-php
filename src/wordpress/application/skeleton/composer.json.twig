@@ -55,7 +55,7 @@
         "test-acceptance": [
             "behat"
         ],
-        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.4-"
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion {{ @('php.version') }}-"
     },
     "config": {
         "bin-dir": "bin",

@@ -108,7 +108,7 @@
             "APP_DEBUG=1 bin/console cache:warmup --env=dev",
             "phpstan analyse"
         ],
-        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 8.0-"
+        "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion {{ @('php.version') }}-"
     },
     "conflict": {
         "symfony/symfony": "*"

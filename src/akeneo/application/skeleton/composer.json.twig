@@ -118,7 +118,7 @@
     "fix-code": [
       "phpcbf -p"
     ],
-    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion 7.3-"
+    "compatibility": "bin/phpcs -s --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility/ --runtime-set testVersion {{ @('php.version') }}-"
   },
   "config": {
     "platform": {
