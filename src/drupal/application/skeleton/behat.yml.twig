@@ -7,18 +7,26 @@ default:
     extensions:
         Behat\MinkExtension:
             base_url: 'https://{{ @('hostname') }}'
+{% if version_compare(@('drupal.major_version'), '9', '>=') %}
+            default_session: browserkit
+            javascript_session: chrome
+            sessions:
+                browserkit:
+                    browserkit_http:
+                        # Symfony HttpClient
+                        http_client_parameters:
+                            verify_peer: false
+                            verify_host: false
+{% else %}
             default_session: goutte
             javascript_session: chrome
             sessions:
                 goutte:
                     goutte:
-                        # Symfony HttpClient
-                        server_parameters:
-                            verify_peer: false
-                            verify_host: false
                         # Guzzle
                         guzzle_parameters:
                             verify: false
+{% endif %}
                 chrome:
                     chrome:
                         api_url: "http://chrome:9222"

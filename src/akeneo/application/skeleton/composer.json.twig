@@ -45,13 +45,10 @@
     "dmore/behat-chrome-extension": "^1.4",
     "dmore/chrome-mink-driver": "^2.8",
 {% if version_compare(@('akeneo.major_version'), '5', '>=') %}
-    "behat/mink-goutte-driver": "^2.0",
+    "behat/mink-browserkit-driver": "^2.1",
     "friends-of-behat/mink-extension": "^2.7",
     "friends-of-behat/symfony-extension": "^2.4",
-{% else %}
-    "behat/mink-extension": "^2.3",
-    "behat/mink-goutte-driver": "^1.2",
-    "behat/symfony2-extension": "^2.1",
+    "symfony/http-client": "^4.4 || ^5.0 || ^6.0 || ^7.0",
 {% endif %}
     "phpcompatibility/php-compatibility": "dev-develop",
     "phpmd/phpmd": "^2.13",
