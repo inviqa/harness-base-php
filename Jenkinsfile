@@ -303,19 +303,19 @@ pipeline {
                                 TEST_MODE = "quality"
                             }
                             steps {
+                                sh './test akeneo7 dynamic mutagen'
                                 sh './test akeneo6 dynamic mutagen'
                                 sh './test akeneo5 dynamic mutagen'
-                                sh './test akeneo4 dynamic mutagen'
                                 sh './test spryker dynamic mutagen'
 
+                                sh './test akeneo7 static'
                                 sh './test akeneo6 static'
                                 sh './test akeneo5 static'
-                                sh './test akeneo4 static'
                                 sh './test spryker static'
 
+                                sh './test akeneo7 dynamic'
                                 sh './test akeneo6 dynamic'
                                 sh './test akeneo5 dynamic'
-                                sh './test akeneo4 dynamic'
                                 sh './test spryker dynamic'
                             }
                             post { failure { script { failureMessages << 'Akeneo, Spryker quality checks' } } }
@@ -326,6 +326,11 @@ pipeline {
                                 TEST_MODE = "acceptance"
                             }
                             stages {
+                                stage('Akeneo 7 Mutagen') {
+                                    when { expression { return isHarnessChange(['akeneo']) } }
+                                    steps { sh './test akeneo7 dynamic mutagen' }
+                                    post { failure { script { failureMessages << 'Akeneo 7 mutagen acceptance' } } }
+                                }
                                 stage('Akeneo 6 Mutagen') {
                                     when { expression { return isHarnessChange(['akeneo']) } }
                                     steps { sh './test akeneo6 dynamic mutagen' }
@@ -336,31 +341,26 @@ pipeline {
                                     steps { sh './test akeneo5 dynamic mutagen' }
                                     post { failure { script { failureMessages << 'Akeneo 5 mutagen acceptance' } } }
                                 }
-                                stage('Akeneo 4 Dynamic Mutagen') {
-                                    when { expression { return isHarnessChange(['akeneo']) } }
-                                    steps { sh './test akeneo4 dynamic mutagen' }
-                                    post { failure { script { failureMessages << 'Akeneo 4 mutagen acceptance' } } }
-                                }
                                 stage('Spryker Mutagen') {
                                     when { expression { return isHarnessChange(['spryker']) } }
                                     steps { sh './test spryker dynamic mutagen' }
                                     post { failure { script { failureMessages << 'Spryker mutagen acceptance' } } }
                                 }
 
+                                stage('Akeneo 7 Static') {
+                                    when { expression { return isHarnessChange(['akeneo']) } }
+                                    steps { sh './test akeneo7 static' }
+                                    post { failure { script { failureMessages << 'Akeneo 7 static acceptance' } } }
+                                }
                                 stage('Akeneo 6 Static') {
                                     when { expression { return isHarnessChange(['akeneo']) } }
                                     steps { sh './test akeneo6 static' }
                                     post { failure { script { failureMessages << 'Akeneo 6 static acceptance' } } }
                                 }
-                                stage('Akeneo 5Static') {
+                                stage('Akeneo 5 Static') {
                                     when { expression { return isHarnessChange(['akeneo']) } }
                                     steps { sh './test akeneo5 static' }
                                     post { failure { script { failureMessages << 'Akeneo 5 static acceptance' } } }
-                                }
-                                stage('Akeneo 4 Static') {
-                                    when { expression { return isHarnessChange(['akeneo']) } }
-                                    steps { sh './test akeneo4 static' }
-                                    post { failure { script { failureMessages << 'Akeneo 4 static acceptance' } } }
                                 }
 
                                 stage('Spryker Static') {
@@ -369,6 +369,11 @@ pipeline {
                                     post { failure { script { failureMessages << 'Spryker static acceptance' } } }
                                 }
 
+                                stage('Akeneo 7 Dynamic') {
+                                    when { expression { return isHarnessChange(['akeneo']) } }
+                                    steps { sh './test akeneo7 dynamic' }
+                                    post { failure { script { failureMessages << 'Akeneo 7 dynamic acceptance' } } }
+                                }
                                 stage('Akeneo 6 Dynamic') {
                                     when { expression { return isHarnessChange(['akeneo']) } }
                                     steps { sh './test akeneo6 dynamic' }
@@ -378,11 +383,6 @@ pipeline {
                                     when { expression { return isHarnessChange(['akeneo']) } }
                                     steps { sh './test akeneo5 dynamic' }
                                     post { failure { script { failureMessages << 'Akeneo 5 dynamic acceptance' } } }
-                                }
-                                stage('Akeneo 4 Dynamic') {
-                                    when { expression { return isHarnessChange(['akeneo']) } }
-                                    steps { sh './test akeneo4 dynamic' }
-                                    post { failure { script { failureMessages << 'Akeneo 4 dynamic acceptance' } } }
                                 }
                                 stage('Spryker Dynamic') {
                                     when { expression { return isHarnessChange(['spryker']) } }

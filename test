@@ -31,14 +31,14 @@ function main()
       export MY127WS_ENV=pipeline
     fi
 
-    if [[ "$harness" =~ ^(akeneo4)$ ]]; then
-        akeneo_version=4
-        harness="akeneo"
-    elif [[ "$harness" =~ ^(akeneo5)$ ]]; then
+    if [[ "$harness" =~ ^(akeneo5)$ ]]; then
         akeneo_version=5
         harness="akeneo"
     elif [[ "$harness" =~ ^(akeneo6)$ ]]; then
         akeneo_version=6
+        harness="akeneo"
+    elif [[ "$harness" =~ ^(akeneo7)$ ]]; then
+        akeneo_version=7
         harness="akeneo"
     fi
     if [[ "$harness" =~ ^(drupal10)$ ]]; then

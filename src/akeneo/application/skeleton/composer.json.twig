@@ -20,6 +20,10 @@
   "autoload-dev": {
     "psr-4": {
       "AkeneoTest\\": "vendor/akeneo/pim-community-dev/tests/back",
+{% if version_compare(@('akeneo.major_version'), '7', '>=') %}
+      "Akeneo\\Catalogs\\Test\\": "vendor/akeneo/pim-community-dev/components/catalogs/back/tests",
+      "Akeneo\\Connectivity\\Connection\\Tests\\": "vendor/akeneo/pim-community-dev/src/Akeneo/Connectivity/Connection/back/tests",
+{% endif %}
       "App\\Acceptance\\": "features/bootstrap"
     }
   },
@@ -59,7 +63,7 @@
     "slevomat/coding-standard": "^8.6",
     "squizlabs/php_codesniffer": "^3.7",
 {% if version_compare(@('akeneo.major_version'), '6', '>=') %}
-    "league/flysystem-aws-s3-v3": "^2.0",
+    "league/flysystem-aws-s3-v3": "^2.0 || ^3.0",
     "symfony/debug-bundle": "^5.4",
     "symfony/web-profiler-bundle": "^5.4"
 {% else %}
@@ -71,20 +75,23 @@
 {% endif %}
   },
   "scripts": {
-    "remove-overridden-files": [
-      "grep -v -E '(docker/|docker-compose|.gitignore)' vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh > vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+    "customise-akeneo-install": [
+      "grep -v -E '(docker/|docker-compose|.gitignore|yarn install)' vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh > vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+{% if version_compare(@('akeneo.major_version'), '7', '>=') %}
+      "echo 'yarn install' >> vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp",
+{% endif %}
       "mv vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh.tmp vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-update-cmd": [
-      "@remove-overridden-files",
+      "@customise-akeneo-install",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-install-cmd": [
-      "@remove-overridden-files",
+      "@customise-akeneo-install",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "post-create-project-cmd": [
-      "@remove-overridden-files",
+      "@customise-akeneo-install",
       "bash vendor/akeneo/pim-{{ @('akeneo.edition') }}-dev/std-build/install-required-files.sh"
     ],
     "test": [
@@ -122,5 +129,12 @@
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
+{% if version_compare(@('akeneo.major_version'), '7', '>=') %}
+  "extra": {
+    "symfony": {
+      "require": "5.4.*"
+    }
+  },
+{% endif %}
   "minimum-stability": "stable"
 }

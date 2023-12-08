@@ -47,13 +47,17 @@ attributes:
       distribution:
         project_name: ~
   php:
-    version: "= (version_compare(@('akeneo.major_version'), '6', '>=')) ? '8.0' : ((version_compare(@('akeneo.major_version'), '5', '>=')) ? 7.4 : 7.3)"
+    version: >
+      = version_compare(@('akeneo.major_version'), '7', '>=') ? '8.1'
+      : version_compare(@('akeneo.major_version'), '6', '>=') ? '8.0'
+      : version_compare(@('akeneo.major_version'), '5', '>=') ? '7.4'
+      : '7.3'
     ini:
       apc.enable_cli: On
     composer:
-      major_version: "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? 2 : 1"
+      major_version: "= version_compare(@('akeneo.major_version'), '5', '>=') ? 2 : 1"
   node:
-    version: "= (version_compare(@('akeneo.major_version'), '6', '>=')) ? '18' : null"
+    version: "= version_compare(@('akeneo.major_version'), '6', '>=') ? '18' : null"
   database:
     user: akeneo
     pass: akeneo
@@ -100,7 +104,7 @@ attributes:
       steps:
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
     cron:
-      jobs:
+      jobs_pre7:
         - 15 12,20 * * * /cron-run-with-env.sh /app/bin/console akeneo:rule:run --env=prod
         - 30 16,23 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:refresh --env=prod
         - 20 0 1 * * /cron-run-with-env.sh /app/bin/console akeneo:batch:purge-job-execution --env=prod
@@ -114,6 +118,9 @@ attributes:
         - "= (version_compare(@('akeneo.major_version'), '5', '>=')) ? '*/30 * * * * /cron-run-with-env.sh /app/bin/console pim:data-quality-insights:evaluations --env=prod' : '*/30 * * * * /cron-run-with-env.sh /app/bin/console pimee:data-quality-insights:evaluate-products --env=prod'"
         - 0 4 * * * /cron-run-with-env.sh /app/bin/console pim:versioning:purge --more-than-days 90 --no-interaction --force --env=prod
         - 0 2 * * * /cron-run-with-env.sh /app/bin/console pim:completeness:calculate --env=prod
+      jobs_post7:
+        - '*/10 * * * * /cron-run-with-env.sh /app/bin/console pim:job-automation:push-scheduled-jobs-to-queue --env=prod'
+      jobs: "= version_compare(@('akeneo.major_version'), '7', '>=') ? @('backend.cron.jobs_post7') : @('backend.cron.jobs_pre7')"
   frontend:
     path: /app
     build:
@@ -170,6 +177,9 @@ attributes:
       enabled: true
     elasticsearch:
       enabled: true
+      tag: "= version_compare(@('akeneo.major_version'), '7', '>=') ? '8.11.0' : '7.17.15'"
+      environment:
+        xpack.security.enabled: "false"
     job-queue-consumer:
       enabled: true
     lighthouse:
