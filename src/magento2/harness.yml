@@ -81,7 +81,7 @@ attributes:
       frontend:
         languages: []
         themes: []
-    version: 2.4.2
+    version: 2.4.6-p3
   mysql:
     image: mariadb
     tag: '10.4'
@@ -235,6 +235,9 @@ attributes:
       enabled: true
     elasticsearch:
       enabled: true
+      environment:
+        xpack.security.enabled: "false"
+      tag: "= version_compare(@('magento.version'), '2.4.6', '>=') ? '8.11.0' : '7.17.15'"
     lighthouse:
       enabled: true
     mysql:
