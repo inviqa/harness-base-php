@@ -32,3 +32,5 @@ attribute('composer.auth.github'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOj
 attribute('magento.username'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi7yUH3P6aCmMBl2qwN7PdlRI1EiWoimdCIjtpOjI7czo0ODoiRPQOwTWonSKk4MysvUFMpCh+ooh/BFclduIOquzh2lW1JWA9mAocweHxe95WExrEIjt9")
 attribute('magento.password'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoixljx4kYiDfX50qPOtBcSYGh3mAEpPSdNIjtpOjI7czo0ODoipguEMh332EeO4FbNy915MBJl8P8Xa9mVGktL4toQFWPiOHYIwHp1c3CjBTyFhi5dIjt9")
 attribute('magento.crypt.key'): = decrypt("YTozOntpOjA7czo3OiJkZWZhdWx0IjtpOjE7czoyNDoi6LN041f4zpPwHuGGf4MqbWrBMGOHICyXIjtpOjI7czo0ODoix8uhQ70u7vO4sEIv1aVQrrf2x2gB/5rUnjOUPm5G+Sk+Gmf+UY39/1L38v9eZK0tIjt9")
+
+attribute('helm.kubernetes_version'): '1.25.0'
