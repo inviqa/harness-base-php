@@ -69,13 +69,16 @@ attributes:
         - run "set -e -o pipefail; pv --force \"$1\" | zcat | mysql -h \"$DB_HOST\" -u \"$DB_ADMIN_USER\" -p\"$DB_ADMIN_PASS\" \"$DB_NAME\""
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
         - passthru echo 'Reindexing Elasticsearch'
-        - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
+        - run app searchengine:available
         - run bin/console akeneo:elasticsearch:reset-indexes -n
         - run bin/console pim:product:index --all
         - run bin/console pim:product-model:index --all
         - passthru echo 'Clearing cache'
         - run bin/console c:c
         - passthru echo 'Done'
+  searchengine:
+    platform: elasticsearch
+    platform_version: "= version_compare(@('akeneo.major_version'), '7', '>=') ? '8' : '7'"
   backend:
     build:
       steps:
@@ -89,14 +92,14 @@ attributes:
         - "= version_compare(@('akeneo.major_version'), '5', '>=') ? '! [ -e config/bundles.harness.php ] || run mv config/bundles.harness.php config/bundles.php' : 'rm -f config/bundles.harness.php'"
     install:
       steps:
-        - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
+        - run app searchengine:available
         - = 'passthru bin/console pim:installer:db --catalog vendor/akeneo/pim-' ~ @('akeneo.edition') ~ '-dev/src/Akeneo/Platform/Bundle/InstallerBundle/Resources/fixtures/minimal'
         - task overlay:apply
         - task assets:dump
     init:
       steps:
         - passthru bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-        - task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
+        - run app searchengine:available
         - run bin/console akeneo:elasticsearch:reset-indexes --no-interaction
         - run bin/console pim:product:index --all
         - run bin/console pim:product-model:index --all
@@ -177,7 +180,6 @@ attributes:
       enabled: true
     elasticsearch:
       enabled: true
-      tag: "= version_compare(@('akeneo.major_version'), '7', '>=') ? '8.11.0' : '7.17.15'"
       environment:
         xpack.security.enabled: "false"
     job-queue-consumer:

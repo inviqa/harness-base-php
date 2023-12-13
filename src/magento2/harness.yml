@@ -57,6 +57,9 @@ attributes:
     user: magento
     pass: magento
     name: magento
+  searchengine:
+    platform: elasticsearch
+    platform_version: '7'
   magento:
     edition: enterprise
     config:
@@ -67,6 +70,10 @@ attributes:
     run:
       code: []
       type: []
+    search_engine: >
+      = @('searchengine.platform') == 'elasticsearch' ? 'elasticsearch' ~ @('searchengine.platform_version')
+      : @('searchengine.platform') == 'opensearch' ? 'opensearch'
+      : null
     static_content:
       adminhtml:
         languages: []
@@ -105,10 +112,7 @@ attributes:
         - run rm -f /app/app/etc/env.php
         - run rm -f /app/app/etc/config.php
         - run rm -rf /tmp/php-file-cache/*/app/app/etc/ || true
-        - |
-          if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
-            task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
-          fi
+        - run app searchengine:available
         - |
           passthru "magento setup:install \
             --key='${MAGENTO_CRYPT_KEY}' \
@@ -142,9 +146,16 @@ attributes:
             --page-cache-redis-port='${REDIS_PORT}' \
             --page-cache-redis-db=3 \
             \
-            --search-engine=elasticsearch7 \
-            --elasticsearch-host='${ELASTICSEARCH_HOST}' \
-            --elasticsearch-port='${ELASTICSEARCH_PORT}' \
+            --search-engine='${MAGENTO_SEARCH_ENGINE}' \
+            $( ! [[ $MAGENTO_SEARCH_ENGINE == elasticsearch* ]] || echo "\
+            --elasticsearch-host='${SEARCHENGINE_HOST}' \
+            --elasticsearch-port='${SEARCHENGINE_PORT}'"
+            ) \
+            \
+            $( ! [[ $MAGENTO_SEARCH_ENGINE == opensearch* ]] || echo "\
+            --opensearch-host='${SEARCHENGINE_HOST}' \
+            --opensearch-port='${SEARCHENGINE_PORT}'"
+            ) \
             \
             --language=en_GB"
           # magento doesn't respond with an exit code when it fails so we check
@@ -166,10 +177,7 @@ attributes:
             run mv app/etc/env-backup.php app/etc/env.php
           fi
         - task rabbitmq:vhosts
-        - |
-          if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
-            task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
-          fi
+        - run app searchengine:available
         - run magento setup:upgrade --keep-generated --no-interaction
         - run magento config:set 'web/unsecure/base_url'       "https://${APP_HOST}/"
         - run magento config:set 'web/secure/base_url'         "https://${APP_HOST}/"
@@ -181,10 +189,7 @@ attributes:
           fi
     migrate:
       steps:
-        - |
-          if [[ "$HAS_ELASTICSEARCH" == "true" ]]; then
-            task http:wait "${ELASTICSEARCH_URL:-${ELASTICSEARCH_SCHEME:-http}://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}}" ${ELASTICSEARCH_USERNAME:+--user "${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}"}
-          fi
+        - run app searchengine:available
         - run magento setup:upgrade --keep-generated --no-interaction
         - run magento cache:clean
     cron:

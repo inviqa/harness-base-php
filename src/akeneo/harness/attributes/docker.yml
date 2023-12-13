@@ -19,7 +19,7 @@ attributes.default:
         APP_DATABASE_NAME: = @('database.name')
         APP_DATABASE_USER: = @('database.user')
         APP_DEFAULT_LOCALE: en
-        APP_INDEX_HOSTS: elasticsearch:9200
+        APP_INDEX_HOSTS: = @('searchengine.host') ~ ':' ~ @('searchengine.port')
         APP_PRODUCT_AND_PRODUCT_MODEL_INDEX_NAME: akeneo_pim_product_and_product_model
         MAILER_URL: null://localhost
         AKENEO_PIM_URL: = "https://" ~ @('hostname')

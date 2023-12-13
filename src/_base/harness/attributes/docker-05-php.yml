@@ -11,8 +11,10 @@ attributes.default:
         DB_PORT: = @('database.port')
         DB_USER: = @('database.user')
         DB_NAME: = @('database.name')
-        ELASTICSEARCH_HOST: = @('elasticsearch.host')
-        ELASTICSEARCH_PORT: = @('elasticsearch.port')
+        SEARCHENGINE_PLATFORM: "= @('searchengine.platform')"
+        SEARCHENGINE_PLATFORM_VERSION: "= @('searchengine.platform_version')"
+        SEARCHENGINE_HOST: = @('searchengine.host')
+        SEARCHENGINE_PORT: = @('searchengine.port')
         RABBITMQ_API_PORT: = @('rabbitmq.api_port')
         RABBITMQ_EXTERNAL_HOST: = @('rabbitmq.external_host')
         RABBITMQ_HOST: = @('rabbitmq.host')
@@ -48,7 +50,6 @@ attributes.default:
         from: "= 'my127/php:' ~ @('php.version') ~ '-fpm-' ~ @('php.distro_codename') ~ '-console'"
       environment:
         DB_ADMIN_USER: root
-        HAS_ELASTICSEARCH: "= @('services.elasticsearch.enabled') ? 'true' : 'false'"
         HAS_VARNISH: "= @('services.varnish.enabled') ? 'true' : 'false'"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
@@ -113,8 +114,9 @@ attributes.default:
           environment:
             APP_HOST: = @('pipeline.base.hostname')
             DB_HOST: = '{{ .Release.Name }}-' ~ @('database.host')
-            ELASTICSEARCH_HOST: '{{ if .Values.services.elasticsearch.enabled }}{{ .Release.Name  }}-elasticsearch{{ end }}'
-            ES_HOST: '{{ if .Values.services.elasticsearch.enabled }}{{ .Release.Name }}-elasticsearch:9200{{ end }}'
+            SEARCHENGINE_HOST: >
+              {{ if .Values.services.elasticsearch.enabled }}{{ .Release.Name  }}-elasticsearch{{ end }}
+              {{ if .Values.services.opensearch.enabled }}{{ .Release.Name  }}-opensearch{{ end }}
             RABBITMQ_HOST: '{{ if .Values.services.rabbitmq.enabled }}{{ .Release.Name }}-rabbitmq{{ end }}'
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             REDIS_HOST: '{{ if .Values.services.redis.enabled }}{{ .Release.Name }}-redis{{ end }}'
@@ -127,6 +129,17 @@ attributes.default:
         console:
           environment:
             TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.services.tideways.enabled | default false | toString }}' : 'false'"
+        elasticsearch:
+          tag: >
+            = (
+                @('searchengine.platform') == 'elasticsearch' and 
+                version_compare(@('searchengine.platform_version'), '8', '<')
+              ) ? '7.17.16'
+            : (
+                @('searchengine.platform') == 'elasticsearch' and 
+                version_compare(@('searchengine.platform_version'), '7', '<')
+              ) ? '6.8.23'
+            : '8.11.3'
         nginx:
           environment:
             FPM_HOST: localhost
