@@ -52,7 +52,8 @@ RUN . {{ @('app.code_owner_home')}}/.nvm/nvm.sh \
  && nvm install {{ @('node.version') }} \
  && nvm use {{ @('node.version') }} \
  && nvm alias default {{ @('node.version') }} \
- && npm install -g yarn
+ && npm install -g corepack \
+ && corepack enable
 {% endif %}
 
 {% if @('php.composer.major_version') != '1' %}
