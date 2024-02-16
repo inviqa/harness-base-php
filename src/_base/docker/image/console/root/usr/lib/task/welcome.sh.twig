@@ -6,6 +6,7 @@ function task_welcome()
 {
     echo ""
     echo "Welcome!"
+    {% if @('services.webapp.enabled') -%}
     echo "--------"
     {% for host in hostnames -%}
     echo "https://{{ host }}"
@@ -15,6 +16,7 @@ function task_welcome()
     if [[ "$APP_BUILD" == "dynamic" ]]; then
         echo "  Password: ${ADMIN_DEFAULT_PASSWORD}"
     fi
+    {% endif -%}
     {% if @('services.rabbitmq.enabled') -%}
     echo ""
     echo "RabbitMQ: https://{{ @('rabbitmq.external_host') }}"
