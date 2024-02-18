@@ -1,4 +1,5 @@
 command('feature xdebug version-sync'):
+  description: Install xdebug version configured by "php.ext-xdebug.version" into running PHP containers
   env:
     XDEBUG_VERSION: = @('php.ext-xdebug.version')
     COMPOSE_BIN: = @('docker.compose.bin')
@@ -7,27 +8,23 @@ command('feature xdebug version-sync'):
     source .my127ws/harness/scripts/xdebug_version_sync.sh
 
 command('feature xdebug (on|off)'):
+  description: Enable XDebug for PHP-FPM (disables JIT)
   env:
     ATTR_KEY: 'php.ext-xdebug.enable'
     ATTR_VAL: = boolToString(input.command(3) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up php-fpm with the new setting'
-    run ws service php-fpm restart
+    passthru ws service php-fpm restart
     echo 'Done'
 
 command('feature xdebug cli (on|off)'):
+  description: Enable XDebug for PHP CLI (disables JIT)
   env:
     ATTR_KEY: 'php.ext-xdebug.cli.enable'
     ATTR_VAL: = boolToString(input.command(4) == 'on')
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up console with the new setting'
-    run ws service php-fpm restart
+    passthru ws console reload
     echo 'Done'

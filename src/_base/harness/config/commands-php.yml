@@ -35,10 +35,25 @@ command('service php-fpm restart'):
     COMPOSE_BIN: = @('docker.compose.bin')
   exec: |
     #!bash(workspace:/)|@
+    echo 'Updating templates in .my127ws/'
     passthru ws install --step=prepare
-    $COMPOSE_BIN exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    echo 'Bringing up php-fpm with updated settings'
     $COMPOSE_BIN exec php-fpm bash -c 'cp -r /.my127ws/docker/image/app/root-base/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    $COMPOSE_BIN exec php-fpm bash -c 'cp -r /.my127ws/docker/image/app/root-base/usr/local/etc/php/php.ini /usr/local/etc/php/'
+    $COMPOSE_BIN exec php-fpm bash -c 'cp -r /.my127ws/docker/image/app/root-base/usr/local/etc/php-fpm.d/* /usr/local/etc/php-fpm.d/'
     passthru $COMPOSE_BIN exec php-fpm supervisorctl restart php-fpm
+
+command('console reload'):
+  env:
+    COMPOSE_BIN: = @('docker.compose.bin')
+  exec: |
+    #!bash(workspace:/)|@
+    echo 'Updating templates in .my127ws/'
+    passthru ws install --step=prepare
+    echo 'Configuring console with updated settings'
+    $COMPOSE_BIN exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/conf.d/* /usr/local/etc/php/conf.d/'
+    $COMPOSE_BIN exec console bash -c 'cp -r /.my127ws/docker/image/console/root/usr/local/etc/php/php.ini /usr/local/etc/php/php.ini'
+    
 
 command('feature blackfire (on|off)'):
   env:
@@ -47,10 +62,7 @@ command('feature blackfire (on|off)'):
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up php-fpm with the new setting'
-    run ws service php-fpm restart
+    passthru ws service php-fpm restart
     echo 'Done'
 
 command('feature blackfire cli (on|off)'):
@@ -60,10 +72,8 @@ command('feature blackfire cli (on|off)'):
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up console with the new setting'
-    run ws service
+    passthru ws console reload
+    echo 'Done'
 
 command('feature tideways (on|off)'):
   env:
@@ -72,10 +82,7 @@ command('feature tideways (on|off)'):
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up php-fpm with the new setting'
-    run ws service php-fpm restart
+    passthru ws service php-fpm restart
     echo 'Done'
 
 command('feature tideways cli (on|off)'):
@@ -85,10 +92,7 @@ command('feature tideways cli (on|off)'):
   exec: |
     #!bash(workspace:/)|=
     ws set $ATTR_KEY $ATTR_VAL
-    echo 'Updating templates in .my127ws/'
-    run ws install --step=prepare
-    echo 'Bringing up console with the new setting'
-    run ws service php-fpm restart
+    passthru ws console reload
     echo 'Done'
 
 command('feature tideways cli configure <server_key>'):
