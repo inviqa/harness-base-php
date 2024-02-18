@@ -8,7 +8,7 @@ command('feature xdebug version-sync'):
     source .my127ws/harness/scripts/xdebug_version_sync.sh
 
 command('feature xdebug (on|off)'):
-  description: Enable XDebug for PHP-FPM (disables JIT)
+  description: Enable/Disable XDebug for PHP-FPM (disables JIT)
   env:
     ATTR_KEY: 'php.ext-xdebug.enable'
     ATTR_VAL: = boolToString(input.command(3) == 'on')
@@ -19,7 +19,7 @@ command('feature xdebug (on|off)'):
     echo 'Done'
 
 command('feature xdebug cli (on|off)'):
-  description: Enable XDebug for PHP CLI (disables JIT)
+  description: Enable/Disable XDebug for PHP CLI (disables JIT)
   env:
     ATTR_KEY: 'php.ext-xdebug.cli.enable'
     ATTR_VAL: = boolToString(input.command(4) == 'on')
