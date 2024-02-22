@@ -38,7 +38,8 @@
 {%- endif %}
   "require": {
     "php": ">= {{ @('php.version') }}",
-    "akeneo/pim-{{ @('akeneo.edition') }}-dev": "^{{ @('akeneo.major_version') }}.0.0"
+    "akeneo/pim-{{ @('akeneo.edition') }}-dev": "^{{ @('akeneo.major_version') }}.0.0",
+    "symfony/console": "*, !=5.4.35, !=6.3.12, !=6.4.3, !=7.0.3"
   },
   "require-dev": {
     "behat/behat": "^3.12",
