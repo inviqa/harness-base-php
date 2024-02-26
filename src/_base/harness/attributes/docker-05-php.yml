@@ -117,6 +117,7 @@ attributes.default:
             SEARCHENGINE_HOST: >
               {{ if .Values.services.elasticsearch.enabled }}{{ .Release.Name  }}-elasticsearch{{ end }}
               {{ if .Values.services.opensearch.enabled }}{{ .Release.Name  }}-opensearch{{ end }}
+              {{ if .Values.services.solr.enabled }}{{ .Release.Name  }}-solr{{ end }}
             RABBITMQ_HOST: '{{ if .Values.services.rabbitmq.enabled }}{{ .Release.Name }}-rabbitmq{{ end }}'
             RABBITMQ_EXTERNAL_HOST: = @('pipeline.preview.rabbitmq.external_host')
             REDIS_HOST: '{{ if .Values.services.redis.enabled }}{{ .Release.Name }}-redis{{ end }}'
