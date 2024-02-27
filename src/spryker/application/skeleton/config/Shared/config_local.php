@@ -97,11 +97,11 @@ $config[PropelConstants::ZED_DB_ENGINE]
     = PropelConfig::DB_ENGINE_PGSQL;
 
 // ---------- Elasticsearch
-$config[SearchElasticsearchConstants::HOST] = getenv('ELASTICSEARCH_HOST', true);
-$config[SearchElasticsearchConstants::TRANSPORT] = getenv('ELASTICSEARCH_SCHEME', true) ?: 'http';
-$config[SearchElasticsearchConstants::PORT] = getenv('ELASTICSEARCH_PORT', true);
-if (getenv('ELASTICSEARCH_USERNAME', true)) {
-    $config[SearchElasticsearchConstants::AUTH_HEADER] = base64_encode(getenv('ELASTICSEARCH_USERNAME', true) . ':' . getenv('ELASTICSEARCH_PASSWORD', true));
+$config[SearchElasticsearchConstants::HOST] = getenv('SEARCHENGINE_HOST', true);
+$config[SearchElasticsearchConstants::TRANSPORT] = getenv('SEARCHENGINE_SCHEME', true) ?: 'http';
+$config[SearchElasticsearchConstants::PORT] = getenv('SEARCHENGINE_PORT', true);
+if (getenv('SEARCHENGINE_USERNAME', true)) {
+    $config[SearchElasticsearchConstants::AUTH_HEADER] = base64_encode(getenv('SEARCHENGINE_USERNAME', true) . ':' . getenv('SEARCHENGINE_PASSWORD', true));
 }
 $ELASTICA_INDEX_NAME = strtolower($CURRENT_STORE) . '_search';
 $config[CollectorConstants::ELASTICA_PARAMETER__INDEX_NAME] = $ELASTICA_INDEX_NAME;

@@ -2,7 +2,7 @@
 harness('inviqa/wordpress'):
   description: A docker based development environment for wordpress
   parentLayers:
-    - inviqa/docker:v0.3.0
+    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.4.0-alpha1.tar.gz
   require:
     services:
       - proxy

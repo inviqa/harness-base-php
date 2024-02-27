@@ -4,6 +4,7 @@ attributes.default:
       build:
         environment:
           MAGE_MODE: "= (@('app.mode') == 'production' ? 'production' : 'developer')"
+          MAGENTO_SEARCH_ENGINE: = @('magento.search_engine')
     php-base:
       environment:
         MAGE_MODE: "= (@('app.mode') == 'production' ? 'production' : 'developer')"

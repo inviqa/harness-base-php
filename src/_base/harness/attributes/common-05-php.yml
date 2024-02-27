@@ -186,3 +186,13 @@ attributes.default:
         port: 9000
     entrypoint:
       steps: []
+
+  searchengine:
+    # possible platforms are elasticsearch, opensearch or ~ for none
+    platform: elasticsearch
+    platform_version: >
+      = @('searchengine.platform') == 'elasticsearch' ? '7'
+      : @('seachengine.platform') == 'opensearch' ? '2'
+      : null
+    host: = @('searchengine.platform')
+    port: 9200
