@@ -100,7 +100,7 @@ attribute('docker.compose.bin'): docker-compose
 
 ### .my127ws/docker/app mult-stage Dockerfile replacing all php-derrived images
 
-.my127ws/docker/app has combined the php-fpm, cron, Akeneo job-queue-consumer, and Spryker jenkins-runner Dockerfile build contexts into one multi-stage Dockerfile (with templating of each stage still separate).
+.my127ws/docker/app has combined the php-fpm, cron, and Akeneo job-queue-consumer Dockerfile build contexts into one multi-stage Dockerfile (with templating of each stage still separate).
 
 This was in order to remove the use of intermediate image stage builds in favour of Docker's native multi-stage builds. The resulting images will still be the same, but Docker can now build them even more efficiently without harness logic ordering the builds, and so allowing less logic to be per-harness and instead able to use the new docker harness with fewer layer overrides.
 

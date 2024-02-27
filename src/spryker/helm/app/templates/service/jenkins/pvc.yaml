@@ -1,3 +1,0 @@
-{{- if .Values.services.jenkins.enabled }}
-{{- include "resource.persistentVolumeClaim" (dict "root" $ "name" "jenkins-home" "serviceName" "jenkins") }}
-{{- end }}
