@@ -27,6 +27,8 @@ harness attributes:
 * `app.services[]: *` -> `services.*.enabled: true` - backwards compatibility removed
 * `backend.*.when`, `frontend.*.when` - are now full bash if conditions, so `-f package.json` becomes `"[ -f package.json ]"`, and `"true"` and `"false"` now is semantically valid
 * `docker.image.*` -> `services.*.build.from`
+* `elasticsearch.host` -> `searchengine.host`
+* `elasticsearch.port` -> `searchengine.port`
 * `persistence.*.*` -> `persistence.*-*` - now using a flat structure for consistency for templating. e.g. `persistence.drupal.files` becomes `persistence.drupal-files`
 * `persistence.jenkins` -> `persistence.jenkins-home`
 * `persistence.solr` -> `persistence.solr-data`
@@ -73,6 +75,16 @@ attribute('services.postgres.image'): postgres:9.6
 ```
 
 For mongodb, please consider upgrading further than 5.0 if you can, so that you don't need to do this process often. We've only set to 5.0 as getting to 7.0 would require successive upgrades of 5.0, 6.0, and 7.0. These will be targetted in future harness minor releases.
+
+### elasticsearch updated to version 8 (except in Magento, Spryker, Akeneo)
+
+So that new projects use the latest version where possible, elasticsearch has been updated to 8. This change is limited to php, drupal, symfony, wordpress harnesses, as frameworks that target specific versions (Magento, Spryker, Akeneo) will continue to do so (in most cases version 7) until ready to update.
+
+Now that the searchengine.platform_version attribute is available, you can switch between major versions with workspace configuration:
+
+```yaml
+attribute('searchengine.platform_version'): 7
+```
 
 ### `docker-compose` command now `docker compose`
 
