@@ -81,7 +81,7 @@ attributes:
       frontend:
         languages: []
         themes: []
-    version: 2.4.6-p3
+    version: 2.4.6-p4
   mysql:
     image: mariadb
     tag: "= version_compare(@('magento.version'), '2.4.6', '>=') ? '10.6' : '10.4'"
