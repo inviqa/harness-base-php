@@ -32,22 +32,18 @@ A developer for a project can follow these steps to upgrade their harness versio
 1. Check the [version specific upgrade instructions] for the new version to see if there are any specific steps. If
    upgrading through multiple versions, check the previous version's instructions too!
 2. Check what harness is in use for the project. This is usually line 2 or 3 in `workspace.yml`.
-3. Clone the repository for the harness in use for the project and check out the new tagged version. For example:
+3. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
+4. Download the new harness version:
 ```bash
-git clone git@github.com:inviqa/harness-<framework>.git
-cd harness-<framework>
-git checkout 1.6.0
-pwd # Use this path for the diff in step 3
+rm -rf .my127ws
+ws harness download
 ```
-4. Update the `workspace.yml` harness version (usually line 2 or 3) to the new tagged version.
 5. Perform a recursive diff between the new release from the checked out harness from step 1 and any "overlay"
    directories such as `tools/workspace/`.
     1. Remove any files from the project that are now the same as the harness.
     2. Port over any changes from the harness to override files that must stay.
-6. Download the new harness version and render the twig templates:
+6. Render the templates and apply the overlay directory:
 ```bash
-rm -rf .my127ws
-ws harness download
 ws harness prepare
 ```
 7. Perform a recursive diff between the `.my127ws/application/skeleton/` folder to the project root:
