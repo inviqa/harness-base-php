@@ -1,8 +1,0 @@
-{{ @('workspace.name') }}:
-  resourcePrefix: {{ @('pipeline.qa.resourcePrefix') | json_encode }}
-{% if @('pipeline.qa.services') %}
-  services: {{ to_nice_yaml(@('pipeline.qa.services'), 2, 4) }}
-{% endif %}
-{% if @('pipeline.qa.persistence') %}
-  persistence: {{ to_nice_yaml(@('pipeline.qa.persistence'), 2, 4) }}
-{% endif %}

@@ -9,7 +9,7 @@ $0 [--archive]
 EOF
 }
 
-HARNESSES=(akeneo drupal magento1 magento2 spryker symfony wordpress)
+HARNESSES=(akeneo drupal magento1 magento2 symfony wordpress)
 ARCHIVE=0
 ARGS=()
 
