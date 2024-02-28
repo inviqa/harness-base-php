@@ -58,8 +58,13 @@ attributes:
     pass: magento
     name: magento
   searchengine:
-    platform: elasticsearch
-    platform_version: '7'
+    platform: >
+      = version_compare(@('magento.version'), '2.4.6', '>=') ? 'opensearch'
+      : 'elasticsearch'
+    platform_version: >
+      = @('searchengine.platform') == 'opensearch' ? '2'
+      : @('searchengine.platform') == 'elasticsearch' ? (version_compare(@('magento.version'), '2.4.6', '>=') ? '8' : '7')
+      : null
   magento:
     edition: enterprise
     config:

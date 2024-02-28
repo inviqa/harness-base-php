@@ -76,14 +76,28 @@ attribute('services.postgres.image'): postgres:9.6
 
 For mongodb, please consider upgrading further than 5.0 if you can, so that you don't need to do this process often. We've only set to 5.0 as getting to 7.0 would require successive upgrades of 5.0, 6.0, and 7.0. These will be targetted in future harness minor releases.
 
-### elasticsearch updated to version 8 (except in Magento, Spryker, Akeneo)
+### Magento >= 2.4.6 elasticsearch switched to opensearch to match Commerce on Cloud
+
+opensearch is a fork Amazon are maintaining for AWS Opensearch Service, which Commerce on Cloud uses, so the default searchengine Magento harness picks switches to that as of 2.4.6.
+
+Since this is a major change of infrastructure for non Commerce on Cloud test environments, you can change this back to elasticsearch with workspace configuration:
+
+```
+attribute('searchengine.platform'): elasticsearch
+```
+
+Note though it will also switch elasticsearch version to 8 as well, which is covered in the next point.
+
+### elasticsearch updated to version 8 (except in Magento < 2.4.6, Spryker, Akeneo)
 
 So that new projects use the latest version where possible, elasticsearch has been updated to 8. This change is limited to php, drupal, symfony, wordpress harnesses, as frameworks that target specific versions (Magento, Spryker, Akeneo) will continue to do so (in most cases version 7) until ready to update.
+
+For Magento, version 8 of elasticsearch will be used if Magento >= 2.4.6 to match Magento on-premise supported version if switched away from opensearch.
 
 Now that the searchengine.platform_version attribute is available, you can switch between major versions with workspace configuration:
 
 ```yaml
-attribute('searchengine.platform_version'): 7
+attribute('searchengine.platform_version'): '7'
 ```
 
 ### `docker-compose` command now `docker compose`
