@@ -45,7 +45,7 @@ attributes:
       - "= @('services.tideways.enabled') ? 'tideways' : ''"
       - redis
       - sockets
-    version: '7.4'
+    version: '8.2'
   composer:
     auth:
       basic:
@@ -58,8 +58,13 @@ attributes:
     pass: magento
     name: magento
   searchengine:
-    platform: elasticsearch
-    platform_version: '7'
+    platform: >
+      = version_compare(@('magento.version'), '2.4.6', '>=') ? 'opensearch'
+      : 'elasticsearch'
+    platform_version: >
+      = @('searchengine.platform') == 'opensearch' ? '2'
+      : @('searchengine.platform') == 'elasticsearch' ? (version_compare(@('magento.version'), '2.4.6', '>=') ? '8' : '7')
+      : null
   magento:
     edition: enterprise
     config:
@@ -81,10 +86,10 @@ attributes:
       frontend:
         languages: []
         themes: []
-    version: 2.4.2
+    version: 2.4.6-p4
   mysql:
     image: mariadb
-    tag: '10.4'
+    tag: "= version_compare(@('magento.version'), '2.4.6', '>=') ? '10.6' : '10.4'"
   backend:
     build:
       steps:
@@ -234,11 +239,13 @@ attributes:
     cron:
       enabled: true
     elasticsearch:
-      enabled: true
+      enabled: = @('searchengine.platform') == 'elasticsearch'
     lighthouse:
       enabled: true
     mysql:
       enabled: true
+    opensearch:
+      enabled: = @('searchengine.platform') == 'opensearch'
     redis:
       enabled: true
     redis-session:
