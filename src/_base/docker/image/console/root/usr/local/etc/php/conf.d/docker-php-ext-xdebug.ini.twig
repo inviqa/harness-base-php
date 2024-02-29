@@ -5,4 +5,5 @@
   {% for key, value in xdebug.config['v' ~ xdebug.version] -%}
     xdebug.{{ key }}={{ value }}
   {% endfor %}
+  opcache.jit_buffer_size = 0
 {% endif %}
