@@ -239,11 +239,13 @@ attributes:
     cron:
       enabled: true
     elasticsearch:
-      enabled: true
+      enabled: = @('searchengine.platform') == 'elasticsearch'
     lighthouse:
       enabled: true
     mysql:
       enabled: true
+    opensearch:
+      enabled: = @('searchengine.platform') == 'opensearch'
     redis:
       enabled: true
     redis-session:
