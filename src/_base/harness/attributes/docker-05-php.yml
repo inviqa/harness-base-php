@@ -59,6 +59,7 @@ attributes.default:
       environment:
         DB_ADMIN_USER: root
         HAS_VARNISH: "= @('services.varnish.enabled') ? 'true' : 'false'"
+        HISTFILE: "/home/build/.console/.bash_history"
       environment_secrets:
         DB_ADMIN_PASS: = @('database.root_pass')
         ADMIN_DEFAULT_PASSWORD: admin123
@@ -141,6 +142,7 @@ attributes.default:
         console:
           environment:
             TIDEWAYS_ENABLED: "= @('php.ext-tideways.cli.enable') ? '{{ .Values.services.tideways.enabled | default false | toString }}' : 'false'"
+            HISTFILE: '/home/build/.bash_history'
         elasticsearch:
           tag: >
             = (

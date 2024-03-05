@@ -1,5 +1,6 @@
 # Directories
 /.my127ws
+/.console/
 /.docker-sync/
 /bin/
 /docroot/sites/simpletest/

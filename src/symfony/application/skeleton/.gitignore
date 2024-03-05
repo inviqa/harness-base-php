@@ -17,6 +17,7 @@
 
 # Directories
 /.my127ws
+/.console/
 /bin/*
 /.docker-sync/
 /tools/assets/

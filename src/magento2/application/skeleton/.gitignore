@@ -2,6 +2,7 @@
 # Directories
 
 /.my127ws
+/.console/
 /.docker-sync/
 /.github/
 /.idea/
