@@ -15,7 +15,7 @@ services:
       - ./.my127ws/application:/home/build/application
       - ./.my127ws/docker/image/console/root/usr/lib/task:/usr/lib/task
       - ./.my127ws:/.my127ws
-      - ./.console/:/home/build/.console/
+      - ./.console/:{{ @('app.code_owner_home')}}/.console/
 {% else %}
     image: {{ @('services.console.image') }}
 {% endif %}
