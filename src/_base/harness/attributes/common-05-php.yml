@@ -93,9 +93,9 @@ attributes.default:
   php:
     version: "8.2"
     distro_codename: >
-      = @('php.version') >= 8.3 ? 'bookworm'
-      : @('php.version') >= 8.0 ? 'bullseye' 
-      : @('php.version') >= 7.3 ? 'buster'
+      = version_compare(@('php.version'), '8.3', '>=') ? 'bookworm'
+      : version_compare(@('php.version'), '8.0', '>=') ? 'bullseye' 
+      : version_compare(@('php.version'), '7.3', '>=') ? 'buster'
       : 'stretch'
     cli:
       ini:
@@ -107,6 +107,9 @@ attributes.default:
       install_extensions: []
     composer:
       major_version: 2
+      update: >
+        = version_compare(@('php.version'), '8.3', '>=') ? @('php.composer.major_version') != 2
+        ? @('php.composer.major_version') != 1
     cron:
       ini: = @('php.cli.ini')
     entrypoint:

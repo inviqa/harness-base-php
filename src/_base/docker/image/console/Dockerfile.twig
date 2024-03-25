@@ -15,7 +15,7 @@ RUN (getent group "${CODE_OWNER_GROUP}" >/dev/null 2>&1 || groupadd "${CODE_OWNE
  && chmod +x /sbin/tini \
  && mkdir -p /tmp/php-file-cache \
  && chown -R build:build /tmp/php-file-cache
-{%- if @('php.composer.major_version') != '1' %} \
+{%- if @('php.composer.update') %} \
  && composer self-update --{{ @('php.composer.major_version') }} \
  && rm -f /root/.composer/*.phar
 {%- endif %}
@@ -55,7 +55,7 @@ RUN . {{ @('app.code_owner_home')}}/.nvm/nvm.sh \
  && npm install -g corepack yarn
 {% endif %}
 
-{% if @('php.composer.major_version') != '1' %}
+{% if @('php.composer.major_version') != '1' and version_compare(@('php.version', '8.3', '<')) %}
 RUN composer --no-plugins global remove hirak/prestissimo
 {% endif %}
 
