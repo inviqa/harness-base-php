@@ -3,7 +3,7 @@
 {% if @('host.os') == 'darwin' and bool(@('mutagen')) %}
 {% set syncvolume = true %}
 {% endif %}
-version: '{{ @('docker.compose.file_version') }}'
+name: {{ @('namespace') | json_encode }}
 services:
 {% for serviceName, service in @('services') %}
 {% if service['enabled'] %}
