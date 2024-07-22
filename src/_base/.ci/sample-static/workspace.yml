@@ -13,8 +13,6 @@ attribute('app.repository'): null
 attribute('aws.access_key_id'): null
 attribute('aws.secret_access_key'): null
 
-attribute('mysql.tag'): 8
-attribute('database.platform_version'): 8.0
 attribute('php.cli.install_extensions'):
   - sockets
 
