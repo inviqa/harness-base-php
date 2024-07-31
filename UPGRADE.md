@@ -118,7 +118,7 @@ You can switch to any of the previous settings setting:
 
 e.g. to Docker Inc's official mysql 5.7 (with no arm64 support)
 ```
-attribute('mysql.tag'): 5.7
+attribute('mysql.tag'): '5.7'
 # since it's a multi-platform image of only one platform
 attribute('services.mysql.platform'): linux/amd64
 ```
@@ -154,8 +154,8 @@ amd64 hosts can continue to use Docker's official docker repository [mysql](http
 
 If it's necessary, you can switch down to version 5.7 through:
 ```yaml
-attribute('mysql.tag'): 5.7
-attribute('database.platform_version'): 5.7
+attribute('mysql.tag'): '5.7'
+attribute('database.platform_version'): '5.7'
 ```
 however there may be instability and performance issues doing so on arm64 hosts using amd64
 emulation.
