@@ -1,7 +1,7 @@
 workspace('blog-dynamic'):
   description: generated local workspace for blog.
   harnessLayers:
-    - https://github.com/inviqa/harness-docker/archive/refs/tags/0.4.0-alpha1.tar.gz
+    - inviqa/docker:v0.4.0
     # - inviqa/wordpress # installed by test
 
 attribute('aws.bucket'): null
