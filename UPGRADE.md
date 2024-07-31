@@ -14,7 +14,7 @@ When you upgrade you'll need to change your workspace.yml to reference both harn
  workspace('my-app'):
 -  harness: inviqa/php:v1.6.0
 +  harnessLayers:
-+    - inviqa/docker:v0.3.0
++    - inviqa/docker:v0.4.0
 +    - inviqa/php:v2.0.0
 ```
 
