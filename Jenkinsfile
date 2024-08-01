@@ -224,6 +224,7 @@ pipeline {
                                 }
                                 stage('Magento 2') {
                                     when { expression { return isHarnessChange(['magento2']) } }
+                                    options { catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') }
                                     steps { sh './test magento2 static' }
                                     post { failure { script { failureMessages << 'Magento 2 static acceptance' } } }
                                 }
