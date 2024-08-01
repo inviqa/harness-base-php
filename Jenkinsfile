@@ -1,5 +1,9 @@
 def isHarnessChange(harnesses) {
-    def harnessLabels = harnesses.collect { "harness-${it}".toString() } << 'harness-all'
+    def harnessLabels = harnesses.collect { "harness-${it}".toString() }
+    if (harnesses.size() != 1 || !harnesses.contains('spryker')) {
+        harnessLabels.add('harness-all')
+    }
+
     return !env.CHANGE_ID || pullRequest.labels.size() == 0 || harnessLabels.any { pullRequest.labels.contains(it) }
 }
 def failureMessages = []
