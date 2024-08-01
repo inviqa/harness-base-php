@@ -453,7 +453,7 @@ return [
         'Magento_GiftCardGraphQl' => 1,
         'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,
-        'Temando_ShippingRemover' => 1
+        'Temando_ShippingRemover' => 1,
     ],
     'scopes' => [
         'websites' => [
@@ -463,7 +463,7 @@ return [
                 'name' => 'Admin',
                 'sort_order' => '0',
                 'default_group_id' => '0',
-                'is_default' => '0'
+                'is_default' => '0',
             ],
             'base' => [
                 'website_id' => '1',
@@ -471,8 +471,8 @@ return [
                 'name' => 'Main Website',
                 'sort_order' => '0',
                 'default_group_id' => '1',
-                'is_default' => '1'
-            ]
+                'is_default' => '1',
+            ],
         ],
         'groups' => [
             [
@@ -481,7 +481,7 @@ return [
                 'name' => 'Default',
                 'root_category_id' => '0',
                 'default_store_id' => '0',
-                'code' => 'default'
+                'code' => 'default',
             ],
             [
                 'group_id' => '1',
@@ -489,8 +489,8 @@ return [
                 'name' => 'Main Website Store',
                 'root_category_id' => '2',
                 'default_store_id' => '1',
-                'code' => 'main_website_store'
-            ]
+                'code' => 'main_website_store',
+            ],
         ],
         'stores' => [
             'admin' => [
@@ -500,7 +500,7 @@ return [
                 'group_id' => '0',
                 'name' => 'Admin',
                 'sort_order' => '0',
-                'is_active' => '1'
+                'is_active' => '1',
             ],
             'default' => [
                 'store_id' => '1',
@@ -509,16 +509,16 @@ return [
                 'group_id' => '1',
                 'name' => 'Default Store View',
                 'sort_order' => '0',
-                'is_active' => '1'
-            ]
-        ]
+                'is_active' => '1',
+            ],
+        ],
     ],
     'system' => [
         'default' => [
             'general' => [
                 'locale' => [
-                    'code' => 'en_GB'
-                ]
+                    'code' => 'en_GB',
+                ],
             ],
             'dev' => [
                 'js' => [
@@ -526,24 +526,24 @@ return [
                     'minify_files' => '0',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/',
-                        'cardinal_commerce' => '/v1/songbird'
-                    ]
+                        'cardinal_commerce' => '/v1/songbird',
+                    ],
                 ],
                 'css' => [
                     'minify_files' => '0',
                     'minify_exclude' => [
-                        'tiny_mce' => '/tiny_mce/'
+                        'tiny_mce' => '/tiny_mce/',
                     ],
-                    'use_css_critical_path' => '0'
+                    'use_css_critical_path' => '0',
                 ],
                 'static' => [
-                    'sign' => '1'
+                    'sign' => '1',
                 ],
                 'template' => [
-                    'minify_html' => '0'
-                ]
-            ]
-        ]
+                    'minify_html' => '0',
+                ],
+            ],
+        ],
     ],
     'themes' => [
         'frontend/Magento/blank' => [
@@ -553,7 +553,7 @@ return [
             'is_featured' => '0',
             'area' => 'frontend',
             'type' => '0',
-            'code' => 'Magento/blank'
+            'code' => 'Magento/blank',
         ],
         'adminhtml/Magento/backend' => [
             'parent_id' => null,
@@ -562,7 +562,7 @@ return [
             'is_featured' => '0',
             'area' => 'adminhtml',
             'type' => '0',
-            'code' => 'Magento/backend'
+            'code' => 'Magento/backend',
         ],
         'frontend/Magento/luma' => [
             'parent_id' => 'Magento/blank',
@@ -571,7 +571,7 @@ return [
             'is_featured' => '0',
             'area' => 'frontend',
             'type' => '0',
-            'code' => 'Magento/luma'
+            'code' => 'Magento/luma',
         ],
         'adminhtml/Magento/spectrum' => [
             'parent_id' => 'Magento/backend',
@@ -580,8 +580,8 @@ return [
             'is_featured' => '0',
             'area' => 'adminhtml',
             'type' => '0',
-            'code' => 'Magento/spectrum'
-        ]
+            'code' => 'Magento/spectrum',
+        ],
     ],
-    'i18n' => []
+    'i18n' => [],
 ];

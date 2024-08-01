@@ -1,6 +1,10 @@
 #!/usr/bin/env php
 <?php
 
+require '/app/vendor/autoload.php';
+
+use Symfony\Component\VarExporter\VarExporter;
+
 /*
  * Outputs a stripped down magento config which can be
  * used with static content deploy.
@@ -47,4 +51,11 @@ if (isset($config['system'])) {
         unset($config['system']);
     }
 }
-file_put_contents("/app/app/etc/config.php", "<?php \n return ".var_export($config, true).";\n");
+
+if (class_exists(VarExporter::class)) {
+    $configCode = VarExporter::export($config);
+} else {
+    $configCode = var_export($config, true);
+}
+
+file_put_contents("/app/app/etc/config.php", "<?php \nreturn ".$configCode.";\n");
