@@ -7,6 +7,7 @@ services:
     build:
       context: ./
       dockerfile: .my127ws/docker/image/console/Dockerfile
+      args: {{ to_nice_yaml(@('services.console.build.args')|default({}), 2, 8) }}
 {% if @('app.build') == 'dynamic' %}
     entrypoint: [/entrypoint.dynamic.sh]
     command: [sleep, infinity]
@@ -22,6 +23,7 @@ services:
       # deprecated, a later workspace release will disable by default
       - traefik.enable=false
     environment: {{ to_nice_yaml(deep_merge([
+        @('app.build') == 'dynamic' ? @('services.console.build.args')|default({}) : [],
         @('services.php-base.environment'),
         @('services.php-base.environment_dynamic'),
         @('services.console.environment'),
